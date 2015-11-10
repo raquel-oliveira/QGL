@@ -5,7 +5,7 @@
   * Identifier: `XX`
   * Team name: 
   * Members:
-    *  [Member #1](mailto:login1@etu.unice.fr)
+    *  [Gabriela Cavalcante](mailto:gabriela.cavalcante-da-silva@etu.unice.fr)
     *  [Member #2](mailto:login1@etu.unice.fr)
     *  [Member #3](mailto:login1@etu.unice.fr)
     *  [Member #4](mailto:login1@etu.unice.fr)
