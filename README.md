@@ -3,7 +3,7 @@
 ## Team Information
 
   * Identifier: AB
-  * Team name: 
+  * Team name: 煉獄
   * Members:
     *  [Gabriela Cavalcante](mailto:gabriela.cavalcante-da-silva@etu.unice.fr)
     *  [Raquel Oliveira](mailto:raquel.lopes-de-oliveira@etu.unice.fr)
