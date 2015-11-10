@@ -2,11 +2,11 @@
 
 ## Team Information
 
-  * Identifier: `XX`
+  * Identifier: AB
   * Team name: 
   * Members:
     *  [Gabriela Cavalcante](mailto:gabriela.cavalcante-da-silva@etu.unice.fr)
-    *  [Member #2](mailto:login1@etu.unice.fr)
+    *  [Raquel Oliveira](mailto:raquel.lopes-de-oliveira@etu.unice.fr)
     *  [Member #3](mailto:login1@etu.unice.fr)
     *  [Member #4](mailto:login1@etu.unice.fr)
 
