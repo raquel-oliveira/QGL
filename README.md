@@ -7,7 +7,7 @@
   * Members:
     *  [Gabriela Cavalcante](mailto:gabriela.cavalcante-da-silva@etu.unice.fr)
     *  [Raquel Oliveira](mailto:raquel.lopes-de-oliveira@etu.unice.fr)
-    *  [Member #3](mailto:login1@etu.unice.fr)
+    *  [Quentin Prod'Homme](quentin.prod'homme@etu.unice.fr)
     *  [Member #4](mailto:login1@etu.unice.fr)
 
 ## Features Change log
