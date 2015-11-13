@@ -3,7 +3,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class GreeterTest {
+public class ExplorerTest {
 
 	Greeter greeter;
 
