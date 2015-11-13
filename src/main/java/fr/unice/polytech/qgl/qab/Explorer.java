@@ -11,7 +11,15 @@ public class Explorer implements IExplorerRaid{
     }
 
     public void initialize(String context) {
-        throw new UnsupportedOperationException("IExplorerRaid::initialize is not yet implemented");
+       /* {
+            "men": 12,
+                "budget": 10000,
+                "contracts": [
+            { "amount": 600, "resource": "WOOD" },
+            { "amount": 200, "resource": "GLASS" }
+            ],
+            "heading": "W"
+        }*/
     }
 
 
