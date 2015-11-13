@@ -1,7 +1,5 @@
+import fr.unice.polytech.qgl.qab.Explorer;
 import org.junit.Before;
-import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class ExplorerTest {
 
