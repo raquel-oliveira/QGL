@@ -7,6 +7,7 @@ public class Explorer implements IExplorerRaid{
 
     public Explorer() {
         //initialize();
+        System.out.println("Work");
     }
 
     public void initialize(String context) {
@@ -22,5 +23,4 @@ public class Explorer implements IExplorerRaid{
     public void acknowledgeResults(String results) {
         throw new UnsupportedOperationException("IExplorerRaid::acknowledgeResults is not yet implemented");
     }
-
 }
