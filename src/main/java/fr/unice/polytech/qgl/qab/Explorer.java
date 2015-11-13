@@ -1,6 +1,5 @@
-package fr.unice.polytech.qgl.qab
+package fr.unice.polytech.qgl.qab;
 
-.3a.qgl.qab.IExplorerRaid;
 import org.json.JSONObject;
 
 public class Explorer implements IExplorerRaid {
