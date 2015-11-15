@@ -29,8 +29,8 @@ public class Explorer implements IExplorerRaid{
 
     /**
      * The acknowledgeResults(String) method is invoked right after the takeDecision() method.
-     * It provides the results of the action when applied to the world.
-     * @param results
+     * It provides the results of the action when applied.
+     * @param results information returned after as result of the engine action
      */
     public void acknowledgeResults(String results) {
         return;

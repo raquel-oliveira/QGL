@@ -5,6 +5,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
 
+/**
+ * The test class ExplorerTest for the class Test.
+ * @version 14.11.2015
+ */
 public class ExplorerTest {
 
 	Explorer e;
