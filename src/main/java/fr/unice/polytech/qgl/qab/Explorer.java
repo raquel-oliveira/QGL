@@ -1,5 +1,6 @@
 package fr.unice.polytech.qgl.qab;
 
+import eu.ace_design.island.bot.IExplorerRaid;
 /**
  * Class that represents the bot in the game.
  * Description based on documentation (http://ace-design.github.io/island/bot/)
