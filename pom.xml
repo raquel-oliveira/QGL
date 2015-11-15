@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>fr.unice.polytech.3a.qgl</groupId>
-  <artifactId>QAB</artifactId>
+  <artifactId>qab</artifactId>
   <version>0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
