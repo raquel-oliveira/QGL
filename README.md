@@ -14,11 +14,11 @@
 
 ### Week 46
 
-Short list of the **features** available in the bot delivered for the championship that happened at the end of week 46.
+Minimal bot: Right after initializating, our first bot exits the championship so it doesn't crash.
 
 ### Week 47
 
-...
+Short list of the **features** available in the bot delivered for the championship that happened at the end of week 47.
 
 
     
