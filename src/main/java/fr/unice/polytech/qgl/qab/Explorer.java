@@ -11,7 +11,7 @@ import eu.ace_design.island.bot.IExplorerRaid;
  * Class that represents the bot in the game.
  * Description based on documentation (http://ace-design.github.io/island/bot/)
  *
- * @version 13.11.2015
+ * @version 21.11.2015
  */
 public class Explorer implements IExplorerRaid{
     private int men, budget;
@@ -68,12 +68,17 @@ public class Explorer implements IExplorerRaid{
      * @return for now, we always return the same action: stopping the game
      */
     public String takeDecision() {
+        // if in the range": 0, "found": "OUT_OF_RANGE". Stop doing everything.
+        if(rangeOut==0 & foundOut){
+            return "{ \"action\": \"stop\" }";
+        }
         if(takeAction.compareToIgnoreCase("echo") == 0)
             return takeAction = "{ \"action\": \"echo\", \"parameters\": { \"direction\": \"" + heading + "\" } }";
         else if (takeAction.compareToIgnoreCase("fly") == 0)
             return "{ \"action\": \"fly\" }";
         else
             return "{ \"action\": \"stop\" }";
+        if ()
     }
 
     /**
