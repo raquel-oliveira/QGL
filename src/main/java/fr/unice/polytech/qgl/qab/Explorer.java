@@ -25,11 +25,13 @@ public class Explorer implements IExplorerRaid{
     private char directionGround;
     private ArrayList<String> biomes;
     private ArrayList<String> creeks;
+    private int creek_id;
 
     public Explorer() {
         men = 0;
         budget = 0;
         heading = "";
+        creek_id = 0;
         contracts = new HashMap<String, Integer>();
         takeAction = "echo";
         foundOut = false;
@@ -79,6 +81,8 @@ public class Explorer implements IExplorerRaid{
             return takeAction = "{ \"action\": \"echo\", \"parameters\": { \"direction\": \"" + heading + "\" } }";
         else if (takeAction.compareToIgnoreCase("fly") == 0)
             return "{ \"action\": \"fly\" }";
+        else if (takeAction.compareToIgnoreCase("scan") == 0)
+        	return "{\"action\": \"scan\"}";
         else
             return "{ \"action\": \"stop\" }";
 
@@ -123,5 +127,15 @@ public class Explorer implements IExplorerRaid{
                 creeks.add(c);
             }
         }
+         
+        
     }
+    
+    
+    public String scan(){
+    	biomes.clear();
+    	creeks.clear();
+    	return "{ \"cost\": \"2\", \"extras\": { \"biomes\": \"" + biomes + "\",  \"creeks\": \"" + creeks + "\"}, \"status\": \"ok\" }";
+    }
+    
 }
