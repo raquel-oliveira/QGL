@@ -22,7 +22,9 @@ public class Explorer implements IExplorerRaid{
     private int rangeOut;
     private boolean foundGroud;
     private int rangeGroud;
+    private char directionGround;
     private ArrayList<String> biomes;
+    private ArrayList<String> creeks;
 
     public Explorer() {
         men = 0;
@@ -32,6 +34,7 @@ public class Explorer implements IExplorerRaid{
         takeAction = "echo";
         foundOut = false;
         rangeOut = -1;
+        directionGround = ' ';
         foundGroud = false;
         rangeGroud = -1;
         biomes = new ArrayList<String>();
@@ -85,7 +88,6 @@ public class Explorer implements IExplorerRaid{
         JSONObject jsonObj = new JSONObject(results);
         int cost = jsonObj.getInt("cost");
         String status = jsonObj.getString("status");
-        JSONArray extras = jsonObj.getJSONArray("extras");
 
         if (status.compareToIgnoreCase("ok") != 0)
             takeAction = "stop";
@@ -93,8 +95,8 @@ public class Explorer implements IExplorerRaid{
         budget = budget - cost;
 
         if (takeAction.compareToIgnoreCase("ECHO") == 0) {
-            int range = extras.getJSONObject(0).getInt("range");
-            String found = extras.getJSONObject(0).getString("found");
+            int range = jsonObj.getJSONObject("extras").getInt("range");
+            String found = jsonObj.getJSONObject("extras").getString("found");
 
             if (found.compareToIgnoreCase("GROUND") == 0) {
                 foundGroud = true;
@@ -105,8 +107,16 @@ public class Explorer implements IExplorerRaid{
             }
         }
         else if (takeAction.compareToIgnoreCase("SCAN") == 0) {
-            JSONArray bio = extras.getJSONObject(0).getJSONArray("biomes");
-            JSONArray creeks = extras.getJSONObject(0).getJSONArray("creeks");
+            ArrayList<String> bios = (ArrayList<String>) jsonObj.getJSONObject("extras").get("biomes");
+            ArrayList<String> cks =  (ArrayList<String>) jsonObj.getJSONObject("extras").get("creeks");
+
+            for (String b: bios) {
+                biomes.add(b);
+            }
+
+            for (String c: cks) {
+                creeks.add(c);
+            }
         }
     }
 }
