@@ -3,6 +3,7 @@ package fr.unice.polytech.qgl.qab;
 import org.json.JSONObject;
 import org.json.JSONArray;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import eu.ace_design.island.bot.IExplorerRaid;
@@ -17,13 +18,23 @@ public class Explorer implements IExplorerRaid{
     private String heading;
     private HashMap<String, Integer> contracts;
     private String takeAction;
+    private boolean foundOut;
+    private int rangeOut;
+    private boolean foundGroud;
+    private int rangeGroud;
+    private ArrayList<String> biomes;
 
     public Explorer() {
         men = 0;
         budget = 0;
         heading = "";
         contracts = new HashMap<String, Integer>();
-        takeAction = "{ \"action\": \"fly\" }";
+        takeAction = "echo";
+        foundOut = false;
+        rangeOut = -1;
+        foundGroud = false;
+        rangeGroud = -1;
+        biomes = new ArrayList<String>();
     }
 
     /**
@@ -57,7 +68,12 @@ public class Explorer implements IExplorerRaid{
      * @return for now, we always return the same action: stopping the game
      */
     public String takeDecision() {
-        return takeAction;
+        if(takeAction.compareToIgnoreCase("echo") == 0)
+            return takeAction = "{ \"action\": \"echo\", \"parameters\": { \"direction\": \"" + heading + "\" } }";
+        else if (takeAction.compareToIgnoreCase("fly") == 0)
+            return "{ \"action\": \"fly\" }";
+        else
+            return "{ \"action\": \"stop\" }";
     }
 
     /**
@@ -69,17 +85,28 @@ public class Explorer implements IExplorerRaid{
         JSONObject jsonObj = new JSONObject(results);
         int cost = jsonObj.getInt("cost");
         String status = jsonObj.getString("status");
+        JSONArray extras = jsonObj.getJSONArray("extras");
+
         if (status.compareToIgnoreCase("ok") != 0)
-            return;
+            takeAction = "stop";
 
         budget = budget - cost;
 
-        if (budget > 15) {
-            if (takeAction.contains("fly") == true)
-                takeAction = "{ \"action\": \"echo\", \"parameters\": { \"direction\": \"" + heading + "\" } }";
-            else takeAction = "{ \"action\": \"fly\" }";
+        if (takeAction.compareToIgnoreCase("ECHO") == 0) {
+            int range = extras.getJSONObject(0).getInt("range");
+            String found = extras.getJSONObject(0).getString("found");
+
+            if (found.compareToIgnoreCase("GROUND") == 0) {
+                foundGroud = true;
+                rangeGroud = range;
+            } else if (found.compareToIgnoreCase("OUT_OF_RANGE") == 0) {
+                foundOut = true;
+                rangeOut = range;
+            }
         }
-        else
-            takeAction = "stop";
+        else if (takeAction.compareToIgnoreCase("SCAN") == 0) {
+            JSONArray bio = extras.getJSONObject(0).getJSONArray("biomes");
+            JSONArray creeks = extras.getJSONObject(0).getJSONArray("creeks");
+        }
     }
 }
