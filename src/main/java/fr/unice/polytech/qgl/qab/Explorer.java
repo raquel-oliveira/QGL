@@ -78,7 +78,7 @@ public class Explorer implements IExplorerRaid{
             return "{ \"action\": \"fly\" }";
         else
             return "{ \"action\": \"stop\" }";
-        if ()
+
     }
 
     /**
