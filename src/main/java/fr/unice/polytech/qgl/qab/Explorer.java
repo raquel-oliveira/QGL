@@ -27,9 +27,10 @@ public class Explorer implements IExplorerRaid{
     private int rangeOut;
     private boolean foundGroud;
     private int rangeGroud;
-    private char directionGround;
+    private String directionFound;
     private ArrayList<String> biomes;
     private ArrayList<String> creeks;
+    private int countRange;
 
     public Explorer() {
         men = 0;
@@ -37,14 +38,15 @@ public class Explorer implements IExplorerRaid{
         heading = "";
         //heading = Direction.EAST;
         contracts = new HashMap<String, Integer>();
-        takeAction = "ECHO";
+        takeAction = null;
         foundOut = false;
         rangeOut = -1;
-        directionGround = ' ';
+        directionFound = null;
         foundGroud = false;
         rangeGroud = -1;
         biomes = new ArrayList<String>();
         creeks = new ArrayList<String>();
+        countRange = 0;
     }
 
     /**
@@ -79,17 +81,26 @@ public class Explorer implements IExplorerRaid{
      * @return for now, we always return the same action: stopping the game
      */
     public String takeDecision() {
+        if (countRange == 2) countRange = 0;
         // if in the range": 0, "found": "OUT_OF_RANGE". Stop doing everything.
         if (rangeOut == 0 && foundOut){
             takeAction = "STOP";
             return "{ \"action\": \"stop\" }";
         }
-        else if (budget < 15) {
+        else if (budget <= 100 ) {
             takeAction = "STOP";
             return "{ \"action\": \"stop\" }";
         }
+        else if ((takeAction == null || takeAction.compareToIgnoreCase("fly") == 0) && !foundOut && (countRange == 0)) {
+            countRange = 0;
+            directionFound = heading;
+            return takeAction = "{ \"action\": \"echo\", \"parameters\": { \"direction\": \"" + heading + "\" } }";
+        }
         else {
             takeAction = "FLY";
+            countRange++;
+            if (foundOut)
+                rangeOut--;
             return "{ \"action\": \"fly\" }";
         }
     }
