@@ -90,29 +90,37 @@ public class Explorer implements IExplorerRaid{
             takeAction = "STOP";
             return "{ \"action\": \"stop\" }";
         }
+        else if (takeAction.compareToIgnoreCase("fly") == 0 || takeAction.compareToIgnoreCase("heading") == 0){
+        	takeAction = "SCAN";
+        	return "{ \"action\": \"scan\" }";
+        }
         else if ((takeAction == null || takeAction.compareToIgnoreCase("fly") == 0) && !foundOut && rangeGroud <= 0) {
             directionFound = heading;
-            return takeAction = "{ \"action\": \"echo\", \"parameters\": { \"direction\": \"" + heading + "\" } }";
+            takeAction = "ECHO";
+            return "{ \"action\": \"echo\", \"parameters\": { \"direction\": \"" + heading + "\" } }";
         }
         else if (foundOut && rangeOut ==  1) { // if the plane found the out_range
             if (heading.compareToIgnoreCase(directionFound) != 0) { // if the plane made the echo before
                 if ((foundOut && (rangeOut > 1)) || foundGroud) { // if the plane found that is ok to change
                     foundGroud = foundOut = false;
                     rangeGroud =  rangeOut = -1;
-                    return takeAction = "{ \"action\": \"heading\", \"parameters\": { \"direction\": \"" + directionFound + "\" } }";
-                } 
+                    takeAction = "HEADING";
+                    return "{ \"action\": \"heading\", \"parameters\": { \"direction\": \"" + directionFound + "\" } }";
+                }
             }
             if (heading.compareToIgnoreCase("N") == 0 || heading.compareToIgnoreCase("S") == 0) {
                 direction = gerador.nextInt(2);
                 directionFound = (direction == 1)?"W":"E";
                 heading = directionFound; // change the direction of heading
-                return takeAction = "{ \"action\": \"echo\", \"parameters\": { \"direction\": \"" + directionFound + "\" } }";
+                takeAction = "HEADING";
+                return "{ \"action\": \"echo\", \"parameters\": { \"direction\": \"" + directionFound + "\" } }";
             }
             else if (heading.compareToIgnoreCase("E") == 0 || heading.compareToIgnoreCase("W") == 0){
                 direction = gerador.nextInt(2);
                 directionFound = (direction == 1)?"N":"S";
                 heading = directionFound; // change the direction of heading
-                return takeAction = "{ \"action\": \"echo\", \"parameters\": { \"direction\": \"" + directionFound + "\" } }";
+                takeAction = "HEADING";
+                return "{ \"action\": \"echo\", \"parameters\": { \"direction\": \"" + directionFound + "\" } }";
             }
         }
         else {
@@ -121,9 +129,10 @@ public class Explorer implements IExplorerRaid{
                 rangeOut--;
             if (foundGroud)
                 rangeGroud--;
+
             return "{ \"action\": \"fly\" }";
         }
-        return "";
+        return null;
     }
 
     /**
