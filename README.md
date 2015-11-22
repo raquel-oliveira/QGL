@@ -18,7 +18,11 @@ Minimal bot: Right after initializating, our first bot exits the championship so
 
 ### Week 47
 
-Short list of the **features** available in the bot delivered for the championship that happened at the end of week 47.
+Implemented actions **echo**, **fly** and **scan**.
+The bot flies in a straight line while scanning areas on the way.
 
+### Week 48
+
+Short list of the **features** available in the bot delivered for the championship that happened at the end of week 47.
 
     
