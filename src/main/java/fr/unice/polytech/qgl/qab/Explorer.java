@@ -1,5 +1,6 @@
 package fr.unice.polytech.qgl.qab;
 
+import fr.unice.polytech.qgl.qab.Direction;
 import org.json.JSONObject;
 import org.json.JSONArray;
 
@@ -16,6 +17,8 @@ import eu.ace_design.island.bot.IExplorerRaid;
 public class Explorer implements IExplorerRaid{
     private int men, budget;
     private String heading;
+    //private Direction heading;
+    //private Direction direction;
     private HashMap<String, Integer> contracts;
     private String takeAction;
     private boolean foundOut;
@@ -31,6 +34,7 @@ public class Explorer implements IExplorerRaid{
         men = 0;
         budget = 0;
         heading = "";
+        //heading = Direction.EAST;
         creek_id = 0;
         contracts = new HashMap<String, Integer>();
         takeAction = "echo";
@@ -61,6 +65,7 @@ public class Explorer implements IExplorerRaid{
         }
 
         heading = (String)jsonObj.get("heading");
+        //heading = (Direction.valueOf((String) jsonObj.getString("handing")));
 
         System.out.println("men: " + men);
         System.out.println("budget: " + budget);
@@ -77,12 +82,25 @@ public class Explorer implements IExplorerRaid{
         if(rangeOut==0 & foundOut){
             return "{ \"action\": \"stop\" }";
         }
+
         if(takeAction.compareToIgnoreCase("echo") == 0)
             return takeAction = "{ \"action\": \"echo\", \"parameters\": { \"direction\": \"" + heading + "\" } }";
         else if (takeAction.compareToIgnoreCase("fly") == 0)
             return "{ \"action\": \"fly\" }";
-        else if (takeAction.compareToIgnoreCase("scan") == 0)
-        	return "{\"action\": \"scan\"}";
+        /*else if(takeAction.compareToIgnoreCase("heading") != 0) {
+             if (heading.isHorizontal() == !direction.isHorizontal()){
+            //just change the head if it's really close to crash.
+            if (rangeOut == 1 && foundOut) {
+                return "{ \"action\": \"heading\", \"parameters\": { \"direction\": \"" + direction + "\" } }";
+            }
+                else{
+                    return "{ \"action\": \"stop\" }"; //
+                }
+            }
+            else{
+                return "you can't change the heading to " + direction; //Verify if this else causes problem to the game
+            }
+        }*/
         else
             return "{ \"action\": \"stop\" }";
 
@@ -127,7 +145,8 @@ public class Explorer implements IExplorerRaid{
                 creeks.add(c);
             }
         }
-         
+        //else if (takeAction.compareToIgnoreCase("HEADING") == 0){
+        // always without extra? (cost and status already captured}...so, don't need that
         
     }
     
