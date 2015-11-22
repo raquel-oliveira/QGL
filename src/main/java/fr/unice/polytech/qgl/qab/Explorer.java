@@ -119,6 +119,10 @@ public class Explorer implements IExplorerRaid{
                 return "{ \"action\": \"echo\", \"parameters\": { \"direction\": \"" + directionFound + "\" } }";
             }
         }
+        else if((takeAction.compareToIgnoreCase("FLY") == 0) || (takeAction.compareToIgnoreCase("HEADING") == 0)) {
+            takeAction = "HEADING";
+            return "{ \"action\": \"scan\" }";
+        }
         else {
             takeAction = "FLY";
             if (foundOut)

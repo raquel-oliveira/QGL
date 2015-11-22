@@ -26,7 +26,7 @@ public class Main {
         while ( decision.contains("stop") == false ) {
             decision = raid.takeDecision();      // Decision taking, one at a time
             System.out.println(decision);
-            String result = "{ \"cost\": 2, \"extras\": {}, \"status\": \"OK\" }"; // = engine.compute(decision);
+            String result = "{ \"cost\": 1, \"extras\": { \"range\": 2, \"found\": \"OUT_OF_RANGE\" }, \"status\": \"OK\" }"; // = engine.compute(decision);
             raid.acknowledgeResults(result);// Result storage
         }
     }
