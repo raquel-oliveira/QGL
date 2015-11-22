@@ -4,7 +4,9 @@ import fr.unice.polytech.qgl.qab.Direction;
 import org.json.JSONObject;
 import org.json.JSONArray;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.HashMap;
 
 import eu.ace_design.island.bot.IExplorerRaid;
@@ -28,22 +30,21 @@ public class Explorer implements IExplorerRaid{
     private char directionGround;
     private ArrayList<String> biomes;
     private ArrayList<String> creeks;
-    private int creek_id;
 
     public Explorer() {
         men = 0;
         budget = 0;
         heading = "";
         //heading = Direction.EAST;
-        creek_id = 0;
         contracts = new HashMap<String, Integer>();
-        takeAction = "echo";
+        takeAction = "ECHO";
         foundOut = false;
         rangeOut = -1;
         directionGround = ' ';
         foundGroud = false;
         rangeGroud = -1;
         biomes = new ArrayList<String>();
+        creeks = new ArrayList<String>();
     }
 
     /**
@@ -79,31 +80,18 @@ public class Explorer implements IExplorerRaid{
      */
     public String takeDecision() {
         // if in the range": 0, "found": "OUT_OF_RANGE". Stop doing everything.
-        if(rangeOut==0 & foundOut){
+        if (rangeOut == 0 && foundOut){
+            takeAction = "STOP";
             return "{ \"action\": \"stop\" }";
         }
-
-        if(takeAction.compareToIgnoreCase("echo") == 0)
-            return takeAction = "{ \"action\": \"echo\", \"parameters\": { \"direction\": \"" + heading + "\" } }";
-        else if (takeAction.compareToIgnoreCase("fly") == 0)
-            return "{ \"action\": \"fly\" }";
-        /*else if(takeAction.compareToIgnoreCase("heading") != 0) {
-             if (heading.isHorizontal() == !direction.isHorizontal()){
-            //just change the head if it's really close to crash.
-            if (rangeOut == 1 && foundOut) {
-                return "{ \"action\": \"heading\", \"parameters\": { \"direction\": \"" + direction + "\" } }";
-            }
-                else{
-                    return "{ \"action\": \"stop\" }"; //
-                }
-            }
-            else{
-                return "you can't change the heading to " + direction; //Verify if this else causes problem to the game
-            }
-        }*/
-        else
+        else if (budget < 15) {
+            takeAction = "STOP";
             return "{ \"action\": \"stop\" }";
-
+        }
+        else {
+            takeAction = "FLY";
+            return "{ \"action\": \"fly\" }";
+        }
     }
 
     /**
@@ -122,8 +110,13 @@ public class Explorer implements IExplorerRaid{
         budget = budget - cost;
 
         if (takeAction.compareToIgnoreCase("ECHO") == 0) {
-            int range = jsonObj.getJSONObject("extras").getInt("range");
-            String found = jsonObj.getJSONObject("extras").getString("found");
+            int range = 0;
+            String found = "";
+            if (jsonObj.getJSONObject("extras").has("range"))
+                range = jsonObj.getJSONObject("extras").getInt("range");
+
+            if (jsonObj.getJSONObject("extras").has("found"))
+                found = jsonObj.getJSONObject("extras").getString("found");
 
             if (found.compareToIgnoreCase("GROUND") == 0) {
                 foundGroud = true;
@@ -134,27 +127,25 @@ public class Explorer implements IExplorerRaid{
             }
         }
         else if (takeAction.compareToIgnoreCase("SCAN") == 0) {
-            ArrayList<String> bios = (ArrayList<String>) jsonObj.getJSONObject("extras").get("biomes");
-            ArrayList<String> cks =  (ArrayList<String>) jsonObj.getJSONObject("extras").get("creeks");
+            String bios = null;
+            String cks = null;
 
-            for (String b: bios) {
-                biomes.add(b);
+            if (jsonObj.getJSONObject("extras").has("biomes"))
+                bios = jsonObj.getJSONObject("extras").getString("biomes");
+
+            if (jsonObj.getJSONObject("extras").has("creeks"))
+                bios = jsonObj.getJSONObject("extras").getString("creeds");
+
+            if(bios != null && !bios.isEmpty()) {
+                String[] listBios = bios.split(",");
+                for (String b : listBios)
+                    biomes.add(b);
             }
-
-            for (String c: cks) {
-                creeks.add(c);
+            if(cks != null && !cks.isEmpty()) {
+                String[] listCks = cks.split(",");
+                for (String c : listCks)
+                    creeks.add(c);
             }
         }
-        //else if (takeAction.compareToIgnoreCase("HEADING") == 0){
-        // always without extra? (cost and status already captured}...so, don't need that
-        
     }
-    
-    
-    public String scan(){
-    	biomes.clear();
-    	creeks.clear();
-    	return "{ \"cost\": \"2\", \"extras\": { \"biomes\": \"" + biomes + "\",  \"creeks\": \"" + creeks + "\"}, \"status\": \"ok\" }";
-    }
-    
 }
