@@ -1,5 +1,10 @@
 package fr.unice.polytech.qgl.qab;
 
+/**
+ * Enum to represents the directions available in the game.
+ *
+ * @version 4.8
+ */
 public enum Direction {
     NORTH("n"),
     EAST("e"),
@@ -16,12 +21,18 @@ public enum Direction {
 
     private String name = "";
 
-    //Constructor
     Direction(String name) {
         this.name = name;
     }
 
-    public String toString() {
-        return name;
+    public String toString() { return name; }
+
+    public static Direction fromString(String direction){
+        if (direction != null){
+            for (Direction d : Direction.values()){
+                if (d.toString().equalsIgnoreCase(direction)) return d;
+            }
+        }
+        return null;
     }
 }
