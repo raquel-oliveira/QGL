@@ -1,6 +1,7 @@
 # file project
 target/
-
+src/main/resource/
+src/main/java/fr/unice/polytech/qgl/qab/Main.java
 
 # Created by https://www.gitignore.io/api/sublimetext,xcode,vim
 
