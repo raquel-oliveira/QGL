@@ -1,8 +1,8 @@
 package fr.unice.polytech.qgl.qab;
 
+import org.json.JSONObject;
 import eu.ace_design.island.bot.IExplorerRaid;
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,16 +15,14 @@ import java.util.Random;
  */
 public class Explorer implements IExplorerRaid{
     private int men, budget;
-    private String heading;
-    //private Direction heading;
-    //private Direction direction;
+    private Direction heading;
+    private Direction directionFound;
     private HashMap<String, Integer> contracts;
     private String takeAction;
     private boolean foundOut;
     private int rangeOut;
     private boolean foundGroud;
     private int rangeGroud;
-    private String directionFound;
     private ArrayList<String> biomes;
     private ArrayList<String> creeks;
     private String currentAction;
@@ -32,8 +30,7 @@ public class Explorer implements IExplorerRaid{
     public Explorer() {
         men = 0;
         budget = 0;
-        heading = "";
-        //heading = Direction.EAST;
+        heading = Direction.EAST;
         contracts = new HashMap<String, Integer>();
         takeAction = null;
         foundOut = false;
@@ -63,8 +60,13 @@ public class Explorer implements IExplorerRaid{
             contracts.put(key, value);
         }
 
-        heading = (String)jsonObj.get("heading");
-        //heading = (Direction.valueOf((String) jsonObj.getString("handing")));
+        heading = (Direction.valueOf((String) jsonObj.getString("heading")));
+
+        System.out.println("men: " + men);
+        System.out.println("budget: " + budget);
+        System.out.println("contracts: " + contracts);
+        System.out.println("heading: " + heading);
+
     }
 
     /**
@@ -74,6 +76,7 @@ public class Explorer implements IExplorerRaid{
     public String takeDecision() {
         Random gerador = new Random();
         int direction = 0;
+        String dir;
 
         // if in the range": 0, "found": "OUT_OF_RANGE". Stop doing everything.
         if (rangeOut == 0 && foundOut){
@@ -93,30 +96,32 @@ public class Explorer implements IExplorerRaid{
         	takeAction = "SCAN";
         	return "{ \"action\": \"scan\" }";
         }
-/*        else if (foundOut && rangeOut ==  1) { // if the plane found the out_range
-            if (heading.compareToIgnoreCase(directionFound) != 0) { // if the plane made the echo before
+        else if (foundOut && rangeOut ==  1) { // if the plane found the out_range
+            if (!(heading.toString().equalsIgnoreCase(directionFound.toString()))) { // if the plane made the echo before
                 if ((foundOut && (rangeOut > 1)) || foundGroud) { // if the plane found that is ok to change
                     foundGroud = foundOut = false;
                     rangeGroud =  rangeOut = -1;
                     takeAction = "HEADING";
-                    return "{ \"action\": \"heading\", \"parameters\": { \"direction\": \"" + directionFound + "\" } }";
+                    return "{ \"action\": \"heading\", \"parameters\": { \"direction\": \"" + directionFound.toString() + "\" } }";
                 }
             }
-            if (heading.compareToIgnoreCase("N") == 0 || heading.compareToIgnoreCase("S") == 0) {
+            if (heading.isVertical() ) {
                 direction = gerador.nextInt(2);
-                directionFound = (direction == 1)?"W":"E";
+                dir = (direction == 1)?"W":"E";
+                directionFound = Direction.valueOf(dir);
                 heading = directionFound; // change the direction of heading
                 takeAction = "HEADING";
-                return "{ \"action\": \"echo\", \"parameters\": { \"direction\": \"" + directionFound + "\" } }";
+                return "{ \"action\": \"echo\", \"parameters\": { \"direction\": \"" + directionFound.toString() + "\" } }";
             }
-            else if (heading.compareToIgnoreCase("E") == 0 || heading.compareToIgnoreCase("W") == 0){
+            else if (heading.isHorizontal()){
                 direction = gerador.nextInt(2);
-                directionFound = (direction == 1)?"N":"S";
+                dir = (direction == 1)?"N":"S";
+                directionFound = Direction.valueOf(dir);
                 heading = directionFound; // change the direction of heading
                 takeAction = "HEADING";
-                return "{ \"action\": \"echo\", \"parameters\": { \"direction\": \"" + directionFound + "\" } }";
+                return "{ \"action\": \"echo\", \"parameters\": { \"direction\": \"" + directionFound.toString() + "\" } }";
             }
-        }*/
+        }
         else {
             takeAction = "FLY";
             if (foundOut)
