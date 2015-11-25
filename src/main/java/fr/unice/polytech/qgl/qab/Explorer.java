@@ -1,15 +1,12 @@
 package fr.unice.polytech.qgl.qab;
 
-import apple.laf.JRSUIConstants;
-import fr.unice.polytech.qgl.qab.Direction;
 import org.json.JSONObject;
+import eu.ace_design.island.bot.IExplorerRaid;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
-
-import eu.ace_design.island.bot.IExplorerRaid;
 /**
  * Class that represents the bot in the game.
  * Description based on documentation (http://ace-design.github.io/island/bot/)
@@ -28,6 +25,7 @@ public class Explorer implements IExplorerRaid{
     private int rangeGroud;
     private ArrayList<String> biomes;
     private ArrayList<String> creeks;
+    private String currentAction;
 
     public Explorer() {
         men = 0;
@@ -68,6 +66,7 @@ public class Explorer implements IExplorerRaid{
         System.out.println("budget: " + budget);
         System.out.println("contracts: " + contracts);
         System.out.println("heading: " + heading);
+
     }
 
     /**
@@ -88,14 +87,14 @@ public class Explorer implements IExplorerRaid{
             takeAction = "STOP";
             return "{ \"action\": \"stop\" }";
         }
-        else if (takeAction.compareToIgnoreCase("fly") == 0 || takeAction.compareToIgnoreCase("heading") == 0){
-        	takeAction = "SCAN";
-        	return "{ \"action\": \"scan\" }";
-        }
-        else if ((takeAction == null || takeAction.compareToIgnoreCase("fly") == 0) && !foundOut && rangeGroud <= 0) {
+        else if ((takeAction == null || takeAction.compareToIgnoreCase("scan") == 0) && !foundOut && rangeGroud <= 0) {
             directionFound = heading;
             takeAction = "ECHO";
             return "{ \"action\": \"echo\", \"parameters\": { \"direction\": \"" + heading + "\" } }";
+        }
+        else if (takeAction.compareToIgnoreCase("fly") == 0 || takeAction.compareToIgnoreCase("heading") == 0){
+        	takeAction = "SCAN";
+        	return "{ \"action\": \"scan\" }";
         }
         else if (foundOut && rangeOut ==  1) { // if the plane found the out_range
             if (!(heading.toString().equalsIgnoreCase(directionFound.toString()))) { // if the plane made the echo before
@@ -132,7 +131,7 @@ public class Explorer implements IExplorerRaid{
 
             return "{ \"action\": \"fly\" }";
         }
-        return null;
+//        return null;
     }
 
     /**
@@ -149,7 +148,6 @@ public class Explorer implements IExplorerRaid{
             takeAction = "stop";
 
         budget = budget - cost;
-
         if (takeAction.compareToIgnoreCase("ECHO") == 0) {
             int range = 0;
             String found = "";
@@ -167,26 +165,35 @@ public class Explorer implements IExplorerRaid{
                 rangeOut = range;
             }
         }
-        else if (takeAction.compareToIgnoreCase("SCAN") == 0) {
-            String bios = null;
-            String cks = null;
-
-            if (jsonObj.getJSONObject("extras").has("biomes"))
-                bios = jsonObj.getJSONObject("extras").getString("biomes");
-
-            if (jsonObj.getJSONObject("extras").has("creeks"))
-                bios = jsonObj.getJSONObject("extras").getString("creeds");
-
-            if(bios != null && !bios.isEmpty()) {
-                String[] listBios = bios.split(",");
-                for (String b : listBios)
-                    biomes.add(b);
-            }
-            if(cks != null && !cks.isEmpty()) {
-                String[] listCks = cks.split(",");
-                for (String c : listCks)
-                    creeks.add(c);
-            }
-        }
+//        else if (takeAction.compareToIgnoreCase("SCAN") == 0) {
+//            String bios = null;
+//            String cks = null;
+//
+//            if (jsonObj.getJSONObject("extras").has("biomes"))
+//                bios = jsonObj.getJSONObject("extras").getString("biomes");
+//
+//            if (jsonObj.getJSONObject("extras").has("creeks"))
+//                bios = jsonObj.getJSONObject("extras").getString("creeds");
+//
+//            if(bios != null && !bios.isEmpty()) {
+//                String[] listBios = bios.split(",");
+//                for (String b : listBios)
+//                    biomes.add(b);
+//            }
+//            if(cks != null && !cks.isEmpty()) {
+//                String[] listCks = cks.split(",");
+//                for (String c : listCks)
+//                    creeks.add(c);
+//            }
+//        }
+    }
+    public int getRangeOut(){
+        return rangeOut;
+    }
+    public boolean isFoundOut(){
+        return foundOut;
+    }
+    public String getTakeAction(){
+        return takeAction;
     }
 }
