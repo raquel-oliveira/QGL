@@ -1,9 +1,7 @@
 package fr.unice.polytech.qgl.qab;
-
-import java.util.ArrayList;
+ 
 import java.util.HashMap;
 import java.util.Random;
-import java.util.StringJoiner;
 
 /**
  * Class that represents the Actions of Plane phase.
@@ -45,7 +43,7 @@ public class ActionPlane {
 
     /**
      * Method to set the range if there is limit to the map in one direction
-     * @param direction
+     * @param direction define the direction to set the out_of_range founded
      * @param range
      */
     public void setOutOfRange(String direction, String range) {
@@ -61,8 +59,8 @@ public class ActionPlane {
     }
 
     /**
-     *
-     * @param direction
+     * Method to return the range to OUT_OF_RANGE
+     * @param direction define the direction to get the out_or_range
      * @return
      */
     public int rangeOutOfRange(String direction) {
@@ -78,7 +76,7 @@ public class ActionPlane {
     }
 
     /**
-     *
+     * Method
      * @param direction
      * @return
      */
@@ -87,15 +85,15 @@ public class ActionPlane {
     }
 
     /**
-     *
+     * Method to reset the environment.
      */
     public void resetEnvironment() {
         environment = new HashMap<String, String[]>();
     }
 
     /**
-     *
-     * @param takeAction
+     * Method to check if make the Echo is a action possible.
+     * @param takeAction the last action made.
      * @return
      */
     public boolean makeEcho(String takeAction, String head) {
@@ -105,9 +103,9 @@ public class ActionPlane {
     }
 
     /**
-     *
-     * @param head
-     * @param takeAction
+     * Method to check if make the Scan is a action possible.
+     * @param head the head direction.
+     * @param takeAction the last action made.
      * @return
      */
     public boolean makeScan(String head, String takeAction) {
@@ -120,8 +118,8 @@ public class ActionPlane {
     }
 
     /**
-     *
-     * @param head
+     * Method to give me the direction to make heading
+     * @param head the direction of bot head
      * @return
      */
     public String directionToHeading(Direction head) {
@@ -151,7 +149,7 @@ public class ActionPlane {
     }
 
     /**
-     *
+     * Method to verify the better option to make the Echo
      * @param head
      * @return
      */
@@ -175,8 +173,8 @@ public class ActionPlane {
     }
 
     /**
-     *
-     * @param head
+     * Method to do the changes necassaries when the plane fly
+     * @param head direction of bot head
      */
     public void fly(String head) {
         if (!environment.isEmpty() && environment.containsKey(head)) {
