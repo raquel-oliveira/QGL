@@ -4,7 +4,9 @@ import eu.ace_design.island.bot.IExplorerRaid;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Class that represents the bot in the game.
@@ -19,6 +21,8 @@ public class Explorer implements IExplorerRaid{
     private String takeAction;
     private ActionPlane plane;
     private int dir;
+    private ArrayList<String> biomes;
+    private ArrayList<String> creeks;
 
     public Explorer() {
         men = 0;
@@ -28,6 +32,8 @@ public class Explorer implements IExplorerRaid{
         takeAction = null;
         plane = new ActionPlane();
         dir = 0;
+        biomes = new ArrayList<String>();
+        creeks = new ArrayList<String>();
     }
 
     /**
@@ -131,6 +137,29 @@ public class Explorer implements IExplorerRaid{
                 plane.setGround(heading.toString(), Integer.toString(range));
             else
                 plane.setOutOfRange(heading.toString(), Integer.toString(range));
+        }
+        
+        if(takeAction.compareToIgnoreCase("SCAN")== 0) {
+        	String bio = null;
+        	String crk = null;
+        	
+        	if(jsonObj.getJSONObject("extras").has("biomes"))
+        		bio = jsonObj.getJSONObject("extras").getString("biomes");
+        	if(jsonObj.getJSONObject("extras").has("creeks"))
+        		crk = jsonObj.getJSONObject("extras").getString("creeks");
+        	
+        	if(bio != null && !bio.isEmpty()){
+        		String[] biomelist = bio.split(",");
+        		for(String b : biomelist)
+        			biomes.add(b);
+        	}
+        	
+        	if(crk != null && !crk.isEmpty()){
+        		String[] creeklist = crk.split(",");
+        		for(String c : creeklist)
+        			creeks.add(c);
+        	}
+        		
         }
     }
 
