@@ -20,9 +20,9 @@ public class Explorer implements IExplorerRaid{
     private HashMap<String, Integer> contracts;
     private String takeAction;
     private ActionPlane plane;
-    private int dir;
     private ArrayList<String> biomes;
     private ArrayList<String> creeks;
+    private Direction direction;
 
     public Explorer() {
         men = 0;
@@ -31,9 +31,9 @@ public class Explorer implements IExplorerRaid{
         contracts = new HashMap<String, Integer>();
         takeAction = null;
         plane = new ActionPlane();
-        dir = 0;
         biomes = new ArrayList<String>();
         creeks = new ArrayList<String>();
+        direction =  null;
     }
 
     /**
@@ -54,7 +54,7 @@ public class Explorer implements IExplorerRaid{
             contracts.put(key, value);
         }
 
-       heading = Direction.fromString(jsonObj.getString("heading"));
+       heading = direction = Direction.fromString(jsonObj.getString("heading"));
     }
 
     /**
@@ -75,6 +75,7 @@ public class Explorer implements IExplorerRaid{
             if (resul.compareToIgnoreCase("ECHO") == 0) {
                 resul = plane.whereEcho(heading);
                 takeAction = "ECHO";
+                direction = Direction.fromString(resul);
                 return "{ \"action\": \"echo\", \"parameters\": { \"direction\": \""+ resul.toUpperCase() +"\" } }";
             }
             takeAction = "HEADING";
@@ -112,9 +113,9 @@ public class Explorer implements IExplorerRaid{
                 range = jsonObj.getJSONObject("extras").getInt("range");
 
             if (found.compareToIgnoreCase("GROUND") == 0)
-                plane.setGround(heading.toString(), Integer.toString(range));
+                plane.setGround(direction.toString(), Integer.toString(range));
             else
-                plane.setOutOfRange(heading.toString(), Integer.toString(range));
+                plane.setOutOfRange(direction.toString(), Integer.toString(range));
         }
         
         if(takeAction.compareToIgnoreCase("SCAN")== 0) {
