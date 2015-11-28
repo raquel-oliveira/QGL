@@ -1,5 +1,5 @@
 package fr.unice.polytech.qgl.qab;
- 
+
 import java.util.HashMap;
 import java.util.Random;
 
@@ -19,8 +19,11 @@ public class ActionPlane {
     }
 
     private boolean hasGround(String direction) {
-        String[] result = environment.get(direction);
-        return (result[0].compareToIgnoreCase("GROUND") == 0)? true:false;
+        if (!environment.isEmpty() && environment.containsKey(direction)) {
+            String[] result = environment.get(direction);
+            return (result[0].compareToIgnoreCase("GROUND") == 0) ? true : false;
+        }
+        return false;
     }
 
     /**
@@ -97,9 +100,13 @@ public class ActionPlane {
      * @return
      */
     public boolean makeEcho(String takeAction, String head) {
-        if (takeAction.compareToIgnoreCase("ECHO") != 0 && !hasOutOfRange(head))
-            return true;
-        return false;
+        // if the last action was different that
+        // if the plane is above the ground (to check when the plane get out)
+        // don't do if the plane saw the ground but don't is above it
+        if (takeAction.compareToIgnoreCase("ECHO") == 0 ||
+                (hasGround(head) && rangeGround(head) == 0))
+            return false;
+        return true;
     }
 
     /**
@@ -120,32 +127,27 @@ public class ActionPlane {
     /**
      * Method to give me the direction to make heading
      * @param head the direction of bot head
-     * @return
+     * @return the direction to make a heading (or, say that is necessary make ECHO)
      */
     public String directionToHeading(Direction head) {
-        Random rand = new Random();
-        int direction = rand.nextInt(2);
-        if (head.isHorizontal()) {
-            if (direction == 1 && possiblesToHeading("N")) return "N";
-            else if (direction == 0 && possiblesToHeading("S")) return "S";
-        }
-        else if (head.isVertical()) {
-            if (direction == 1 && possiblesToHeading("W")) return "W";
-            else if (direction == 0 && possiblesToHeading("E")) return "E";
-        }
+        if (head.isHorizontal())
+            return betterDirection("N", "S");
+        else if (head.isVertical())
+            return betterDirection("E", "W");
+
         return "ECHO";
     }
 
-    private boolean possiblesToHeading(String direction) {
-        String[] result;
-        if (!environment.isEmpty() && environment.containsKey(direction)) {
-            result = environment.get(direction);
-            if (result[0].compareToIgnoreCase("OUT_OF_RANGE") == 0) {
-                if (Integer.parseInt(result[1]) >= 2)
-                    return true;
-            }
+    private String betterDirection(String dir1, String dir2) {
+        if (environment.containsKey(dir1) && hasGround(dir1)) return dir1;
+        else if (environment.containsKey(dir2) && hasGround(dir2)) return dir2;
+        else if ((environment.containsKey(dir1) && hasOutOfRange(dir1)) &&
+                (environment.containsKey(dir2) && hasOutOfRange(dir2))) {
+            String[] envN = environment.get(dir1);
+            String[] envS = environment.get(dir2);
+            return (Integer.parseInt(envN[1]) > Integer.parseInt(envS[1]))? dir1:dir2;
         }
-        return false;
+        return "ECHO";
     }
 
     /**
@@ -154,17 +156,14 @@ public class ActionPlane {
      * @return
      */
     public String whereEcho(Direction head) {
-        Random rand = new Random();
-        int direction = rand.nextInt(2);
         if (head.isHorizontal()) {
-            if (direction == 1 && possiblesEcho("N")) return "N";
-            else if (direction == 0 && possiblesEcho("S")) return "S";
+            if (possiblesEcho("N")) return "N";
+            else return "S";
         }
         else {
-            if (direction == 1 && possiblesEcho("W")) return "W";
-            else if (direction == 0 && possiblesEcho("E")) return "E";
+            if (possiblesEcho("W")) return "W";
+            else return "E";
         }
-        return "FLY";
     }
 
     private boolean possiblesEcho(String direction) {
