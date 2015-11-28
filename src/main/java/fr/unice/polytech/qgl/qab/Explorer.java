@@ -56,7 +56,7 @@ public class Explorer implements IExplorerRaid{
      * @return for now, we always return the same action: stopping the game
      */
     public String takeDecision() {
-        if ((plane.rangeOutOfRange(heading.toString()) <= 1 && plane.rangeOutOfRange(heading.toString()) >= 0) || budget <= 100){
+        if ((plane.rangeOutOfRange(heading.toString()) == 0) || budget <= 100){
             takeAction = "STOP";
             return "{ \"action\": \"stop\" }";
         }
@@ -64,32 +64,10 @@ public class Explorer implements IExplorerRaid{
             takeAction = "ECHO";
             return "{ \"action\": \"echo\", \"parameters\": { \"direction\": \""+ heading.toString().toUpperCase() +"\" } }";
         }
-        /*else if (plane.makeScan(heading.toString(), takeAction)){
-        	takeAction = "SCAN";
-        	return "{ \"action\": \"scan\" }";
-        }*/
         else if (plane.makeHeading(heading.toString(), takeAction)) {
-            takeAction = "HEADING";
-            plane.resetEnvironment();
-            if (dir == 0) {
-                heading = Direction.fromString("s");
-                dir = 1;
-                return "{ \"action\": \"heading\", \"parameters\": { \"direction\": \"S\" } }";
-            } else if (dir == 1) {
-                heading = Direction.fromString("e");
-                dir = 0;
-                return "{ \"action\": \"heading\", \"parameters\": { \"direction\": \"E\" } }";
-            }
-        }
-        /*else if (plane.makeHeading(heading.toString())) {
             String resul = plane.directionToHeading(heading);
             if (resul.compareToIgnoreCase("ECHO") == 0) {
                 resul = plane.whereEcho(heading);
-                if (resul.compareToIgnoreCase("FLY") == 0) {
-                    takeAction = "FLY";
-                    plane.fly(heading.toString());
-                    return "{ \"action\": \"fly\" }";
-                }
                 takeAction = "ECHO";
                 return "{ \"action\": \"echo\", \"parameters\": { \"direction\": \""+ resul.toUpperCase() +"\" } }";
             }
@@ -97,7 +75,7 @@ public class Explorer implements IExplorerRaid{
             plane.resetEnvironment();
             heading = Direction.fromString(resul);
             return "{ \"action\": \"heading\", \"parameters\": { \"direction\": \""+ resul.toUpperCase() +"\" } }";
-        }*/
+        }
         takeAction = "FLY";
         plane.fly(heading.toString());
         return "{ \"action\": \"fly\" }";
