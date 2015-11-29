@@ -69,7 +69,9 @@ public class Explorer implements IExplorerRaid{
             takeAction = "stop";
             return "{ \"action\": \"" + takeAction + "\" }";
         }
-        else if (takeAction == null || (takeAction != null && takeAction.compareToIgnoreCase("heading") == 0)) {
+        else if (takeAction == null ||
+                (takeAction != null && takeAction.compareToIgnoreCase("heading") == 0) ||
+                (takeAction.compareToIgnoreCase("echo") != 0)) {
             takeAction = "echo";
             direction = heading;
             return "{ \"action\": \""+ takeAction +"\", \"parameters\": { \"direction\": \"" + heading.toString() + "\" } }";

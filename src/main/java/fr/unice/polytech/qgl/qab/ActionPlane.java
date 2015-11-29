@@ -96,13 +96,10 @@ public class ActionPlane {
      * @return
      */
     public boolean canEcho(String takeAction, String head) {
-        // if the last action was different that
-        // if the plane is above the ground (to check when the plane get out)
-        // don't do if the plane saw the ground but don't is above it
-        if (takeAction.compareToIgnoreCase("ECHO") != 0 ||
-                (hasGround(head) && rangeGround(head) == 0))
-            return false;
-        return true;
+        if (takeAction == null || (takeAction != null && takeAction.compareToIgnoreCase("heading") == 0) ||
+                (takeAction.compareToIgnoreCase("echo") != 0))
+            return true;
+        return false;
     }
 
     /**
