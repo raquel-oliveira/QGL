@@ -95,7 +95,7 @@ public class ExplorerTest {
     }
 
     @Test
-    public void testAcknowledgeResults() {
+    public void testTakeDecisionReturn() {
         String context = "{ \n" +
                 "  \"men\": 12,\n" +
                 "  \"budget\": 1000,\n" +
@@ -106,6 +106,7 @@ public class ExplorerTest {
                 "  \"heading\": \"W\"\n" +
                 "}\n";
         e.initialize(context);
+
         JSONObject jsonObj = new JSONObject(e.takeDecision());
         assertEquals(true, Data.isValide(jsonObj));
     }
