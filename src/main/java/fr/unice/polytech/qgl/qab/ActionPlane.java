@@ -141,11 +141,23 @@ public class ActionPlane {
     private String betterDirection(String dir1, String dir2) {
         if (environment.containsKey(dir1) && hasGround(dir1)) return dir1;
         else if (environment.containsKey(dir2) && hasGround(dir2)) return dir2;
-        else if ((environment.containsKey(dir1) && hasOutOfRange(dir1)) &&
-                (environment.containsKey(dir2) && hasOutOfRange(dir2))) {
-            String[] envN = environment.get(dir1);
-            String[] envS = environment.get(dir2);
-            return (Integer.parseInt(envN[1]) > Integer.parseInt(envS[1]))? dir1:dir2;
+        else {
+            Random rand = new Random();
+            int direction = rand.nextInt(2);
+
+            if (direction == 0) {
+                if (environment.containsKey(dir1)) {
+                    String[] result = environment.get(dir1);
+                    if (Integer.parseInt(result[1]) >= 2)
+                        return dir1;
+                }
+            }
+
+            if (environment.containsKey(dir2)) {
+                String[] result = environment.get(dir2);
+                if (Integer.parseInt(result[1]) >= 2)
+                    return dir2;
+            }
         }
         return "ECHO";
     }
@@ -167,7 +179,7 @@ public class ActionPlane {
     }
 
     private boolean possiblesEcho(String direction) {
-        if (environment.isEmpty() || !environment.containsKey(direction)) return true;
+        if (environment.isEmpty() || !environment.containsKey(direction.toLowerCase())) return true;
         return false;
     }
 

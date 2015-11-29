@@ -54,7 +54,7 @@ public class Explorer implements IExplorerRaid{
             contracts.put(key, value);
         }
 
-       heading = direction = Direction.fromString(jsonObj.getString("heading"));
+        heading = direction = Direction.fromString(jsonObj.getString("heading"));
     }
 
     /**
@@ -62,13 +62,11 @@ public class Explorer implements IExplorerRaid{
      * @return for now, we always return the same action: stopping the game
      */
     public String takeDecision() {
-        if ((plane.rangeOutOfRange(heading.toString()) == 0) || budget <= 100){
+        if ((plane.rangeOutOfRange(heading.toString()) == 0) ||
+                budget <= 100 ||
+                (takeAction != null && takeAction.compareToIgnoreCase("stop") == 0)){
             takeAction = "STOP";
             return "{ \"action\": \"stop\" }";
-        }
-        else if (takeAction == null || plane.makeEcho(takeAction, heading.toString())) {
-            takeAction = "ECHO";
-            return "{ \"action\": \"echo\", \"parameters\": { \"direction\": \""+ heading.toString().toUpperCase() +"\" } }";
         }
         else if (plane.makeHeading(heading.toString(), takeAction)) {
             String resul = plane.directionToHeading(heading);
@@ -82,6 +80,10 @@ public class Explorer implements IExplorerRaid{
             plane.resetEnvironment();
             heading = Direction.fromString(resul);
             return "{ \"action\": \"heading\", \"parameters\": { \"direction\": \""+ resul.toUpperCase() +"\" } }";
+        }
+        else if (takeAction == null || plane.makeEcho(takeAction, heading.toString())) {
+            takeAction = "ECHO";
+            return "{ \"action\": \"echo\", \"parameters\": { \"direction\": \""+ heading.toString().toUpperCase() +"\" } }";
         }
         takeAction = "FLY";
         plane.fly(heading.toString());
@@ -118,7 +120,7 @@ public class Explorer implements IExplorerRaid{
                 plane.setOutOfRange(direction.toString(), Integer.toString(range));
         }
         
-        if(takeAction.compareToIgnoreCase("SCAN")== 0) {
+        if(takeAction.compareToIgnoreCase("SCAN") == 0) {
         	String bio = null;
         	String crk = null;
         	
@@ -141,5 +143,4 @@ public class Explorer implements IExplorerRaid{
         		
         }
     }
-
 }
