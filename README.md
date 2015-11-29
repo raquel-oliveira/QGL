@@ -23,6 +23,11 @@ The bot flies in a straight line while scanning areas on the way.
 
 ### Week 48
 
+Implemented action **heading**.
+Reorganised the program's code.
+
+### Week 49
+
 Short list of the **features** available in the bot delivered for the championship that happened at the end of week 47.
 
     
