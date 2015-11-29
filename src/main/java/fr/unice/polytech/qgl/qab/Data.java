@@ -1,5 +1,7 @@
 package fr.unice.polytech.qgl.qab;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -8,56 +10,47 @@ import java.util.Objects;
  *
  * @version 4.8
  */
-public class Data implements IDataFly {
-    private int cost;
-    private boolean status;
-    private int range;
-    private String found;
-    private ArrayList<String> biomes;
-    private ArrayList<String> creeks;
+public class Data {
+    private String action;
+    private String direction;
 
     public Data() {
-        cost = 0;
-        status = false;
-        if (this instanceof IDataEcho)
-            initializeEcho();
-        else if (this instanceof IDataScan)
-            initializeScan();
+        this.action = "";
+        this.direction = "";
     }
 
-    public void initializeEcho() {
-        range = 0;
-        found = new String();
+    public boolean setData(JSONObject jsonObj) {
+        if (isValide(jsonObj)) {
+            action = jsonObj.getString("action");
+            if (action.compareToIgnoreCase("echo") == 0 || action.compareToIgnoreCase("heading") == 0)
+                direction = jsonObj.getJSONObject("parameters").getString("direction");
+            return true;
+        }
+        return false;
     }
 
-    private void initializeScan() {
-        biomes = new ArrayList<String>();
-        creeks = new ArrayList<String>();
+    public static boolean isValide(JSONObject jsonObj) {
+        if (jsonObj.has("action")) {
+            String act = jsonObj.getString("action");
+            if (act.compareToIgnoreCase("fly") == 0) return true;
+            else if (act.compareToIgnoreCase("scan") == 0) return true;
+            else if (act.compareToIgnoreCase("echo") == 0 || act.compareToIgnoreCase("heading") == 0) {
+                if (jsonObj.has("parameters")) {
+                    JSONObject parameters = jsonObj.getJSONObject("parameters");
+                    if (!parameters.has("direction")) return false;
+                    String dir = jsonObj.getJSONObject("parameters").getString("direction");
+                    if (dir.compareToIgnoreCase("N") == 0 ||
+                            dir.compareToIgnoreCase("S") == 0 ||
+                            dir.compareToIgnoreCase("W") == 0 ||
+                            dir.compareToIgnoreCase("E") == 0)
+                        return true;
+
+                } else return false;
+            }
+        }
+        return false;
     }
 
-    public void setCost(int cost) {
-        this.cost = cost;
-    }
-
-    public void setStatus(String status) {
-        this.status = (status.compareToIgnoreCase("ok") == 0)?true:false;
-    }
-
-    public void setRange(int range) {
-        this.range = range;
-    }
-
-    public void setFound(String found) {
-        this.found = found;
-    }
-
-    public void setBiomes(ArrayList<String> biomes) {
-        this.biomes = biomes;
-    }
-
-    public void setCreeks(ArrayList<String> creeks) {
-        this.creeks = creeks;
-    }
 
     @Override
     public boolean equals(Object obj) {
@@ -68,26 +61,13 @@ public class Data implements IDataFly {
 
         final Data data = (Data)obj;
 
-        if (obj instanceof IDataFly) {
-            if (this.cost != data.cost) return false;
-            if (this.status != data.status) return false;
+        if (this.action.compareToIgnoreCase(data.action) != 0) return false;
+        if (this.action.compareToIgnoreCase("echo") != 0 || this.action.compareToIgnoreCase("heading") != 0) {
+            if (this.direction.compareToIgnoreCase("N") != 0 && this.direction.compareToIgnoreCase("S") != 0 &&
+                    this.direction.compareToIgnoreCase("W") != 0 && this.direction.compareToIgnoreCase("E") != 0)
+            return false;
         }
-        else if (obj instanceof IDataEcho) {
-            if (this.cost != data.cost) return false;
-            if (this.status != data.status) return false;
-            if (this.found != data.found) return false;
-            if (this.range != data.range) return false;
-        }
-        else if (obj instanceof IDataScan) {
-            if (this.cost != data.cost) return false;
-            if (this.status != data.status) return false;
-            if (!this.biomes.containsAll(data.biomes)) return false;
-            if (!this.creeks.containsAll(data.creeks)) return false;
-        }
-        else if(obj instanceof IDataHeading) {
-            if (this.cost != data.cost) return false;
-            if (this.status != data.status) return false;
-        }
+
         return true;
     }
 
