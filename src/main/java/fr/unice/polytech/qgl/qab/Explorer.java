@@ -23,6 +23,7 @@ public class Explorer implements IExplorerRaid{
     private ArrayList<String> biomes;
     private ArrayList<String> creeks;
     private Direction direction;
+    private boolean status;
 
     public Explorer() {
         men = 0;
@@ -34,6 +35,7 @@ public class Explorer implements IExplorerRaid{
         biomes = new ArrayList<String>();
         creeks = new ArrayList<String>();
         direction =  null;
+        status = true;
     }
 
     /**
@@ -61,33 +63,28 @@ public class Explorer implements IExplorerRaid{
      * Method responsible for take decisions, invoked each time the bot must decide which action must be played.
      * @return for now, we always return the same action: stopping the game
      */
+    int cont = 0;
     public String takeDecision() {
-        if ((plane.rangeOutOfRange(heading.toString()) == 0) ||
-                budget <= 100 ||
-                (takeAction != null && takeAction.compareToIgnoreCase("stop") == 0)){
-            takeAction = "STOP";
-            return "{ \"action\": \"stop\" }";
+        if (plane.canStop(heading.toString(), budget, status, takeAction)) {
+            takeAction = "stop";
+            return "{ \"action\": \"" + takeAction + "\" }";
         }
-        else if (plane.makeHeading(heading.toString(), takeAction)) {
-            String resul = plane.directionToHeading(heading);
-            if (resul.compareToIgnoreCase("ECHO") == 0) {
-                resul = plane.whereEcho(heading);
-                takeAction = "ECHO";
-                direction = Direction.fromString(resul);
-                return "{ \"action\": \"echo\", \"parameters\": { \"direction\": \""+ resul.toUpperCase() +"\" } }";
-            }
-            takeAction = "HEADING";
+        else if (takeAction == null || (takeAction != null && takeAction.compareToIgnoreCase("heading") == 0)) {
+            takeAction = "echo";
+            direction = heading;
+            return "{ \"action\": \""+ takeAction +"\", \"parameters\": { \"direction\": \"" + heading.toString() + "\" } }";
+        }
+        else if (plane.rangeOutOfRange(heading.toString()) < 2 && plane.canHeading(heading.toString(), takeAction)) {
+            takeAction = "heading";
+            heading = Direction.fromString("S");
             plane.resetEnvironment();
-            heading = Direction.fromString(resul);
-            return "{ \"action\": \"heading\", \"parameters\": { \"direction\": \""+ resul.toUpperCase() +"\" } }";
+            cont++;
+            if (cont > 1) return "{ \"action\": \"stop\" }";
+            return "{ \"action\": \""+ takeAction +"\", \"parameters\": { \"direction\": \"S\" } }";
         }
-        else if (takeAction == null || plane.makeEcho(takeAction, heading.toString())) {
-            takeAction = "ECHO";
-            return "{ \"action\": \"echo\", \"parameters\": { \"direction\": \""+ heading.toString().toUpperCase() +"\" } }";
-        }
-        takeAction = "FLY";
+        takeAction = "fly";
         plane.fly(heading.toString());
-        return "{ \"action\": \"fly\" }";
+        return "{ \"action\": \"" + takeAction + "\" }";
     }
 
     /**
@@ -97,13 +94,9 @@ public class Explorer implements IExplorerRaid{
      */
     public void acknowledgeResults(String results) {
         JSONObject jsonObj = new JSONObject(results);
-        int cost = jsonObj.getInt("cost");
-        String status = jsonObj.getString("status");
 
-        if (status.compareToIgnoreCase("ok") != 0)
-            takeAction = "stop";
-
-        budget = budget - cost;
+        status = (jsonObj.getString("status").compareToIgnoreCase("ok") == 0)? true:false;
+        budget = budget - jsonObj.getInt("cost");
 
         if (takeAction.compareToIgnoreCase("ECHO") == 0) {
             String found = null;
@@ -115,9 +108,9 @@ public class Explorer implements IExplorerRaid{
                 range = jsonObj.getJSONObject("extras").getInt("range");
 
             if (found.compareToIgnoreCase("GROUND") == 0)
-                plane.setGround(direction.toString(), Integer.toString(range));
+                plane.setGround(direction.toString(), range);
             else
-                plane.setOutOfRange(direction.toString(), Integer.toString(range));
+                plane.setOutOfRange(direction.toString(), range);
         }
         
         if(takeAction.compareToIgnoreCase("SCAN") == 0) {
