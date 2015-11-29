@@ -14,11 +14,19 @@ public class Data {
     private String action;
     private String direction;
 
+    /**
+     * Contructor of Data class
+     */
     public Data() {
         this.action = "";
         this.direction = "";
     }
 
+    /**
+     * Method to set the values of data.
+     * @param jsonObj
+     * @return true if did't occurred, false if did
+     */
     public boolean setData(JSONObject jsonObj) {
         if (isValide(jsonObj)) {
             action = jsonObj.getString("action");
@@ -29,6 +37,11 @@ public class Data {
         return false;
     }
 
+    /**
+     * Method to check if the object json is valid
+     * @param jsonObj
+     * @return true if the data json is valid
+     */
     public static boolean isValide(JSONObject jsonObj) {
         if (jsonObj.has("action")) {
             String act = jsonObj.getString("action");
@@ -50,7 +63,6 @@ public class Data {
         }
         return false;
     }
-
 
     @Override
     public boolean equals(Object obj) {
