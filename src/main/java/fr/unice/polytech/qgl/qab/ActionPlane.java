@@ -103,7 +103,7 @@ public class ActionPlane {
         // if the last action was different that
         // if the plane is above the ground (to check when the plane get out)
         // don't do if the plane saw the ground but don't is above it
-        if (takeAction.compareToIgnoreCase("ECHO") == 0 ||
+        if (takeAction.compareToIgnoreCase("ECHO") != 0 ||
                 (hasGround(head) && rangeGround(head) == 0))
             return false;
         return true;
