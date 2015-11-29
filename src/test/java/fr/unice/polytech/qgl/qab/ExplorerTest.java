@@ -1,8 +1,11 @@
 package fr.unice.polytech.qgl.qab;
 
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -16,9 +19,32 @@ public class ExplorerTest {
     @Before
     public void defineContext() {
         e = new Explorer();
+    }
+
+    /**
+     * Test to check how the program works when
+     * initializing the Explorer with context invalid.
+     */
+    @Test(expected = org.json.JSONException.class)
+    public void testJsonExceptionInitialize() {
+        String context = "{ \n" +
+                "  \"budget\": 1000,\n" +
+                "  \"contracts\": [\n" +
+                "    { \"amount\": 600, \"resource\": \"WOOD\" },\n" +
+                "    { \"amount\": 200, \"resource\": \"GLASS\" }\n" +
+                "  ],\n" +
+                "}\n";
+        e.initialize(context);
+    }
+
+    /**
+     * Test to check how the program works when the budget is 0.
+     */
+    @Test
+    public void testStopWithoutBudget() {
         String context = "{ \n" +
                 "  \"men\": 12,\n" +
-                "  \"budget\": 10000,\n" +
+                "  \"budget\": 0,\n" +
                 "  \"contracts\": [\n" +
                 "    { \"amount\": 600, \"resource\": \"WOOD\" },\n" +
                 "    { \"amount\": 200, \"resource\": \"GLASS\" }\n" +
@@ -26,89 +52,45 @@ public class ExplorerTest {
                 "  \"heading\": \"W\"\n" +
                 "}\n";
         e.initialize(context);
+        JSONObject jsonObj = new JSONObject(e.takeDecision());
+        assertEquals("stop", jsonObj.getString("action"));
     }
 
-    // Test a specific scenario with most functions being used
-    // Not unit testing because we will have to change the structure of the bot to allow unit testing
+    /**
+     * Test to check how the program works when the budget is negative.
+     */
     @Test
-    public void takeDecisionTest() {
-        String s = e.takeDecision();
-        assertTrue(s.equals("{ \"action\": \"echo\", \"parameters\": { \"direction\": \"W\" } }"));
-        e.acknowledgeResults("{ \"cost\": 1, \"extras\": { \"range\": 4, \"found\": \"GROUND\" }, \"status\": \"OK\" }");
+    public void testStopWithBudgetNegative() {
+        String context = "{ \n" +
+                "  \"men\": 12,\n" +
+                "  \"budget\": -1000,\n" +
+                "  \"contracts\": [\n" +
+                "    { \"amount\": 600, \"resource\": \"WOOD\" },\n" +
+                "    { \"amount\": 200, \"resource\": \"GLASS\" }\n" +
+                "  ],\n" +
+                "  \"heading\": \"W\"\n" +
+                "}\n";
+        e.initialize(context);
+        JSONObject jsonObj = new JSONObject(e.takeDecision());
+        assertEquals("stop", jsonObj.getString("action"));
+    }
 
-        s = e.takeDecision();
-        assertTrue(s.equals("{ \"action\": \"fly\" }"));
-        e.acknowledgeResults("{ \"cost\": 2, \"extras\": {}, \"status\": \"OK\" }");
-
-        s = e.takeDecision();
-        assertTrue(s.equals("{ \"action\": \"scan\" }"));
-        e.acknowledgeResults("{\"cost\": 2, \"extras\": { \"biomes\": [\"GLACIER\", \"ALPINE\"], \"creeks\": []}, \"status\": \"OK\"}");
-
-        s = e.takeDecision();
-        assertTrue(s.equals("{ \"action\": \"fly\" }"));
-        e.acknowledgeResults("{ \"cost\": 2, \"extras\": {}, \"status\": \"OK\" }");
-
-        s = e.takeDecision();
-        assertTrue(s.equals("{ \"action\": \"scan\" }"));
-        e.acknowledgeResults("{\"cost\": 2, \"extras\": { \"biomes\": [\"GLACIER\", \"ALPINE\"], \"creeks\": []}, \"status\": \"OK\"}");
-
-        s = e.takeDecision();
-        assertTrue(s.equals("{ \"action\": \"fly\" }"));
-        e.acknowledgeResults("{ \"cost\": 2, \"extras\": {}, \"status\": \"OK\" }");
-
-        s = e.takeDecision();
-        assertTrue(s.equals("{ \"action\": \"scan\" }"));
-        e.acknowledgeResults("{\"cost\": 2, \"extras\": { \"biomes\": [\"GLACIER\", \"ALPINE\"], \"creeks\": []}, \"status\": \"OK\"}");
-
-        s = e.takeDecision();
-        assertTrue(s.equals("{ \"action\": \"fly\" }"));
-        e.acknowledgeResults("{ \"cost\": 2, \"extras\": {}, \"status\": \"OK\" }");
-
-        s = e.takeDecision();
-        assertTrue(s.equals("{ \"action\": \"scan\" }"));
-        e.acknowledgeResults("{\"cost\": 2, \"extras\": { \"biomes\": [\"GLACIER\", \"ALPINE\"], \"creeks\": []}, \"status\": \"OK\"}");
-
-        s = e.takeDecision();
-        assertTrue(s.equals("{ \"action\": \"echo\", \"parameters\": { \"direction\": \"W\" } }"));
-        e.acknowledgeResults("{ \"cost\": 1, \"extras\": { \"range\": 0, \"found\": \"GROUND\" }, \"status\": \"OK\" }");
-
-        s = e.takeDecision();
-        assertTrue(s.equals("{ \"action\": \"fly\" }"));
-        e.acknowledgeResults("{ \"cost\": 2, \"extras\": {}, \"status\": \"OK\" }");
-
-        s = e.takeDecision();
-        assertTrue(s.equals("{ \"action\": \"scan\" }"));
-        e.acknowledgeResults("{\"cost\": 2, \"extras\": { \"biomes\": [\"GLACIER\", \"ALPINE\"], \"creeks\": []}, \"status\": \"OK\"}");
-
-        s = e.takeDecision();
-        assertTrue(s.equals("{ \"action\": \"echo\", \"parameters\": { \"direction\": \"W\" } }"));
-        e.acknowledgeResults("{ \"cost\": 1, \"extras\": { \"range\": 0, \"found\": \"GROUND\" }, \"status\": \"OK\" }");
-
-        s = e.takeDecision();
-        assertTrue(s.equals("{ \"action\": \"fly\" }"));
-        e.acknowledgeResults("{ \"cost\": 2, \"extras\": {}, \"status\": \"OK\" }");
-
-        s = e.takeDecision();
-        assertTrue(s.equals("{ \"action\": \"scan\" }"));
-        e.acknowledgeResults("{\"cost\": 2, \"extras\": { \"biomes\": [\"GLACIER\", \"ALPINE\"], \"creeks\": []}, \"status\": \"OK\"}");
-
-        s = e.takeDecision();
-        assertTrue(s.equals("{ \"action\": \"echo\", \"parameters\": { \"direction\": \"W\" } }"));
-        e.acknowledgeResults("{ \"cost\": 1, \"extras\": { \"range\": 2, \"found\": \"OUT_OF_RANGE\" }, \"status\": \"OK\" }");
-
-        s = e.takeDecision();
-        assertTrue(s.equals("{ \"action\": \"fly\" }"));
-        e.acknowledgeResults("{ \"cost\": 2, \"extras\": {}, \"status\": \"OK\" }");
-
-        s = e.takeDecision();
-        assertTrue(s.equals("{ \"action\": \"scan\" }"));
-        e.acknowledgeResults("{\"cost\": 2, \"extras\": { \"biomes\": [\"GLACIER\", \"ALPINE\"], \"creeks\": []}, \"status\": \"OK\"}");
-
-        s = e.takeDecision();
-        assertTrue(s.equals("{ \"action\": \"fly\" }"));
-        e.acknowledgeResults("{ \"cost\": 2, \"extras\": {}, \"status\": \"OK\" }");
-
-        s = e.takeDecision();
-        assertTrue(s.equals("{ \"action\": \"stop\" }"));
+    /**
+     * Test to check how the program works when the budget is negative.
+     */
+    @Test
+    public void testEchoLikeFirstAction() {
+        String context = "{ \n" +
+                "  \"men\": 12,\n" +
+                "  \"budget\": 1000,\n" +
+                "  \"contracts\": [\n" +
+                "    { \"amount\": 600, \"resource\": \"WOOD\" },\n" +
+                "    { \"amount\": 200, \"resource\": \"GLASS\" }\n" +
+                "  ],\n" +
+                "  \"heading\": \"W\"\n" +
+                "}\n";
+        e.initialize(context);
+        JSONObject jsonObj = new JSONObject(e.takeDecision());
+        assertEquals("echo", jsonObj.getString("action"));
     }
 }
