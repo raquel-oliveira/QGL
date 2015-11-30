@@ -9,8 +9,7 @@ import java.util.Random;
  * @version 4.9
  */
 public class ActionPlane {
-    private HashMap<String, Discovery> environment; // N, ["GROUND", "4"]
-
+    private HashMap<String, Discovery> environment; // N, ("GROUND", 4)
 
     private static final int BUDGET_MIN = 100;
 
@@ -31,11 +30,12 @@ public class ActionPlane {
 
     /**
      * Method to set the range if there is GROUND in one direction
+     *
      * @param direction define the direction to set the ground founded
      * @param range
      */
     public void setGround(String direction, int range) {
-        Discovery dataGround =  new Discovery("GROUND", range);
+        Discovery dataGround = new Discovery("GROUND", range);
         environment.put(direction.toUpperCase(), dataGround);
     }
 
@@ -49,11 +49,12 @@ public class ActionPlane {
 
     /**
      * Method to set the range if there is limit to the map in one direction
+     *
      * @param direction define the direction to set the out_of_range founded
      * @param range
      */
     public void setOutOfRange(String direction, int range) {
-        Discovery dataOutOfRange =  new Discovery("OUT_OF_RANGE", range);
+        Discovery dataOutOfRange = new Discovery("OUT_OF_RANGE", range);
         environment.put(direction.toUpperCase(), dataOutOfRange);
     }
 
@@ -65,6 +66,7 @@ public class ActionPlane {
 
     /**
      * Method to return the range to OUT_OF_RANGE
+     *
      * @param direction define the direction to get the out_or_range
      * @return
      */
@@ -76,11 +78,12 @@ public class ActionPlane {
 
     /**
      * Method
+     *
      * @param direction
      * @return
      */
     public boolean canHeading(String direction, String action) {
-        return (hasOutOfRange(direction) && action.compareToIgnoreCase("HEADING") != 0);
+        return (rangeOutOfRange(direction) < 2 && action.compareToIgnoreCase("HEADING") != 0);
     }
 
     /**
@@ -92,19 +95,21 @@ public class ActionPlane {
 
     /**
      * Method to check if make the Echo is a action possible.
-     * @param takeAction the last action made.
+     *
+     * @param action the last action made.
+     * @param head   direction of plane head
      * @return
      */
-    public boolean canEcho(String takeAction, String head) {
-        if (takeAction == null || (takeAction != null && takeAction.compareToIgnoreCase("heading") == 0) ||
-                (takeAction.compareToIgnoreCase("echo") != 0))
+    public boolean canEcho(String action, String head) {
+        if (action == null || (action != null && action.compareToIgnoreCase("heading") == 0))
             return true;
         return false;
     }
 
     /**
      * Method to check if make the Scan is a action possible.
-     * @param head the head direction.
+     *
+     * @param head       the head direction.
      * @param takeAction the last action made.
      * @return
      */
@@ -117,42 +122,39 @@ public class ActionPlane {
         return false;
     }
 
-    /**
-     * Method to give me the direction to make heading
-     * @param head the direction of bot head
-     * @return the direction to make a heading (or, say that is necessary make ECHO)
-     */
-    public String directionToHeading(Direction head) {
-        if (head.isHorizontal())
-            return betterDirection("N", "S");
-        else if (head.isVertical())
-            return betterDirection("E", "W");
+    public String whereHeading(Direction direction) {
+        String dir1, dir2;
+        if (direction.isHorizontal()) {
+            dir1 = "N"; dir2 = "S";
+        } else {
+            dir1 = "E"; dir2 = "W";
+        }
 
+        if (!environment.containsKey(dir1) || !environment.containsKey(dir2)) return "ECHO";
+        else if (environment.get(dir1).found.compareToIgnoreCase("GROUND") == 0)
+            return dir1;
+        else if (environment.get(dir2).found.compareToIgnoreCase("GROUND") == 0)
+            return dir2;
+        else if(environment.get(dir1).found.compareToIgnoreCase("OUT_OF_RANGE") == 0 &&
+                environment.get(dir1).found.compareToIgnoreCase("OUT_OF_RANGE") == 0)
+            return (environment.get(dir1).range > environment.get(dir2).range)?dir1:dir2;
         return "ECHO";
     }
 
-    private String betterDirection(String dir1, String dir2) {
-        if (environment.containsKey(dir1) && hasGround(dir1)) return dir1;
-        else if (environment.containsKey(dir2) && hasGround(dir2)) return dir2;
-        else {
-            Random rand = new Random();
-            int direction = rand.nextInt(2);
-
-            if (direction == 0) {
-                if (environment.containsKey(dir1)) {
-                    Discovery result = environment.get(dir1);
-                    if (result.range >= 2)
-                        return dir1;
-                }
-            }
-
-            if (environment.containsKey(dir2)) {
-                Discovery result = environment.get(dir2);
-                if (result.range >= 2)
-                    return dir2;
-            }
+    public String betterDirection(Direction direction) {
+        String dir1, dir2;
+        if (direction.isHorizontal()) {
+            dir1 = "N"; dir2 = "S";
+        } else {
+            dir1 = "E"; dir2 = "W";
         }
-        return "ECHO";
+
+        if (environment.get(dir1).found.compareToIgnoreCase("GROUND") == 0)
+            return dir1;
+        else if (environment.get(dir2).found.compareToIgnoreCase("GROUND") == 0)
+            return dir2;
+
+        return "FLY";
     }
 
     /**
@@ -160,20 +162,22 @@ public class ActionPlane {
      * @param head
      * @return
      */
-    public String whereEcho(Direction head) {
-        if (head.isHorizontal()) {
-            if (possiblesEcho("N")) return "N";
-            else return "S";
+    public String whereEcho(Direction head, String action) {
+        if (action == null)
+            return head.toString();
+        else if (head.isHorizontal()) {
+            if (!environment.containsKey("N"))
+                return "N";
+            if (!environment.containsKey("S"))
+                return "S";
         }
-        else {
-            if (possiblesEcho("W")) return "W";
-            else return "E";
+        else if (head.isVertical()){
+            if (!environment.containsKey("W"))
+                return "W";
+            if (!environment.containsKey("E"))
+                return "E";
         }
-    }
-
-    private boolean possiblesEcho(String direction) {
-        if (environment.isEmpty() || !environment.containsKey(direction)) return true;
-        return false;
+        return "NOT";
     }
 
     public boolean canStop(String direction, int budget, boolean status, String action) {

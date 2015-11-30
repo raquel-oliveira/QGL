@@ -69,20 +69,23 @@ public class Explorer implements IExplorerRaid{
             takeAction = "stop";
             return "{ \"action\": \"" + takeAction + "\" }";
         }
-        else if (takeAction == null ||
-                (takeAction != null && takeAction.compareToIgnoreCase("heading") == 0) ||
-                (takeAction.compareToIgnoreCase("echo") != 0)) {
+        else if (plane.canEcho(takeAction, heading.toString())) {
             takeAction = "echo";
             direction = heading;
             return "{ \"action\": \""+ takeAction +"\", \"parameters\": { \"direction\": \"" + heading.toString() + "\" } }";
         }
-        else if (plane.rangeOutOfRange(heading.toString()) < 2 && plane.canHeading(heading.toString(), takeAction)) {
+        else if (plane.canHeading(heading.toString(), takeAction)) {
+            String dirHeading  = plane.whereHeading(heading);
+            if (dirHeading.compareToIgnoreCase("ECHO") == 0) {
+                String dirEcho = plane.whereEcho(heading, takeAction);
+                takeAction = "echo";
+                direction = Direction.fromString(dirEcho);
+                return "{ \"action\": \""+ takeAction +"\", \"parameters\": { \"direction\": \"" + dirEcho + "\" } }";
+            }
             takeAction = "heading";
-            heading = Direction.fromString("S");
-            plane.resetEnvironment();
-            cont++;
-            if (cont > 1) return "{ \"action\": \"stop\" }";
-            return "{ \"action\": \""+ takeAction +"\", \"parameters\": { \"direction\": \"S\" } }";
+            heading = Direction.fromString(dirHeading);
+            plane.resetEnvironment(); 
+            return "{ \"action\": \""+ takeAction +"\", \"parameters\": { \"direction\": \""+dirHeading+"\" } }";
         }
         takeAction = "fly";
         plane.fly(heading.toString());
