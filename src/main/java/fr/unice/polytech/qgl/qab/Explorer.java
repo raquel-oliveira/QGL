@@ -18,7 +18,7 @@ public class Explorer implements IExplorerRaid{
     private int men, budget;
     private Direction heading;
     private HashMap<String, Integer> contracts;
-    private String takeAction;
+    private Action takeAction;
     private ActionPlane plane;
     private ArrayList<String> biomes;
     private ArrayList<String> creeks;
@@ -63,33 +63,32 @@ public class Explorer implements IExplorerRaid{
      * Method responsible for take decisions, invoked each time the bot must decide which action must be played.
      * @return for now, we always return the same action: stopping the game
      */
-    int cont = 0;
     public String takeDecision() {
-        if (plane.canStop(heading.toString(), budget, status, takeAction)) {
-            takeAction = "stop";
-            return "{ \"action\": \"" + takeAction + "\" }";
+        if (plane.canStop(heading, budget, status)) {
+            takeAction = Action.STOP;
+            return "{ \"action\": \"" + takeAction.toString() + "\" }";
         }
-        else if (plane.canEcho(takeAction, heading.toString())) {
-            takeAction = "echo";
+        else if (plane.canEcho(takeAction, heading)) {
+            takeAction = Action.ECHO;
             direction = heading;
-            return "{ \"action\": \""+ takeAction +"\", \"parameters\": { \"direction\": \"" + heading.toString() + "\" } }";
+            return "{ \"action\": \""+ takeAction.toString() +"\", \"parameters\": { \"direction\": \"" + heading.toString() + "\" } }";
         }
-        else if (plane.canHeading(heading.toString(), takeAction)) {
-            String dirHeading  = plane.whereHeading(heading);
-            if (dirHeading.compareToIgnoreCase("ECHO") == 0) {
-                String dirEcho = plane.whereEcho(heading, takeAction);
-                takeAction = "echo";
-                direction = Direction.fromString(dirEcho);
-                return "{ \"action\": \""+ takeAction +"\", \"parameters\": { \"direction\": \"" + dirEcho + "\" } }";
+        else if (plane.canHeading(heading, takeAction)) {
+            Direction dirHeading  = plane.whereHeading(heading);
+            if (dirHeading == null || (dirHeading != null && dirHeading.equals(Action.ECHO))) {
+                Direction dirEcho = plane.whereEcho(heading, takeAction);
+                takeAction = Action.ECHO;
+                direction = dirEcho;
+                return "{ \"action\": \""+ takeAction.toString() +"\", \"parameters\": { \"direction\": \"" + dirEcho + "\" } }";
             }
-            takeAction = "heading";
-            heading = Direction.fromString(dirHeading);
-            plane.resetEnvironment(); 
-            return "{ \"action\": \""+ takeAction +"\", \"parameters\": { \"direction\": \""+dirHeading+"\" } }";
+            takeAction = Action.HEADING;
+            heading = dirHeading;
+            plane.resetEnvironment();
+            return "{ \"action\": \""+ takeAction.toString() +"\", \"parameters\": { \"direction\": \""+ dirHeading +"\" } }";
         }
-        takeAction = "fly";
-        plane.fly(heading.toString());
-        return "{ \"action\": \"" + takeAction + "\" }";
+        takeAction = Action.FLY;
+        plane.fly(heading);
+        return "{ \"action\": \"" + takeAction.toString() + "\" }";
     }
 
     /**
@@ -103,42 +102,41 @@ public class Explorer implements IExplorerRaid{
         status = (jsonObj.getString("status").compareToIgnoreCase("ok") == 0)? true:false;
         budget = budget - jsonObj.getInt("cost");
 
-        if (takeAction.compareToIgnoreCase("ECHO") == 0) {
-            String found = null;
+        if (takeAction.equals(Action.ECHO)) {
+            Found found = null;
             Integer range = null;
 
             if (jsonObj.getJSONObject("extras").has("found"))
-                found = jsonObj.getJSONObject("extras").getString("found");
+                found = Found.fromString(jsonObj.getJSONObject("extras").getString("found"));
             if (jsonObj.getJSONObject("extras").has("range"))
                 range = jsonObj.getJSONObject("extras").getInt("range");
 
-            if (found.compareToIgnoreCase("GROUND") == 0)
-                plane.setGround(direction.toString(), range);
+            if (found.equals(Found.GROUND))
+                plane.setGround(direction, range);
             else
-                plane.setOutOfRange(direction.toString(), range);
+                plane.setOutOfRange(direction, range);
         }
-        
-        if(takeAction.compareToIgnoreCase("SCAN") == 0) {
-        	String bio = null;
-        	String crk = null;
-        	
-        	if(jsonObj.getJSONObject("extras").has("biomes"))
-        		bio = jsonObj.getJSONObject("extras").getString("biomes");
-        	if(jsonObj.getJSONObject("extras").has("creeks"))
-        		crk = jsonObj.getJSONObject("extras").getString("creeks");
-        	
-        	if(bio != null && !bio.isEmpty()){
-        		String[] biomelist = bio.split(",");
-        		for(String b : biomelist)
-        			biomes.add(b);
-        	}
-        	
-        	if(crk != null && !crk.isEmpty()){
-        		String[] creeklist = crk.split(",");
-        		for(String c : creeklist)
-        			creeks.add(c);
-        	}
-        		
+
+        if(takeAction.equals(Action.SCAN)) {
+            String bio = null;
+            String crk = null;
+
+            if(jsonObj.getJSONObject("extras").has("biomes"))
+                bio = jsonObj.getJSONObject("extras").getString("biomes");
+            if(jsonObj.getJSONObject("extras").has("creeks"))
+                crk = jsonObj.getJSONObject("extras").getString("creeks");
+
+            if(bio != null && !bio.isEmpty()){
+                String[] biomelist = bio.split(",");
+                for(String b : biomelist)
+                    biomes.add(b);
+            }
+
+            if(crk != null && !crk.isEmpty()){
+                String[] creeklist = crk.split(",");
+                for(String c : creeklist)
+                    creeks.add(c);
+            }
         }
     }
 }
