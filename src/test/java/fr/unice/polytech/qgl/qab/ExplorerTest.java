@@ -1,5 +1,6 @@
 package fr.unice.polytech.qgl.qab;
 
+import fr.unice.polytech.qgl.qab.util.Data;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -92,22 +93,5 @@ public class ExplorerTest {
         e.initialize(context);
         JSONObject jsonObj = new JSONObject(e.takeDecision());
         assertEquals("echo", jsonObj.getString("action"));
-    }
-
-    @Test
-    public void testTakeDecisionReturn() {
-        String context = "{ \n" +
-                "  \"men\": 12,\n" +
-                "  \"budget\": 1000,\n" +
-                "  \"contracts\": [\n" +
-                "    { \"amount\": 600, \"resource\": \"WOOD\" },\n" +
-                "    { \"amount\": 200, \"resource\": \"GLASS\" }\n" +
-                "  ],\n" +
-                "  \"heading\": \"W\"\n" +
-                "}\n";
-        e.initialize(context);
-
-        JSONObject jsonObj = new JSONObject(e.takeDecision());
-        assertEquals(true, Data.isValide(jsonObj));
     }
 }

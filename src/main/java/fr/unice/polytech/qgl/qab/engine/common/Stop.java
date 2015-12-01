@@ -25,6 +25,7 @@ public class Stop extends ActionAerial {
     }
 
     public static boolean canStop(Direction direction, int budget, boolean status) {
-        return (rangeOutOfRange(direction) == 0 || budget <= BUDGET_MIN || status == false);
+        return true;
+        //return (rangeOutOfRange(direction) == 0 || budget <= BUDGET_MIN || status == false);
     }
 }
