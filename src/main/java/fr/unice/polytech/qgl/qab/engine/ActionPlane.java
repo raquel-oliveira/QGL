@@ -82,6 +82,11 @@ public class ActionPlane extends Action {
         environment = new HashMap<Direction, Discovery>();
     }
 
+    /**
+     * Method to give the better direction.
+     * @param direction
+     * @return
+     */
     public Direction betterDirection(Direction direction) {
         Direction dir1, dir2;
         if (direction.isHorizontal()) {
