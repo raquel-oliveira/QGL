@@ -1,6 +1,8 @@
 package fr.unice.polytech.qgl.qab.enums;
 
 /**
+ * Enum to represent the items founded.
+ *
  * @version 4.9
  */
 public enum Found {

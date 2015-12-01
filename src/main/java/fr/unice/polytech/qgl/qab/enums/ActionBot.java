@@ -1,7 +1,8 @@
 package fr.unice.polytech.qgl.qab.enums;
 
 /**
- * Class abstract to represents action
+ * Class abstract to represents action.
+ *
  * @version 4.9
  */
 public enum ActionBot {
@@ -22,5 +23,14 @@ public enum ActionBot {
 
     public boolean equals(ActionBot action) {
         return (action.toString().equalsIgnoreCase(name));
+    }
+
+    public static ActionBot fromString(String action){
+        if (action != null){
+            for (ActionBot ab : ActionBot.values()){
+                if (ab.toString().equalsIgnoreCase(action)) return ab;
+            }
+        }
+        return null;
     }
 }

@@ -3,7 +3,7 @@ package fr.unice.polytech.qgl.qab.enums;
 /**
  * Enum to represents the directions available in the game.
  *
- * @version 4.8
+ * @version 4.9
  */
 public enum Direction {
     NORTH("N"),

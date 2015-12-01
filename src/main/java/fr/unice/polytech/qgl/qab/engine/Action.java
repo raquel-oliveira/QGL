@@ -1,4 +1,4 @@
-package fr.unice.polytech.qgl.qab.actions;
+package fr.unice.polytech.qgl.qab.engine;
 
 import org.json.JSONObject;
 
