@@ -1,8 +1,11 @@
-package fr.unice.polytech.qgl.qab.engine;
+package fr.unice.polytech.qgl.qab.engine.aerial;
 
 import java.util.Map;
 import java.util.HashMap;
 
+import fr.unice.polytech.qgl.qab.engine.Action;
+import fr.unice.polytech.qgl.qab.engine.Stop;
+import fr.unice.polytech.qgl.qab.enums.ActionBot;
 import fr.unice.polytech.qgl.qab.enums.Direction;
 import fr.unice.polytech.qgl.qab.enums.Found;
 import org.json.JSONObject;
@@ -12,9 +15,11 @@ import org.json.JSONObject;
  *
  * @version 4.9
  */
-public class ActionPlane extends Action {
-    protected Map<Direction, Discovery> environment;
+public class ActionAerial extends Action {
+    protected static Map<Direction, Discovery> environment = new HashMap<>();
     protected static final int BUDGET_MIN = 100;
+    private ActionBot takeAction;
+    private Direction direction;
 
     @Override
     public boolean isValid(JSONObject jsonObj) {
@@ -22,10 +27,11 @@ public class ActionPlane extends Action {
     };
 
     /**
-     * Constructor of Class ActionPlane.
+     * Constructor of Class ActionAerial.
      */
-    public ActionPlane() {
-        environment = new HashMap<>();
+    public ActionAerial() {
+        takeAction = null;
+        direction = null;
     }
 
     private boolean hasGround(Direction direction) {
@@ -36,7 +42,7 @@ public class ActionPlane extends Action {
         return false;
     }
 
-    private boolean hasOutOfRange(Direction direction) {
+    private static boolean hasOutOfRange(Direction direction) {
         if (!environment.isEmpty() && environment.containsKey(direction)) {
             Discovery result = environment.get(direction);
             return (result.found.equals(Found.OUT_OF_RANGE));
@@ -69,7 +75,7 @@ public class ActionPlane extends Action {
      * @param direction define the direction to get the out_or_range
      * @return range until the map limit
      */
-    public int rangeOutOfRange(Direction direction) {
+    public static int rangeOutOfRange(Direction direction) {
         if (hasOutOfRange(direction))
             return environment.get(direction).range;
         return -1;
@@ -101,6 +107,35 @@ public class ActionPlane extends Action {
             return dir2;
 
         return null;
+    }
+
+    public String makeDecision(Direction head, int budget, Boolean status) {
+        if (direction == null) { direction = head; }
+        if (Stop.canStop(direction, budget, status)) {
+            takeAction = ActionBot.STOP;
+            return "{ \"action\": \"" + takeAction.toString() + "\" }";
+        }
+        else if (Echo.canEcho(takeAction, direction)) {
+            takeAction = ActionBot.ECHO;
+            return "{ \"action\": \""+ takeAction.toString() +"\", \"parameters\": { \"direction\": \"" + direction.toString() + "\" } }";
+        }
+        else if (Heading.canHeading(direction, takeAction)) {
+            Direction dirHeading  = Heading.whereHeading(direction);
+            if (dirHeading == null || (dirHeading != null && dirHeading.equals(ActionBot.ECHO))) {
+                Direction dirEcho = Echo.whereEcho(dirHeading, takeAction);
+                takeAction = ActionBot.ECHO;
+                direction = dirEcho;
+                return "{ \"action\": \""+ takeAction.toString() +"\", \"parameters\": { \"direction\": \"" + dirEcho + "\" } }";
+            }
+            takeAction = ActionBot.HEADING;
+            direction = dirHeading;
+            resetEnvironment();
+            return "{ \"action\": \""+ takeAction.toString() +"\", \"parameters\": { \"direction\": \""+ dirHeading +"\" } }";
+        }
+            takeAction = ActionBot.FLY;
+            Fly.fly(direction);
+            takeAction = ActionBot.STOP;
+            return "{ \"action\": \"" + takeAction.toString() + "\" }";
     }
 
     protected class Discovery {

@@ -1,4 +1,4 @@
-package fr.unice.polytech.qgl.qab.engine;
+package fr.unice.polytech.qgl.qab.engine.aerial;
 
 import fr.unice.polytech.qgl.qab.enums.ActionBot;
 import fr.unice.polytech.qgl.qab.enums.Direction;
@@ -9,9 +9,8 @@ import org.json.JSONObject;
  *
  * @version 4.9
  */
-public class Echo extends ActionPlane {
+public class Echo extends ActionAerial {
     public Echo() {
-        super();
     }
 
     @Override
@@ -28,7 +27,7 @@ public class Echo extends ActionPlane {
      * @param head
      * @return
      */
-    public Direction whereEcho(Direction head, ActionBot action) {
+    public static Direction whereEcho(Direction head, ActionBot action) {
         if (action == null)
             return head;
         else if (head.isHorizontal()) {
@@ -52,7 +51,7 @@ public class Echo extends ActionPlane {
      * @param head   direction of plane head
      * @return
      */
-    public boolean canEcho(ActionBot action, Direction head) {
+    public static boolean canEcho(ActionBot action, Direction head) {
         if (action == null || action != null && action.equals(ActionBot.HEADING))
             return true;
         return false;

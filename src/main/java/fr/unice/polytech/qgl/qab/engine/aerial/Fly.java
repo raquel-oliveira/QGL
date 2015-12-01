@@ -1,4 +1,4 @@
-package fr.unice.polytech.qgl.qab.engine;
+package fr.unice.polytech.qgl.qab.engine.aerial;
 
 import fr.unice.polytech.qgl.qab.enums.ActionBot;
 import fr.unice.polytech.qgl.qab.enums.Direction;
@@ -9,7 +9,7 @@ import org.json.JSONObject;
  *
  * @version 4.9
  */
-public class Fly extends ActionPlane {
+public class Fly extends ActionAerial {
 
     public Fly() {
         super();
@@ -28,7 +28,7 @@ public class Fly extends ActionPlane {
      * Method to do the changes necassaries when the plane fly
      * @param head direction of bot head
      */
-    public void fly(Direction head) {
+    public static void fly(Direction head) {
         if (!environment.isEmpty() && environment.containsKey(head)) {
             Discovery result = environment.get(head);
             result.range = result.range - 1;

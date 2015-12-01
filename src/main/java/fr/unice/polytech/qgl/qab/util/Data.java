@@ -1,7 +1,7 @@
-package fr.unice.polytech.qgl.qab;
+package fr.unice.polytech.qgl.qab.util;
 
 import fr.unice.polytech.qgl.qab.engine.Action;
-import fr.unice.polytech.qgl.qab.engine.ActionPlane;
+import fr.unice.polytech.qgl.qab.engine.aerial.ActionAerial;
 import fr.unice.polytech.qgl.qab.enums.Direction;
 import org.json.JSONObject;
 
@@ -18,7 +18,7 @@ public class Data {
      * Contructor of Data class
      */
     public Data() {
-        this.act = new ActionPlane();
+        this.act = new ActionAerial();
         this.direction = null;
     }
 

@@ -1,5 +1,6 @@
-package fr.unice.polytech.qgl.qab.engine;
+package fr.unice.polytech.qgl.qab.engine.common;
 
+import fr.unice.polytech.qgl.qab.engine.aerial.ActionAerial;
 import fr.unice.polytech.qgl.qab.enums.ActionBot;
 import fr.unice.polytech.qgl.qab.enums.Direction;
 import org.json.JSONObject;
@@ -9,7 +10,7 @@ import org.json.JSONObject;
  *
  * @version 4.9
  */
-public class Stop extends ActionPlane {
+public class Stop extends ActionAerial {
     public Stop() {
         super();
     }
@@ -23,7 +24,7 @@ public class Stop extends ActionPlane {
         return false;
     }
 
-    public boolean canStop(Direction direction, int budget, boolean status) {
+    public static boolean canStop(Direction direction, int budget, boolean status) {
         return (rangeOutOfRange(direction) == 0 || budget <= BUDGET_MIN || status == false);
     }
 }

@@ -1,4 +1,4 @@
-package fr.unice.polytech.qgl.qab.engine;
+package fr.unice.polytech.qgl.qab.engine.aerial;
 
 import fr.unice.polytech.qgl.qab.enums.ActionBot;
 import fr.unice.polytech.qgl.qab.enums.Direction;
@@ -10,7 +10,7 @@ import org.json.JSONObject;
  *
  * @version 4.9
  */
-public class Scan extends ActionPlane {
+public class Scan extends ActionAerial {
     public Scan() {
         super();
     }
@@ -30,7 +30,7 @@ public class Scan extends ActionPlane {
      * @param takeAction the last action made.
      * @return
      */
-    public boolean canScan(Direction head, ActionBot takeAction) {
+    public boolean mustScan(Direction head, ActionBot takeAction) {
         if (!environment.isEmpty() && environment.containsKey(head)) {
             Discovery result = environment.get(head);
             if (result.found.equals(Found.GROUND) && takeAction.equals(ActionBot.SCAN))
