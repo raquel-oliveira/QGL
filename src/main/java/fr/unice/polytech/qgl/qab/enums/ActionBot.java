@@ -1,10 +1,10 @@
-package fr.unice.polytech.qgl.qab;
+package fr.unice.polytech.qgl.qab.enums;
 
 /**
  * Class abstract to represents action
  * @version 4.9
  */
-public enum Action {
+public enum ActionBot {
     ECHO("echo"),
     SCAN("scan"),
     STOP("stop"),
@@ -14,13 +14,13 @@ public enum Action {
 
     private String name = "";
 
-    Action(String name) { this.name = name; }
+    ActionBot(String name) { this.name = name; }
 
     public String toString() {
             return name;
         }
 
-    public boolean equals(Action action) {
+    public boolean equals(ActionBot action) {
         return (action.toString().equalsIgnoreCase(name));
     }
 }

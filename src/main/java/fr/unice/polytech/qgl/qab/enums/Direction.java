@@ -1,4 +1,4 @@
-package fr.unice.polytech.qgl.qab;
+package fr.unice.polytech.qgl.qab.enums;
 
 /**
  * Enum to represents the directions available in the game.

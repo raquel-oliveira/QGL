@@ -1,4 +1,4 @@
-package fr.unice.polytech.qgl.qab;
+package fr.unice.polytech.qgl.qab.enums;
 
 /**
  * @version 4.9

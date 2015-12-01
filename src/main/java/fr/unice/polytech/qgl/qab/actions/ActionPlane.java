@@ -1,8 +1,10 @@
-package fr.unice.polytech.qgl.qab;
+package fr.unice.polytech.qgl.qab.actions;
 
 import java.util.HashMap;
-import fr.unice.polytech.qgl.qab.Action;
-import java.util.Random;
+
+import fr.unice.polytech.qgl.qab.Direction;
+import fr.unice.polytech.qgl.qab.Found;
+import fr.unice.polytech.qgl.qab.actions.Action;
 
 /**
  * Class that represents the Actions of Plane phase.
