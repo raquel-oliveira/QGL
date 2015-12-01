@@ -1,5 +1,6 @@
 package fr.unice.polytech.qgl.qab.engine;
 
+import fr.unice.polytech.qgl.qab.enums.Direction;
 import org.json.JSONObject;
 
 /**
@@ -8,11 +9,7 @@ import org.json.JSONObject;
  * @version 4.9
  */
 public abstract class Action {
-    public boolean isValid(JSONObject jsonObj) {
-        return false;
-    }
+    public abstract boolean isValid(JSONObject jsonObj);
 
-    public Action makeDecision() {
-        return null;
-    }
+    public abstract String makeDecision(Direction head, int budget, Boolean status);
 }

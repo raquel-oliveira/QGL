@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import fr.unice.polytech.qgl.qab.engine.Action;
-import fr.unice.polytech.qgl.qab.engine.Stop;
+import fr.unice.polytech.qgl.qab.engine.common.Stop;
 import fr.unice.polytech.qgl.qab.enums.ActionBot;
 import fr.unice.polytech.qgl.qab.enums.Direction;
 import fr.unice.polytech.qgl.qab.enums.Found;
@@ -111,6 +111,7 @@ public class ActionAerial extends Action {
 
     public String makeDecision(Direction head, int budget, Boolean status) {
         if (direction == null) { direction = head; }
+
         if (Stop.canStop(direction, budget, status)) {
             takeAction = ActionBot.STOP;
             return "{ \"action\": \"" + takeAction.toString() + "\" }";
