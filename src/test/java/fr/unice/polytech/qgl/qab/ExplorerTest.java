@@ -116,7 +116,7 @@ public class ExplorerTest {
     }
     
     @Test
-    public void testEchoSendGround(){
+    public void testEchoSetGround(){
     	 String context = "{ \n" +
                  "  \"men\": 12,\n" +
                  "  \"budget\": 1000,\n" +
@@ -139,6 +139,37 @@ public class ExplorerTest {
          ActionPlane plane = e.getPlane();
          Direction d = e.getDirection();
          Discovery dis1 = plane.new Discovery(Found.GROUND,2);
+         Discovery dis2 = plane.getEnvironment().get(d);
+         
+         assertEquals(dis1,dis2);
+         	 
+    	 
+    }
+    
+    @Test
+    public void testEchoSetOutOfRange(){
+    	 String context = "{ \n" +
+                 "  \"men\": 12,\n" +
+                 "  \"budget\": 1000,\n" +
+                 "  \"contracts\": [\n" +
+                 "    { \"amount\": 600, \"resource\": \"WOOD\" },\n" +
+                 "    { \"amount\": 200, \"resource\": \"GLASS\" }\n" +
+                 "  ],\n" +
+                 "  \"heading\": \"W\"\n" +
+                 "}\n";
+    	 String results = "{ \n" +
+                 "  \"cost\": 1,\n" +
+                 "  \"extras\": [\n" +
+                 "    { \"range\": 2, \"found\": \"OUT_OF_RANGE\" },\n" +
+                 "  ],\n" +
+                 "  \"status\": \"OK\"\n" +
+                 "}\n";
+         e.initialize(context);
+         e.acknowledgeResults(results);
+
+         ActionPlane plane = e.getPlane();
+         Direction d = e.getDirection();
+         Discovery dis1 = plane.new Discovery(Found.OUT_OF_RANGE,2);
          Discovery dis2 = plane.getEnvironment().get(d);
          
          assertEquals(dis1,dis2);
