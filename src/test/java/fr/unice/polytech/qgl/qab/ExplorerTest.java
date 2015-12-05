@@ -1,8 +1,12 @@
 package fr.unice.polytech.qgl.qab;
 
+import java.util.HashMap;
+
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
+
+import fr.unice.polytech.qgl.qab.ActionPlane.Discovery;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -110,4 +114,37 @@ public class ExplorerTest {
         JSONObject jsonObj = new JSONObject(e.takeDecision());
         assertEquals(true, Data.isValide(jsonObj));
     }
+    
+    @Test
+    public void testEchoSendGround(){
+    	 String context = "{ \n" +
+                 "  \"men\": 12,\n" +
+                 "  \"budget\": 1000,\n" +
+                 "  \"contracts\": [\n" +
+                 "    { \"amount\": 600, \"resource\": \"WOOD\" },\n" +
+                 "    { \"amount\": 200, \"resource\": \"GLASS\" }\n" +
+                 "  ],\n" +
+                 "  \"heading\": \"W\"\n" +
+                 "}\n";
+    	 String results = "{ \n" +
+                 "  \"cost\": 1,\n" +
+                 "  \"extras\": [\n" +
+                 "    { \"range\": 2, \"found\": \"GROUND\" },\n" +
+                 "  ],\n" +
+                 "  \"status\": \"OK\"\n" +
+                 "}\n";
+         e.initialize(context);
+         e.acknowledgeResults(results);
+
+         ActionPlane plane = e.getPlane();
+         Direction d = e.getDirection();
+         Discovery dis1 = plane.new Discovery(Found.GROUND,2);
+         Discovery dis2 = plane.getEnvironment().get(d);
+         
+         assertEquals(dis1,dis2);
+         	 
+    	 
+    }
+    
+    
 }

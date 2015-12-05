@@ -11,7 +11,7 @@ import java.util.Random;
 public class ActionPlane  {
     private HashMap<Direction, Discovery> environment;
 
-    private static final int BUDGET_MIN = 100;
+	private static final int BUDGET_MIN = 100;
 
     /**
      * Constructor of Class ActionPlane.
@@ -185,6 +185,11 @@ public class ActionPlane  {
             environment.put(head, result);
         }
     }
+    
+
+    public HashMap<Direction, Discovery> getEnvironment() {
+		return environment;
+	}
 
     public class Discovery {
         private Found found;

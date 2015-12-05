@@ -20,7 +20,9 @@ public class Explorer implements IExplorerRaid{
     private HashMap<String, Integer> contracts;
     private Action takeAction;
     private ActionPlane plane;
-    private ArrayList<String> biomes;
+
+
+	private ArrayList<String> biomes;
     private ArrayList<String> creeks;
     private Direction direction;
     private boolean status;
@@ -139,4 +141,12 @@ public class Explorer implements IExplorerRaid{
             }
         }
     }
+    
+    public Direction getDirection() {
+		return direction;
+	}
+
+	public ActionPlane getPlane() {
+		return plane;
+	}
 }
