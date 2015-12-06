@@ -1,5 +1,6 @@
 package fr.unice.polytech.qgl.qab;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import fr.unice.polytech.qgl.qab.Action;
 import java.util.Random;
@@ -170,6 +171,26 @@ public class ActionPlane  {
         }
     }
     
+    public void makeComboEcho(Direction head, ArrayList<Direction> comboECHO) {
+        if (head.isHorizontal()) {
+            if (head.compareTo(Direction.EAST) == 0) {
+                comboECHO.add(Direction.EAST);
+            } else {
+                comboECHO.add(Direction.WEST);
+            }
+            comboECHO.add(Direction.NORTH);
+            comboECHO.add(Direction.SOUTH);
+        }
+        if (head.isVertical()) {
+            if (head.compareTo(Direction.NORTH) == 0) {
+                comboECHO.add(Direction.NORTH);
+            } else {
+                comboECHO.add(Direction.SOUTH);
+            }
+            comboECHO.add(Direction.WEST);
+            comboECHO.add(Direction.EAST);
+        }
+    }
 
     public HashMap<Direction, Discovery> getEnvironment() {
 		return environment;

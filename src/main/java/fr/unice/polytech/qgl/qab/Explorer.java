@@ -27,6 +27,8 @@ public class Explorer implements IExplorerRaid{
     private Direction direction;
     private boolean status;
 
+    private ArrayList<Direction> comboECHO;
+
     public Explorer() {
         men = 0;
         budget = 0;
@@ -38,6 +40,7 @@ public class Explorer implements IExplorerRaid{
         creeks = new ArrayList<String>();
         direction =  null;
         status = true;
+        comboECHO = new ArrayList<>();
     }
 
     /**
@@ -69,6 +72,12 @@ public class Explorer implements IExplorerRaid{
         if (plane.canStop(heading, budget, status)) {
             takeAction = Action.STOP;
             return "{ \"action\": \"" + takeAction.toString() + "\" }";
+        }
+        else if (!comboECHO.isEmpty()) {
+            takeAction = Action.ECHO;
+            Direction dir = comboECHO.get(0);
+            comboECHO.remove(0);
+            return "{ \"action\": \""+ takeAction.toString() +"\", \"parameters\": { \"direction\": \"" + dir.toString() + "\" } }";
         }
         else if (plane.canEcho(takeAction, heading)) {
             takeAction = Action.ECHO;
