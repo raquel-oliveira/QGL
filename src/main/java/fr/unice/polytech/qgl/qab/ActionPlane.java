@@ -76,6 +76,9 @@ public class ActionPlane  {
     public boolean canHeading(Direction direction) {
         if (rangeOutOfRange(direction) < 2)
             return true;
+        if (whereHeading(direction)!= null)
+            return true;
+        //if (environment.get(direction).found.equals(Found.GROUND).
         return false;
     }
 

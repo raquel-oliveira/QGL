@@ -69,37 +69,49 @@ public class Explorer implements IExplorerRaid{
      * @return for now, we always return the same action: stopping the game
      */
     public String takeDecision() {
-        if (plane.canStop(heading, budget, status)) {
-            takeAction = Action.STOP;
+        try {
+
+            if (plane.canStop(heading, budget, status)) {
+                takeAction = Action.STOP;
+                return "{ \"action\": \"" + takeAction.toString() + "\" }";
+            }
+            else if (!comboECHO.isEmpty()) {
+                takeAction = Action.ECHO;
+                Direction dir = comboECHO.get(0);
+                comboECHO.remove(0);
+                return "{ \"action\": \""+ takeAction.toString() +"\", \"parameters\": { \"direction\": \"" + dir.toString() + "\" } }";
+            }
+            else if (plane.canEcho(takeAction, heading)) {
+                takeAction = Action.ECHO;
+                direction = heading;
+                return "{ \"action\": \""+ takeAction.toString() +"\", \"parameters\": { \"direction\": \"" + heading.toString() + "\" } }";
+            }
+            else if (plane.canHeading(heading)) {
+                Direction dirHeading  = plane.whereHeading(heading);
+                if (dirHeading == null) {
+                    Direction dirEcho = plane.whereEcho(heading, takeAction);
+                    takeAction = Action.ECHO;
+                    direction = dirEcho;
+                    return "{ \"action\": \""+ takeAction.toString() +"\", \"parameters\": { \"direction\": \"" + dirEcho + "\" } }";
+                }
+                takeAction = Action.HEADING;
+                heading = dirHeading;
+                plane.resetEnvironment();
+                return "{ \"action\": \""+ takeAction.toString() +"\", \"parameters\": { \"direction\": \""+ dirHeading +"\" } }";
+            }
+        /*else if(takeAction== Action.FLY){
+            takeAction = Action.SCAN;
+            return "{ \"action\": \""+ takeAction.toString() +"\", \"parameters\": { \"direction\": \"" + heading.toString() + "\" } }";
+
+        }*/
+            takeAction = Action.FLY;
+            plane.fly(heading);
             return "{ \"action\": \"" + takeAction.toString() + "\" }";
         }
-        else if (!comboECHO.isEmpty()) {
-            takeAction = Action.ECHO;
-            Direction dir = comboECHO.get(0);
-            comboECHO.remove(0);
-            return "{ \"action\": \""+ takeAction.toString() +"\", \"parameters\": { \"direction\": \"" + dir.toString() + "\" } }";
+        catch (Exception e)
+        {
+            return "{ \"action\": \"" + Action.STOP.toString() + "\" }";
         }
-        else if (plane.canEcho(takeAction, heading)) {
-            takeAction = Action.ECHO;
-            direction = heading;
-            return "{ \"action\": \""+ takeAction.toString() +"\", \"parameters\": { \"direction\": \"" + heading.toString() + "\" } }";
-        }
-        else if (plane.canHeading(heading)) {
-            Direction dirHeading  = plane.whereHeading(heading);
-            if (dirHeading == null || (dirHeading != null && dirHeading.equals(Action.ECHO))) {
-                Direction dirEcho = plane.whereEcho(heading, takeAction);
-                takeAction = Action.ECHO;
-                direction = dirEcho;
-                return "{ \"action\": \""+ takeAction.toString() +"\", \"parameters\": { \"direction\": \"" + dirEcho + "\" } }";
-            }
-            takeAction = Action.HEADING;
-            heading = dirHeading;
-            plane.resetEnvironment();
-            return "{ \"action\": \""+ takeAction.toString() +"\", \"parameters\": { \"direction\": \""+ dirHeading +"\" } }";
-        }
-        takeAction = Action.FLY;
-        plane.fly(heading);
-        return "{ \"action\": \"" + takeAction.toString() + "\" }";
     }
 
     /**
@@ -108,6 +120,7 @@ public class Explorer implements IExplorerRaid{
      * @param results information returned after as result of the engine action
      */
     public void acknowledgeResults(String results) {
+
         JSONObject jsonObj = new JSONObject(results);
 
         status = (jsonObj.getString("status").compareToIgnoreCase("ok") == 0)? true:false;
