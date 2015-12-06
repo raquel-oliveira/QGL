@@ -115,7 +115,7 @@ public class ExplorerTest {
         assertEquals(true, Data.isValide(jsonObj));
     }
     
-    @Test
+   /* @Test
     public void testEchoSetGround(){
     	 String context = "{ \n" +
                  "  \"men\": 12,\n" +
@@ -175,7 +175,5 @@ public class ExplorerTest {
          assertEquals(dis1,dis2);
          	 
     	 
-    }
-    
-    
+    }*/
 }
