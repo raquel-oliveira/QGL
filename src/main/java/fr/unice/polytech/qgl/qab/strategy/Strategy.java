@@ -1,38 +1,53 @@
 package fr.unice.polytech.qgl.qab.strategy;
 
-import fr.unice.polytech.qgl.qab.strategy.aerial.ActionAerial;
-import fr.unice.polytech.qgl.qab.strategy.ground.ActionGround;
+import fr.unice.polytech.qgl.qab.actions.Action;
+import fr.unice.polytech.qgl.qab.actions.aerial.ActionAerial;
+import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
+import fr.unice.polytech.qgl.qab.strategy.context.DataResults;
+import fr.unice.polytech.qgl.qab.actions.ground.ActionGround;
 import fr.unice.polytech.qgl.qab.enums.ActionBot;
-import fr.unice.polytech.qgl.qab.enums.Direction;
 import fr.unice.polytech.qgl.qab.enums.Phase;
 import fr.unice.polytech.qgl.qab.map.Map;
+import fr.unice.polytech.qgl.qab.strategy.context.Context;
 
 /**
  * @version 4.9
  */
 public class Strategy implements IStrategy {
-    Action aplane;
-    Action aground;
-    Phase phase;
-    Map map;
+    private Action aplane;
+    private Action aground;
+    private Phase phase;
+    private Map map;
+    private Context context;
+    private Action takeAction;
 
     public Strategy() {
         aplane = new ActionAerial();
         aground = new ActionGround();
         phase = Phase.AERIAL;
+        map = new Map();
+        takeAction = null;
+        context = new Context();
     }
 
-    public String makeDecision(Direction heading, int budget, Boolean status) {
-        String act;
-
+    public String makeDecision() {
+        Action act;
         if (phase.equals(Phase.AERIAL)) {
-            act = aplane.makeDecision(heading, budget, status);
+            act = aplane.makeDecision(map, context);
             if (act.equals(ActionBot.LAND)) phase = Phase.GROUND;
         } else {
-            act = aground.makeDecision(heading, budget, status);
+            act = aground.makeDecision(map, context);
             if (act.equals(ActionBot.LAND)) phase = Phase.AERIAL;
         }
+        takeAction = act;
+        return act.formatResponse();
+    }
 
-        return act;
+    public void readResults(String data) {
+        context = DataResults.readData(data, takeAction, context);
+    }
+
+    public void initializeContext(String contextData) {
+        context.saveContext(contextData);
     }
 }

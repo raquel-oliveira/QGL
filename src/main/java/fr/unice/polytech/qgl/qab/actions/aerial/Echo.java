@@ -10,7 +10,11 @@ import org.json.JSONObject;
  * @version 4.9
  */
 public class Echo extends ActionAerial {
-    public Echo() {
+    private Direction direction;
+
+    public Echo(Direction dir) {
+        super();
+        direction = dir;
     }
 
     @Override
@@ -22,38 +26,12 @@ public class Echo extends ActionAerial {
         return false;
     }
 
-    /**
-     * Method to verify the better option to make the Echo
-     * @param head
-     * @return
-     */
-    public static Direction whereEcho(Direction head, ActionBot action) {
-        if (action == null)
-            return head;
-        else if (head.isHorizontal()) {
-            if (!environment.containsKey(Direction.NORTH))
-                return Direction.NORTH;
-            if (!environment.containsKey(Direction.SOUTH))
-                return Direction.SOUTH;
-        }
-        else if (head.isVertical()){
-            if (!environment.containsKey(Direction.WEST))
-                return Direction.WEST;
-            if (!environment.containsKey(Direction.EAST))
-                return Direction.EAST;
-        }
-        return null;
+    @Override
+    public String formatResponse() {
+        return "{ \"action\": \"echo\", \"parameters\": { \"direction\": \"" + direction + "\" } }";
     }
 
-    /**
-     * Method to check if make the Echo is a action possible.
-     * @param action the last action made.
-     * @param head   direction of plane head
-     * @return
-     */
-    public static boolean canEcho(ActionBot action, Direction head) {
-        if (action == null || action != null && action.equals(ActionBot.HEADING))
-            return true;
-        return false;
+    public Direction getDirection() {
+        return direction;
     }
 }

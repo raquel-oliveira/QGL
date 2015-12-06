@@ -1,17 +1,14 @@
 package fr.unice.polytech.qgl.qab;
 
-import fr.unice.polytech.qgl.qab.util.Data;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * The test class ExplorerTest for the class Test.
- * @version 14.11.2015
+ * @version 4.9
  */
 public class ExplorerTest {
 
@@ -54,7 +51,7 @@ public class ExplorerTest {
                 "}\n";
         e.initialize(context);
         JSONObject jsonObj = new JSONObject(e.takeDecision());
-        assertEquals("stop", jsonObj.getString("action"));
+        assertEquals("echo", jsonObj.getString("action"));
     }
 
     /**
@@ -73,7 +70,7 @@ public class ExplorerTest {
                 "}\n";
         e.initialize(context);
         JSONObject jsonObj = new JSONObject(e.takeDecision());
-        assertEquals("stop", jsonObj.getString("action"));
+        assertEquals("echo", jsonObj.getString("action"));
     }
 
     /**

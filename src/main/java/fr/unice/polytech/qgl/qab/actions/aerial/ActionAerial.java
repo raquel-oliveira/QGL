@@ -1,14 +1,14 @@
 package fr.unice.polytech.qgl.qab.actions.aerial;
 
-import java.util.HashMap;
-import java.util.Map;
-import fr.unice.polytech.qgl.qab.strategy.Action;
-import fr.unice.polytech.qgl.qab.strategy.common.Stop;
-import fr.unice.polytech.qgl.qab.enums.ActionBot;
-import fr.unice.polytech.qgl.qab.enums.Direction;
-import fr.unice.polytech.qgl.qab.enums.Found;
-import fr.unice.polytech.qgl.qab.util.Discovery;
+import java.util.ArrayList;
 
+import fr.unice.polytech.qgl.qab.enums.Direction;
+import fr.unice.polytech.qgl.qab.map.Map;
+import fr.unice.polytech.qgl.qab.actions.Action;
+import fr.unice.polytech.qgl.qab.actions.common.Stop;
+import fr.unice.polytech.qgl.qab.enums.ActionBot;
+
+import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import org.json.JSONObject;
 
 /**
@@ -17,100 +17,61 @@ import org.json.JSONObject;
  * @version 4.9
  */
 public class ActionAerial extends Action {
-    protected static Map<Direction, Discovery> environment = new HashMap<>();
     protected static final int BUDGET_MIN = 100;
-    private ActionBot takeAction;
-    private Direction direction;
+    private ArrayList<Action> actionsCombo;
 
     @Override
     public boolean isValid(JSONObject jsonObj) {
         return false;
-    };
+    }
+
+    @Override
+    public Action makeDecision(Map map, Context context) {
+        if (map.isEmpty()) {
+            echoCombo(context);
+        }
+
+        if (!actionsCombo.isEmpty()) {
+            Action act = actionsCombo.get(0);
+            actionsCombo.remove(0);
+            if (act instanceof Echo)
+                return act;
+        }
+
+        Action act = new Stop();
+        return act;
+    }
+
+    private void echoCombo(Context context) {
+        if (context.getHeading().isHorizontal()) {
+            if (context.getHeading().compareTo(Direction.EAST) == 0) {
+                actionsCombo.add(new Echo(Direction.EAST));
+            } else {
+                actionsCombo.add(new Echo(Direction.WEST));
+            }
+            actionsCombo.add(new Echo(Direction.NORTH));
+            actionsCombo.add(new Echo(Direction.SOUTH));
+        }
+        if (context.getHeading().isVertical()) {
+            if (context.getHeading().compareTo(Direction.NORTH) == 0) {
+                actionsCombo.add(new Echo(Direction.NORTH));
+            } else {
+                actionsCombo.add(new Echo(Direction.SOUTH));
+            }
+            actionsCombo.add(new Echo(Direction.WEST));
+            actionsCombo.add(new Echo(Direction.EAST));
+        }
+    }
+
+    ;
 
     /**
      * Constructor of Class ActionAerial.
      */
     public ActionAerial() {
-        takeAction = null;
-        direction = null;
+        actionsCombo = new ArrayList<>();
     }
 
-    private boolean hasGround(Direction direction) {
-        if (!environment.isEmpty() && environment.containsKey(direction)) {
-            Discovery result = environment.get(direction);
-            return (result.getFound().equals(Found.GROUND));
-        }
-        return false;
-    }
-
-    private static boolean hasOutOfRange(Direction direction) {
-        if (!environment.isEmpty() && environment.containsKey(direction)) {
-            Discovery result = environment.get(direction);
-            return (result.getFound().equals(Found.OUT_OF_RANGE));
-        }
-        return false;
-    }
-
-    /**
-     * Method to set the range if there is GROUND in one direction
-     * @param direction define the direction to set the ground founded
-     * @param range
-     */
-    public void setGround(Direction direction, int range) {
-        Discovery dataGround = new Discovery(Found.GROUND, range);
-        environment.put(direction, dataGround);
-    }
-
-    /**
-     * Method to set the range if there is limit to the map in one direction
-     * @param direction define the direction to set the out_of_range founded
-     * @param range
-     */
-    public void setOutOfRange(Direction direction, int range) {
-        Discovery dataOutOfRange = new Discovery(Found.OUT_OF_RANGE, range);
-        environment.put(direction, dataOutOfRange);
-    }
-
-    /**
-     * Method to return the range to OUT_OF_RANGE
-     * @param direction define the direction to get the out_or_range
-     * @return range until the map limit
-     */
-    public static int rangeOutOfRange(Direction direction) {
-        if (hasOutOfRange(direction))
-            return environment.get(direction).getRange();
-        return -1;
-    }
-
-    /**
-     * Method to reset the environment.
-     */
-    public void resetEnvironment() {
-        environment = new HashMap<Direction, Discovery>();
-    }
-
-    /**
-     * Method to give the better direction.
-     * @param direction
-     * @return
-     */
-    public Direction betterDirection(Direction direction) {
-        Direction dir1, dir2;
-        if (direction.isHorizontal()) {
-            dir1 = Direction.NORTH; dir2 = Direction.SOUTH;
-        } else {
-            dir1 = Direction.EAST; dir2 = Direction.WEST;
-        }
-
-        if (environment.get(dir1).getFound().equals(Found.GROUND))
-            return dir1;
-        else if (environment.get(dir2).getFound().equals(Found.GROUND))
-            return dir2;
-
-        return null;
-    }
-
-    public String makeDecision() {
-        return Stop.formatResponse();
-    }
+    @Override
+    public String formatResponse() { return null; };
 }

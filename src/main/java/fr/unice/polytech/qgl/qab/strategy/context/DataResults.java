@@ -1,8 +1,9 @@
 package fr.unice.polytech.qgl.qab.strategy.context;
 
+import fr.unice.polytech.qgl.qab.actions.Action;
+import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
 import fr.unice.polytech.qgl.qab.enums.ActionBot;
 import fr.unice.polytech.qgl.qab.enums.Found;
-import fr.unice.polytech.qgl.qab.util.Context;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -14,14 +15,14 @@ public class DataResults {
 
     public DataResults() {}
 
-    public static Context readData(String data, ActionBot takeAction, Context contextIsland) {
+    public static Context readData(String data, Action takeAction, Context contextIsland) {
         JSONObject jsonObj = new JSONObject(data);
 
         contextIsland.setStatus((jsonObj.getString("status").compareToIgnoreCase("ok") == 0)? true:false);
         contextIsland.setBudget(contextIsland.getBudget() - jsonObj.getInt("cost"));
 
         if(takeAction.equals(ActionBot.ECHO))
-            readEcho(takeAction, jsonObj);
+            readEcho(contextIsland, takeAction, jsonObj);
         else if (takeAction.equals(ActionBot.SCAN)) {
             readScan(jsonObj);
         }
@@ -52,12 +53,29 @@ public class DataResults {
         }
     }
 
-    private static void readEcho(ActionBot takeAction, JSONObject jsonObj) {
+    private static void readEcho(Context context, Action takeAction, JSONObject jsonObj) {
         Found found = null;
         Integer range = null;
         if (jsonObj.getJSONObject("extras").has("found"))
             found = Found.fromString(jsonObj.getJSONObject("extras").getString("found"));
         if (jsonObj.getJSONObject("extras").has("range"))
             range = jsonObj.getJSONObject("extras").getInt("range");
+
+        initializaSize(context, (Echo) takeAction, found, range);
+    }
+
+    private static void initializaSize(Context context, Echo takeAction, Found found, Integer range) {
+        if (found.compareTo(Found.OUT_OF_RANGE) == 0 &&
+                context.getHeading().compareTo(takeAction.getDirection()) == 0) {
+            if (context.getHeading().isVertical()) {
+                context.setHeight(range + 1);
+            } else {
+                context.setWidth(range + 1);
+            }
+        } else {
+            if (context.getHeading().isVertical())
+                context.setWidth(context.getWidth() + range + 1);
+            else context.setHeight(context.getHeight() + range + 1);
+        }
     }
 }

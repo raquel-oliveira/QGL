@@ -15,6 +15,7 @@ public class Context {
     private HashMap<String, Integer> contracts;
     private Direction heading;
     private Map<Direction, Discovery> environment = new HashMap<>();
+    private int width, height;
 
     public Context() {
         men = 0;
@@ -22,6 +23,7 @@ public class Context {
         status = true;
         contracts = new HashMap<>();
         heading = null;
+        width = height = 0;
     }
 
     public void saveContext(String context) {
@@ -75,5 +77,21 @@ public class Context {
 
     public void setHeading(Direction dir) {
         heading = dir;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setWidth(int w) {
+        width = w;
+    }
+
+    public void setHeight(int h) {
+        height = h;
     }
 }

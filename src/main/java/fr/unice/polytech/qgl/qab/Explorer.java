@@ -1,10 +1,10 @@
 package fr.unice.polytech.qgl.qab;
 
 import eu.ace_design.island.bot.IExplorerRaid;
-import fr.unice.polytech.qgl.qab.engine.Engine;
+import fr.unice.polytech.qgl.qab.strategy.IStrategy;
+import fr.unice.polytech.qgl.qab.strategy.Strategy;
 import fr.unice.polytech.qgl.qab.enums.ActionBot;
-import fr.unice.polytech.qgl.qab.util.Context;
-import fr.unice.polytech.qgl.qab.util.DataResults;
+import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import org.json.JSONObject;
 
 /**
@@ -14,16 +14,14 @@ import org.json.JSONObject;
  * @version 4.9
  */
 public class Explorer implements IExplorerRaid {
-    private Engine engine;
-    private Context contextIsland;
-    private DataResults dataResults;
-    private ActionBot tookAction;
+    // strategy with the bot actions
+    private IStrategy strategy;
 
+    /**
+     * Constructor
+     */
     public Explorer() {
-        engine = new Engine();
-        tookAction = null;
-        contextIsland = new Context();
-        dataResults = new DataResults();
+        strategy = new Strategy();
     }
 
     /**
@@ -31,7 +29,7 @@ public class Explorer implements IExplorerRaid {
      * @param context assignment (modeled as a JSON data structure) with the main information to initiate the game.
      */
     public void initialize(String context) {
-        contextIsland.saveContext(context);
+        strategy.initializeContext(context);
     }
 
     /**
@@ -39,18 +37,15 @@ public class Explorer implements IExplorerRaid {
      * @return for now, we always return the same action: stopping the game
      */
     public String takeDecision() {
-        String result = engine.makeDecision(contextIsland.getHeading(), contextIsland.getBudget(), contextIsland.getStatus());
-        JSONObject jsonObj = new JSONObject(result);
-        tookAction = ActionBot.fromString(jsonObj.getString("action"));
-        return result;
+        return strategy.makeDecision();
     }
 
     /**
      * The acknowledgeResults(String) method is invoked right after the takeDecision() method.
      * It provides the results of the action when applied.
-     * @param results information returned after as result of the engine action
+     * @param results information returned after as result of the strategy action
      */
     public void acknowledgeResults(String results) {
-        contextIsland = dataResults.readData(results, tookAction, contextIsland);
+         strategy.readResults(results);
     }
 }

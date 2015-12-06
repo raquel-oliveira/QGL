@@ -11,8 +11,11 @@ import org.json.JSONObject;
  * @version 4.9
  */
 public class Heading extends ActionAerial {
-    public Heading() {
+    private Direction direction;
+
+    public Heading(Direction dir) {
         super();
+        direction = dir;
     }
 
     @Override
@@ -24,33 +27,12 @@ public class Heading extends ActionAerial {
         return false;
     }
 
-    public static Direction whereHeading(Direction direction) {
-        Direction dir1, dir2;
-        if (direction.isHorizontal()) {
-            dir1 = Direction.NORTH; dir2 = Direction.SOUTH;
-        } else {
-            dir1 = Direction.EAST; dir2 = Direction.WEST;
-        }
-
-        if (!environment.containsKey(dir1) || !environment.containsKey(dir2)) return null;
-        else if (environment.get(dir1).getFound().equals(Found.GROUND))
-            return dir1;
-        else if (environment.get(dir2).getFound().equals(Found.GROUND))
-            return dir2;
-        else if(environment.get(dir1).getFound().equals(Found.OUT_OF_RANGE) &&
-                environment.get(dir1).getFound().equals(Found.OUT_OF_RANGE))
-            return (environment.get(dir1).getRange() > environment.get(dir2).getRange())?dir1:dir2;
-        return null;
+    @Override
+    public String formatResponse() {
+        return "{ \"action\": \"heading\", \"parameters\": { \"direction\": \"" + direction + "\" } }";
     }
 
-    /**
-     * Method to check if is possible make hading
-     * @param direction
-     * @return
-     */
-    public static boolean canHeading(Direction direction, ActionBot action) {
-        if (rangeOutOfRange(direction) < 2 && !action.equals(ActionBot.HEADING))
-            return true;
-        return false;
+    public Direction getDirection() {
+        return direction;
     }
 }

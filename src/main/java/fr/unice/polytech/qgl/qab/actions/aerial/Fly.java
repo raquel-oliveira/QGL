@@ -25,15 +25,8 @@ public class Fly extends ActionAerial {
         return false;
     }
 
-    /**
-     * Method to do the changes necassaries when the plane fly
-     * @param head direction of bot head
-     */
-    public static void fly(Direction head) {
-        if (!environment.isEmpty() && environment.containsKey(head)) {
-            Discovery result = environment.get(head);
-            result.setRange(result.getRange() - 1);
-            environment.put(head, result);
-        }
+    @Override
+    public String formatResponse() {
+        return "{ \"action\": \"fly\" }";
     }
 }

@@ -25,18 +25,8 @@ public class Scan extends ActionAerial {
         return false;
     }
 
-    /**
-     * Method to check if make the Scan is a action possible.
-     * @param head       the head direction.
-     * @param takeAction the last action made.
-     * @return
-     */
-    public boolean mustScan(Direction head, ActionBot takeAction) {
-        if (!environment.isEmpty() && environment.containsKey(head)) {
-            Discovery result = environment.get(head);
-            if (result.getFound().equals(Found.GROUND) && takeAction.equals(ActionBot.SCAN))
-                if (result.getRange() == 0) return true;
-        }
-        return false;
+    @Override
+    public String formatResponse() {
+        return "{ \"action\": \"scan\" }";
     }
 }
