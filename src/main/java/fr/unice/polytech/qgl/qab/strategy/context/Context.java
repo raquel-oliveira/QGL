@@ -1,16 +1,20 @@
-package fr.unice.polytech.qgl.qab.util;
+package fr.unice.polytech.qgl.qab.strategy.context;
 
 import fr.unice.polytech.qgl.qab.enums.Direction;
+
+import fr.unice.polytech.qgl.qab.util.Discovery;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Context {
     private int men, budget;
     private boolean status;
     private HashMap<String, Integer> contracts;
     private Direction heading;
+    private Map<Direction, Discovery> environment = new HashMap<>();
 
     public Context() {
         men = 0;

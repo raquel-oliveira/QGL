@@ -1,7 +1,6 @@
-package fr.unice.polytech.qgl.qab.engine.ground;
+package fr.unice.polytech.qgl.qab.actions.aerial.ground;
 
-import fr.unice.polytech.qgl.qab.engine.Action;
-import fr.unice.polytech.qgl.qab.enums.ActionBot;
+import fr.unice.polytech.qgl.qab.strategy.Action;
 import fr.unice.polytech.qgl.qab.enums.Direction;
 import org.json.JSONObject;
 

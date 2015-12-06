@@ -1,4 +1,4 @@
-package fr.unice.polytech.qgl.qab.engine.aerial;
+package fr.unice.polytech.qgl.qab.actions.aerial;
 
 import fr.unice.polytech.qgl.qab.enums.ActionBot;
 import fr.unice.polytech.qgl.qab.enums.Direction;

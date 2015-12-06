@@ -1,4 +1,4 @@
-package fr.unice.polytech.qgl.qab.engine.aerial;
+package fr.unice.polytech.qgl.qab.actions.aerial;
 
 import fr.unice.polytech.qgl.qab.enums.ActionBot;
 import fr.unice.polytech.qgl.qab.enums.Direction;
@@ -33,13 +33,13 @@ public class Heading extends ActionAerial {
         }
 
         if (!environment.containsKey(dir1) || !environment.containsKey(dir2)) return null;
-        else if (environment.get(dir1).found.equals(Found.GROUND))
+        else if (environment.get(dir1).getFound().equals(Found.GROUND))
             return dir1;
-        else if (environment.get(dir2).found.equals(Found.GROUND))
+        else if (environment.get(dir2).getFound().equals(Found.GROUND))
             return dir2;
-        else if(environment.get(dir1).found.equals(Found.OUT_OF_RANGE) &&
-                environment.get(dir1).found.equals(Found.OUT_OF_RANGE))
-            return (environment.get(dir1).range > environment.get(dir2).range)?dir1:dir2;
+        else if(environment.get(dir1).getFound().equals(Found.OUT_OF_RANGE) &&
+                environment.get(dir1).getFound().equals(Found.OUT_OF_RANGE))
+            return (environment.get(dir1).getRange() > environment.get(dir2).getRange())?dir1:dir2;
         return null;
     }
 

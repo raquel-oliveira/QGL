@@ -1,21 +1,22 @@
-package fr.unice.polytech.qgl.qab.engine;
+package fr.unice.polytech.qgl.qab.strategy;
 
-import fr.unice.polytech.qgl.qab.engine.Action;
-import fr.unice.polytech.qgl.qab.engine.aerial.ActionAerial;
-import fr.unice.polytech.qgl.qab.engine.ground.ActionGround;
+import fr.unice.polytech.qgl.qab.strategy.aerial.ActionAerial;
+import fr.unice.polytech.qgl.qab.strategy.ground.ActionGround;
 import fr.unice.polytech.qgl.qab.enums.ActionBot;
 import fr.unice.polytech.qgl.qab.enums.Direction;
 import fr.unice.polytech.qgl.qab.enums.Phase;
+import fr.unice.polytech.qgl.qab.map.Map;
 
 /**
- * Created by gabriela on 01/12/15.
+ * @version 4.9
  */
-public class Engine {
+public class Strategy implements IStrategy {
     Action aplane;
     Action aground;
     Phase phase;
+    Map map;
 
-    public Engine() {
+    public Strategy() {
         aplane = new ActionAerial();
         aground = new ActionGround();
         phase = Phase.AERIAL;

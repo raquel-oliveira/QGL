@@ -1,13 +1,14 @@
-package fr.unice.polytech.qgl.qab.engine.aerial;
+package fr.unice.polytech.qgl.qab.actions.aerial;
 
-import java.util.Map;
 import java.util.HashMap;
-
-import fr.unice.polytech.qgl.qab.engine.Action;
-import fr.unice.polytech.qgl.qab.engine.common.Stop;
+import java.util.Map;
+import fr.unice.polytech.qgl.qab.strategy.Action;
+import fr.unice.polytech.qgl.qab.strategy.common.Stop;
 import fr.unice.polytech.qgl.qab.enums.ActionBot;
 import fr.unice.polytech.qgl.qab.enums.Direction;
 import fr.unice.polytech.qgl.qab.enums.Found;
+import fr.unice.polytech.qgl.qab.util.Discovery;
+
 import org.json.JSONObject;
 
 /**
@@ -37,7 +38,7 @@ public class ActionAerial extends Action {
     private boolean hasGround(Direction direction) {
         if (!environment.isEmpty() && environment.containsKey(direction)) {
             Discovery result = environment.get(direction);
-            return (result.found.equals(Found.GROUND));
+            return (result.getFound().equals(Found.GROUND));
         }
         return false;
     }
@@ -45,7 +46,7 @@ public class ActionAerial extends Action {
     private static boolean hasOutOfRange(Direction direction) {
         if (!environment.isEmpty() && environment.containsKey(direction)) {
             Discovery result = environment.get(direction);
-            return (result.found.equals(Found.OUT_OF_RANGE));
+            return (result.getFound().equals(Found.OUT_OF_RANGE));
         }
         return false;
     }
@@ -77,7 +78,7 @@ public class ActionAerial extends Action {
      */
     public static int rangeOutOfRange(Direction direction) {
         if (hasOutOfRange(direction))
-            return environment.get(direction).range;
+            return environment.get(direction).getRange();
         return -1;
     }
 
@@ -101,51 +102,15 @@ public class ActionAerial extends Action {
             dir1 = Direction.EAST; dir2 = Direction.WEST;
         }
 
-        if (environment.get(dir1).found.equals(Found.GROUND))
+        if (environment.get(dir1).getFound().equals(Found.GROUND))
             return dir1;
-        else if (environment.get(dir2).found.equals(Found.GROUND))
+        else if (environment.get(dir2).getFound().equals(Found.GROUND))
             return dir2;
 
         return null;
     }
 
-    public String makeDecision(Direction head, int budget, Boolean status) {
-        if (direction == null) { direction = head; }
-
-        if (Stop.canStop(direction, budget, status)) {
-            takeAction = ActionBot.STOP;
-            return "{ \"action\": \"" + takeAction.toString() + "\" }";
-        }
-        else if (Echo.canEcho(takeAction, direction)) {
-            takeAction = ActionBot.ECHO;
-            return "{ \"action\": \""+ takeAction.toString() +"\", \"parameters\": { \"direction\": \"" + direction.toString() + "\" } }";
-        }
-        else if (Heading.canHeading(direction, takeAction)) {
-            Direction dirHeading  = Heading.whereHeading(direction);
-            if (dirHeading == null || (dirHeading != null && dirHeading.equals(ActionBot.ECHO))) {
-                Direction dirEcho = Echo.whereEcho(dirHeading, takeAction);
-                takeAction = ActionBot.ECHO;
-                direction = dirEcho;
-                return "{ \"action\": \""+ takeAction.toString() +"\", \"parameters\": { \"direction\": \"" + dirEcho + "\" } }";
-            }
-            takeAction = ActionBot.HEADING;
-            direction = dirHeading;
-            resetEnvironment();
-            return "{ \"action\": \""+ takeAction.toString() +"\", \"parameters\": { \"direction\": \""+ dirHeading +"\" } }";
-        }
-            takeAction = ActionBot.FLY;
-            Fly.fly(direction);
-            takeAction = ActionBot.STOP;
-            return "{ \"action\": \"" + takeAction.toString() + "\" }";
-    }
-
-    protected class Discovery {
-        protected Found found;
-        protected int range;
-
-        Discovery(Found found, int range) {
-            this.found = found;
-            this.range = range;
-        }
+    public String makeDecision() {
+        return Stop.formatResponse();
     }
 }

@@ -1,8 +1,9 @@
-package fr.unice.polytech.qgl.qab.engine.aerial;
+package fr.unice.polytech.qgl.qab.actions.aerial;
 
 import fr.unice.polytech.qgl.qab.enums.ActionBot;
 import fr.unice.polytech.qgl.qab.enums.Direction;
 import fr.unice.polytech.qgl.qab.enums.Found;
+import fr.unice.polytech.qgl.qab.util.Discovery;
 import org.json.JSONObject;
 
 /**
@@ -33,8 +34,8 @@ public class Scan extends ActionAerial {
     public boolean mustScan(Direction head, ActionBot takeAction) {
         if (!environment.isEmpty() && environment.containsKey(head)) {
             Discovery result = environment.get(head);
-            if (result.found.equals(Found.GROUND) && takeAction.equals(ActionBot.SCAN))
-                if (result.range == 0) return true;
+            if (result.getFound().equals(Found.GROUND) && takeAction.equals(ActionBot.SCAN))
+                if (result.getRange() == 0) return true;
         }
         return false;
     }

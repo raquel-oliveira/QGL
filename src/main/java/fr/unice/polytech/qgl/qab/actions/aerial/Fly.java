@@ -1,7 +1,8 @@
-package fr.unice.polytech.qgl.qab.engine.aerial;
+package fr.unice.polytech.qgl.qab.actions.aerial;
 
 import fr.unice.polytech.qgl.qab.enums.ActionBot;
 import fr.unice.polytech.qgl.qab.enums.Direction;
+import fr.unice.polytech.qgl.qab.util.Discovery;
 import org.json.JSONObject;
 
 /**
@@ -31,7 +32,7 @@ public class Fly extends ActionAerial {
     public static void fly(Direction head) {
         if (!environment.isEmpty() && environment.containsKey(head)) {
             Discovery result = environment.get(head);
-            result.range = result.range - 1;
+            result.setRange(result.getRange() - 1);
             environment.put(head, result);
         }
     }
