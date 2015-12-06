@@ -72,8 +72,8 @@ public class ActionPlane  {
      * @param direction
      * @return
      */
-    public boolean canHeading(Direction direction, Action action) {
-        if (rangeOutOfRange(direction) < 2 && !action.equals(Action.HEADING))
+    public boolean canHeading(Direction direction) {
+        if (rangeOutOfRange(direction) < 2)
             return true;
         return false;
     }
@@ -126,24 +126,8 @@ public class ActionPlane  {
         else if (environment.get(dir2).found.equals(Found.GROUND))
             return dir2;
         else if(environment.get(dir1).found.equals(Found.OUT_OF_RANGE) &&
-                environment.get(dir1).found.equals(Found.OUT_OF_RANGE))
+                environment.get(dir2).found.equals(Found.OUT_OF_RANGE))
             return (environment.get(dir1).range > environment.get(dir2).range)?dir1:dir2;
-        return null;
-    }
-
-    public Direction betterDirection(Direction direction) {
-        Direction dir1, dir2;
-        if (direction.isHorizontal()) {
-            dir1 = Direction.NORTH; dir2 = Direction.SOUTH;
-        } else {
-            dir1 = Direction.EAST; dir2 = Direction.WEST;
-        }
-
-        if (environment.get(dir1).found.equals(Found.GROUND))
-            return dir1;
-        else if (environment.get(dir2).found.equals(Found.GROUND))
-            return dir2;
-
         return null;
     }
 

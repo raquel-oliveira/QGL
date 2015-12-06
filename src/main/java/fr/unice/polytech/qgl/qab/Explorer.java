@@ -75,7 +75,7 @@ public class Explorer implements IExplorerRaid{
             direction = heading;
             return "{ \"action\": \""+ takeAction.toString() +"\", \"parameters\": { \"direction\": \"" + heading.toString() + "\" } }";
         }
-        else if (plane.canHeading(heading, takeAction)) {
+        else if (plane.canHeading(heading)) {
             Direction dirHeading  = plane.whereHeading(heading);
             if (dirHeading == null || (dirHeading != null && dirHeading.equals(Action.ECHO))) {
                 Direction dirEcho = plane.whereEcho(heading, takeAction);
