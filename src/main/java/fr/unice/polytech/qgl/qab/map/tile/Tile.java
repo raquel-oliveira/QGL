@@ -1,4 +1,4 @@
-package fr.unice.polytech.qgl.qab.tile;
+package fr.unice.polytech.qgl.qab.map.tile;
 
 /**
  * @author Gabriela
