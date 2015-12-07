@@ -1,6 +1,6 @@
 package fr.unice.polytech.qgl.qab.tileTest;
 
-import fr.unice.polytech.qgl.qab.tile.TileType;
+import fr.unice.polytech.qgl.qab.map.tile.TileType;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
