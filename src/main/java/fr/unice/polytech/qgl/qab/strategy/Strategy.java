@@ -2,7 +2,7 @@ package fr.unice.polytech.qgl.qab.strategy;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.aerial.ActionAerial;
-import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
+import fr.unice.polytech.qgl.qab.map.tile.Position;
 import fr.unice.polytech.qgl.qab.strategy.context.DataResults;
 import fr.unice.polytech.qgl.qab.actions.ground.ActionGround;
 import fr.unice.polytech.qgl.qab.enums.ActionBot;
@@ -45,9 +45,18 @@ public class Strategy implements IStrategy {
 
     public void readResults(String data) {
         context = DataResults.readData(data, takeAction, context);
+        updateMap();
     }
 
     public void initializeContext(String contextData) {
         context.saveContext(contextData);
+    }
+
+    public void updateMap() {
+        if (context.getHeight() != 0 || context.getWidth() != 0) {
+            map.initializeMap(context.getHeight(), context.getWidth());
+        }
+        if (context.getHeight() != 0 && context.getWidth() != 0)
+            map.initializeTitleOcean(new Position(0, 0));
     }
 }
