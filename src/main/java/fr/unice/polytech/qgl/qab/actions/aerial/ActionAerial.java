@@ -27,18 +27,20 @@ public class ActionAerial extends Action {
 
     @Override
     public Action makeDecision(Map map, Context context) {
+        Action act;
         if (map.isEmpty()) {
             echoCombo(context);
         }
 
         if (!actionsCombo.isEmpty()) {
-            Action act = actionsCombo.get(0);
+            act = actionsCombo.get(0);
             actionsCombo.remove(0);
             if (act instanceof Echo)
                 return act;
         }
+ 
+        act = new Stop();
 
-        Action act = new Stop();
         return act;
     }
 
