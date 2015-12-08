@@ -8,7 +8,8 @@ import static org.junit.Assert.assertEquals;
 
 /**
  * The test class ExplorerTest for the class Test.
- * @version 4.9
+ *
+ * @version 8.12.2016
  */
 public class ExplorerTest {
 
