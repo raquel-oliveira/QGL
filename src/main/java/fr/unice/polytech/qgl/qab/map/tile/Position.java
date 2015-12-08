@@ -1,7 +1,7 @@
 package fr.unice.polytech.qgl.qab.map.tile;
 
 /**
- * @version 4.9
+ * @version 8.12.2016
  */
 public class Position {
     private int x;
@@ -12,11 +12,7 @@ public class Position {
         this.y = y;
     }
 
-    public int getX() {
-        return x;
-    }
+    public int getX() { return x; }
 
-    public int getY() {
-        return y;
-    }
+    public int getY() { return y; }
 }

@@ -18,6 +18,10 @@ public enum TileType {
         catch (NullPointerException e) { throw new NullPointerException("TileType is Null"); }
     }
 
+    public boolean equals(TileType type) {
+        return (type.toString().equalsIgnoreCase(name));
+    }
+
     public static TileType fromString(String tiletype){
         if (tiletype != null){
             for (TileType type : TileType.values()){

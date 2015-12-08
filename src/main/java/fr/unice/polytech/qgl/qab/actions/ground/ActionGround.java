@@ -8,7 +8,7 @@ import org.json.JSONObject;
 /**
  *
  */
-public class ActionGround extends Action {
+public class ActionGround implements Action {
     @Override
     public boolean isValid(JSONObject jsonObj) {
         return false;

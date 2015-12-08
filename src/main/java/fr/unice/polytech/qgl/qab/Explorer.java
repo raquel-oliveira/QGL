@@ -3,9 +3,6 @@ package fr.unice.polytech.qgl.qab;
 import eu.ace_design.island.bot.IExplorerRaid;
 import fr.unice.polytech.qgl.qab.strategy.IStrategy;
 import fr.unice.polytech.qgl.qab.strategy.Strategy;
-import fr.unice.polytech.qgl.qab.enums.ActionBot;
-import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import org.json.JSONObject;
 
 /**
  * Class that represents the bot in the game.
