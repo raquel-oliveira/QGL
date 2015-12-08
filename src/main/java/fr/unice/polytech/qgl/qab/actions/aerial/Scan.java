@@ -1,15 +1,12 @@
 package fr.unice.polytech.qgl.qab.actions.aerial;
 
-import fr.unice.polytech.qgl.qab.enums.ActionBot;
-import fr.unice.polytech.qgl.qab.enums.Direction;
-import fr.unice.polytech.qgl.qab.enums.Found;
-import fr.unice.polytech.qgl.qab.util.Discovery;
+import fr.unice.polytech.qgl.qab.util.enums.ActionBot;
 import org.json.JSONObject;
 
 /**
  * Class to represent the action scan.
  *
- * @version 4.9
+ * @version 8.12.2016
  */
 public class Scan extends ActionAerial {
     public Scan() {

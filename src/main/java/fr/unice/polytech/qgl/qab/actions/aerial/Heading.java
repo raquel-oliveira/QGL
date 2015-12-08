@@ -1,8 +1,7 @@
 package fr.unice.polytech.qgl.qab.actions.aerial;
 
-import fr.unice.polytech.qgl.qab.enums.ActionBot;
-import fr.unice.polytech.qgl.qab.enums.Direction;
-import fr.unice.polytech.qgl.qab.enums.Found;
+import fr.unice.polytech.qgl.qab.util.enums.ActionBot;
+import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import org.json.JSONObject;
 
 /**

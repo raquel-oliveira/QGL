@@ -2,11 +2,10 @@ package fr.unice.polytech.qgl.qab.actions.aerial;
 
 import java.util.ArrayList;
 
-import fr.unice.polytech.qgl.qab.enums.Direction;
+import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.common.Stop;
-import fr.unice.polytech.qgl.qab.enums.ActionBot;
 
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import org.json.JSONObject;
@@ -14,15 +13,22 @@ import org.json.JSONObject;
 /**
  * Class that represents the Actions of Plane phase.
  *
- * @version 4.9
+ * @version 8.12.2016
  */
-public class ActionAerial extends Action {
+public class ActionAerial implements Action {
     protected static final int BUDGET_MIN = 100;
     private ArrayList<Action> actionsCombo;
 
+    /**
+     * Constructor of Class ActionAerial.
+     */
+    public ActionAerial() {
+        actionsCombo = new ArrayList<>();
+    }
+
     @Override
     public boolean isValid(JSONObject jsonObj) {
-        return false;
+        return true;
     }
 
     @Override
@@ -32,18 +38,22 @@ public class ActionAerial extends Action {
             echoCombo(context);
         }
 
+        /*
+        *  TODO: maybe this, shouldn't be here
+        * */
         if (!actionsCombo.isEmpty()) {
             act = actionsCombo.get(0);
             actionsCombo.remove(0);
             if (act instanceof Echo)
                 return act;
         }
- 
+
         act = new Stop();
 
         return act;
     }
 
+    // TODO: maybe this, shouldn't be here
     private void echoCombo(Context context) {
         if (context.getHeading().isHorizontal()) {
             if (context.getHeading().compareTo(Direction.EAST) == 0) {
@@ -63,15 +73,6 @@ public class ActionAerial extends Action {
             actionsCombo.add(new Echo(Direction.WEST));
             actionsCombo.add(new Echo(Direction.EAST));
         }
-    }
-
-    ;
-
-    /**
-     * Constructor of Class ActionAerial.
-     */
-    public ActionAerial() {
-        actionsCombo = new ArrayList<>();
     }
 
     @Override
