@@ -1,6 +1,6 @@
 package fr.unice.polytech.qgl.qab.strategy.context;
 
-import fr.unice.polytech.qgl.qab.enums.Direction;
+import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 import fr.unice.polytech.qgl.qab.util.Discovery;
 import org.json.JSONArray;

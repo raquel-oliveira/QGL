@@ -2,14 +2,11 @@ package fr.unice.polytech.qgl.qab.strategy.context;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
-import fr.unice.polytech.qgl.qab.enums.ActionBot;
-import fr.unice.polytech.qgl.qab.enums.Found;
+import fr.unice.polytech.qgl.qab.util.enums.Found;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
 /**
- * Class responsible for read and
+ * @version 8.12.2016
  */
 public class DataResults {
 
@@ -37,7 +34,7 @@ public class DataResults {
 
         initializaSize(context, (Echo) takeAction, found, range);
     }
-
+    // TODO: look after
     private static void initializaSize(Context context, Echo takeAction, Found found, Integer range) {
         if (found.equals(Found.OUT_OF_RANGE)) {
             if (takeAction.getDirection().isVertical()) {
