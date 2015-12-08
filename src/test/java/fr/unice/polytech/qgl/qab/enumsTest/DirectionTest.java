@@ -1,10 +1,10 @@
 package fr.unice.polytech.qgl.qab.enumsTest;
 
-import fr.unice.polytech.qgl.qab.enums.ActionBot;
-import fr.unice.polytech.qgl.qab.enums.Direction;
+import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 /**
@@ -65,25 +65,25 @@ public class DirectionTest {
     @Test
     public void testFromStringEast() {
         direction = Direction.fromString("e");
-        assertEquals(Direction.EAST, direction);
+        assertTrue(direction.equals(Direction.EAST));
     }
 
     @Test
     public void testFromStringWest() {
         direction = Direction.fromString("w");
-        assertEquals(Direction.WEST, direction);
+        assertTrue(direction.equals(Direction.WEST));
     }
 
     @Test
     public void testFromStringNorth() {
         direction = Direction.fromString("n");
-        assertEquals(Direction.NORTH, direction);
+        assertTrue(direction.equals(Direction.NORTH));
     }
 
     @Test
     public void testFromStringSouth() {
         direction = Direction.fromString("s");
-        assertEquals(Direction.SOUTH, direction);
+        assertTrue(direction.equals(Direction.SOUTH));
     }
 
     @Test

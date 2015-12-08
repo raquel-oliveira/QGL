@@ -1,10 +1,10 @@
 package fr.unice.polytech.qgl.qab.enumsTest;
 
-import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.enums.ActionBot;
+import fr.unice.polytech.qgl.qab.util.enums.ActionBot;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 /**
@@ -73,34 +73,39 @@ public class ActionBotTest {
     @Test
     public void testFromStringEcho() {
         action = ActionBot.fromString("echo");
-        assertEquals(ActionBot.ECHO, action);
+        assertTrue(action.equals(ActionBot.ECHO));
     }
 
     @Test
     public void testFromStringLand() {
         action = ActionBot.fromString("land");
-        assertEquals(ActionBot.LAND, action);
+        assertTrue(action.equals(ActionBot.LAND));
     }
 
     @Test
     public void testFromStringStop() {
         action = ActionBot.fromString("stop");
-        assertEquals(ActionBot.STOP, action);
+        assertTrue(action.equals(ActionBot.STOP));
     }
 
     @Test
     public void testFromStringScan() {
         action = ActionBot.fromString("scan");
-        assertEquals(ActionBot.SCAN, action);
+        assertTrue(action.equals(ActionBot.SCAN));
     }
 
     @Test
     public void testFromStringFly() {
         action = ActionBot.fromString("fly");
-        assertEquals(ActionBot.FLY, action);
+        assertTrue(action.equals(ActionBot.FLY));
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
+    public void testEqualStringNull() {
+        action = ActionBot.fromString("error");
+        assertTrue(action.equals(null));
+    }
+
     public void testFromStringNotExists() {
         action = ActionBot.fromString("error");
         assertEquals(null, action);
