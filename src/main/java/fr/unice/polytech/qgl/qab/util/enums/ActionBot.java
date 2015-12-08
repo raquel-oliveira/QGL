@@ -17,9 +17,7 @@ public enum ActionBot {
 
     ActionBot(String name) { this.name = name; }
 
-    public String toString() {
-            return name;
-        }
+    public String toString() { return name; }
 
     public boolean equals(ActionBot action) {
         return (action.toString().equalsIgnoreCase(name));

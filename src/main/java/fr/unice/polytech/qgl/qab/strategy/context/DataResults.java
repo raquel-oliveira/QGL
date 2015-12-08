@@ -34,7 +34,7 @@ public class DataResults {
 
         initializaSize(context, (Echo) takeAction, found, range);
     }
-    // TODO: look after
+    // TODO: look after, maybe, we need change this and put in other class
     private static void initializaSize(Context context, Echo takeAction, Found found, Integer range) {
         if (found.equals(Found.OUT_OF_RANGE)) {
             if (takeAction.getDirection().isVertical()) {

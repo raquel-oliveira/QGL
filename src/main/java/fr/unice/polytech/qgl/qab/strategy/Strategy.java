@@ -80,7 +80,8 @@ public class Strategy implements IStrategy {
         if (context.getHeight() != 0 || context.getWidth() != 0) {
             map.initializeMap(context.getHeight(), context.getWidth());
         }
-        if (context.getHeight() != 0 && context.getWidth() != 0)
-            map.initializeTitleOcean(new Position(0, 0));
+        if (context.getHeight() != 0 && context.getWidth() != 0) {
+            map.initializeTiteOcean(new Position(0, 0));
+        }
     }
 }
