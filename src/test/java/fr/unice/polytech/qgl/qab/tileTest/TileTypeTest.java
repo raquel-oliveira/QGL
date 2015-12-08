@@ -81,17 +81,8 @@ public class TileTypeTest {
         assertEquals(null, type);
     }
 
-    // TODO: what the diference between exception and fail
     @Test(expected = NullPointerException.class)
     public void testToStringBeforeInitialize() {
         type.toString();
-    }
-
-    @Test
-    public void testToStringBeforeInitialize2() {
-        try {
-            type.toString();
-            fail();
-        } catch (NullPointerException e) {}
     }
 }

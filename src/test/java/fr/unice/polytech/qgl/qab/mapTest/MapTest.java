@@ -41,46 +41,46 @@ public class MapTest {
         m.initializeMap(10, 10);
 
         position = new Position(0, 0);
-        m.initializeTitleUndefined(position);
-        assertEquals(TileType.UNDEFINED, m.getTitleType(position));
+        m.initializeTiteUndefined(position);
+        assertEquals(TileType.UNDEFINED, m.getTiteType(position));
 
         position = new Position(9, 9);
-        m.initializeTitleUndefined(position);
-        assertEquals(TileType.UNDEFINED, m.getTitleType(position));
+        m.initializeTiteUndefined(position);
+        assertEquals(TileType.UNDEFINED, m.getTiteType(position));
     }
 
     @Test
     public void testTitleGround() {
         m.initializeMap(10, 10);
-        m.initializeTitleGround(position);
-        assertEquals(TileType.GROUND, m.getTitleType(position));
+        m.initializeTiteGround(position);
+        assertEquals(TileType.GROUND, m.getTiteType(position));
     }
 
     @Test
     public void testTitleOcean() {
         m.initializeMap(10, 10);
-        m.initializeTitleOcean(position);
-        assertEquals(TileType.OCEAN, m.getTitleType(position));
+        m.initializeTiteOcean(position);
+        assertEquals(TileType.OCEAN, m.getTiteType(position));
     }
 
     @Test
     public void testChangeTypeTileToGround() {
         m.initializeMap(10, 10);
-        m.initializeTitleUndefined(position);
-        assertEquals(TileType.UNDEFINED, m.getTitleType(position));
+        m.initializeTiteUndefined(position);
+        assertEquals(TileType.UNDEFINED, m.getTiteType(position));
 
-        m.initializeTitleGround(position);
-        assertEquals(TileType.GROUND, m.getTitleType(position));
+        m.initializeTiteGround(position);
+        assertEquals(TileType.GROUND, m.getTiteType(position));
     }
 
     @Test
     public void testChangeTypeTileToOcean() {
         m.initializeMap(10, 10);
-        m.initializeTitleUndefined(position);
-        assertEquals(TileType.UNDEFINED, m.getTitleType(position));
+        m.initializeTiteUndefined(position);
+        assertEquals(TileType.UNDEFINED, m.getTiteType(position));
 
-        m.initializeTitleOcean(position);
-        assertEquals(TileType.OCEAN, m.getTitleType(position));
+        m.initializeTiteOcean(position);
+        assertEquals(TileType.OCEAN, m.getTiteType(position));
     }
 
     // TODO: mockito
@@ -88,10 +88,10 @@ public class MapTest {
     public void testIdentifyBadReturns() {
         Map map = mock(Map.class);
         map.initializeMap(10, 10);
-        map.initializeTitleUndefined(position);
+        map.initializeTiteUndefined(position);
 
-        when(map.getTitleType(any())).thenReturn(TileType.GROUND);
-        assertEquals(TileType.UNDEFINED, map.getTitleType(position));
+        when(map.getTiteType(any())).thenReturn(TileType.GROUND);
+        assertEquals(TileType.UNDEFINED, map.getTiteType(position));
     }
 
     @Test
@@ -109,6 +109,6 @@ public class MapTest {
     public void testChoiceTitleOutOfBound() {
         m.initializeMap(10, 10);
         position = new Position(15, 15);
-        m.initializeTitleUndefined(position);
+        m.initializeTiteUndefined(position);
     } 
 }
