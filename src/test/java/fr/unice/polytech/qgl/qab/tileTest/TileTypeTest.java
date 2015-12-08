@@ -4,6 +4,7 @@ import fr.unice.polytech.qgl.qab.map.tile.TileType;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 /**
@@ -59,13 +60,19 @@ public class TileTypeTest {
     @Test
     public void testFromStringGround() {
         type = TileType.fromString("ground");
-        assertEquals(TileType.GROUND, type);
+        assertTrue(type.equals(TileType.GROUND));
     }
 
     @Test
     public void testFromStringUndefined() {
         type = TileType.fromString("undefined");
-        assertEquals(TileType.UNDEFINED, type);
+        assertTrue(type.equals(TileType.UNDEFINED));
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testEqualStringNull() {
+        type = TileType.fromString("error");
+        assertTrue(type.equals(null));
     }
 
     @Test
@@ -74,6 +81,7 @@ public class TileTypeTest {
         assertEquals(null, type);
     }
 
+    // TODO: what the diference between exception and fail
     @Test(expected = NullPointerException.class)
     public void testToStringBeforeInitialize() {
         type.toString();
