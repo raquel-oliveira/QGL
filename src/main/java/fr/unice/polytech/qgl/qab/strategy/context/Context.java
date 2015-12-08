@@ -12,7 +12,7 @@ import java.util.Map;
 public class Context {
     private int men, budget;
     private boolean status;
-    private HashMap<String, Integer> contracts;
+    private Map<String, Integer> contracts;
     private Direction heading;
     private Map<Direction, Discovery> environment = new HashMap<>();
     private int width, height;
@@ -47,16 +47,8 @@ public class Context {
         return heading;
     }
 
-    public boolean getStatus() {
-        return status;
-    }
-
     public int getBudget() {
         return budget;
-    }
-
-    public int getMen() {
-        return men;
     }
 
     public void setStatus(boolean s) {
