@@ -24,10 +24,6 @@ public class Stop extends ActionAerial {
         return false;
     }
 
-    public static boolean canStop(Direction direction, int budget, boolean status) {
-        return true;
-    }
-
     @Override
     public String formatResponse() {
         return "{ \"action\": \"stop\" }";
