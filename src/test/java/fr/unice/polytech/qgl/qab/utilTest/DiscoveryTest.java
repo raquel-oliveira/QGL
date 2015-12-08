@@ -1,6 +1,6 @@
 package fr.unice.polytech.qgl.qab.utilTest;
 
-import fr.unice.polytech.qgl.qab.enums.Found;
+import fr.unice.polytech.qgl.qab.util.enums.Found;
 import fr.unice.polytech.qgl.qab.util.Discovery;
 import org.junit.Test;
 

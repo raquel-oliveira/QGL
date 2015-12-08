@@ -7,6 +7,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * @version 4.9
@@ -78,6 +81,17 @@ public class MapTest {
 
         m.initializeTitleOcean(position);
         assertEquals(TileType.OCEAN, m.getTitleType(position));
+    }
+
+    // TODO: mockito
+    @Test(expected = AssertionError.class)
+    public void testIdentifyBadReturns() {
+        Map map = mock(Map.class);
+        map.initializeMap(10, 10);
+        map.initializeTitleUndefined(position);
+
+        when(map.getTitleType(any())).thenReturn(TileType.GROUND);
+        assertEquals(TileType.UNDEFINED, map.getTitleType(position));
     }
 
     @Test
