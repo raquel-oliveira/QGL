@@ -1,4 +1,4 @@
-package fr.unice.polytech.qgl.qab.enums;
+package fr.unice.polytech.qgl.qab.util.enums;
 
 /**
  * Created by gabriela on 01/12/15.

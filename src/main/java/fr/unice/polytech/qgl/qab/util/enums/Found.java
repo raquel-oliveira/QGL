@@ -1,4 +1,4 @@
-package fr.unice.polytech.qgl.qab.enums;
+package fr.unice.polytech.qgl.qab.util.enums;
 
 /**
  * Enum to represent the items founded.
@@ -15,6 +15,7 @@ public enum Found {
         this.name = name;
     }
 
+    @Override
     public String toString() {
         return name;
     }

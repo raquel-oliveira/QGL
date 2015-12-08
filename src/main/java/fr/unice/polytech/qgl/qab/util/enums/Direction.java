@@ -1,4 +1,4 @@
-package fr.unice.polytech.qgl.qab.enums;
+package fr.unice.polytech.qgl.qab.util.enums;
 
 /**
  * Enum to represents the directions available in the game.
@@ -43,6 +43,10 @@ public enum Direction {
      */
     public String toString() {
         return name;
+    }
+
+    public boolean equals(Direction direction) {
+        return (direction.toString().equalsIgnoreCase(name));
     }
 
     /**

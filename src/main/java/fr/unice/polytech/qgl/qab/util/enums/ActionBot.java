@@ -1,4 +1,4 @@
-package fr.unice.polytech.qgl.qab.enums;
+package fr.unice.polytech.qgl.qab.util.enums;
 
 /**
  * Class abstract to represents action.
