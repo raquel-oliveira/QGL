@@ -2,7 +2,7 @@ package fr.unice.polytech.qgl.qab.util;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.aerial.ActionAerial;
-import fr.unice.polytech.qgl.qab.enums.Direction;
+import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import org.json.JSONObject;
 
 /**

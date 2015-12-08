@@ -1,6 +1,6 @@
 package fr.unice.polytech.qgl.qab.util;
 
-import fr.unice.polytech.qgl.qab.enums.Found;
+import fr.unice.polytech.qgl.qab.util.enums.Found;
 
 /**
  * @version 4.9
