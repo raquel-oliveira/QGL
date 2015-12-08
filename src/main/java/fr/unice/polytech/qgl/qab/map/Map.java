@@ -9,12 +9,13 @@ import java.util.HashMap;
 import java.util.Set;
 
 /**
- * @version 4.9
+ * @version 8.12.2016
  */
 public class Map {
     private HashMap<Position, Tile> tiles;
     private int heigth;
     private int witdh;
+    private Position lastPosition;
 
     public Map() {
         tiles = new HashMap<>();
@@ -23,28 +24,29 @@ public class Map {
     }
 
     public void initializeMap(int h, int w) {
-        if (h > heigth)
-            heigth = h;
-        if (w > witdh)
-            witdh = w;
+        heigth = h;
+        witdh = w;
     }
 
     public void initializeTitleUndefined(Position position) {
         if (position.getX() >= witdh || position.getY() >= heigth)
             throw new ArrayIndexOutOfBoundsException("Value out of range!");
-        else tiles.put(position, new Tile(TileType.UNDEFINED));
+        lastPosition = position;
+        tiles.put(position, new Tile(TileType.UNDEFINED));
     }
 
     public void initializeTitleGround(Position position) {
         if (position.getX() >= witdh || position.getY() >= heigth)
             throw new ArrayIndexOutOfBoundsException("Value out of range!");
-        else tiles.put(position, new Tile(TileType.GROUND));
+        lastPosition = position;
+        tiles.put(position, new Tile(TileType.GROUND));
     }
 
     public void initializeTitleOcean(Position position) {
         if (position.getX() >= witdh || position.getY() >= heigth)
             throw new ArrayIndexOutOfBoundsException("Value out of range!");
-        else tiles.put(position, new Tile(TileType.OCEAN));
+        lastPosition = position;
+        tiles.put(position, new Tile(TileType.OCEAN));
     }
 
     public int getHeigth() {
