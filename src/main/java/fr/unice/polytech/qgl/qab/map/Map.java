@@ -28,21 +28,21 @@ public class Map {
         witdh = w;
     }
 
-    public void initializeTitleUndefined(Position position) {
+    public void initializeTiteUndefined(Position position) {
         if (position.getX() >= witdh || position.getY() >= heigth)
             throw new ArrayIndexOutOfBoundsException("Value out of range!");
         lastPosition = position;
         tiles.put(position, new Tile(TileType.UNDEFINED));
     }
 
-    public void initializeTitleGround(Position position) {
+    public void initializeTiteGround(Position position) {
         if (position.getX() >= witdh || position.getY() >= heigth)
             throw new ArrayIndexOutOfBoundsException("Value out of range!");
         lastPosition = position;
         tiles.put(position, new Tile(TileType.GROUND));
     }
 
-    public void initializeTitleOcean(Position position) {
+    public void initializeTiteOcean(Position position) {
         if (position.getX() >= witdh || position.getY() >= heigth)
             throw new ArrayIndexOutOfBoundsException("Value out of range!");
         lastPosition = position;
@@ -57,7 +57,7 @@ public class Map {
         return witdh;
     }
 
-    public TileType getTitleType(Position position) {
+    public TileType getTiteType(Position position) {
         return tiles.get(position).getType();
     }
 

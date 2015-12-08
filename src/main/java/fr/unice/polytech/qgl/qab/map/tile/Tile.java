@@ -23,5 +23,7 @@ public class Tile {
 
     public void setCreek(boolean creek) { this.creek = creek; }
 
+    public boolean hasCreek() { return creek; }
+
     public boolean getCreek() { return creek; }
 }
