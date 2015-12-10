@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
- * @author Gabriela
+ *
  * @version 4.9
  */
 public class TileTest {
