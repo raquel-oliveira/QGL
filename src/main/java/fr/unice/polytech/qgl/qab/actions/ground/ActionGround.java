@@ -12,10 +12,7 @@ public class ActionGround implements Action {
     @Override
     public boolean isValid(JSONObject jsonObj) {
         return false;
-    }
-
-    @Override
-    public Action makeDecision(Map map, Context context) { return null; }
+    } 
 
     @Override
     public String formatResponse() {
