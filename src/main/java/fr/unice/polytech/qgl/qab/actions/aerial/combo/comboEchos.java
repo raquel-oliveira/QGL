@@ -8,15 +8,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Class to represent the set of actions Echo.
+ *
  * @version 9.12.2015
  */
-public class comboEchos {
+public class ComboEchos {
     private List<Echo> actions;
 
-    public comboEchos() {
+    public ComboEchos() {
         actions = new ArrayList<>();
     }
 
+    /**
+     * Choice the direction to three echos.
+     * @param head direction of the head
+     */
     public void defineEchos(Direction head) {
         if (head.isHorizontal()) {
             if (head.compareTo(Direction.EAST) == 0) {
@@ -38,18 +44,36 @@ public class comboEchos {
         }
     }
 
+    /**
+     * Method to return the list of the actions (echos).
+     * @return actions list
+     */
     public List<Echo> getActions() {
         return actions;
     }
 
+    /**
+     * Method that check if the action list is empty
+     * @return true if the list is empty, false if not
+     */
     public boolean isEmpty() {
         return actions.isEmpty();
     }
 
+    /**
+     * Return one action in a defined index.
+     * @param index of the action to return
+     * @return action chosen
+     */
     public Action get(int index) {
         return actions.get(index);
     }
 
+    /**
+     * Method to remove a item that is in the index gave.
+     * @param index to remove item
+     * @return the item removed
+     */
     public Action remove(int index) {
         return actions.remove(index);
     }

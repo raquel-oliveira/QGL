@@ -12,7 +12,7 @@ public class ActionGround implements Action {
     @Override
     public boolean isValid(JSONObject jsonObj) {
         return false;
-    } 
+    }
 
     @Override
     public String formatResponse() {
