@@ -7,10 +7,12 @@ package fr.unice.polytech.qgl.qab.map.tile;
 public class Tile {
     private TileType type;
     private boolean creek;
+    private boolean wasVisited;
 
     public Tile() {
         this.type = TileType.UNDEFINED;
         creek = false;
+        wasVisited = false;
     }
 
     public Tile(TileType type) {
@@ -26,4 +28,8 @@ public class Tile {
     public boolean hasCreek() { return creek; }
 
     public boolean getCreek() { return creek; }
+
+    public boolean isWasVisited() {
+        return wasVisited;
+    }
 }
