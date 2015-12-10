@@ -1,5 +1,6 @@
 package fr.unice.polytech.qgl.qab.actions.aerial;
 
+import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.util.enums.ActionBot;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import org.json.JSONObject;
@@ -9,7 +10,7 @@ import org.json.JSONObject;
  *
  * @version 4.9
  */
-public class Heading extends ActionAerial {
+public class Heading implements Action {
     private Direction direction;
 
     public Heading(Direction dir) {

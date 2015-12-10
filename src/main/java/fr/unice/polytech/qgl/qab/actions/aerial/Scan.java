@@ -1,5 +1,6 @@
 package fr.unice.polytech.qgl.qab.actions.aerial;
 
+import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.util.enums.ActionBot;
 import org.json.JSONObject;
 
@@ -8,7 +9,7 @@ import org.json.JSONObject;
  *
  * @version 8.12.2016
  */
-public class Scan extends ActionAerial {
+public class Scan implements Action {
     public Scan() {
         super();
     }

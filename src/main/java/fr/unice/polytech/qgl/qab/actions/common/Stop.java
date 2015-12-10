@@ -1,8 +1,7 @@
 package fr.unice.polytech.qgl.qab.actions.common;
 
-import fr.unice.polytech.qgl.qab.actions.aerial.ActionAerial;
+import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.util.enums.ActionBot;
-import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import org.json.JSONObject;
 
 /**
@@ -10,7 +9,7 @@ import org.json.JSONObject;
  *
  * @version 4.9
  */
-public class Stop extends ActionAerial {
+public class Stop implements Action {
     public Stop() {
         super();
     }
