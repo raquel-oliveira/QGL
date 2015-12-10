@@ -1,5 +1,7 @@
 package fr.unice.polytech.qgl.qab.util.enums;
 
+import java.util.Random;
+
 /**
  * Enum to represents the directions available in the game.
  *
@@ -60,6 +62,16 @@ public enum Direction {
                 if (d.toString().equalsIgnoreCase(direction)) return d;
             }
         }
+        return null;
+    }
+
+    public static Direction randomSideDirection(Direction direction) {
+        Random rand = new Random();
+        int side = rand.nextInt(2);
+        if (direction.isHorizontal())
+            return (side == 0)? NORTH:SOUTH;
+        if (direction.isVertical())
+            return (side == 0)? WEST:EAST;
         return null;
     }
 }
