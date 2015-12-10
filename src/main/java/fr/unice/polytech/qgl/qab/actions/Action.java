@@ -12,8 +12,6 @@ import org.json.JSONObject;
 public interface Action {
     public abstract boolean isValid(JSONObject jsonObj);
 
-    public abstract Action makeDecision(Map map, Context context);
-
     public abstract String formatResponse();
 }
 
