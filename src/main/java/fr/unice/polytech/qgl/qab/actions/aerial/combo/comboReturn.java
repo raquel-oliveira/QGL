@@ -11,10 +11,10 @@ import java.util.List;
 /**
  * @version 9.12.2015
  */
-public class comboReturn  {
+public class ComboReturn {
     private List<Heading> actions;
 
-    public comboReturn() {
+    public ComboReturn() {
         actions = new ArrayList<>();
     }
 
