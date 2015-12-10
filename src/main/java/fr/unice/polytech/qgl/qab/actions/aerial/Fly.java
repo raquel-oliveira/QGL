@@ -1,5 +1,6 @@
 package fr.unice.polytech.qgl.qab.actions.aerial;
 
+import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.util.enums.ActionBot;
 import org.json.JSONObject;
 
@@ -8,7 +9,7 @@ import org.json.JSONObject;
  *
  * @version 4.9
  */
-public class Fly extends ActionAerial {
+public class Fly implements Action {
 
     public Fly() {
         super();

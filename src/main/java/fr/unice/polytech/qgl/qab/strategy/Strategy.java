@@ -1,13 +1,13 @@
 package fr.unice.polytech.qgl.qab.strategy;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.actions.aerial.ActionAerial;
-import fr.unice.polytech.qgl.qab.map.tile.Position;
+import fr.unice.polytech.qgl.qab.strategy.aerial.AerialStrategy;
+import fr.unice.polytech.qgl.qab.strategy.aerial.IAerialStrategy;
 import fr.unice.polytech.qgl.qab.strategy.context.DataResults;
-import fr.unice.polytech.qgl.qab.actions.ground.ActionGround;
+import fr.unice.polytech.qgl.qab.strategy.ground.GroundStrategy;
+import fr.unice.polytech.qgl.qab.strategy.ground.IGroundStrategy;
 import fr.unice.polytech.qgl.qab.util.enums.ActionBot;
 import fr.unice.polytech.qgl.qab.util.enums.Phase;
-import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 
 /**
@@ -17,23 +17,20 @@ import fr.unice.polytech.qgl.qab.strategy.context.Context;
  */
 public class Strategy implements IStrategy {
     // object responsible for choice the best action to the plane
-    private Action aplane;
+    private IAerialStrategy aerialStrategy;
     // object responsible for choice the best action int the ground
-    private Action aground;
+    private IGroundStrategy groundStrategy;
     // current phase that the game is
     private Phase phase;
-    // object that represent the game map
-    private Map map;
     // object that stock the information relating to the game
     private Context context;
     // object that save the current action
     private Action currentAction;
 
     public Strategy() {
-        aplane = new ActionAerial();
-        aground = new ActionGround();
+        aerialStrategy = new AerialStrategy();
+        groundStrategy = new GroundStrategy();
         phase = Phase.AERIAL;
-        map = new Map();
         currentAction = null;
         context = new Context();
     }
@@ -45,10 +42,10 @@ public class Strategy implements IStrategy {
     public String makeDecision() {
         Action act;
         if (phase.equals(Phase.AERIAL)) {
-            act = aplane.makeDecision(map, context);
+            act = aerialStrategy.makeDecision(context);
             if (act.equals(ActionBot.LAND)) phase = Phase.GROUND;
         } else {
-            act = aground.makeDecision(map, context);
+            act = groundStrategy.makeDecision(context);
             if (act.equals(ActionBot.LAND)) phase = Phase.AERIAL;
         }
         currentAction = act;
@@ -61,7 +58,6 @@ public class Strategy implements IStrategy {
      */
     public void readResults(String data) {
         context = DataResults.readData(data, currentAction, context);
-        updateMap();
     }
 
     /**
@@ -70,18 +66,5 @@ public class Strategy implements IStrategy {
      */
     public void initializeContext(String contextData) {
         context.saveContext(contextData);
-    }
-
-    /**
-     * Method to update the map after the object receive the engine response.
-     */
-    // TODO: look this
-    public void updateMap() {
-        if (context.getHeight() != 0 || context.getWidth() != 0) {
-            map.initializeMap(context.getHeight(), context.getWidth());
-        }
-        if (context.getHeight() != 0 && context.getWidth() != 0) {
-            map.initializeTiteOcean(new Position(0, 0));
-        }
     }
 }

@@ -52,7 +52,7 @@ public class ExplorerTest {
                 "}\n";
         e.initialize(context);
         JSONObject jsonObj = new JSONObject(e.takeDecision());
-        assertEquals("echo", jsonObj.getString("action"));
+        assertEquals("stop", jsonObj.getString("action"));
     }
 
     /**
@@ -71,7 +71,7 @@ public class ExplorerTest {
                 "}\n";
         e.initialize(context);
         JSONObject jsonObj = new JSONObject(e.takeDecision());
-        assertEquals("echo", jsonObj.getString("action"));
+        assertEquals("stop", jsonObj.getString("action"));
     }
 
     /**
@@ -90,6 +90,6 @@ public class ExplorerTest {
                 "}\n";
         e.initialize(context);
         JSONObject jsonObj = new JSONObject(e.takeDecision());
-        assertEquals("echo", jsonObj.getString("action"));
+        assertEquals("stop", jsonObj.getString("action"));
     }
 }

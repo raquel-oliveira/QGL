@@ -7,7 +7,8 @@ package fr.unice.polytech.qgl.qab.util.enums;
  */
 public enum Found {
     GROUND("GROUND"),
-    OUT_OF_RANGE("OUT_OF_RANGE");
+    OUT_OF_RANGE("OUT_OF_RANGE"),
+    UNDEFINED("UNDEFINED");
 
     private String name = "";
 

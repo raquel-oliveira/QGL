@@ -2,6 +2,7 @@ package fr.unice.polytech.qgl.qab.strategy.context;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
+import fr.unice.polytech.qgl.qab.util.Discovery;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 import org.json.JSONObject;
 
@@ -25,28 +26,28 @@ public class DataResults {
     }
 
     private static void readEcho(Context context, Action takeAction, JSONObject jsonObj) {
-        Found found = null;
-        Integer range = null;
+        Discovery discovery = new Discovery();
         if (jsonObj.getJSONObject("extras").has("found"))
-            found = Found.fromString(jsonObj.getJSONObject("extras").getString("found"));
+            discovery.setFound(Found.fromString(jsonObj.getJSONObject("extras").getString("found")));
         if (jsonObj.getJSONObject("extras").has("range"))
-            range = jsonObj.getJSONObject("extras").getInt("range");
+            discovery.setRange(jsonObj.getJSONObject("extras").getInt("range"));
 
-        initializaSize(context, (Echo) takeAction, found, range);
+        initializaSize(context, (Echo) takeAction, discovery);
     }
+
     // TODO: look after, maybe, we need change this and put in other class
-    private static void initializaSize(Context context, Echo takeAction, Found found, Integer range) {
-        if (found.equals(Found.OUT_OF_RANGE)) {
+    private static void initializaSize(Context context, Echo takeAction, Discovery discovery) {
+        if (discovery.getFound().equals(Found.OUT_OF_RANGE)) {
             if (takeAction.getDirection().isVertical()) {
-                context.setHeight(range + 1);
+                if (context.getHeight() == 0)
+                    context.setHeight(discovery.getRange());
+                else
+                    context.setHeight(discovery.getRange() + 1);
             } else {
-                context.setWidth(range + 1);
-            }
-        } else {
-            if (takeAction.getDirection().isVertical()) {
-                context.setWidth(range + 1);
-            } else {
-                context.setHeight(range + 1);
+                if (context.getWidth() == 0)
+                    context.setWidth(discovery.getRange());
+                else
+                    context.setWidth(discovery.getRange() + 1);
             }
         }
     }

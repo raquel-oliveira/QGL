@@ -26,19 +26,19 @@ public class MapTest {
 
     @Test
     public void testInitializaMap() {
-        m.initializeMap(10, 10);
+        m.initializeMap(10, 10, true, true);
         assertEquals(10, m.getHeigth());
-        assertEquals(10, m.getWitdh());
+        assertEquals(10, m.getWidth());
 
 
-        m.initializeMap(20, 20);
+        m.initializeMap(20, 20, true, true);
         assertEquals(20, m.getHeigth());
-        assertEquals(20, m.getWitdh());
+        assertEquals(20, m.getWidth());
     }
 
     @Test
     public void testTitleUndefined() {
-        m.initializeMap(10, 10);
+        m.initializeMap(10, 10, true, true);
 
         position = new Position(0, 0);
         m.initializeTiteUndefined(position);
@@ -51,21 +51,21 @@ public class MapTest {
 
     @Test
     public void testTitleGround() {
-        m.initializeMap(10, 10);
+        m.initializeMap(10, 10, true, true);
         m.initializeTiteGround(position);
         assertEquals(TileType.GROUND, m.getTiteType(position));
     }
 
     @Test
     public void testTitleOcean() {
-        m.initializeMap(10, 10);
+        m.initializeMap(10, 10, true, true);
         m.initializeTiteOcean(position);
         assertEquals(TileType.OCEAN, m.getTiteType(position));
     }
 
     @Test
     public void testChangeTypeTileToGround() {
-        m.initializeMap(10, 10);
+        m.initializeMap(10, 10, true, true);
         m.initializeTiteUndefined(position);
         assertEquals(TileType.UNDEFINED, m.getTiteType(position));
 
@@ -75,7 +75,7 @@ public class MapTest {
 
     @Test
     public void testChangeTypeTileToOcean() {
-        m.initializeMap(10, 10);
+        m.initializeMap(10, 10, true, true);
         m.initializeTiteUndefined(position);
         assertEquals(TileType.UNDEFINED, m.getTiteType(position));
 
@@ -87,7 +87,7 @@ public class MapTest {
     @Test(expected = AssertionError.class)
     public void testIdentifyBadReturns() {
         Map map = mock(Map.class);
-        map.initializeMap(10, 10);
+        map.initializeMap(10, 10, true, true);
         map.initializeTiteUndefined(position);
 
         when(map.getTiteType(any())).thenReturn(TileType.GROUND);
@@ -101,13 +101,13 @@ public class MapTest {
 
     @Test
     public void testMapIsNotEmpty() {
-        m.initializeMap(10, 10);
+        m.initializeMap(10, 10, true, true);
         assertEquals(true, m.isEmpty());
     }
 
     @Test(expected = ArrayIndexOutOfBoundsException.class)
     public void testChoiceTitleOutOfBound() {
-        m.initializeMap(10, 10);
+        m.initializeMap(10, 10, true, true);
         position = new Position(15, 15);
         m.initializeTiteUndefined(position);
     } 
