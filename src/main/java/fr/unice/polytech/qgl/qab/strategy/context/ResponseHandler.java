@@ -9,9 +9,9 @@ import org.json.JSONObject;
 /**
  * @version 8.12.2016
  */
-public class DataResults {
+public class ResponseHandler {
 
-    public DataResults() {}
+    public ResponseHandler() {}
 
     public static Context readData(String data, Action takeAction, Context contextIsland) {
         JSONObject jsonObj = new JSONObject(data);
