@@ -3,7 +3,8 @@ package fr.unice.polytech.qgl.qab.strategy;
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.strategy.aerial.AerialStrategy;
 import fr.unice.polytech.qgl.qab.strategy.aerial.IAerialStrategy;
-import fr.unice.polytech.qgl.qab.strategy.context.DataResults;
+import fr.unice.polytech.qgl.qab.strategy.context.ResponseHandler;
+import fr.unice.polytech.qgl.qab.strategy.context.UpdaterMap;
 import fr.unice.polytech.qgl.qab.strategy.ground.GroundStrategy;
 import fr.unice.polytech.qgl.qab.strategy.ground.IGroundStrategy;
 import fr.unice.polytech.qgl.qab.util.enums.ActionBot;
@@ -57,7 +58,7 @@ public class Strategy implements IStrategy {
      * @param data information that the engine returned
      */
     public void readResults(String data) {
-        context = DataResults.readData(data, currentAction, context);
+        context = ResponseHandler.readData(data, currentAction, context);
     }
 
     /**

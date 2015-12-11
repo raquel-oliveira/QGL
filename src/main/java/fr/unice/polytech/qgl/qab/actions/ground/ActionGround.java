@@ -15,9 +15,6 @@ public class ActionGround implements Action {
     }
 
     @Override
-    public Action makeDecision(Map map, Context context) { return null; }
-
-    @Override
     public String formatResponse() {
         return null;
     }

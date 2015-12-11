@@ -14,8 +14,9 @@ public class Context {
     private boolean status;
     private Map<String, Integer> contracts;
     private Direction heading;
-    private Map<Direction, Discovery> environment = new HashMap<>();
     private int width, height;
+    private boolean widthDefined, heightDefined;
+    private Discovery lastDiscovery;
 
     public Context() {
         men = 0;
@@ -24,6 +25,8 @@ public class Context {
         contracts = new HashMap<>();
         heading = null;
         width = height = 0;
+        widthDefined = heightDefined = false;
+        lastDiscovery = null;
     }
 
     public void saveContext(String context) {
@@ -79,11 +82,35 @@ public class Context {
         return height;
     }
 
+    public boolean isWidthDefined() {
+        return widthDefined;
+    }
+
+    public void setWidthDefined(boolean defined) {
+        widthDefined = defined;
+    }
+
+    public boolean isHeightDefined() {
+        return heightDefined;
+    }
+
+    public void setHeightDefined(boolean defined) {
+        heightDefined = defined;
+    }
+
     public void setWidth(int w) {
         width = w;
     }
 
     public void setHeight(int h) {
         height = h;
+    }
+
+    public Discovery getLastDiscovery() {
+        return lastDiscovery;
+    }
+
+    public void setLastDiscovery(Discovery lastDiscovery) {
+        this.lastDiscovery = lastDiscovery;
     }
 }

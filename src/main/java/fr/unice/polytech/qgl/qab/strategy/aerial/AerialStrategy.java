@@ -1,11 +1,13 @@
 package fr.unice.polytech.qgl.qab.strategy.aerial;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
+import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.common.Stop;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.aerial.States.State0;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.ResponseState;
+import fr.unice.polytech.qgl.qab.strategy.context.UpdaterMap;
 
 /**
  * @version 9.12.2015
@@ -16,11 +18,13 @@ public class AerialStrategy implements IAerialStrategy {
     private Map map;
     private State0 state0;
     private boolean state0out;
+    private UpdaterMap updaterMap;
 
     public AerialStrategy() {
         map = new Map();
         state0 = new State0();
         state0out = true;
+        updaterMap = new UpdaterMap();
     }
 
     public Action makeDecision(Context context){
@@ -29,14 +33,17 @@ public class AerialStrategy implements IAerialStrategy {
         }
 
         while (state0out) {
+            if (context.getLastDiscovery() != null)
+                updaterMap.initializeDimensions(context, (Echo)response.getAction());
             response = state0.responseState(context);
             if (response.getStatus()) {
                 state0out = false;
+                updaterMap.update(context, map);
             }
             return response.getAction();
         }
-
-        updateMap(context);
+        updaterMap.initializeDimensions(context, (Echo)response.getAction());
+        updaterMap.update(context, map);
 
         return new Stop();
     }
@@ -46,20 +53,5 @@ public class AerialStrategy implements IAerialStrategy {
             return (new Stop());
         }
         return null;
-    }
-
-    /**
-     * Method to update the map after the object receive the engine response.
-     * TODO: Maybe, this method dont shoud be here
-     * Create class responsible to change the map
-     */
-    public void updateMap(Context context) {
-        if (context.getHeight() != 0 && context.getWidth() != 0) {
-            map.initializeMap(context.getHeight(), context.getWidth(), true, true);
-        } else if (context.getHeight() != 0 && context.getWidth() == 0) {
-            map.initializeMap(context.getHeight(), 1, true, false);
-        } else if (context.getHeight() == 0 && context.getWidth() != 0) {
-            map.initializeMap(1, context.getWidth(), false, true);
-        }
     }
 }

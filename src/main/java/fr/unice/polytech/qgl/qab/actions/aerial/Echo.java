@@ -32,6 +32,10 @@ public class Echo implements Action {
         return "{ \"action\": \"echo\", \"parameters\": { \"direction\": \"" + direction + "\" } }";
     }
 
+    /**
+     * Method to get the direction of the Echo.
+     * @return the direction.
+     */
     public Direction getDirection() {
         return direction;
     }
