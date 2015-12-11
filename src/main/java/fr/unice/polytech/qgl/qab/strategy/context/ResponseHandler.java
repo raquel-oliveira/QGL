@@ -19,36 +19,20 @@ public class ResponseHandler {
         contextIsland.setStatus((jsonObj.getString("status").compareToIgnoreCase("ok") == 0)? true:false);
         contextIsland.setBudget(contextIsland.getBudget() - jsonObj.getInt("cost"));
 
-        if(takeAction instanceof Echo)
-            readEcho(contextIsland, takeAction, jsonObj);
+        if (takeAction instanceof Echo)
+            contextIsland = readDataFromEcho(contextIsland, jsonObj);
 
         return contextIsland;
     }
 
-    private static void readEcho(Context context, Action takeAction, JSONObject jsonObj) {
+    private static Context readDataFromEcho(Context context, JSONObject jsonObj) {
         Discovery discovery = new Discovery();
         if (jsonObj.getJSONObject("extras").has("found"))
             discovery.setFound(Found.fromString(jsonObj.getJSONObject("extras").getString("found")));
         if (jsonObj.getJSONObject("extras").has("range"))
             discovery.setRange(jsonObj.getJSONObject("extras").getInt("range"));
 
-        initializaSize(context, (Echo) takeAction, discovery);
-    }
-
-    // TODO: look after, maybe, we need change this and put in other class
-    private static void initializaSize(Context context, Echo takeAction, Discovery discovery) {
-        if (discovery.getFound().equals(Found.OUT_OF_RANGE)) {
-            if (takeAction.getDirection().isVertical()) {
-                if (context.getHeight() == 0)
-                    context.setHeight(discovery.getRange());
-                else
-                    context.setHeight(discovery.getRange() + 1);
-            } else {
-                if (context.getWidth() == 0)
-                    context.setWidth(discovery.getRange());
-                else
-                    context.setWidth(discovery.getRange() + 1);
-            }
-        }
+        context.setLastDiscovery(discovery);
+        return context;
     }
 }
