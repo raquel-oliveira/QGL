@@ -25,11 +25,11 @@ public class Tile {
 
     public void setCreek(boolean creek) { this.creek = creek; }
 
-    public boolean hasCreek() { return creek; }
-
     public boolean getCreek() { return creek; }
 
-    public boolean isWasVisited() {
+    public boolean wasVisited() {
         return wasVisited;
     }
+
+    public void setVisit(boolean visit) { wasVisited = visit; }
 }

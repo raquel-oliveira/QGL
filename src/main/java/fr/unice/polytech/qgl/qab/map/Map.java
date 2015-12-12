@@ -3,10 +3,7 @@ package fr.unice.polytech.qgl.qab.map;
 import fr.unice.polytech.qgl.qab.map.tile.Position;
 import fr.unice.polytech.qgl.qab.map.tile.Tile;
 import fr.unice.polytech.qgl.qab.map.tile.TileType;
-import fr.unice.polytech.qgl.qab.util.Discovery;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
-import fr.unice.polytech.qgl.qab.util.enums.Found;
-import javafx.geometry.Pos;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -27,14 +24,14 @@ public class Map {
     // I need know that the plane is in Ground, when it get out, I will know
     private boolean isInGround;
     // If the plane is in Ground, I dont need return to the Ground
-    private boolean returnGround;
+    private boolean returnToGround;
 
     public Map() {
         tiles = new HashMap<>();
         height = 0;
         width = 0;
         isInGround = false;
-        returnGround = false;
+        returnToGround = false;
     }
 
     public void initializeMap(int height, int witdh, boolean definedHeigth, boolean definedWitdh) {
@@ -58,7 +55,7 @@ public class Map {
             throw new ArrayIndexOutOfBoundsException("Value out of range!");
         lastPosition = position;
         isInGround = true;
-        returnGround = false;
+        returnToGround = false;
         // add this position in the map
         tiles.put(position, new Tile(TileType.GROUND));
     }
@@ -67,22 +64,9 @@ public class Map {
         if (position.getX() >= width || position.getY() >= height)
             throw new ArrayIndexOutOfBoundsException("Value out of range!");
         lastPosition = position;
-        if (isInGround) returnGround = true;
+        if (isInGround) returnToGround = true;
         isInGround = false;
         tiles.put(position, new Tile(TileType.OCEAN));
-    }
-
-    public Discovery existGround(Direction head) { //TODO:direcao
-        Discovery discovery = new Discovery();
-        discovery.setFound(Found.GROUND);
-        for(int y = lastPosition.getY(); tiles.containsKey(new Position(lastPosition.getX(), y)); y++) {
-            if (tiles.get(new Position(lastPosition.getX(), y)).getType().equals(TileType.GROUND)) {
-                discovery.setRange(y - lastPosition.getX());
-                discovery.setDirection(head);
-
-            }
-        }
-        return null;
     }
 
     public int getHeigth() { return height; }
@@ -101,11 +85,6 @@ public class Map {
 
     public boolean isEmpty() { return tiles.isEmpty(); }
 
-    /**
-     * Method to check if the plane visited tile in the map of Noth or South.
-     * @param
-     * @return
-     */
     public int hasTileVisitedNothSouth() {
         int response = 0;
         Iterator it = tiles.entrySet().iterator();
@@ -166,7 +145,7 @@ public class Map {
     }
 
     public boolean returnGround() {
-        return returnGround;
+        return returnToGround;
     }
 
     public boolean hasSpace(Direction direction) {

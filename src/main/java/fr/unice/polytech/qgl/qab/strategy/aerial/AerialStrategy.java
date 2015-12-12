@@ -1,17 +1,12 @@
 package fr.unice.polytech.qgl.qab.strategy.aerial;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
-import fr.unice.polytech.qgl.qab.actions.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.common.Stop;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.aerial.States.State;
 import fr.unice.polytech.qgl.qab.strategy.aerial.States.State0;
-import fr.unice.polytech.qgl.qab.strategy.aerial.States.State1;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.ResponseState;
-import fr.unice.polytech.qgl.qab.strategy.context.UpdaterMap;
-import fr.unice.polytech.qgl.qab.util.enums.States;
 
 /**
  * @version 9.12.2015
