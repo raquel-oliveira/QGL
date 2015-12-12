@@ -2,32 +2,30 @@ package fr.unice.polytech.qgl.qab.actions.aerial.combo;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.aerial.Fly;
-import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- *  Class to represent the set of actions Fly until arrives in a pre defined localization.
+ * Fly until a defined range
+ *
+ * @version 8.12.2015
  */
 public class ComboFlyUntil {
     private List<Action> actions;
-    private int range;
 
-    public ComboFlyUntil(int range) {
+    public ComboFlyUntil() {
         actions = new ArrayList<>();
-        this.range = range;
     }
 
     /**
-     * Set the actions fly
-     * @param head direction of the head
+     * Add the number of times of fly to get in 'front'of the place chosed
+     * @param range number of times to fly -1
      */
-    public void defineActions(Direction head) {
-        for (int i = 0; i < range; i++) {
+    public void defineComboFlyUntil(int range) {
+        for(int i = 1; i < range; i++ ){
             actions.add(new Fly());
         }
-
     }
 
     /**
@@ -63,5 +61,4 @@ public class ComboFlyUntil {
     public Action remove(int index) {
         return actions.remove(index);
     }
-
 }
