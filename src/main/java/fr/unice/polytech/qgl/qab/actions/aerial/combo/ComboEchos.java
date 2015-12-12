@@ -13,7 +13,7 @@ import java.util.List;
  * @version 9.12.2015
  */
 public class ComboEchos {
-    private List<Echo> actions;
+    private List<Action> actions;
 
     public ComboEchos() {
         actions = new ArrayList<>();
@@ -23,7 +23,7 @@ public class ComboEchos {
      * Choice the direction to three echos.
      * @param head direction of the head
      */
-    public void defineEchos(Direction head) {
+    public void defineComboEchos(Direction head) {
         if (head.isHorizontal()) {
             if (head.compareTo(Direction.EAST) == 0) {
                 actions.add(new Echo(Direction.EAST));
@@ -48,7 +48,7 @@ public class ComboEchos {
      * Method to return the list of the actions (echos).
      * @return actions list
      */
-    public List<Echo> getActions() {
+    public List<Action> getActions() {
         return actions;
     }
 
