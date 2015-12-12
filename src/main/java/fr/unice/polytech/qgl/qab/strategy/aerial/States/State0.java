@@ -8,18 +8,27 @@ import fr.unice.polytech.qgl.qab.strategy.context.ResponseState;
 /**
  * @version 10.12.2015
  */
-public class State0 {
+public class State0 implements IState {
+    public static State0 instance;
+
     private ComboEchos actionCombo;
     private ResponseState response;
 
-    public State0() {
+    protected State0() {
         actionCombo = new ComboEchos();
         response = null;
     }
 
+    public static State0 getInstance() {
+        if (instance == null)
+            instance = new State0();
+        return instance;
+    }
+
+    @Override
     public ResponseState responseState(Context context) {
         if (actionCombo.isEmpty())
-            actionCombo.defineEchos(context.getHeading());
+            actionCombo.defineComboEchos(context.getHeading());
 
         Action act = actionCombo.get(0);
         actionCombo.remove(0);
