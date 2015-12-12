@@ -6,6 +6,7 @@ import fr.unice.polytech.qgl.qab.map.tile.TileType;
 import fr.unice.polytech.qgl.qab.util.Discovery;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
+import javafx.geometry.Pos;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -84,33 +85,21 @@ public class Map {
         return null;
     }
 
-    public int getHeigth() {
-        return height;
-    }
+    public int getHeigth() { return height; }
 
-    public int getWidth() {
-        return width;
-    }
+    public int getWidth() { return width; }
 
-    public TileType getTiteType(Position position) {
-        return tiles.get(position).getType();
-    }
+    public TileType getTiteType(Position position) { return tiles.get(position).getType(); }
 
-    public Position getLastPosition() {
-        return lastPosition;
-    }
+    public Position getLastPosition() { return lastPosition; }
 
-    public boolean isDefinedHeigth() {
-        return definedHeight;
-    }
+    public void setLastPosition(Position position) { lastPosition = position; }
 
-    public boolean isDefinedWitdh() {
-        return definedWitdh;
-    }
+    public boolean isDefinedHeigth() { return definedHeight; }
 
-    public boolean isEmpty() {
-        return tiles.isEmpty();
-    }
+    public boolean isDefinedWitdh() { return definedWitdh; }
+
+    public boolean isEmpty() { return tiles.isEmpty(); }
 
     /**
      * Method to check if the plane visited tile in the map of Noth or South.
