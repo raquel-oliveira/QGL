@@ -11,5 +11,5 @@ public enum Phase {
 
     Phase(String name) {
             this.name = name;
-        }
+    }
 }
