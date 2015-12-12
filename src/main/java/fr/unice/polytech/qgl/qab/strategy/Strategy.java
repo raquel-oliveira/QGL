@@ -27,6 +27,8 @@ public class Strategy implements IStrategy {
     private Context context;
     // object that save the current action
     private Action currentAction;
+    // object to read the response
+    private ResponseHandler responseHandler;
 
     public Strategy() {
         aerialStrategy = new AerialStrategy();
@@ -34,6 +36,7 @@ public class Strategy implements IStrategy {
         phase = Phase.AERIAL;
         currentAction = null;
         context = new Context();
+        responseHandler = new ResponseHandler();
     }
 
     /**
@@ -58,7 +61,7 @@ public class Strategy implements IStrategy {
      * @param data information that the engine returned
      */
     public void readResults(String data) {
-        context = ResponseHandler.readData(data, currentAction, context);
+        context = responseHandler.readData(data, currentAction, context);
     }
 
     /**

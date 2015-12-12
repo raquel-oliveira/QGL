@@ -16,11 +16,9 @@ public class State2 extends State {
     public static State2 instance;
 
     private ComboFlyUntil actionCombo;
-    private Action lastAction;
     private UpdaterMap updaterMap;
 
     protected State2() {
-        lastAction = new Fly();
         actionCombo = null;
         updaterMap = new UpdaterMap();
     }
@@ -35,6 +33,7 @@ public class State2 extends State {
     public State getState(Context context, Map map) {
         if (actionCombo != null && actionCombo.isEmpty())
             return State3.getInstance();
+        updateContext(context, map);
         return State2.getInstance();
     }
 
@@ -48,9 +47,12 @@ public class State2 extends State {
         }
 
         act = actionCombo.get(0);
-        lastAction = act;
         actionCombo.remove(0);
 
         return act;
+    }
+
+    private void updateContext(Context context, Map map) {
+        updaterMap.updateLastPositionFly(context, map);
     }
 }
