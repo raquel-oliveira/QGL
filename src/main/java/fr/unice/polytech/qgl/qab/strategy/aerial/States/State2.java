@@ -1,16 +1,15 @@
 package fr.unice.polytech.qgl.qab.strategy.aerial.States;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.actions.aerial.Heading;
-import fr.unice.polytech.qgl.qab.actions.aerial.combo.ComboFlyEcho;
 import fr.unice.polytech.qgl.qab.actions.common.Stop;
+import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.ResponseState;
 
 /**
  * @version 12.12.2015.
  */
-public class State2 implements IState {
+public class State2 extends State {
     public static State2 instance;
 
     private ResponseState response;
@@ -25,8 +24,13 @@ public class State2 implements IState {
         return instance;
     }
 
-    public ResponseState responseState(Context context) {
-        response = new ResponseState(new Stop(), true);
-        return response;
+    @Override
+    public State getState(Context context, Map map) {
+        return State2.getInstance();
+    }
+
+    @Override
+    public Action responseState(Context context,  Map map) {
+        return new Stop();
     }
 }
