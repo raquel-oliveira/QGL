@@ -35,14 +35,10 @@ public class ComboReturn {
     }
 
     private void choiceTurnHorizontal(Direction head, Map map, Direction moveTo) {
-        /*int distanceEast = map.distanceOutOfRange(map.getLastPosition(), Direction.EAST);
-        int distanceWest = map.distanceOutOfRange(map.getLastPosition(), Direction.WEST);
-        if (distanceEast > distanceWest) {
-            actions.add(new Heading(Direction.WEST));
-        } else {
-            actions.add(new Heading(Direction.EAST));
-        }*/
-        actions.add(new Heading(moveTo));
+        if (!head.equals(moveTo))
+            actions.add(new Heading(moveTo));
+        else
+            actions.add(new Heading(Direction.randomSideDirection(head)));
     }
 
     private void turnHorizontal(Direction head, Map map, Direction moveTo) {
@@ -66,14 +62,10 @@ public class ComboReturn {
     }
 
     private void choiceTurnVertical(Direction head, Map map, Direction moveTo) {
-        /*int distanceNorth = map.distanceOutOfRange(map.getLastPosition(), Direction.NORTH);
-        int distanceSouth = map.distanceOutOfRange(map.getLastPosition(), Direction.SOUTH);
-        if (distanceNorth > distanceSouth) {
-            actions.add(new Heading(Direction.NORTH));
-        } else {
-            actions.add(new Heading(Direction.NORTH));
-        }*/
-        actions.add(new Heading(moveTo));
+        if (!head.equals(moveTo))
+            actions.add(new Heading(moveTo));
+        else
+            actions.add(new Heading(Direction.randomSideDirection(head)));
     }
 
     public List<Action> getActions() {

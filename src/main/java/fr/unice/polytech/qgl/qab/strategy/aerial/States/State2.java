@@ -42,7 +42,7 @@ public class State2 extends State {
 
         if (actionCombo == null || actionCombo.isEmpty()) {
             actionCombo = new ComboFlyUntil();
-            actionCombo.defineComboFlyUntil(context.getLastDiscovery().getRange());
+            actionCombo.defineComboFlyUntil(context.getLastDiscovery().getRange() + 1);
         }
 
         act = actionCombo.get(0);

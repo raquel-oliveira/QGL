@@ -25,22 +25,22 @@ public class ComboEchos {
      */
     public void defineComboEchos(Direction head) {
         if (head.isHorizontal()) {
+            actions.add(new Echo(Direction.NORTH));
+            actions.add(new Echo(Direction.SOUTH));
             if (head.compareTo(Direction.EAST) == 0) {
                 actions.add(new Echo(Direction.EAST));
             } else {
                 actions.add(new Echo(Direction.WEST));
             }
-            actions.add(new Echo(Direction.NORTH));
-            actions.add(new Echo(Direction.SOUTH));
         }
         if (head.isVertical()) {
+            actions.add(new Echo(Direction.WEST));
+            actions.add(new Echo(Direction.EAST));
             if (head.compareTo(Direction.NORTH) == 0) {
                 actions.add(new Echo(Direction.NORTH));
             } else {
                 actions.add(new Echo(Direction.SOUTH));
             }
-            actions.add(new Echo(Direction.WEST));
-            actions.add(new Echo(Direction.EAST));
         }
     }
 
