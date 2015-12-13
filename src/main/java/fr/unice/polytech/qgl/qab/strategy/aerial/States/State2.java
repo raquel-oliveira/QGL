@@ -19,6 +19,7 @@ public class State2 extends State {
     private UpdaterMap updaterMap;
 
     protected State2() {
+        super();
         actionCombo = null;
         updaterMap = new UpdaterMap();
     }

@@ -19,12 +19,12 @@ public class State1 extends State {
     public static State1 instance;
 
     private ComboFlyEcho actionCombo;
-    private Action lastAction;
     private UpdaterMap updaterMap;
 
     protected State1() {
+        super();
         actionCombo = null;
-        lastAction = new Fly();
+        this.lastAction = new Fly();
         updaterMap = new UpdaterMap();
     }
 

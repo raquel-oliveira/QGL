@@ -17,12 +17,12 @@ public class State3 extends State {
     public static State3 instance;
 
     private ComboFlyScan actionCombo;
-    private Action lastAction;
     private UpdaterMap updaterMap;
 
     protected State3() {
+        super();
         updaterMap = new UpdaterMap();
-        lastAction = new Fly();
+        this.lastAction = new Fly();
         actionCombo = null;
     }
 
@@ -35,6 +35,8 @@ public class State3 extends State {
     @Override
     public State getState(Context context, Map map) {
         if (lastAction instanceof Land)
+            return State5.getInstance();
+        if (context.getLastDiscovery().containsBiome(new Biome("OCEAN")))
             return State4.getInstance();
         updateContext(context, map);
         return State3.getInstance();
@@ -46,12 +48,6 @@ public class State3 extends State {
 
         if (!context.getLastDiscovery().getCreeks().isEmpty()) {
             act = new Land(context.getLastDiscovery().getCreeks().get(0).getIdCreek(), 1);
-            lastAction = act;
-            return act;
-        }
-
-        if (context.getLastDiscovery().containsBiome(new Biome("OCEAN"))) {
-            act = new Stop();
             lastAction = act;
             return act;
         }

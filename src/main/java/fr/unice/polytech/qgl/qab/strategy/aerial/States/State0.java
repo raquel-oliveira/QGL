@@ -15,11 +15,10 @@ public class State0 extends State {
     public static State0 instance;
 
     private ComboEchos actionCombo;
-    private Echo lastAction;
     private UpdaterMap updaterMap;
 
     protected State0() {
-        actionCombo = null;
+        super();
         updaterMap = new UpdaterMap();
     }
 
@@ -53,7 +52,7 @@ public class State0 extends State {
     }
 
     private void updateContext(Context context, Map map) {
-        updaterMap.initializeDimensions(context, lastAction);
+        updaterMap.initializeDimensions(context, (Echo)lastAction);
         updaterMap.update(context, map);
         updaterMap.setFirstPosition(context, map);
     }
