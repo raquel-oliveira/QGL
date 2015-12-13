@@ -68,6 +68,8 @@ public enum Direction {
     public static Direction randomSideDirection(Direction direction) {
         Random rand = new Random();
         int side = rand.nextInt(2);
+        if (side > 1)
+            throw new RuntimeException("Value out of range");
         if (direction.isHorizontal())
             return (side == 0)? NORTH:SOUTH;
         if (direction.isVertical())

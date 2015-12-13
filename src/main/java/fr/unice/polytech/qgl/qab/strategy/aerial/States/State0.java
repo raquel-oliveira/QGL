@@ -5,7 +5,6 @@ import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.aerial.combo.ComboEchos;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import fr.unice.polytech.qgl.qab.strategy.context.ResponseState;
 import fr.unice.polytech.qgl.qab.strategy.context.UpdaterMap;
 
 /**
@@ -15,11 +14,10 @@ public class State0 extends State {
     public static State0 instance;
 
     private ComboEchos actionCombo;
-    private Echo lastAction;
     private UpdaterMap updaterMap;
 
     protected State0() {
-        actionCombo = null;
+        super();
         updaterMap = new UpdaterMap();
     }
 
@@ -49,11 +47,15 @@ public class State0 extends State {
         lastAction = (Echo) act;
         actionCombo.remove(0);
 
+
+        if (context.getLastDiscovery() != null)
+            updaterMap.initializeDimensions(context, (Echo)act);
+
         return act;
     }
 
     private void updateContext(Context context, Map map) {
-        updaterMap.initializeDimensions(context, lastAction);
+        updaterMap.initializeDimensions(context, (Echo)lastAction);
         updaterMap.update(context, map);
         updaterMap.setFirstPosition(context, map);
     }

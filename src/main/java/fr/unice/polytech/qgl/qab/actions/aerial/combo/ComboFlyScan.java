@@ -2,36 +2,33 @@ package fr.unice.polytech.qgl.qab.actions.aerial.combo;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.aerial.Fly;
+import fr.unice.polytech.qgl.qab.actions.aerial.Scan;
+import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Fly until a defined range
- *
- * @version 12.12.2015
+ * @version 12.12.2015.
  */
-public class ComboFlyUntil {
+public class ComboFlyScan {
     private List<Action> actions;
 
-    public ComboFlyUntil() {
+    public ComboFlyScan() {
         actions = new ArrayList<>();
     }
 
     /**
-     * Add the number of times of fly to get in 'front'of the place chosed
-     *
-     * @param range number of times to fly -1
+     * Set the actions (fly and 2 echos
+     * @param head direction of the head
      */
-    public void defineComboFlyUntil(int range) {
-        for (int i = 1; i < range; i++) {
-            actions.add(new Fly());
-        }
+    public void defineActions(Direction head) {
+        actions.add(new Fly());
+        actions.add(new Scan());
     }
 
     /**
-     * Method to return the list of the actions (fly).
-     *
+     * Method to return the list of the actions (echos).
      * @return actions list
      */
     public List<Action> getActions() {
@@ -40,7 +37,6 @@ public class ComboFlyUntil {
 
     /**
      * Method that check if the action list is empty
-     *
      * @return true if the list is empty, false if not
      */
     public boolean isEmpty() {
@@ -49,7 +45,6 @@ public class ComboFlyUntil {
 
     /**
      * Return one action in a defined index.
-     *
      * @param index of the action to return
      * @return action chosen
      */
@@ -59,7 +54,6 @@ public class ComboFlyUntil {
 
     /**
      * Method to remove a item that is in the index gave.
-     *
      * @param index to remove item
      * @return the item removed
      */

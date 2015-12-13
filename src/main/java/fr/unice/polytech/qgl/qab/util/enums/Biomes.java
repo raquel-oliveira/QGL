@@ -62,15 +62,6 @@ public enum Biomes {
         return false;
     }
 
-    public static Biomes fromString(Biomes biomes){
-        if (biomes != null){
-            for (Biomes s : Biomes.values()){
-                if (s.toString().equalsIgnoreCase(biomes)) return s;
-            }
-        }
-        return null;
-    }
-
     public TypeBiome typeBiome(Biomes biome){
         if (biome != null){
             if (isNordic()) return TypeBiome.NORDIC;

@@ -7,8 +7,8 @@ import fr.unice.polytech.qgl.qab.actions.aerial.Heading;
 import fr.unice.polytech.qgl.qab.actions.aerial.combo.ComboFlyEcho;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import fr.unice.polytech.qgl.qab.strategy.context.ResponseState;
 import fr.unice.polytech.qgl.qab.strategy.context.UpdaterMap;
+import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 
 /**
@@ -18,12 +18,12 @@ public class State1 extends State {
     public static State1 instance;
 
     private ComboFlyEcho actionCombo;
-    private Action lastAction;
     private UpdaterMap updaterMap;
 
     protected State1() {
+        super();
         actionCombo = null;
-        lastAction = new Fly();
+        this.lastAction = new Fly();
         updaterMap = new UpdaterMap();
     }
 
@@ -48,7 +48,9 @@ public class State1 extends State {
     public Action responseState(Context context, Map map) {
         Action act = null;
         if (context.getLastDiscovery().getFound().equals(Found.GROUND) && lastAction instanceof Echo) {
-            act = new Heading(((Echo)lastAction).getDirection());
+            Direction dir = ((Echo)lastAction).getDirection();
+            act = new Heading(dir);
+            context.setHeading(dir);
             lastAction = act;
             return act;
         }

@@ -1,7 +1,6 @@
 package fr.unice.polytech.qgl.qab.strategy.aerial.States;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.actions.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.aerial.combo.ComboFlyUntil;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
@@ -15,11 +14,10 @@ public class State2 extends State {
     public static State2 instance;
 
     private ComboFlyUntil actionCombo;
-    private Action lastAction;
     private UpdaterMap updaterMap;
 
     protected State2() {
-        lastAction = new Fly();
+        super();
         actionCombo = null;
         updaterMap = new UpdaterMap();
     }
@@ -33,13 +31,15 @@ public class State2 extends State {
     @Override
     public State getState(Context context, Map map) {
         if (actionCombo != null && actionCombo.isEmpty()){
-            return State1.getInstance();
+            // TODO: mudança de posiçao nesse estado
+            return State3.getInstance();
         }
+        updateContext(context, map);
         return State2.getInstance();
     }
 
     @Override
-    public Action responseState(Context context, Map map) {
+    public Action responseState(Context context,  Map map) {
         Action act = null;
 
         if (actionCombo == null || actionCombo.isEmpty()) {
@@ -48,9 +48,12 @@ public class State2 extends State {
         }
 
         act = actionCombo.get(0);
-        lastAction = act;
         actionCombo.remove(0);
 
         return act;
+    }
+
+    private void updateContext(Context context, Map map) {
+        updaterMap.updateLastPositionFly(context, map);
     }
 }

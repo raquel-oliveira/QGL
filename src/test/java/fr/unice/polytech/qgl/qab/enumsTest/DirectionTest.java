@@ -3,9 +3,14 @@ package fr.unice.polytech.qgl.qab.enumsTest;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import org.junit.Test;
 
+import java.util.Random;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * @author Gabriela
@@ -122,10 +127,10 @@ public class DirectionTest {
     }
 
     @Test
-    public void testToStringBeforeInitialize2() {
-        try {
-            direction.toString();
-            fail();
-        } catch (NullPointerException e) {}
+    public void identifyBadValuesGreaterThanNumberOfFaces() {
+        Random rand = mock(Random.class);
+        when(rand.nextInt(anyInt())).thenReturn(3);
+        direction = Direction.NORTH;
+        Direction.randomSideDirection(direction);
     }
 }
