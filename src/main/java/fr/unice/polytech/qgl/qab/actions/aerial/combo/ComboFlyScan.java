@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Class to represent the set of fly and scan
+ * Goal: find a creek
  * @version 12.12.2015.
  */
 public class ComboFlyScan {
@@ -19,7 +21,7 @@ public class ComboFlyScan {
     }
 
     /**
-     * Set the actions (fly and 2 echos
+     * Set the actions (fly and scan)
      * @param head direction of the head
      */
     public void defineActions(Direction head) {
@@ -28,7 +30,7 @@ public class ComboFlyScan {
     }
 
     /**
-     * Method to return the list of the actions (echos).
+     * Method to return the list of the actions (fly or scan).
      * @return actions list
      */
     public List<Action> getActions() {

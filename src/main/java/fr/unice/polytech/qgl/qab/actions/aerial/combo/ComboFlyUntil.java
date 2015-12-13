@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Fly until a defined range
+ * Class to define a list of actions fly
  *
  * @version 12.12.2015
  */

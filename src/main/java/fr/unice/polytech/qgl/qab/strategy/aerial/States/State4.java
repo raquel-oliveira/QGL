@@ -2,21 +2,12 @@ package fr.unice.polytech.qgl.qab.strategy.aerial.States;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
-import fr.unice.polytech.qgl.qab.actions.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.aerial.Heading;
-import fr.unice.polytech.qgl.qab.actions.aerial.Scan;
-import fr.unice.polytech.qgl.qab.actions.aerial.combo.ComboFlyScan;
 import fr.unice.polytech.qgl.qab.actions.aerial.combo.ComboReturn;
-import fr.unice.polytech.qgl.qab.actions.common.Stop;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import fr.unice.polytech.qgl.qab.strategy.context.ResponseState;
-import fr.unice.polytech.qgl.qab.strategy.context.UpdaterMap;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @version 12.12.2015.
