@@ -1,15 +1,13 @@
 package fr.unice.polytech.qgl.qab.strategy.aerial.States;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.actions.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.aerial.combo.ComboFlyUntil;
-import fr.unice.polytech.qgl.qab.actions.common.Stop;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import fr.unice.polytech.qgl.qab.strategy.context.ResponseState;
 import fr.unice.polytech.qgl.qab.strategy.context.UpdaterMap;
 
 /**
+ * This State represents the fase when the plane fly until it gets over the land.
  * @version 12.12.2015.
  */
 public class State2 extends State {
