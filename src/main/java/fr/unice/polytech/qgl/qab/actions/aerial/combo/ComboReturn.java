@@ -42,7 +42,10 @@ public class ComboReturn {
         } else {
             actions.add(new Heading(Direction.EAST));
         }*/
-        actions.add(new Heading(moveTo));
+        if (!head.equals(moveTo))
+            actions.add(new Heading(moveTo));
+        else
+            actions.add(new Heading(Direction.randomSideDirection(head)));
     }
 
     private void turnHorizontal(Direction head, Map map, Direction moveTo) {
@@ -73,7 +76,10 @@ public class ComboReturn {
         } else {
             actions.add(new Heading(Direction.NORTH));
         }*/
-        actions.add(new Heading(moveTo));
+        if (!head.equals(moveTo))
+            actions.add(new Heading(moveTo));
+        else
+            actions.add(new Heading(Direction.randomSideDirection(head)));
     }
 
     public List<Action> getActions() {

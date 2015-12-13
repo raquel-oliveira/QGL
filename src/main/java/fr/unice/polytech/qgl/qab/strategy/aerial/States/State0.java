@@ -17,12 +17,10 @@ public class State0 extends State {
 
     private ComboEchos actionCombo;
     private UpdaterMap updaterMap;
-    private int rangeToFlyUntil;
 
     protected State0() {
         super();
         updaterMap = new UpdaterMap();
-        rangeToFlyUntil = 0;
     }
 
     public static State0 getInstance() {
@@ -35,10 +33,8 @@ public class State0 extends State {
     public State getState(Context context, Map map) {
         if (actionCombo != null && actionCombo.isEmpty()) {
             updateContext(context, map);
-            if (rangeToFlyUntil > 0) {
-                context.getLastDiscovery().setRange(rangeToFlyUntil);
+            if (context.getLastDiscovery().getFound().equals(Found.GROUND))
                 return State2.getInstance();
-            }
             return State1.getInstance();
         }
         return State0.getInstance();
@@ -58,9 +54,6 @@ public class State0 extends State {
 
         if (context.getLastDiscovery() != null) {
             updaterMap.initializeDimensions(context, (Echo) act);
-            if (context.getLastDiscovery().getFound().equals(Found.GROUND)) {
-                rangeToFlyUntil = context.getLastDiscovery().getRange();
-            }
         }
 
         return act;
