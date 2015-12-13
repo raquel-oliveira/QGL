@@ -68,7 +68,7 @@ public class ResponseHandler {
 
         if(crk != null){
             for(Object c : crk)
-                creeks.add(new Creek(Integer.parseInt(c.toString())));
+                creeks.add(new Creek(c.toString()));
         }
 
         discovery.setBiomes(biomes);

@@ -36,9 +36,10 @@ public class State3 extends State {
     public State getState(Context context, Map map) {
         if (lastAction instanceof Land)
             return State5.getInstance();
-        if (context.getLastDiscovery().containsBiome(new Biome("OCEAN")) &&
-                context.getLastDiscovery().getBiomes().size() == 1)
+
+        if (context.getLastDiscovery().containsBiome(new Biome("OCEAN")) && context.getLastDiscovery().getBiomes().size() == 1)
             return State4.getInstance();
+
         updateContext(context, map);
         return State3.getInstance();
     }
