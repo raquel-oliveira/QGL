@@ -1,12 +1,8 @@
 package fr.unice.polytech.qgl.qab.strategy.aerial.States;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
-import fr.unice.polytech.qgl.qab.actions.aerial.combo.ComboEchos;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import fr.unice.polytech.qgl.qab.strategy.context.ResponseState;
-import fr.unice.polytech.qgl.qab.strategy.context.UpdaterMap;
 
 /**
  * @version 11.12.2015.

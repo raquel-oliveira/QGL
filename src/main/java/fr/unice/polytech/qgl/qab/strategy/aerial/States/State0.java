@@ -5,7 +5,6 @@ import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.aerial.combo.ComboEchos;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import fr.unice.polytech.qgl.qab.strategy.context.ResponseState;
 import fr.unice.polytech.qgl.qab.strategy.context.UpdaterMap;
 
 /**
