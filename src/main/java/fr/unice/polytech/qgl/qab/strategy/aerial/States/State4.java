@@ -15,6 +15,9 @@ import fr.unice.polytech.qgl.qab.strategy.context.UpdaterMap;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @version 12.12.2015.
  */
@@ -22,11 +25,9 @@ public class State4 extends State {
     public static State4 instance;
 
     private ComboReturn actionCombo;
-    private UpdaterMap updaterMap;
 
     protected State4() {
         super();
-        updaterMap = new UpdaterMap();
         actionCombo = null;
         lastAction = null;
     }
@@ -42,7 +43,6 @@ public class State4 extends State {
         if (lastAction instanceof Echo) {
             if (context.getLastDiscovery().getFound().equals(Found.OUT_OF_RANGE))
                 return State5.getInstance();
-            actionCombo = null;
             return State3.getInstance();
         }
         return State4.getInstance();
@@ -50,11 +50,11 @@ public class State4 extends State {
 
     @Override
     public Action responseState(Context context, Map map) {
-        Action act;
+        Action act = null;
 
         if (actionCombo == null) {
             actionCombo = new ComboReturn();
-            actionCombo.defineHeading(context.getHeading(), map, Direction.EAST);
+            actionCombo.defineHeading(context.getHeading(), map, context.getFirst_head());
         }
 
         if (actionCombo != null && actionCombo.isEmpty()) {
@@ -63,12 +63,13 @@ public class State4 extends State {
             return act;
         }
 
-        act = actionCombo.get(0);
-        lastAction = act;
-        Direction dir = ((Heading)lastAction).getDirection();
-        context.setHeading(dir);
-
-        actionCombo.remove(0);
+        if (actionCombo != null && !actionCombo.isEmpty()) {
+            act = actionCombo.get(0);
+            lastAction = act;
+            Direction dir = ((Heading) lastAction).getDirection();
+            context.setHeading(dir);
+            actionCombo.remove(0);
+        }
 
         return act;
     }

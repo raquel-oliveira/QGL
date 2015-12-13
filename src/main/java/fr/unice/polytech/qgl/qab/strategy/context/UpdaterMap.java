@@ -26,7 +26,7 @@ public class UpdaterMap {
                     context.setHeightDefined(true);
                 }
             } else if (takeAction.getDirection().isVertical() && !context.getHeading().isVertical()) {
-                if (takeAction.getDirection().equals(Direction.NORTH)) eixoY = context.getLastDiscovery().getRange();
+                //if (takeAction.getDirection().equals(Direction.NORTH)) eixoY = context.getLastDiscovery().getRange();
                 if (context.getHeight() == 0) {
                     context.setHeight(context.getLastDiscovery().getRange());
                 } else {
@@ -34,12 +34,13 @@ public class UpdaterMap {
                     context.setHeightDefined(true);
                 }
             } else if (takeAction.getDirection().isHorizontal() && context.getHeading().isHorizontal()) {
+                //eixoX = context.getLastDiscovery().getRange();
                 if (!context.isWidthDefined()) {
                     context.setWidth(context.getLastDiscovery().getRange() + 1);
                     context.setWidthDefined(true);
                 }
             } else if (takeAction.getDirection().isHorizontal() && !context.getHeading().isHorizontal()) {
-                if (takeAction.getDirection().equals(Direction.WEST)) eixoY = context.getLastDiscovery().getRange();
+                //if (takeAction.getDirection().equals(Direction.NORTH)) eixoY = context.getLastDiscovery().getRange();
                 if (context.getWidth() == 0) {
                     context.setWidth(context.getLastDiscovery().getRange());
                 } else {
@@ -99,7 +100,7 @@ public class UpdaterMap {
             } else if (context.getHeading().equals(Direction.NORTH)) {
                 position = new Position(eixoX, eixoY);
             }
-        } else if (context.getHeading().isVertical()) {
+        } else if (context.getHeading().isHorizontal()) {
             if (context.getHeading().equals(Direction.EAST)) {
                 position = new Position(0, eixoY);
             } else if (context.getHeading().equals(Direction.WEST)) {

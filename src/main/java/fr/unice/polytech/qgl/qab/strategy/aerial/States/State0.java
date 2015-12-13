@@ -48,6 +48,10 @@ public class State0 extends State {
         lastAction = (Echo) act;
         actionCombo.remove(0);
 
+
+        if (context.getLastDiscovery() != null)
+            updaterMap.initializeDimensions(context, (Echo)act);
+
         return act;
     }
 

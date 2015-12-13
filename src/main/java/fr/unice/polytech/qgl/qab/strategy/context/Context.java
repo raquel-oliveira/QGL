@@ -17,6 +17,7 @@ public class Context {
     private int width, height;
     private boolean widthDefined, heightDefined;
     private Discovery lastDiscovery;
+    private Direction first_head;
 
     public Context() {
         men = 0;
@@ -27,6 +28,7 @@ public class Context {
         width = height = 0;
         widthDefined = heightDefined = false;
         lastDiscovery = null;
+        first_head = null;
     }
 
     public void saveContext(String context) {
@@ -43,7 +45,8 @@ public class Context {
             addContract(key, value);
         }
 
-        setHeading(heading = Direction.fromString(jsonObj.getString("heading")));
+        first_head = Direction.fromString(jsonObj.getString("heading"));
+        setHeading(first_head);
     }
 
     public Direction getHeading() {
@@ -112,5 +115,9 @@ public class Context {
 
     public void setLastDiscovery(Discovery lastDiscovery) {
         this.lastDiscovery = lastDiscovery;
+    }
+
+    public Direction getFirst_head() {
+        return first_head;
     }
 }
