@@ -33,7 +33,7 @@ public class State2 extends State {
     @Override
     public State getState(Context context, Map map) {
         if (actionCombo != null && actionCombo.isEmpty())
-            return State3.getInstance(); // TODO: mudança de posiçao nesse estado
+            return State3.getInstance();
         updateContext(context, map);
         return State2.getInstance();
     }
