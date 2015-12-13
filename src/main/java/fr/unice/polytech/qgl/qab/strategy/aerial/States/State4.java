@@ -41,6 +41,8 @@ public class State4 extends State {
     @Override
     public State getState(Context context, Map map) {
         if (lastAction instanceof Echo) {
+            //lastAction = null;
+            //actionCombo = null;
             if (context.getLastDiscovery().getFound().equals(Found.OUT_OF_RANGE))
                 return State5.getInstance();
             return State3.getInstance();
