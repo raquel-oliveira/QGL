@@ -14,7 +14,7 @@ import fr.unice.polytech.qgl.qab.util.enums.Found;
 /**
  * @version 11.12.2015.
  */
-public class FindGround extends State {
+public class FindGround extends AerialState {
     public static FindGround instance;
 
     private ComboFlyEcho actionCombo;
@@ -34,12 +34,12 @@ public class FindGround extends State {
     }
 
     @Override
-    public State getState(Context context, Map map) {
+    public AerialState getState(Context context, Map map) {
         if (actionCombo != null && actionCombo.isEmpty())
             updateContext(context, map);
 
         if (lastAction instanceof Heading)
-            return State2.getInstance();
+            return FlyUntil.getInstance();
 
         return FindGround.getInstance();
     }

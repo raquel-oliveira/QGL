@@ -12,7 +12,7 @@ import fr.unice.polytech.qgl.qab.util.enums.Found;
 /**
  * @version 12.12.2015.
  */
-public class ReturnBack extends State {
+public class ReturnBack extends AerialState {
     public static ReturnBack instance;
 
     private ComboReturn actionCombo;
@@ -31,10 +31,10 @@ public class ReturnBack extends State {
     }
 
     @Override
-    public State getState(Context context, Map map) {
+    public AerialState getState(Context context, Map map) {
         if (lastAction instanceof Echo) {
             if (context.getLastDiscovery().getFound().equals(Found.OUT_OF_RANGE))
-                return State5.getInstance();
+                return MakeLand.getInstance();
             return ScanTheGround.getInstance();
         }
         return ReturnBack.getInstance();

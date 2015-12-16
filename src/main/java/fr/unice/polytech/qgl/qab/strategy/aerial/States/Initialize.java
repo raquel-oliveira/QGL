@@ -11,7 +11,7 @@ import fr.unice.polytech.qgl.qab.util.enums.Found;
 /**
  * @version 10.12.2015
  */
-public class Initialize extends State {
+public class Initialize extends AerialState {
     public static Initialize instance;
 
     private ComboEchos actionCombo;
@@ -30,14 +30,14 @@ public class Initialize extends State {
     }
 
     @Override
-    public State getState(Context context, Map map) {
+    public AerialState getState(Context context, Map map) {
         if (actionCombo != null && actionCombo.isEmpty()) {
             updateContext(context, map);
             if (context.getLastDiscovery().getFound().equals(Found.GROUND)) {
                 context.getLastDiscovery().setFound(Found.UNDEFINED);
-                return State2.getInstance();
+                return FlyUntil.getInstance();
             }
-            return State1.getInstance();
+            return FindGround.getInstance();
         }
         return Initialize.getInstance();
     }

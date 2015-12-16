@@ -8,7 +8,7 @@ import fr.unice.polytech.qgl.qab.strategy.context.Context;
 /**
  * @version 13.12.2015.
  */
-public class MakeLand extends State {
+public class MakeLand extends AerialState {
     public static MakeLand instance;
 
     protected MakeLand() { }
@@ -20,7 +20,7 @@ public class MakeLand extends State {
     }
 
     @Override
-    public State getState(Context context, Map map) {
+    public AerialState getState(Context context, Map map) {
         return MakeLand.getInstance();
     }
 
