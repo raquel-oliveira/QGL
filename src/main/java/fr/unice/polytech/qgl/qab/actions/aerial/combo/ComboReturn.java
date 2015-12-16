@@ -24,14 +24,49 @@ public class ComboReturn {
             turnHorizontal(head, map, moveTo);
         }
         if (head.isVertical()) {
-            turnVertial(head, map, moveTo);
+            turnVertical(head, map, moveTo);
         }
     }
 
-    private void turnVertial(Direction head, Map map, Direction moveTo) {
-        Direction head_tmp = head;
-        choiceTurnHorizontal(head, map, moveTo);
-        choiceLastTurn(head_tmp);
+    private void turnVertical(Direction head, Map map, Direction moveTo) {
+        if (head.equals(Direction.SOUTH) && moveTo.equals(Direction.EAST)) {
+            actions.add(new Heading(Direction.EAST));
+            actions.add(new Heading(Direction.NORTH));
+            actions.add(new Heading(Direction.EAST));
+            actions.add(new Heading(Direction.SOUTH));
+        }
+        else if (head.equals(Direction.SOUTH) && moveTo.equals(Direction.WEST)) {
+            actions.add(new Heading(Direction.WEST));
+            actions.add(new Heading(Direction.NORTH));
+            actions.add(new Heading(Direction.WEST));
+            actions.add(new Heading(Direction.SOUTH));
+        }
+        else if (head.equals(Direction.NORTH) && moveTo.equals(Direction.EAST)) {
+            actions.add(new Heading(Direction.EAST));
+            actions.add(new Heading(Direction.SOUTH));
+            actions.add(new Heading(Direction.EAST));
+            actions.add(new Heading(Direction.NORTH));
+        }
+        else if (head.equals(Direction.NORTH) && moveTo.equals(Direction.WEST)) {
+            actions.add(new Heading(Direction.WEST));
+            actions.add(new Heading(Direction.SOUTH));
+            actions.add(new Heading(Direction.WEST));
+            actions.add(new Heading(Direction.NORTH));
+        }
+        else if (head.equals(Direction.SOUTH) && moveTo.equals(Direction.SOUTH)) {
+            actions.add(new Heading(Direction.EAST));
+            actions.add(new Heading(Direction.NORTH));
+            actions.add(new Echo(Direction.NORTH));
+            actions.add(new Heading(Direction.EAST));
+            actions.add(new Heading(Direction.SOUTH));
+            actions.add(new Echo(Direction.SOUTH));
+        }
+        else if (head.equals(Direction.NORTH) && moveTo.equals(Direction.NORTH)) {
+            actions.add(new Heading(Direction.EAST));
+            actions.add(new Heading(Direction.SOUTH));
+            actions.add(new Heading(Direction.EAST));
+            actions.add(new Heading(Direction.SOUTH));
+        }
     }
 
     private void choiceTurnHorizontal(Direction head, Map map, Direction moveTo) {
@@ -71,6 +106,7 @@ public class ComboReturn {
     public List<Action> getActions() {
         return actions;
     }
+
     /**
      * Method that check if the action list is empty
      * @return true if the list is empty, false if not
@@ -78,6 +114,7 @@ public class ComboReturn {
     public boolean isEmpty() {
         return actions.isEmpty();
     }
+
     /**
      * Return one action in a defined index.
      * @param index of the action to return
@@ -86,6 +123,7 @@ public class ComboReturn {
     public Action get(int index) {
         return actions.get(index);
     }
+
     /**
      * Method to remove a item that is in the index gave.
      * @param index to remove item
