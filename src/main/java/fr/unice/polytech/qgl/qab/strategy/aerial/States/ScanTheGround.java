@@ -4,6 +4,10 @@ import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.aerial.combo.ComboFlyScan;
+<<<<<<< HEAD:src/main/java/fr/unice/polytech/qgl/qab/strategy/aerial/States/ScanTheGround.java
+=======
+import fr.unice.polytech.qgl.qab.actions.common.Land;
+>>>>>>> 2c181fb4386ceea0c6d2ca43014aae2fbeded184:src/main/java/fr/unice/polytech/qgl/qab/strategy/aerial/States/State3.java
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.UpdaterMap;

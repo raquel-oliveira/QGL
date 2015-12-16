@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Class to represent the set of actions Fly and 2 echos(for the direction different of the heading)
  * @version 11.12.2015
  */
 public class ComboFlyEcho {
@@ -19,7 +20,7 @@ public class ComboFlyEcho {
     }
 
     /**
-     * Set the actions (fly and 2 echos
+     * Set the actions (fly and 2 echos)
      * @param head direction of the head
      */
     public void defineActions(Direction head) {
