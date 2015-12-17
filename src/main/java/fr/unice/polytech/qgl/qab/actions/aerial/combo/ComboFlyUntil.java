@@ -19,7 +19,7 @@ public class ComboFlyUntil {
     }
 
     /**
-     * Add the number of times of fly to get in 'front'of the place chosed
+     * Add the number of times of fly to get in 'front'of the place choose
      *
      * @param range number of times to fly -1
      */

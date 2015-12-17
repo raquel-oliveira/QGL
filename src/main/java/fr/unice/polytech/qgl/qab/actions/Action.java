@@ -8,8 +8,8 @@ import org.json.JSONObject;
  * @version 4.9
  */
 public interface Action {
-    public abstract boolean isValid(JSONObject jsonObj);
+    boolean isValid(JSONObject jsonObj);
 
-    public abstract String formatResponse();
+    String formatResponse();
 }
 
