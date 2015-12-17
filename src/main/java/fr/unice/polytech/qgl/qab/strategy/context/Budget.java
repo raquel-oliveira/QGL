@@ -1,13 +1,13 @@
 package fr.unice.polytech.qgl.qab.strategy.context;
 
-import fr.unice.polytech.qgl.qab.Exception.InitializeException;
-import fr.unice.polytech.qgl.qab.Exception.NegativeException;
+import fr.unice.polytech.qgl.qab.exception.InitializeException;
+import fr.unice.polytech.qgl.qab.exception.NegativeException;
 
 /**
  * @version 16/12/15.
  */
 public class Budget {
-    public static Budget instance;
+    private static Budget instance;
     private int initial;
     private int remaining;
 
@@ -17,8 +17,8 @@ public class Budget {
         return instance;
     }
 
-    protected Budget(int initial, int remaining) throws InitializeException {
-        if (initial > 0) throw new InitializeException("The value to initial budget can not be negative.");
+    private Budget(int initial, int remaining) throws InitializeException {
+        if (initial < 0) throw new InitializeException("The value to initial budget can not be negative.");
         this.initial = initial;
         this.remaining = remaining;
     }
