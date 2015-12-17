@@ -4,27 +4,27 @@ package fr.unice.polytech.qgl.qab.util.enums;
  * @version 12/12/2015.
  */
 public enum Biomes {
-    OCEAN("OCEAN"), //: plain ocean, wide open area full of unknown;
-    LAKE("LAKE"), //: internal lake, potentially big, with freshwater;
-    BEACH("BEACH"), //: beach (not always sandy);
-    GRASSLAND("GRASSLAND"),//: area of prairie;
+    OCEAN("OCEAN"),
+    LAKE("LAKE"),
+    BEACH("BEACH"),
+    GRASSLAND("GRASSLAND"),
 
-    MANGROVE("MANGROVE"),//: super wet area, home of the mangle tree;
-    TROPICAL_RAIN_FOREST("TROPICAL_RAIN_FOREST"), //: hot and wet;
-    TROPICAL_SEASONAL_FOREST("TROPICAL_SEASONAL_FOREST"),//: less wet, but not less hot;
+    MANGROVE("MANGROVE"),
+    TROPICAL_RAIN_FOREST("TROPICAL_RAIN_FOREST"),
+    TROPICAL_SEASONAL_FOREST("TROPICAL_SEASONAL_FOREST"),
 
-    TEMPERATE_DECIDUOUS_FOREST("TEMPERATE_DECIDUOUS_FOREST"), //: classical forests with trees that lose their leaves each year;
-    TEMPERATE_RAIN_FOREST("TEMPERATE_RAIN_FOREST"),//: very rare biome, very wet area coupled to low temperatures;
-    TEMPERATE_DESERT("TEMPERATE_DESERT"),//: aride area with sparse vegetation and very few humidity;
+    TEMPERATE_DECIDUOUS_FOREST("TEMPERATE_DECIDUOUS_FOREST"),
+    TEMPERATE_RAIN_FOREST("TEMPERATE_RAIN_FOREST"),
+    TEMPERATE_DESERT("TEMPERATE_DESERT"),
 
-    TAIGA("TAIGA"),//: boreal forest, cold and majestuous;
-    SNOW("SNOW"),//: area covered with snow, wet and cold;
-    TUNDRA("TUNDRA"),//: arctic prairie, surviving on permanently frozen soil;
-    ALPINE("ALPINE"),//: rocky mountains, not always covered by snow;
-    GLACIER("GLACIER"),//: inhospitable area, full of ice;
+    TAIGA("TAIGA"),
+    SNOW("SNOW"),
+    TUNDRA("TUNDRA"),
+    ALPINE("ALPINE"),
+    GLACIER("GLACIER"),
 
-    SHRUBLAND("SHRUBLAND"),//: prairie dominated by shrubs, such as maquis in Corsica or garrigue in Provence;
-    SUB_TROPICAL_DESERT("SUB_TROPICAL_DESERT");// very dry and inhospitable area
+    SHRUBLAND("SHRUBLAND"),
+    SUB_TROPICAL_DESERT("SUB_TROPICAL_DESERT");
 
     private String name = "";
 
@@ -45,7 +45,11 @@ public enum Biomes {
     }
 
     public boolean isNordic(){
-        return this == TAIGA || this == SNOW || this == TUNDRA || this == ALPINE || this == GLACIER;
+        if (this == TAIGA || this == SNOW || this == TUNDRA)
+            return true;
+        if (this == ALPINE || this == GLACIER)
+            return true;
+        return false;
     }
 
     public boolean isSubTropical(){
