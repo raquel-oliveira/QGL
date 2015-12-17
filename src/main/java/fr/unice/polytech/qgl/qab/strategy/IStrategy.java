@@ -1,14 +1,14 @@
 package fr.unice.polytech.qgl.qab.strategy;
 
-import fr.unice.polytech.qgl.qab.map.Map;
+import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapaRange;
 
 /**
  * @version 4.9
  */
 public interface IStrategy {
-    public String makeDecision();
+    String makeDecision() throws PositionOutOfMapaRange;
 
-    public void readResults(String data);
+    void readResults(String data);
 
-    public void initializeContext(String context);
+    void initializeContext(String context);
 }
