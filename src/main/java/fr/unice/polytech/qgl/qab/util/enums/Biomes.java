@@ -65,15 +65,11 @@ public enum Biomes {
         return biomes.toString().equalsIgnoreCase(name);
     }
 
-    public TypeBiome typeBiome(Biomes biome){
-        if (biome != null){
-            if (isCommon()) return TypeBiome.COMMON;
-            else if (isNordic()) return TypeBiome.NORDIC;
-            else if (isTropical()) return  TypeBiome.TROPICAL;
-            else if (isSubTropical()) return TypeBiome.SUBTROPICAL;
-            else if (isTemperate()) return TypeBiome.TEMPERATE;
-            else return null;
-        }
-        return null;
+    public TypeBiome typeBiome(){
+        if (this.isCommon()) return TypeBiome.COMMON;
+        else if (this.isNordic()) return TypeBiome.NORDIC;
+        else if (this.isTropical()) return  TypeBiome.TROPICAL;
+        else if (this.isSubTropical()) return TypeBiome.SUBTROPICAL;
+        else return TypeBiome.TEMPERATE;
     }
 }
