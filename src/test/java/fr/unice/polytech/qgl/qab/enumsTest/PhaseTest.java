@@ -11,7 +11,7 @@ import static org.junit.Assert.assertTrue;
  * @version 4.9
  */
 public class PhaseTest {
-    Phase phase;
+    private Phase phase;
 
     @Test
     public void testPhaseGround() {
@@ -22,7 +22,7 @@ public class PhaseTest {
     @Test
     public void testPhaseAerial() {
         phase = Phase.AERIAL;
-        assertEquals(phase.AERIAL, phase);
+        assertEquals(Phase.AERIAL, phase);
     }
 
     @Test

@@ -1,7 +1,5 @@
 package fr.unice.polytech.qgl.qab.mapTest;
 
-import fr.unice.polytech.qgl.qab.map.Map;
-import fr.unice.polytech.qgl.qab.map.tile.Position;
 import fr.unice.polytech.qgl.qab.map.tile.Tile;
 import fr.unice.polytech.qgl.qab.map.tile.TileType;
 import org.junit.Before;
@@ -10,7 +8,6 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -18,7 +15,7 @@ import static org.mockito.Mockito.when;
  * @version 12.12.2015
  */
 public class TileTest {
-    Tile tile;
+    private Tile tile;
 
     @Before
     public void defineContext() {

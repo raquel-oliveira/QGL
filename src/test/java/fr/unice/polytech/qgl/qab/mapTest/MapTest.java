@@ -1,5 +1,6 @@
 package fr.unice.polytech.qgl.qab.mapTest;
 
+import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapaRange;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.map.tile.Position;
 import fr.unice.polytech.qgl.qab.map.tile.TileType;
@@ -15,8 +16,8 @@ import static org.mockito.Mockito.when;
  * @version 4.9
  */
 public class MapTest {
-    Map m;
-    Position position;
+    private Map m;
+    private Position position;
 
     @Before
     public void defineContext() {
@@ -25,73 +26,73 @@ public class MapTest {
     }
 
     @Test
-    public void testInitializaMap() {
+    public void testInitializeMap() {
         m.initializeMap(10, 10, true, true);
-        assertEquals(10, m.getHeigth());
+        assertEquals(10, m.getHeight());
         assertEquals(10, m.getWidth());
 
 
         m.initializeMap(20, 20, true, true);
-        assertEquals(20, m.getHeigth());
+        assertEquals(20, m.getHeight());
         assertEquals(20, m.getWidth());
     }
 
     @Test
-    public void testTitleUndefined() {
+    public void testTitleUndefined() throws PositionOutOfMapaRange {
         m.initializeMap(10, 10, true, true);
 
         position = new Position(0, 0);
-        m.initializeTiteUndefined(position);
-        assertEquals(TileType.UNDEFINED, m.getTiteType(position));
+        m.initializeTileUndefined(position);
+        assertEquals(TileType.UNDEFINED, m.getTileType(position));
 
         position = new Position(9, 9);
-        m.initializeTiteUndefined(position);
-        assertEquals(TileType.UNDEFINED, m.getTiteType(position));
+        m.initializeTileUndefined(position);
+        assertEquals(TileType.UNDEFINED, m.getTileType(position));
     }
 
     @Test
-    public void testTitleGround() {
+    public void testTitleGround() throws PositionOutOfMapaRange {
         m.initializeMap(10, 10, true, true);
-        m.initializeTiteGround(position);
-        assertEquals(TileType.GROUND, m.getTiteType(position));
+        m.initializeTileUndefined(position);
+        assertEquals(TileType.GROUND, m.getTileType(position));
     }
 
     @Test
-    public void testTitleOcean() {
+    public void testTitleOcean() throws PositionOutOfMapaRange {
         m.initializeMap(10, 10, true, true);
-        m.initializeTiteOcean(position);
-        assertEquals(TileType.OCEAN, m.getTiteType(position));
+        m.initializeTileOcean(position);
+        assertEquals(TileType.OCEAN, m.getTileType(position));
     }
 
     @Test
-    public void testChangeTypeTileToGround() {
+    public void testChangeTypeTileToGround() throws PositionOutOfMapaRange {
         m.initializeMap(10, 10, true, true);
-        m.initializeTiteUndefined(position);
-        assertEquals(TileType.UNDEFINED, m.getTiteType(position));
+        m.initializeTileUndefined(position);
+        assertEquals(TileType.UNDEFINED, m.getTileType(position));
 
-        m.initializeTiteGround(position);
-        assertEquals(TileType.GROUND, m.getTiteType(position));
+        m.initializeTileGround(position);
+        assertEquals(TileType.GROUND, m.getTileType(position));
     }
 
     @Test
-    public void testChangeTypeTileToOcean() {
+    public void testChangeTypeTileToOcean() throws PositionOutOfMapaRange {
         m.initializeMap(10, 10, true, true);
-        m.initializeTiteUndefined(position);
-        assertEquals(TileType.UNDEFINED, m.getTiteType(position));
+        m.initializeTileUndefined(position);
+        assertEquals(TileType.UNDEFINED, m.getTileType(position));
 
-        m.initializeTiteOcean(position);
-        assertEquals(TileType.OCEAN, m.getTiteType(position));
+        m.initializeTileOcean(position);
+        assertEquals(TileType.OCEAN, m.getTileType(position));
     }
 
     // TODO: mockito
     @Test(expected = AssertionError.class)
-    public void testIdentifyBadReturns() {
+    public void testIdentifyBadReturns() throws PositionOutOfMapaRange {
         Map map = mock(Map.class);
         map.initializeMap(10, 10, true, true);
-        map.initializeTiteUndefined(position);
+        map.initializeTileUndefined(position);
 
-        when(map.getTiteType(any())).thenReturn(TileType.GROUND);
-        assertEquals(TileType.UNDEFINED, map.getTiteType(position));
+        when(map.getTileType(any())).thenReturn(TileType.GROUND);
+        assertEquals(TileType.UNDEFINED, map.getTileType(position));
     }
 
     @Test
@@ -106,9 +107,9 @@ public class MapTest {
     }
 
     @Test(expected = ArrayIndexOutOfBoundsException.class)
-    public void testChoiceTitleOutOfBound() {
+    public void testChoiceTitleOutOfBound() throws PositionOutOfMapaRange {
         m.initializeMap(10, 10, true, true);
         position = new Position(15, 15);
-        m.initializeTiteUndefined(position);
+        m.initializeTileUndefined(position);
     } 
 }

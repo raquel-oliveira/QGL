@@ -10,17 +10,17 @@ import static org.junit.Assert.assertEquals;
  * @version 4.9
  */
 public class DiscoveryTest {
-    Discovery d;
+    private Discovery d;
 
     @Test
-    public void testInicializeGround() {
+    public void testInitializeGround() {
         d = new Discovery(Found.GROUND, 10);
         assertEquals(Found.GROUND, d.getFound());
         assertEquals(10, d.getRange());
     }
 
     @Test
-    public void testInicializeOutOfRange() {
+    public void testInitializeOutOfRange() {
         d = new Discovery(Found.OUT_OF_RANGE, 10);
         assertEquals(Found.OUT_OF_RANGE, d.getFound());
         assertEquals(10, d.getRange());
