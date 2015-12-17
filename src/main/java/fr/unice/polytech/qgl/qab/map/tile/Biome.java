@@ -1,7 +1,7 @@
 package fr.unice.polytech.qgl.qab.map.tile;
 
 /**
- * @version 12.12.2015
+ * @version 12/12/15
  */
 public class Biome {
     private String name;
