@@ -3,6 +3,7 @@ package fr.unice.polytech.qgl.qab.strategy.aerial.states;
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.aerial.combo.ComboEchos;
+import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapaRange;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.UpdaterMap;
@@ -12,12 +13,12 @@ import fr.unice.polytech.qgl.qab.util.enums.Found;
  * @version 10.12.2015
  */
 public class Initialize extends AerialState {
-    public static Initialize instance;
+    private static Initialize instance;
 
     private ComboEchos actionCombo;
     private UpdaterMap updaterMap;
 
-    protected Initialize() {
+    private Initialize() {
         super();
         updaterMap = new UpdaterMap();
         actionCombo = null;
@@ -30,10 +31,10 @@ public class Initialize extends AerialState {
     }
 
     @Override
-    public AerialState getState(Context context, Map map) {
+    public AerialState getState(Context context, Map map) throws PositionOutOfMapaRange {
         if (actionCombo != null && actionCombo.isEmpty()) {
             updateContext(context, map);
-            if (context.getLastDiscovery().getFound().equals(Found.GROUND)) {
+            if (context.getLastDiscovery().getFound().isEquals(Found.GROUND)) {
                 context.getLastDiscovery().setFound(Found.UNDEFINED);
                 return FlyUntil.getInstance();
             }
@@ -61,7 +62,7 @@ public class Initialize extends AerialState {
         return act;
     }
 
-    private void updateContext(Context context, Map map) {
+    private void updateContext(Context context, Map map) throws PositionOutOfMapaRange {
         updaterMap.initializeDimensions(context, (Echo)lastAction);
         updaterMap.update(context, map);
         updaterMap.setFirstPosition(context, map);

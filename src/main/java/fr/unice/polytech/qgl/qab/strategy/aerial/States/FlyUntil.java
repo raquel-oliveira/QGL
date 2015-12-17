@@ -7,16 +7,16 @@ import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.UpdaterMap;
 
 /**
- * This AerialState represents the fase when the plane fly until it gets over the land.
+ * This AerialState represents the phase when the plane fly until it gets over the land.
  * @version 12.12.2015.
  */
 public class FlyUntil extends AerialState {
-    public static FlyUntil instance;
+    private static FlyUntil instance;
 
     private ComboFlyUntil actionCombo;
     private UpdaterMap updaterMap;
 
-    protected FlyUntil() {
+    private FlyUntil() {
         super();
         actionCombo = null;
         updaterMap = new UpdaterMap();
