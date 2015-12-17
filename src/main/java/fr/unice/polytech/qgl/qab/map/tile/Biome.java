@@ -1,4 +1,4 @@
-package fr.unice.polytech.qgl.qab.util;
+package fr.unice.polytech.qgl.qab.map.tile;
 
 /**
  * @version 12.12.2015

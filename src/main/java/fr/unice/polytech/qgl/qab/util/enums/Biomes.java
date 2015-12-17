@@ -1,7 +1,7 @@
 package fr.unice.polytech.qgl.qab.util.enums;
 
 /**
- * Created by Raquel on 12/12/2015.
+ * @version 12/12/2015.
  */
 public enum Biomes {
     OCEAN("OCEAN"), //: plain ocean, wide open area full of unknown;
@@ -57,9 +57,8 @@ public enum Biomes {
         return name;
     }
 
-    public boolean equals(Biomes biomes) {
-        if (biomes.toString().equalsIgnoreCase(name)) return true;
-        return false;
+    public boolean isEquals(Biomes biomes) {
+        return biomes.toString().equalsIgnoreCase(name);
     }
 
     public TypeBiome typeBiome(Biomes biome){
