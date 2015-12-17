@@ -1,8 +1,6 @@
 package fr.unice.polytech.qgl.qab.actions.ground;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.map.Map;
-import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import org.json.JSONObject;
 
 /**

@@ -5,7 +5,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 /**
  * @author Gabriela
@@ -13,7 +12,7 @@ import static org.junit.Assert.fail;
  */
 public class TileTypeTest {
 
-    TileType type;
+    private TileType type;
 
     @Test
     public void testTileTypeGround() {
@@ -60,19 +59,19 @@ public class TileTypeTest {
     @Test
     public void testFromStringGround() {
         type = TileType.fromString("ground");
-        assertTrue(type.equals(TileType.GROUND));
+        assertTrue(type.isEquals(TileType.GROUND));
     }
 
     @Test
     public void testFromStringUndefined() {
         type = TileType.fromString("undefined");
-        assertTrue(type.equals(TileType.UNDEFINED));
+        assertTrue(type.isEquals(TileType.UNDEFINED));
     }
 
     @Test(expected = NullPointerException.class)
     public void testEqualStringNull() {
         type = TileType.fromString("error");
-        assertTrue(type.equals(null));
+        assertTrue(type.isEquals(null));
     }
 
     @Test

@@ -1,6 +1,7 @@
 package fr.unice.polytech.qgl.qab.actions.aerial.combo;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
+import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.aerial.Heading;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
@@ -28,31 +29,31 @@ public class ComboReturn {
     }
 
     private void turnVertical(Direction head, Map map, Direction moveTo) {
-        if (head.equals(Direction.SOUTH) && moveTo.equals(Direction.EAST)) {
+        if (head.isEquals(Direction.SOUTH) && moveTo.isEquals(Direction.EAST)) {
             actions.add(new Heading(Direction.EAST));
             actions.add(new Heading(Direction.NORTH));
             actions.add(new Heading(Direction.EAST));
             actions.add(new Heading(Direction.SOUTH));
         }
-        else if (head.equals(Direction.SOUTH) && moveTo.equals(Direction.WEST)) {
+        else if (head.isEquals(Direction.SOUTH) && moveTo.isEquals(Direction.WEST)) {
             actions.add(new Heading(Direction.WEST));
             actions.add(new Heading(Direction.NORTH));
             actions.add(new Heading(Direction.WEST));
             actions.add(new Heading(Direction.SOUTH));
         }
-        else if (head.equals(Direction.NORTH) && moveTo.equals(Direction.EAST)) {
+        else if (head.isEquals(Direction.NORTH) && moveTo.isEquals(Direction.EAST)) {
             actions.add(new Heading(Direction.EAST));
             actions.add(new Heading(Direction.SOUTH));
             actions.add(new Heading(Direction.EAST));
             actions.add(new Heading(Direction.NORTH));
         }
-        else if (head.equals(Direction.NORTH) && moveTo.equals(Direction.WEST)) {
+        else if (head.isEquals(Direction.NORTH) && moveTo.isEquals(Direction.WEST)) {
             actions.add(new Heading(Direction.WEST));
             actions.add(new Heading(Direction.SOUTH));
             actions.add(new Heading(Direction.WEST));
             actions.add(new Heading(Direction.NORTH));
         }
-        else if (head.equals(Direction.SOUTH) && moveTo.equals(Direction.SOUTH)) {
+        else if (head.isEquals(Direction.SOUTH) && moveTo.isEquals(Direction.SOUTH)) {
             actions.add(new Heading(Direction.EAST));
             actions.add(new Heading(Direction.NORTH));
             actions.add(new Echo(Direction.NORTH));
@@ -60,7 +61,7 @@ public class ComboReturn {
             actions.add(new Heading(Direction.SOUTH));
             actions.add(new Echo(Direction.SOUTH));
         }
-        else if (head.equals(Direction.NORTH) && moveTo.equals(Direction.NORTH)) {
+        else if (head.isEquals(Direction.NORTH) && moveTo.isEquals(Direction.NORTH)) {
             actions.add(new Heading(Direction.EAST));
             actions.add(new Heading(Direction.SOUTH));
             actions.add(new Heading(Direction.EAST));
@@ -69,16 +70,15 @@ public class ComboReturn {
     }
 
     private void choiceTurnHorizontal(Direction head, Map map, Direction moveTo) {
-        if (!head.equals(moveTo))
+        if (!head.isEquals(moveTo))
             actions.add(new Heading(moveTo));
         else
             actions.add(new Heading(Direction.randomSideDirection(head)));
     }
 
     private void turnHorizontal(Direction head, Map map, Direction moveTo) {
-        Direction head_tmp = head;
         choiceTurnVertical(head, map, moveTo);
-        choiceLastTurn(head_tmp);
+        choiceLastTurn(head);
     }
 
     private void choiceLastTurn(Direction head) {
@@ -96,7 +96,7 @@ public class ComboReturn {
     }
 
     private void choiceTurnVertical(Direction head, Map map, Direction moveTo) {
-        if (!head.equals(moveTo))
+        if (!head.isEquals(moveTo))
             actions.add(new Heading(moveTo));
         else
             actions.add(new Heading(Direction.randomSideDirection(head)));

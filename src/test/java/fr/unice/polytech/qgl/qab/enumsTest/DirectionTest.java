@@ -7,7 +7,6 @@ import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -17,7 +16,7 @@ import static org.mockito.Mockito.when;
  * @version 4.9
  */
 public class DirectionTest {
-    Direction direction;
+    private Direction direction;
 
     @Test
     public void testDirectionEast() {
@@ -70,25 +69,25 @@ public class DirectionTest {
     @Test
     public void testFromStringEast() {
         direction = Direction.fromString("e");
-        assertTrue(direction.equals(Direction.EAST));
+        assertTrue(direction.isEquals(Direction.EAST));
     }
 
     @Test
     public void testFromStringWest() {
         direction = Direction.fromString("w");
-        assertTrue(direction.equals(Direction.WEST));
+        assertTrue(direction.isEquals(Direction.WEST));
     }
 
     @Test
     public void testFromStringNorth() {
         direction = Direction.fromString("n");
-        assertTrue(direction.equals(Direction.NORTH));
+        assertTrue(direction.isEquals(Direction.NORTH));
     }
 
     @Test
     public void testFromStringSouth() {
         direction = Direction.fromString("s");
-        assertTrue(direction.equals(Direction.SOUTH));
+        assertTrue(direction.isEquals(Direction.SOUTH));
     }
 
     @Test

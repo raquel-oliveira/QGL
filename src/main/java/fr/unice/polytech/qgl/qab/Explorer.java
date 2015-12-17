@@ -1,6 +1,8 @@
 package fr.unice.polytech.qgl.qab;
 
 import eu.ace_design.island.bot.IExplorerRaid;
+import fr.unice.polytech.qgl.qab.actions.common.Stop;
+import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapaRange;
 import fr.unice.polytech.qgl.qab.strategy.IStrategy;
 import fr.unice.polytech.qgl.qab.strategy.Strategy;
 
@@ -34,7 +36,11 @@ public class Explorer implements IExplorerRaid {
      * @return for now, we always return the same action: stopping the game
      */
     public String takeDecision() {
-        return strategy.makeDecision();
+        try {
+            return strategy.makeDecision();
+        } catch (PositionOutOfMapaRange positionOutOfMapaRange) {
+            return (new Stop()).toString();
+        }
     }
 
     /**

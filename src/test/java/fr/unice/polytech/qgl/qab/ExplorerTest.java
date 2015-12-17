@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class ExplorerTest {
 
-    Explorer e;
+    private Explorer e;
 
     @Before
     public void defineContext() {

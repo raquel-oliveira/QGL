@@ -1,7 +1,7 @@
 package fr.unice.polytech.qgl.qab.map.tile;
 
 /**
- * @version 8.12.2016
+ * @version 8/12/16
  */
 public class Position {
     private int x;

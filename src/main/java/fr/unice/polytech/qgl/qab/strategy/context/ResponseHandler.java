@@ -2,10 +2,9 @@ package fr.unice.polytech.qgl.qab.strategy.context;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
-import fr.unice.polytech.qgl.qab.actions.aerial.Scan;
-import fr.unice.polytech.qgl.qab.strategy.Strategy;
-import fr.unice.polytech.qgl.qab.util.Biome;
-import fr.unice.polytech.qgl.qab.util.Creek;
+import fr.unice.polytech.qgl.qab.exception.InitializeException;
+import fr.unice.polytech.qgl.qab.map.tile.Biome;
+import fr.unice.polytech.qgl.qab.map.tile.Creek;
 import fr.unice.polytech.qgl.qab.util.Discovery;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 import org.json.JSONArray;
@@ -25,16 +24,15 @@ public class ResponseHandler {
         discovery = new Discovery();
     }
 
-    public Context readData(String data, Action takeAction, Context contextIsland) {
+    public Context readData(String data, Action takeAction, Context contextIsland) throws InitializeException {
         JSONObject jsonObj = new JSONObject(data);
 
-        contextIsland.setStatus((jsonObj.getString("status").compareToIgnoreCase("ok") == 0)? true:false);
+        contextIsland.setStatus((jsonObj.getString("status").compareToIgnoreCase("ok") == 0));
         contextIsland.setBudget(contextIsland.getBudget() - jsonObj.getInt("cost"));
 
         if (takeAction instanceof Echo)
             contextIsland = readDataFromEcho(contextIsland, jsonObj);
-
-        if (takeAction instanceof Scan)
+        else
             contextIsland = readDataFromScan(contextIsland, jsonObj);
 
         return contextIsland;

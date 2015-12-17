@@ -1,18 +1,21 @@
 package fr.unice.polytech.qgl.qab.strategy.context;
 
+import fr.unice.polytech.qgl.qab.exception.InitializeException;
+import fr.unice.polytech.qgl.qab.resources.Resource;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 import fr.unice.polytech.qgl.qab.util.Discovery;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Context {
-    private int men, budget;
+    private Budget budget;
+    private int men;
     private boolean status;
-    private Map<String, Integer> contracts;
+    private List<Contract> contracts;
     private Direction heading;
     private int width, height;
     private boolean widthDefined, heightDefined;
@@ -21,9 +24,8 @@ public class Context {
 
     public Context() {
         men = 0;
-        budget = 0;
         status = true;
-        contracts = new HashMap<>();
+        contracts = new ArrayList<>();
         heading = null;
         width = height = 0;
         widthDefined = heightDefined = false;
@@ -31,7 +33,7 @@ public class Context {
         first_head = null;
     }
 
-    public void saveContext(String context) {
+    public void read(String context) throws InitializeException {
         JSONObject jsonObj = new JSONObject(context);
 
         setMen(jsonObj.getInt("men"));
@@ -54,23 +56,23 @@ public class Context {
     }
 
     public int getBudget() {
-        return budget;
+        return budget.remaining();
     }
 
     public void setStatus(boolean s) {
         status = s;
     }
 
-    public void setBudget(int b) {
-        budget = b;
+    public void setBudget(int b) throws InitializeException {
+        budget = Budget.getInstance(b, b);
     }
 
     public void setMen(int m) {
         men = m;
     }
 
-    public void addContract(String key, int value) {
-        contracts.put(key, value);
+    public void addContract(String resource, int amount) throws InitializeException {
+        contracts.add(new Contract(new Resource(resource), amount));
     }
 
     public void setHeading(Direction dir) {

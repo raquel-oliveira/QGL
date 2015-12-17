@@ -15,12 +15,12 @@ import fr.unice.polytech.qgl.qab.util.enums.Found;
  * @version 11.12.2015.
  */
 public class FindGround extends AerialState {
-    public static FindGround instance;
+    private static FindGround instance;
 
     private ComboFlyEcho actionCombo;
     private UpdaterMap updaterMap;
 
-    protected FindGround() {
+    private FindGround() {
         super();
         actionCombo = null;
         this.lastAction = new Fly();
@@ -47,7 +47,7 @@ public class FindGround extends AerialState {
     @Override
     public Action responseState(Context context, Map map) {
         Action act;
-        if (context.getLastDiscovery().getFound().equals(Found.GROUND) && lastAction instanceof Echo) {
+        if (context.getLastDiscovery().getFound().isEquals(Found.GROUND) && lastAction instanceof Echo) {
             Direction dir = ((Echo)lastAction).getDirection();
             act = new Heading(dir);
             context.setHeading(dir);
@@ -62,10 +62,8 @@ public class FindGround extends AerialState {
 
         act = actionCombo.get(0);
 
-        if (act instanceof Echo) {
-            lastAction = act;
-        } else if (act instanceof Fly) {
-            lastAction = act;
+        lastAction = act;
+        if (act instanceof Fly) {
             updateContext(context, map);
         }
 

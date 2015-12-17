@@ -1,7 +1,6 @@
 package fr.unice.polytech.qgl.qab.actions.common;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.util.enums.ActionBot;
 import org.json.JSONObject;
 
 /**

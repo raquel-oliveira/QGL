@@ -2,9 +2,10 @@ package fr.unice.polytech.qgl.qab.strategy.aerial;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.common.Stop;
+import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapaRange;
 import fr.unice.polytech.qgl.qab.map.Map;
-import fr.unice.polytech.qgl.qab.strategy.aerial.States.State;
-import fr.unice.polytech.qgl.qab.strategy.aerial.States.State0;
+import fr.unice.polytech.qgl.qab.strategy.aerial.states.AerialState;
+import fr.unice.polytech.qgl.qab.strategy.aerial.states.Initialize;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.ResponseState;
 
@@ -14,14 +15,14 @@ import fr.unice.polytech.qgl.qab.strategy.context.ResponseState;
 public class AerialStrategy implements IAerialStrategy {
     private ResponseState response;
     private Map map;
-    private State state;
+    private AerialState state;
 
     public AerialStrategy() {
         map = new Map();
-        state = State0.getInstance();
+        state = Initialize.getInstance();
     }
 
-    public Action makeDecision(Context context){
+    public Action makeDecision(Context context) throws PositionOutOfMapaRange {
         if (contextAnalyzer(context) != null) {
             return contextAnalyzer(context);
         }
@@ -30,7 +31,7 @@ public class AerialStrategy implements IAerialStrategy {
         return state.responseState(context, map);
     }
 
-    public Action contextAnalyzer(Context context) {
+    private Action contextAnalyzer(Context context) {
         if (context.getBudget() < 100) {
             return (new Stop());
         }

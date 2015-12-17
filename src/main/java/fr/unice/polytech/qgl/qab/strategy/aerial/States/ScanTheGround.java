@@ -4,14 +4,10 @@ import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.aerial.combo.ComboFlyScan;
-<<<<<<< HEAD:src/main/java/fr/unice/polytech/qgl/qab/strategy/aerial/States/ScanTheGround.java
-=======
-import fr.unice.polytech.qgl.qab.actions.common.Land;
->>>>>>> 2c181fb4386ceea0c6d2ca43014aae2fbeded184:src/main/java/fr/unice/polytech/qgl/qab/strategy/aerial/States/State3.java
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.UpdaterMap;
-import fr.unice.polytech.qgl.qab.util.Biome;
+import fr.unice.polytech.qgl.qab.map.tile.Biome;
 
 import java.util.ArrayList;
 
@@ -19,12 +15,12 @@ import java.util.ArrayList;
  * @version 12/12/15.
  */
 public class ScanTheGround extends AerialState {
-    public static ScanTheGround instance;
+    private static ScanTheGround instance;
 
     private ComboFlyScan actionCombo;
     private UpdaterMap updaterMap;
 
-    protected ScanTheGround() {
+    private ScanTheGround() {
         super();
         updaterMap = new UpdaterMap();
         this.lastAction = new Fly();

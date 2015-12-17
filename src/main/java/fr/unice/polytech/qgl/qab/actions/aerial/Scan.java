@@ -18,7 +18,7 @@ public class Scan implements Action {
     public boolean isValid(JSONObject jsonObj) {
         if (jsonObj.has("action")) {
             ActionBot act = ActionBot.fromString(jsonObj.getString("action"));
-            return (act.equals(ActionBot.SCAN));
+            return (act.isEquals(ActionBot.SCAN));
         }
         return false;
     }

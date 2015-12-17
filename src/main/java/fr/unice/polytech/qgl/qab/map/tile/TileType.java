@@ -13,19 +13,20 @@ public enum TileType {
 
     TileType(String name) { this.name = name; }
 
+    @Override
     public String toString() {
         try { return name; }
         catch (NullPointerException e) { throw new NullPointerException("TileType is Null"); }
     }
 
-    public boolean equals(TileType type) {
+    public boolean isEquals(Object type) {
         return (type.toString().equalsIgnoreCase(name));
     }
 
-    public static TileType fromString(String tiletype){
-        if (tiletype != null){
+    public static TileType fromString(String tileType){
+        if (tileType != null){
             for (TileType type : TileType.values()){
-                if (type.toString().equalsIgnoreCase(tiletype)) return type;
+                if (type.toString().equalsIgnoreCase(tileType)) return type;
             }
         }
         return null;

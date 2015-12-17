@@ -9,9 +9,9 @@ import fr.unice.polytech.qgl.qab.strategy.context.Context;
  * @version 13.12.2015.
  */
 public class MakeLand extends AerialState {
-    public static MakeLand instance;
+    private static MakeLand instance;
 
-    protected MakeLand() { }
+    private MakeLand() { }
 
     public static MakeLand getInstance() {
         if (instance == null)
