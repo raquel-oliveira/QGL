@@ -18,6 +18,7 @@ import static org.mockito.Mockito.when;
  */
 public class BiomesTest {
     private Biomes biome;
+    private Biomes biome2;
 
     @Test
     public void testBiomeOcean() {
@@ -231,5 +232,20 @@ public class BiomesTest {
         assertEquals(true, TypeBiome.COMMON);
         assertEquals(TypeBiome.COMMON, biome.typeBiome());
     }
-    
+
+    //TODO: Verify if the assertEquals works 'good'to string
+    @Test
+    public void testToString(){
+        biome = biome.OCEAN;
+        assertEquals("OCEAN", biome.toString());
+    }
+
+
+    @Test
+    public void testIsEqual(){
+        biome = Biomes.ALPINE;
+        biome2 = Biomes.ALPINE;
+        assertTrue(biome.isEquals(biome2));
+    }
+
 }
