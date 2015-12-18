@@ -13,12 +13,13 @@ import fr.unice.polytech.qgl.qab.strategy.context.UpdaterMap;
 public class FlyUntil extends AerialState {
     private static FlyUntil instance;
 
+    private StateMediator stateMediator;
     private ComboFlyUntil actionCombo;
     private UpdaterMap updaterMap;
 
     private FlyUntil() {
         super();
-        actionCombo = null;
+        actionCombo = new ComboFlyUntil();
         updaterMap = new UpdaterMap();
     }
 
@@ -29,26 +30,21 @@ public class FlyUntil extends AerialState {
     }
 
     @Override
-    public AerialState getState(Context context, Map map) {
-        if (actionCombo != null && actionCombo.isEmpty())
+    public AerialState getState(Context context, Map map, StateMediator stateMediator) {
+        if (actionCombo.isEmpty())
             return ScanTheGround.getInstance();
-
-        updateContext(context, map);
         return FlyUntil.getInstance();
     }
 
     @Override
-    public Action responseState(Context context,  Map map) {
+    public Action responseState(Context context,  Map map, StateMediator stateMediator) {
         Action act;
 
-        if (actionCombo == null || actionCombo.isEmpty()) {
-            actionCombo = new ComboFlyUntil();
-            actionCombo.defineComboFlyUntil(context.getLastDiscovery().getRange() + 1);
-        }
+        if (actionCombo.isEmpty())
+            actionCombo.defineComboFlyUntil(stateMediator.getRangeToGround() + 1);
 
         act = actionCombo.get(0);
         actionCombo.remove(0);
-
         return act;
     }
 

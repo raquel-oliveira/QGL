@@ -34,10 +34,7 @@ public class FindGround extends AerialState {
     }
 
     @Override
-    public AerialState getState(Context context, Map map) {
-        if (actionCombo != null && actionCombo.isEmpty())
-            updateContext(context, map);
-
+    public AerialState getState(Context context, Map map, StateMediator stateMediator) {
         if (lastAction instanceof Heading)
             return FlyUntil.getInstance();
 
@@ -45,12 +42,13 @@ public class FindGround extends AerialState {
     }
 
     @Override
-    public Action responseState(Context context, Map map) {
+    public Action responseState(Context context, Map map, StateMediator stateMediator) {
         Action act;
         if (context.getLastDiscovery().getFound().isEquals(Found.GROUND) && lastAction instanceof Echo) {
             Direction dir = ((Echo)lastAction).getDirection();
             act = new Heading(dir);
             context.setHeading(dir);
+            stateMediator.setRangeToGround(context.getLastDiscovery().getRange());
             lastAction = act;
             return act;
         }
@@ -63,9 +61,6 @@ public class FindGround extends AerialState {
         act = actionCombo.get(0);
 
         lastAction = act;
-        if (act instanceof Fly) {
-            updateContext(context, map);
-        }
 
         actionCombo.remove(0);
 

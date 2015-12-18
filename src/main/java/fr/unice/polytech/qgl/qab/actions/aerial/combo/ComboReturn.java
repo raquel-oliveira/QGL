@@ -30,42 +30,39 @@ public class ComboReturn {
 
     private void turnVertical(Direction head, Map map, Direction moveTo) {
         if (head.isEquals(Direction.SOUTH) && moveTo.isEquals(Direction.EAST)) {
-            actions.add(new Heading(Direction.EAST));
-            actions.add(new Heading(Direction.NORTH));
-            actions.add(new Heading(Direction.EAST));
-            actions.add(new Heading(Direction.SOUTH));
+            turnEastUp();
+            actions.add(new Echo(Direction.NORTH));
+            turnEastDown();
         }
         else if (head.isEquals(Direction.SOUTH) && moveTo.isEquals(Direction.WEST)) {
-            actions.add(new Heading(Direction.WEST));
-            actions.add(new Heading(Direction.NORTH));
-            actions.add(new Heading(Direction.WEST));
-            actions.add(new Heading(Direction.SOUTH));
+            turnWestUp();
+            actions.add(new Echo(Direction.NORTH));
+            turnWestDown();
+            actions.add(new Echo(Direction.SOUTH));
         }
         else if (head.isEquals(Direction.NORTH) && moveTo.isEquals(Direction.EAST)) {
-            actions.add(new Heading(Direction.EAST));
-            actions.add(new Heading(Direction.SOUTH));
-            actions.add(new Heading(Direction.EAST));
-            actions.add(new Heading(Direction.NORTH));
+            turnEastDown();
+            actions.add(new Echo(Direction.SOUTH));
+            turnEastUp();
+            actions.add(new Echo(Direction.NORTH));
         }
         else if (head.isEquals(Direction.NORTH) && moveTo.isEquals(Direction.WEST)) {
-            actions.add(new Heading(Direction.WEST));
-            actions.add(new Heading(Direction.SOUTH));
-            actions.add(new Heading(Direction.WEST));
-            actions.add(new Heading(Direction.NORTH));
+            turnWestDown();
+            actions.add(new Echo(Direction.SOUTH));
+            turnWestUp();
+            actions.add(new Echo(Direction.NORTH));
         }
         else if (head.isEquals(Direction.SOUTH) && moveTo.isEquals(Direction.SOUTH)) {
-            actions.add(new Heading(Direction.EAST));
-            actions.add(new Heading(Direction.NORTH));
+            turnEastUp();
             actions.add(new Echo(Direction.NORTH));
-            actions.add(new Heading(Direction.EAST));
-            actions.add(new Heading(Direction.SOUTH));
+            turnEastDown();
             actions.add(new Echo(Direction.SOUTH));
         }
         else if (head.isEquals(Direction.NORTH) && moveTo.isEquals(Direction.NORTH)) {
-            actions.add(new Heading(Direction.EAST));
-            actions.add(new Heading(Direction.SOUTH));
-            actions.add(new Heading(Direction.EAST));
-            actions.add(new Heading(Direction.SOUTH));
+            turnEastDown();
+            actions.add(new Echo(Direction.SOUTH));
+            turnEastDown();
+            actions.add(new Echo(Direction.SOUTH));
         }
     }
 
@@ -77,29 +74,70 @@ public class ComboReturn {
     }
 
     private void turnHorizontal(Direction head, Map map, Direction moveTo) {
-        choiceTurnVertical(head, map, moveTo);
-        choiceLastTurn(head);
-    }
-
-    private void choiceLastTurn(Direction head) {
-        if (head.isHorizontal()) {
-            if (head.compareTo(Direction.EAST) == 0)
-                actions.add(new Heading(Direction.WEST));
-            else
-                actions.add(new Heading(Direction.EAST));
-        } else {
-            if (head.compareTo(Direction.NORTH) == 0)
-                actions.add(new Heading(Direction.SOUTH));
-            else
-                actions.add(new Heading(Direction.NORTH));
+        if (head.isEquals(Direction.EAST) && moveTo.isEquals(Direction.SOUTH)) {
+            turnDowntoWest();
+            actions.add(new Echo(Direction.WEST));
+            turnDowntoEast();
+            actions.add(new Echo(Direction.EAST));
+        }
+        else if (head.isEquals(Direction.WEST) && moveTo.isEquals(Direction.SOUTH)) {
+            turnDowntoEast();
+            actions.add(new Echo(Direction.EAST));
+            turnDowntoWest();
+            actions.add(new Echo(Direction.WEST));
+        }
+        else if (head.isEquals(Direction.SOUTH) && moveTo.isEquals(Direction.EAST)) {
+            turnEastUp();
+            actions.add(new Echo(Direction.NORTH));
+            turnEastDown();
+            actions.add(new Echo(Direction.SOUTH));
+        }
+        else if (head.isEquals(Direction.SOUTH) && moveTo.isEquals(Direction.WEST)) {
+            turnWestUp();
+            actions.add(new Echo(Direction.NORTH));
+            turnWestDown();
+            actions.add(new Echo(Direction.SOUTH));
         }
     }
 
-    private void choiceTurnVertical(Direction head, Map map, Direction moveTo) {
-        if (!head.isEquals(moveTo))
-            actions.add(new Heading(moveTo));
-        else
-            actions.add(new Heading(Direction.randomSideDirection(head)));
+    private void turnDowntoEast() {
+        actions.add(new Heading(Direction.SOUTH));
+        actions.add(new Heading(Direction.EAST));
+    }
+
+    private void turnDowntoWest() {
+        actions.add(new Heading(Direction.SOUTH));
+        actions.add(new Heading(Direction.WEST));
+    }
+
+    private void turnUptoEast() {
+        actions.add(new Heading(Direction.NORTH));
+        actions.add(new Heading(Direction.EAST));
+    }
+
+    private void turnUptoWest() {
+        actions.add(new Heading(Direction.NORTH));
+        actions.add(new Heading(Direction.WEST));
+    }
+
+    private void turnEastUp() {
+        actions.add(new Heading(Direction.EAST));
+        actions.add(new Heading(Direction.NORTH));
+    }
+
+    private void turnEastDown() {
+        actions.add(new Heading(Direction.EAST));
+        actions.add(new Heading(Direction.SOUTH));
+    }
+
+    private void turnWestUp() {
+        actions.add(new Heading(Direction.WEST));
+        actions.add(new Heading(Direction.NORTH));
+    }
+
+    private void turnWestDown() {
+        actions.add(new Heading(Direction.WEST));
+        actions.add(new Heading(Direction.SOUTH));
     }
 
     public List<Action> getActions() {
