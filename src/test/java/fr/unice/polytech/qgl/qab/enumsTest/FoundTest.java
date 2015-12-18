@@ -2,10 +2,10 @@ package fr.unice.polytech.qgl.qab.enumsTest;
 
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 import org.junit.Test;
+import org.junit.internal.builders.NullBuilder;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 /**
  * @author Gabriela
@@ -68,6 +68,13 @@ public class FoundTest {
     @Test
     public void testFromStringNotExists() {
         found = Found.fromString("error");
+        assertEquals(null, found);
+    }
+
+    //TODO: Should put to this case return a exception?
+    @Test
+    public void testFromStringNothing() {
+        found = Found.fromString("");
         assertEquals(null, found);
     }
 

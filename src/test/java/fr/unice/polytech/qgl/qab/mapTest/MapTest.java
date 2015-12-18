@@ -25,18 +25,7 @@ public class MapTest {
         position = new Position(9, 9);
     }
 
-    @Test
-    public void testInitializeMap() {
-        m.initializeMap(10, 10, true, true);
-        assertEquals(10, m.getHeight());
-        assertEquals(10, m.getWidth());
-
-
-        m.initializeMap(20, 20, true, true);
-        assertEquals(20, m.getHeight());
-        assertEquals(20, m.getWidth());
-    }
-
+    
     @Test
     public void testTitleUndefined() throws PositionOutOfMapaRange {
         m.initializeMap(10, 10, true, true);
@@ -65,51 +54,8 @@ public class MapTest {
     }
 
     @Test
-    public void testChangeTypeTileToGround() throws PositionOutOfMapaRange {
-        m.initializeMap(10, 10, true, true);
-        m.initializeTileUndefined(position);
-        assertEquals(TileType.UNDEFINED, m.getTileType(position));
-
-        m.initializeTileGround(position);
-        assertEquals(TileType.GROUND, m.getTileType(position));
-    }
-
-    @Test
-    public void testChangeTypeTileToOcean() throws PositionOutOfMapaRange {
-        m.initializeMap(10, 10, true, true);
-        m.initializeTileUndefined(position);
-        assertEquals(TileType.UNDEFINED, m.getTileType(position));
-
-        m.initializeTileOcean(position);
-        assertEquals(TileType.OCEAN, m.getTileType(position));
-    }
-
-    // TODO: mockito
-    @Test(expected = AssertionError.class)
-    public void testIdentifyBadReturns() throws PositionOutOfMapaRange {
-        Map map = mock(Map.class);
-        map.initializeMap(10, 10, true, true);
-        map.initializeTileUndefined(position);
-
-        when(map.getTileType(any())).thenReturn(TileType.GROUND);
-        assertEquals(TileType.UNDEFINED, map.getTileType(position));
-    }
-
-    @Test
     public void testMapIsEmpty() {
         assertEquals(true, m.isEmpty());
     }
-
-    @Test
-    public void testMapIsNotEmpty() {
-        m.initializeMap(10, 10, true, true);
-        assertEquals(true, m.isEmpty());
-    }
-
-    @Test(expected = ArrayIndexOutOfBoundsException.class)
-    public void testChoiceTitleOutOfBound() throws PositionOutOfMapaRange {
-        m.initializeMap(10, 10, true, true);
-        position = new Position(15, 15);
-        m.initializeTileUndefined(position);
-    } 
+    
 }
