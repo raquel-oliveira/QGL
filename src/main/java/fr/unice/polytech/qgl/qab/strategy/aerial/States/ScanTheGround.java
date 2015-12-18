@@ -7,7 +7,6 @@ import fr.unice.polytech.qgl.qab.actions.aerial.combo.ComboFlyScan;
 import fr.unice.polytech.qgl.qab.actions.common.Land;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import fr.unice.polytech.qgl.qab.strategy.context.UpdaterMap;
 import fr.unice.polytech.qgl.qab.map.tile.Biome;
 
 import java.util.ArrayList;
@@ -19,11 +18,9 @@ public class ScanTheGround extends AerialState {
     private static ScanTheGround instance;
 
     private ComboFlyScan actionCombo;
-    private UpdaterMap updaterMap;
 
     private ScanTheGround() {
         super();
-        updaterMap = new UpdaterMap();
         this.lastAction = new Fly();
         actionCombo = null;
     }
@@ -72,9 +69,5 @@ public class ScanTheGround extends AerialState {
         actionCombo.remove(0);
 
         return act;
-    }
-
-    private void updateContext(Context context, Map map) {
-        updaterMap.updateLastPositionFly(context, map);
     }
 }

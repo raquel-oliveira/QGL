@@ -79,38 +79,6 @@ public class Context {
         heading = dir;
     }
 
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public boolean isWidthDefined() {
-        return widthDefined;
-    }
-
-    public void setWidthDefined(boolean defined) {
-        widthDefined = defined;
-    }
-
-    public boolean isHeightDefined() {
-        return heightDefined;
-    }
-
-    public void setHeightDefined(boolean defined) {
-        heightDefined = defined;
-    }
-
-    public void setWidth(int w) {
-        width = w;
-    }
-
-    public void setHeight(int h) {
-        height = h;
-    }
-
     public Discovery getLastDiscovery() {
         return lastDiscovery;
     }

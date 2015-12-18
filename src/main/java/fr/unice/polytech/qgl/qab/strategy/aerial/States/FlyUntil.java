@@ -4,7 +4,6 @@ import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.aerial.combo.ComboFlyUntil;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import fr.unice.polytech.qgl.qab.strategy.context.UpdaterMap;
 
 /**
  * This AerialState represents the phase when the plane fly until it gets over the land.
@@ -15,12 +14,10 @@ public class FlyUntil extends AerialState {
 
     private StateMediator stateMediator;
     private ComboFlyUntil actionCombo;
-    private UpdaterMap updaterMap;
 
     private FlyUntil() {
         super();
         actionCombo = new ComboFlyUntil();
-        updaterMap = new UpdaterMap();
     }
 
     public static FlyUntil getInstance() {
@@ -48,7 +45,4 @@ public class FlyUntil extends AerialState {
         return act;
     }
 
-    private void updateContext(Context context, Map map) {
-        updaterMap.updateLastPositionFly(context, map);
-    }
 }

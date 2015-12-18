@@ -6,7 +6,6 @@ import fr.unice.polytech.qgl.qab.actions.aerial.combo.ComboEchos;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapaRange;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import fr.unice.polytech.qgl.qab.strategy.context.UpdaterMap;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 
 /**
@@ -16,11 +15,9 @@ public class Initialize extends AerialState {
     private static Initialize instance;
 
     private ComboEchos actionCombo;
-    private UpdaterMap updaterMap;
 
     private Initialize() {
         super();
-        updaterMap = new UpdaterMap();
         actionCombo = null;
     }
 
@@ -65,11 +62,5 @@ public class Initialize extends AerialState {
         }
 
         return act;
-    }
-
-    private void updateContext(Context context, Map map) throws PositionOutOfMapaRange {
-        updaterMap.initializeDimensions(context, (Echo)lastAction);
-        updaterMap.update(context, map);
-        updaterMap.setFirstPosition(context, map);
     }
 }

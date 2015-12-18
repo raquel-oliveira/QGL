@@ -7,7 +7,6 @@ import fr.unice.polytech.qgl.qab.actions.aerial.Heading;
 import fr.unice.polytech.qgl.qab.actions.aerial.combo.ComboFlyEcho;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import fr.unice.polytech.qgl.qab.strategy.context.UpdaterMap;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 
@@ -18,13 +17,11 @@ public class FindGround extends AerialState {
     private static FindGround instance;
 
     private ComboFlyEcho actionCombo;
-    private UpdaterMap updaterMap;
 
     private FindGround() {
         super();
         actionCombo = null;
         this.lastAction = new Fly();
-        updaterMap = new UpdaterMap();
     }
 
     public static FindGround getInstance() {
@@ -65,9 +62,5 @@ public class FindGround extends AerialState {
         actionCombo.remove(0);
 
         return act;
-    }
-
-    private void updateContext(Context context, Map map) {
-        updaterMap.updateLastPositionFly(context, map);
     }
 }

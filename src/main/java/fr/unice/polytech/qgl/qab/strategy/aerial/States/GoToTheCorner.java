@@ -6,7 +6,6 @@ import fr.unice.polytech.qgl.qab.actions.common.Stop;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapaRange;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import fr.unice.polytech.qgl.qab.strategy.context.UpdaterMap;
 
 /**
  * @version 17/12/15.
@@ -15,12 +14,10 @@ public class GoToTheCorner extends AerialState {
     private static GoToTheCorner instance;
 
     private ComboFlyUntil actionCombo;
-    private UpdaterMap updaterMap;
 
     private GoToTheCorner() {
         super();
         actionCombo = null;
-        updaterMap = new UpdaterMap();
     }
 
     public static GoToTheCorner getInstance() {
