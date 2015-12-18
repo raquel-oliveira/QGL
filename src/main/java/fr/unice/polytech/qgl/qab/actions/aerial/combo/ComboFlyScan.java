@@ -13,11 +13,10 @@ import java.util.List;
  * Goal: find a creek
  * @version 12.12.2015.
  */
-public class ComboFlyScan {
-    private List<Action> actions;
+public class ComboFlyScan extends Combo{
 
     public ComboFlyScan() {
-        actions = new ArrayList<>();
+        this.actions = new ArrayList<>();
     }
 
     /**
@@ -27,39 +26,5 @@ public class ComboFlyScan {
     public void defineActions(Direction head) {
         actions.add(new Fly());
         actions.add(new Scan());
-    }
-
-    /**
-     * Method to return the list of the actions (fly or scan).
-     * @return actions list
-     */
-    public List<Action> getActions() {
-        return actions;
-    }
-
-    /**
-     * Method that check if the action list is empty
-     * @return true if the list is empty, false if not
-     */
-    public boolean isEmpty() {
-        return actions.isEmpty();
-    }
-
-    /**
-     * Return one action in a defined index.
-     * @param index of the action to return
-     * @return action chosen
-     */
-    public Action get(int index) {
-        return actions.get(index);
-    }
-
-    /**
-     * Method to remove a item that is in the index gave.
-     * @param index to remove item
-     * @return the item removed
-     */
-    public Action remove(int index) {
-        return actions.remove(index);
     }
 }

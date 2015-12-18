@@ -11,11 +11,10 @@ import java.util.List;
  *
  * @version 12.12.2015
  */
-public class ComboFlyUntil {
-    private List<Action> actions;
+public class ComboFlyUntil extends Combo{
 
     public ComboFlyUntil() {
-        actions = new ArrayList<>();
+        this.actions = new ArrayList<>();
     }
 
     /**
@@ -27,45 +26,5 @@ public class ComboFlyUntil {
         for (int i = 1; i < range; i++) {
             actions.add(new Fly());
         }
-    }
-
-    /**
-     * Method to return the list of the actions (fly).
-     *
-     * @return actions list
-     */
-    public List<Action> getActions() {
-        return actions;
-    }
-
-    /**
-     * Method that check if the action list is empty
-     *
-     * @return true if the list is empty, false if not
-     */
-    public boolean isEmpty() {
-        return actions.isEmpty();
-    }
-
-    /**
-     * Return one action in a defined index.
-     *
-     * @param index of the action to return
-     * @return action chosen
-     */
-    public Action get(int index) {
-        if (actions.isEmpty() || index > actions.size())
-            throw new IndexOutOfBoundsException("Index invalid " + index);
-        return actions.get(index);
-    }
-
-    /**
-     * Method to remove a item that is in the index gave.
-     *
-     * @param index to remove item
-     * @return the item removed
-     */
-    public Action remove(int index) {
-        return actions.remove(index);
     }
 }
