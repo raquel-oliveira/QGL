@@ -20,12 +20,12 @@ public class MakeLand extends AerialState {
     }
 
     @Override
-    public AerialState getState(Context context, Map map) {
+    public AerialState getState(Context context, Map map, StateMediator stateMediator) {
         return MakeLand.getInstance();
     }
 
     @Override
-    public Action responseState(Context context, Map map) {
+    public Action responseState(Context context, Map map, StateMediator stateMediator) {
         return new Stop();
     }
 }

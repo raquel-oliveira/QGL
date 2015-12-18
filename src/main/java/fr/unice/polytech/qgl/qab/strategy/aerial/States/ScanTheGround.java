@@ -4,6 +4,7 @@ import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.aerial.combo.ComboFlyScan;
+import fr.unice.polytech.qgl.qab.actions.common.Land;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.UpdaterMap;
@@ -34,8 +35,8 @@ public class ScanTheGround extends AerialState {
     }
 
     @Override
-    public AerialState getState(Context context, Map map) {
-        if (lastAction instanceof fr.unice.polytech.qgl.qab.actions.common.Land)
+    public AerialState getState(Context context, Map map, StateMediator stateMediator) {
+        if (lastAction instanceof Land)
             return MakeLand.getInstance();
 
         if (context.getLastDiscovery().containsBiome(new Biome("OCEAN")) &&
@@ -43,17 +44,15 @@ public class ScanTheGround extends AerialState {
             context.getLastDiscovery().setBiomes(new ArrayList<>());
             return ReturnBack.getInstance();
         }
-
-        updateContext(context, map);
         return ScanTheGround.getInstance();
     }
 
     @Override
-    public Action responseState(Context context, Map map) {
+    public Action responseState(Context context, Map map, StateMediator stateMediator) {
         Action act;
 
         if (!context.getLastDiscovery().getCreeks().isEmpty()) {
-            act = new fr.unice.polytech.qgl.qab.actions.common.Land(context.getLastDiscovery().getCreeks().get(0).getIdCreek(), 1);
+            act = new Land(context.getLastDiscovery().getCreeks().get(0).getIdCreek(), 1);
             lastAction = act;
             return act;
         }

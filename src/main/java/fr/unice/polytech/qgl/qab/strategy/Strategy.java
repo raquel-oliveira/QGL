@@ -8,7 +8,6 @@ import fr.unice.polytech.qgl.qab.strategy.aerial.IAerialStrategy;
 import fr.unice.polytech.qgl.qab.strategy.context.ResponseHandler;
 import fr.unice.polytech.qgl.qab.strategy.ground.GroundStrategy;
 import fr.unice.polytech.qgl.qab.strategy.ground.IGroundStrategy;
-import fr.unice.polytech.qgl.qab.util.enums.ActionBot;
 import fr.unice.polytech.qgl.qab.util.enums.Phase;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import org.apache.bcel.generic.LAND;

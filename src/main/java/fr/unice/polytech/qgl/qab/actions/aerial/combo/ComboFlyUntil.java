@@ -54,6 +54,8 @@ public class ComboFlyUntil {
      * @return action chosen
      */
     public Action get(int index) {
+        if (actions.isEmpty() || index > actions.size())
+            throw new IndexOutOfBoundsException("Index invalid " + index);
         return actions.get(index);
     }
 
