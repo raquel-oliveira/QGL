@@ -31,7 +31,7 @@ public class ReturnBack extends AerialState {
     }
 
     @Override
-    public AerialState getState(Context context, Map map) {
+    public AerialState getState(Context context, Map map, StateMediator stateMediator) {
         if (lastAction instanceof Echo) {
             if (context.getLastDiscovery().getFound().isEquals(Found.OUT_OF_RANGE))
                 return MakeLand.getInstance();
@@ -41,7 +41,7 @@ public class ReturnBack extends AerialState {
     }
 
     @Override
-    public Action responseState(Context context, Map map) {
+    public Action responseState(Context context, Map map, StateMediator stateMediator) {
         Action act = null;
 
         if (actionCombo == null) {
