@@ -20,8 +20,8 @@ public enum ActionBot {
 
     public String toString() { return name; }
 
-    public boolean equals(ActionBot action) {
-        return (action.toString().equalsIgnoreCase(name));
+    public boolean isEquals(ActionBot action) {
+        return action.toString().equalsIgnoreCase(name);
     }
 
     public static ActionBot fromString(String action){

@@ -11,7 +11,7 @@ import static org.junit.Assert.fail;
  * @version 4.9
  */
 public class ActionBotTest {
-    ActionBot action;
+    private ActionBot action;
 
     @Test
     public void testActionBotEcho() {
@@ -85,31 +85,31 @@ public class ActionBotTest {
     @Test
     public void testFromStringEcho() {
         action = ActionBot.fromString("echo");
-        assertTrue(action.equals(ActionBot.ECHO));
+        assertTrue(action.isEquals(ActionBot.ECHO));
     }
 
     @Test
     public void testFromStringLand() {
         action = ActionBot.fromString("land");
-        assertTrue(action.equals(ActionBot.LAND));
+        assertTrue(action.isEquals(ActionBot.LAND));
     }
 
     @Test
     public void testFromStringStop() {
         action = ActionBot.fromString("stop");
-        assertTrue(action.equals(ActionBot.STOP));
+        assertTrue(action.isEquals(ActionBot.STOP));
     }
 
     @Test
     public void testFromStringScan() {
         action = ActionBot.fromString("scan");
-        assertTrue(action.equals(ActionBot.SCAN));
+        assertTrue(action.isEquals(ActionBot.SCAN));
     }
 
     @Test
     public void testFromStringFly() {
         action = ActionBot.fromString("fly");
-        assertTrue(action.equals(ActionBot.FLY));
+        assertTrue(action.isEquals(ActionBot.FLY));
     }
 
     @Test
@@ -121,7 +121,7 @@ public class ActionBotTest {
     @Test(expected = NullPointerException.class)
     public void testEqualStringNull() {
         action = ActionBot.fromString("error");
-        assertTrue(action.equals(null));
+        assertTrue(action.isEquals(null));
     }
 
     public void testFromStringNotExists() {
@@ -132,13 +132,5 @@ public class ActionBotTest {
     @Test(expected = NullPointerException.class)
     public void testToStringBeforeInitialize() {
         action.toString();
-    }
-
-    @Test
-    public void testToStringBeforeInitialize2() {
-        try {
-            action.toString();
-            fail();
-        } catch (NullPointerException e) {}
     }
 }

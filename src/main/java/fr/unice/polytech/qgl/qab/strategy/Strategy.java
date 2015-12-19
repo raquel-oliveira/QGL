@@ -1,18 +1,19 @@
 package fr.unice.polytech.qgl.qab.strategy;
 
+import fr.unice.polytech.qgl.qab.exception.InitializeException;
 import fr.unice.polytech.qgl.qab.actions.Action;
+import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapaRange;
 import fr.unice.polytech.qgl.qab.strategy.aerial.AerialStrategy;
 import fr.unice.polytech.qgl.qab.strategy.aerial.IAerialStrategy;
 import fr.unice.polytech.qgl.qab.strategy.context.ResponseHandler;
-import fr.unice.polytech.qgl.qab.strategy.context.UpdaterMap;
 import fr.unice.polytech.qgl.qab.strategy.ground.GroundStrategy;
 import fr.unice.polytech.qgl.qab.strategy.ground.IGroundStrategy;
-import fr.unice.polytech.qgl.qab.util.enums.ActionBot;
 import fr.unice.polytech.qgl.qab.util.enums.Phase;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
+import org.apache.bcel.generic.LAND;
 
 /**
- * Classe responsible for represent the Strategy to management the making decision.
+ * Class responsible for represent the Strategy to management the making decision.
  *
  * @version 8.12.2016
  */
@@ -43,14 +44,14 @@ public class Strategy implements IStrategy {
      * Method called to make the decision.
      * @return the best action chosen
      */
-    public String makeDecision() {
+    public String makeDecision() throws PositionOutOfMapaRange {
         Action act;
-        if (phase.equals(Phase.AERIAL)) {
+        if (phase.isEquals(Phase.AERIAL)) {
             act = aerialStrategy.makeDecision(context);
-            if (act.equals(ActionBot.LAND)) phase = Phase.GROUND;
+            if (act instanceof LAND) phase = Phase.GROUND;
         } else {
             act = groundStrategy.makeDecision(context);
-            if (act.equals(ActionBot.LAND)) phase = Phase.AERIAL;
+            if (act instanceof LAND) phase = Phase.AERIAL;
         }
         currentAction = act;
         return act.formatResponse();
@@ -61,7 +62,11 @@ public class Strategy implements IStrategy {
      * @param data information that the engine returned
      */
     public void readResults(String data) {
-        context = responseHandler.readData(data, currentAction, context);
+        try {
+            context = responseHandler.readData(data, currentAction, context);
+        } catch (InitializeException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -69,6 +74,10 @@ public class Strategy implements IStrategy {
      * @param contextData the context gave in the begging of the simulation.
      */
     public void initializeContext(String contextData) {
-        context.saveContext(contextData);
+        try {
+            context.read(contextData);
+        } catch (InitializeException e) {
+            e.printStackTrace();
+        }
     }
 }

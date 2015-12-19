@@ -32,6 +32,10 @@ Reorganised the program's code.
 
 ### Week 50
 
+Update how the software works. Implemented state-machine to **fly**, **echo**, **scan** and **heading** in a inteligent way focous at find and analyse the ground. Also was implemented the **land** after checked the first existence of creek.
+
+### Week 51
+
 Short list of the **features** available in the bot delivered for the championship that happened at the end of week 50.
 
     

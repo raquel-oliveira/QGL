@@ -2,17 +2,17 @@ package fr.unice.polytech.qgl.qab.enumsTest;
 
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 import org.junit.Test;
+import org.junit.internal.builders.NullBuilder;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 /**
  * @author Gabriela
  * @version 4.9
  */
 public class FoundTest {
-    Found found;
+    private Found found;
 
     @Test
     public void testFoundGround() {
@@ -44,25 +44,25 @@ public class FoundTest {
     @Test
     public void testEqualsGround() throws Exception {
         found = Found.GROUND;
-        assertTrue(found.equals(Found.GROUND));
+        assertTrue(found.isEquals(Found.GROUND));
     }
 
     @Test
     public void testEqualsOutOfRange() throws Exception {
         found = Found.OUT_OF_RANGE;
-        assertTrue(found.equals(Found.OUT_OF_RANGE));
+        assertTrue(found.isEquals(Found.OUT_OF_RANGE));
     }
 
     @Test
     public void testFromStringGround() throws Exception {
         found = Found.fromString("ground");
-        assertTrue(found.equals(Found.GROUND));
+        assertTrue(found.isEquals(Found.GROUND));
     }
 
     @Test
     public void testFromStringOutOfRange() throws Exception {
         found = Found.fromString("out_of_range");
-        assertTrue(found.equals(Found.OUT_OF_RANGE));
+        assertTrue(found.isEquals(Found.OUT_OF_RANGE));
     }
 
     @Test
@@ -71,16 +71,15 @@ public class FoundTest {
         assertEquals(null, found);
     }
 
+    //TODO: Should put to this case return a exception?
+    @Test
+    public void testFromStringNothing() {
+        found = Found.fromString("");
+        assertEquals(null, found);
+    }
+
     @Test(expected = NullPointerException.class)
     public void testToStringBeforeInitialize() {
         found.toString();
-    }
-
-    @Test
-    public void testToStringBeforeInitialize2() {
-        try {
-            found.toString();
-            fail();
-        } catch (NullPointerException e) {}
     }
 }

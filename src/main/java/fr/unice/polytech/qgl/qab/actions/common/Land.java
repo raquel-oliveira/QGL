@@ -1,17 +1,16 @@
 package fr.unice.polytech.qgl.qab.actions.common;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.util.enums.ActionBot;
 import org.json.JSONObject;
 
 /**
  * @version 12.12.2015.
  */
 public class Land implements Action {
-    private int id;
+    private String id;
     private int people;
 
-    public Land(int id, int people) {
+    public Land(String id, int people) {
         super();
         this.id = id;
         this.people = people;

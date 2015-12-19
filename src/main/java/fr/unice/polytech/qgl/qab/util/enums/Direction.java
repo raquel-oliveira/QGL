@@ -17,7 +17,7 @@ public enum Direction {
 
     /**
      * Constructor enum
-     * @param name
+     * @param name name of the direction
      */
     Direction(String name) {
         this.name = name;
@@ -47,8 +47,8 @@ public enum Direction {
         return name;
     }
 
-    public boolean equals(Direction direction) {
-        return (direction.toString().equalsIgnoreCase(name));
+    public boolean isEquals(Direction direction) {
+        return direction.toString().equalsIgnoreCase(name);
     }
 
     /**

@@ -1,4 +1,4 @@
-package fr.unice.polytech.qgl.qab.strategy.aerial.States;
+package fr.unice.polytech.qgl.qab.strategy.aerial.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
@@ -7,50 +7,45 @@ import fr.unice.polytech.qgl.qab.actions.aerial.Heading;
 import fr.unice.polytech.qgl.qab.actions.aerial.combo.ComboFlyEcho;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import fr.unice.polytech.qgl.qab.strategy.context.UpdaterMap;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 
 /**
  * @version 11.12.2015.
  */
-public class State1 extends State {
-    public static State1 instance;
+public class FindGround extends AerialState {
+    private static FindGround instance;
 
     private ComboFlyEcho actionCombo;
-    private UpdaterMap updaterMap;
 
-    protected State1() {
+    private FindGround() {
         super();
         actionCombo = null;
         this.lastAction = new Fly();
-        updaterMap = new UpdaterMap();
     }
 
-    public static State1 getInstance() {
+    public static FindGround getInstance() {
         if (instance == null)
-            instance = new State1();
+            instance = new FindGround();
         return instance;
     }
 
     @Override
-    public State getState(Context context, Map map) {
-        if (actionCombo != null && actionCombo.isEmpty())
-            updateContext(context, map);
-
+    public AerialState getState(Context context, Map map, StateMediator stateMediator) {
         if (lastAction instanceof Heading)
-            return State2.getInstance();
+            return FlyUntil.getInstance();
 
-        return State1.getInstance();
+        return FindGround.getInstance();
     }
 
     @Override
-    public Action responseState(Context context, Map map) {
-        Action act = null;
-        if (context.getLastDiscovery().getFound().equals(Found.GROUND) && lastAction instanceof Echo) {
+    public Action responseState(Context context, Map map, StateMediator stateMediator) {
+        Action act;
+        if (context.getLastDiscovery().getFound().isEquals(Found.GROUND) && lastAction instanceof Echo) {
             Direction dir = ((Echo)lastAction).getDirection();
             act = new Heading(dir);
             context.setHeading(dir);
+            stateMediator.setRangeToGround(context.getLastDiscovery().getRange());
             lastAction = act;
             return act;
         }
@@ -62,19 +57,10 @@ public class State1 extends State {
 
         act = actionCombo.get(0);
 
-        if (act instanceof Echo) {
-            lastAction = (Echo) act;
-        } else if (act instanceof Fly) {
-            lastAction = (Fly) act;
-            updateContext(context, map);
-        }
+        lastAction = act;
 
         actionCombo.remove(0);
 
         return act;
-    }
-
-    private void updateContext(Context context, Map map) {
-        updaterMap.updateLastPositionFly(context, map);
     }
 }

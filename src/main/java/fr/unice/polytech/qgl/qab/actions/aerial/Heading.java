@@ -22,7 +22,7 @@ public class Heading implements Action {
     public boolean isValid(JSONObject jsonObj) {
         if (jsonObj.has("action")) {
             ActionBot act = ActionBot.fromString(jsonObj.getString("action"));
-            return (act.equals(ActionBot.HEADING));
+            return act.isEquals(ActionBot.HEADING);
         }
         return false;
     }

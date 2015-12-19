@@ -1,7 +1,7 @@
 package fr.unice.polytech.qgl.qab.util.enums;
 
 /**
- * Created by gabriela on 01/12/15.
+ * @version 01/12/15.
  */
 public enum Phase {
     GROUND("GROUND"),
@@ -11,5 +11,9 @@ public enum Phase {
 
     Phase(String name) {
             this.name = name;
+    }
+
+    public boolean isEquals(Phase phase) {
+        return phase.toString().equalsIgnoreCase(name);
     }
 }

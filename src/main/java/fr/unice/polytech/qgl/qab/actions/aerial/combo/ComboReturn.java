@@ -1,22 +1,19 @@
 package fr.unice.polytech.qgl.qab.actions.aerial.combo;
 
-import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.aerial.Heading;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @version 9.12.2015
  */
-public class ComboReturn {
-    private List<Action> actions;
+public class ComboReturn extends Combo {
 
     public ComboReturn() {
-        actions = new ArrayList<>();
+        this.actions = new ArrayList<>();
     }
 
     public void defineHeading(Direction head, Map map, Direction moveTo) {
@@ -24,82 +21,119 @@ public class ComboReturn {
             turnHorizontal(head, map, moveTo);
         }
         if (head.isVertical()) {
-            turnVertial(head, map, moveTo);
+            turnVertical(head, map, moveTo);
         }
     }
 
-    private void turnVertial(Direction head, Map map, Direction moveTo) {
-        Direction head_tmp = head;
-        choiceTurnHorizontal(head, map, moveTo);
-        choiceLastTurn(head_tmp);
+    private void turnVertical(Direction head, Map map, Direction moveTo) {
+        if (head.isEquals(Direction.SOUTH) && moveTo.isEquals(Direction.EAST)) {
+            turnEastUp();
+            actions.add(new Echo(Direction.NORTH));
+            turnEastDown();
+        }
+        else if (head.isEquals(Direction.SOUTH) && moveTo.isEquals(Direction.WEST)) {
+            turnWestUp();
+            actions.add(new Echo(Direction.NORTH));
+            turnWestDown();
+            actions.add(new Echo(Direction.SOUTH));
+        }
+        else if (head.isEquals(Direction.NORTH) && moveTo.isEquals(Direction.EAST)) {
+            turnEastDown();
+            actions.add(new Echo(Direction.SOUTH));
+            turnEastUp();
+            actions.add(new Echo(Direction.NORTH));
+        }
+        else if (head.isEquals(Direction.NORTH) && moveTo.isEquals(Direction.WEST)) {
+            turnWestDown();
+            actions.add(new Echo(Direction.SOUTH));
+            turnWestUp();
+            actions.add(new Echo(Direction.NORTH));
+        }
+        else if (head.isEquals(Direction.SOUTH) && moveTo.isEquals(Direction.SOUTH)) {
+            turnEastUp();
+            actions.add(new Echo(Direction.NORTH));
+            turnEastDown();
+            actions.add(new Echo(Direction.SOUTH));
+        }
+        else if (head.isEquals(Direction.NORTH) && moveTo.isEquals(Direction.NORTH)) {
+            turnEastDown();
+            actions.add(new Echo(Direction.SOUTH));
+            turnEastDown();
+            actions.add(new Echo(Direction.SOUTH));
+        }
     }
 
     private void choiceTurnHorizontal(Direction head, Map map, Direction moveTo) {
-        /*int distanceEast = map.distanceOutOfRange(map.getLastPosition(), Direction.EAST);
-        int distanceWest = map.distanceOutOfRange(map.getLastPosition(), Direction.WEST);
-        if (distanceEast > distanceWest) {
-            actions.add(new Heading(Direction.WEST));
-        } else {
-            actions.add(new Heading(Direction.EAST));
-        }*/
-        actions.add(new Heading(moveTo));
+        if (!head.isEquals(moveTo))
+            actions.add(new Heading(moveTo));
+        else
+            actions.add(new Heading(Direction.randomSideDirection(head)));
     }
 
     private void turnHorizontal(Direction head, Map map, Direction moveTo) {
-        Direction head_tmp = head;
-        choiceTurnVertical(head, map, moveTo);
-        choiceLastTurn(head_tmp);
-    }
-
-    private void choiceLastTurn(Direction head) {
-        if (head.isHorizontal()) {
-            if (head.compareTo(Direction.EAST) == 0)
-                actions.add(new Heading(Direction.WEST));
-            else
-                actions.add(new Heading(Direction.EAST));
-        } else {
-            if (head.compareTo(Direction.NORTH) == 0)
-                actions.add(new Heading(Direction.SOUTH));
-            else
-                actions.add(new Heading(Direction.NORTH));
+        if (head.isEquals(Direction.EAST) && moveTo.isEquals(Direction.SOUTH)) {
+            turnDowntoWest();
+            actions.add(new Echo(Direction.WEST));
+            turnDowntoEast();
+            actions.add(new Echo(Direction.EAST));
+        }
+        else if (head.isEquals(Direction.WEST) && moveTo.isEquals(Direction.SOUTH)) {
+            turnDowntoEast();
+            actions.add(new Echo(Direction.EAST));
+            turnDowntoWest();
+            actions.add(new Echo(Direction.WEST));
+        }
+        else if (head.isEquals(Direction.SOUTH) && moveTo.isEquals(Direction.EAST)) {
+            turnEastUp();
+            actions.add(new Echo(Direction.NORTH));
+            turnEastDown();
+            actions.add(new Echo(Direction.SOUTH));
+        }
+        else if (head.isEquals(Direction.SOUTH) && moveTo.isEquals(Direction.WEST)) {
+            turnWestUp();
+            actions.add(new Echo(Direction.NORTH));
+            turnWestDown();
+            actions.add(new Echo(Direction.SOUTH));
         }
     }
 
-    private void choiceTurnVertical(Direction head, Map map, Direction moveTo) {
-        /*int distanceNorth = map.distanceOutOfRange(map.getLastPosition(), Direction.NORTH);
-        int distanceSouth = map.distanceOutOfRange(map.getLastPosition(), Direction.SOUTH);
-        if (distanceNorth > distanceSouth) {
-            actions.add(new Heading(Direction.NORTH));
-        } else {
-            actions.add(new Heading(Direction.NORTH));
-        }*/
-        actions.add(new Heading(moveTo));
+    private void turnDowntoEast() {
+        actions.add(new Heading(Direction.SOUTH));
+        actions.add(new Heading(Direction.EAST));
     }
 
-    public List<Action> getActions() {
-        return actions;
+    private void turnDowntoWest() {
+        actions.add(new Heading(Direction.SOUTH));
+        actions.add(new Heading(Direction.WEST));
     }
-    /**
-     * Method that check if the action list is empty
-     * @return true if the list is empty, false if not
-     */
-    public boolean isEmpty() {
-        return actions.isEmpty();
+
+    private void turnUptoEast() {
+        actions.add(new Heading(Direction.NORTH));
+        actions.add(new Heading(Direction.EAST));
     }
-    /**
-     * Return one action in a defined index.
-     * @param index of the action to return
-     * @return action chosen
-     */
-    public Action get(int index) {
-        return actions.get(index);
+
+    private void turnUptoWest() {
+        actions.add(new Heading(Direction.NORTH));
+        actions.add(new Heading(Direction.WEST));
     }
-    /**
-     * Method to remove a item that is in the index gave.
-     * @param index to remove item
-     * @return the item removed
-     */
-    public Action remove(int index) {
-        return actions.remove(index);
+
+    private void turnEastUp() {
+        actions.add(new Heading(Direction.EAST));
+        actions.add(new Heading(Direction.NORTH));
+    }
+
+    private void turnEastDown() {
+        actions.add(new Heading(Direction.EAST));
+        actions.add(new Heading(Direction.SOUTH));
+    }
+
+    private void turnWestUp() {
+        actions.add(new Heading(Direction.WEST));
+        actions.add(new Heading(Direction.NORTH));
+    }
+
+    private void turnWestDown() {
+        actions.add(new Heading(Direction.WEST));
+        actions.add(new Heading(Direction.SOUTH));
     }
 }

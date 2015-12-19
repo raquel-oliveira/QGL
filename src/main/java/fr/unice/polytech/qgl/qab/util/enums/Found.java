@@ -21,9 +21,8 @@ public enum Found {
         return name;
     }
 
-    public boolean equals(Found found) {
-        if (found.toString().equalsIgnoreCase(name)) return true;
-        return false;
+    public boolean isEquals(Found found) {
+        return found.toString().equalsIgnoreCase(name);
     }
 
     public static Found fromString(String found){

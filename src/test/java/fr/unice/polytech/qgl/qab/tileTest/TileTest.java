@@ -3,32 +3,30 @@ package fr.unice.polytech.qgl.qab.tileTest;
 import fr.unice.polytech.qgl.qab.map.tile.Tile;
 import fr.unice.polytech.qgl.qab.map.tile.TileType;
 import org.junit.Test;
-import org.mockito.exceptions.misusing.NullInsteadOfMockException;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  *
  * @version 4.9
  */
 public class TileTest {
-    Tile t;
+    private Tile t;
 
     @Test
-    public void testInitializaTitle() {
+    public void testInitializeTile() {
         t = new Tile();
         assertEquals(TileType.UNDEFINED, t.getType());
     }
 
     @Test
-    public void testInitializaTitleWithTypeGround() {
+    public void testInitializeTileWithTypeGround() {
         t = new Tile(TileType.GROUND);
         assertEquals(TileType.GROUND, t.getType());
     }
 
     @Test
-    public void testInitializaTitleWithTypeOcean() {
+    public void testInitializeTileWithTypeOcean() {
         t = new Tile(TileType.OCEAN);
         assertEquals(TileType.OCEAN, t.getType());
     }
