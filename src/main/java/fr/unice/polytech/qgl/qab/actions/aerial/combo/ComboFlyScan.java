@@ -1,12 +1,10 @@
 package fr.unice.polytech.qgl.qab.actions.aerial.combo;
 
-import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.aerial.Scan;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Class to represent the set of fly and scan

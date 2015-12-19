@@ -1,12 +1,10 @@
 package fr.unice.polytech.qgl.qab.actions.aerial.combo;
 
-import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.aerial.Fly;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Class to represent the set of actions Fly and 2 echos(for the direction different of the heading)

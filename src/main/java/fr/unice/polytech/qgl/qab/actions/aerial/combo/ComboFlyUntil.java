@@ -1,10 +1,8 @@
 package fr.unice.polytech.qgl.qab.actions.aerial.combo;
 
-import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.aerial.Fly;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Class to define a list of actions fly
