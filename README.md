@@ -36,6 +36,10 @@ Update how the software works. Implemented state-machine to **fly**, **echo**, *
 
 ### Week 51
 
+Map implemented and land corrected. 
+
+### Week 52
+
 Short list of the **features** available in the bot delivered for the championship that happened at the end of week 50.
 
     
