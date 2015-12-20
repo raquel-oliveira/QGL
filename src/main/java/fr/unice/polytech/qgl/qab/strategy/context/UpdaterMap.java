@@ -8,70 +8,41 @@ import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 
 /**
- * @version 11.12.2015
+ * @version 11/12/15
  */
 public class UpdaterMap {
-    private int axisY;
-    private int axisX;
-    public UpdaterMap() {
-        axisY = 0;
-        axisX = 0;
-    }
+    public UpdaterMap() {}
 
-    public void initializeDimensions(Context context, Echo takeAction) {
-        if (context.getLastDiscovery().getFound().isEquals(Found.OUT_OF_RANGE)) {
-            if (takeAction.getDirection().isVertical() && context.getHeading().isVertical()) {
-                if (!context.isHeightDefined()) {
-                    context.setHeight(context.getLastDiscovery().getRange() + 1);
-                    context.setHeightDefined(true);
-                }
-            } else if (takeAction.getDirection().isVertical() && !context.getHeading().isVertical()) {
-                //if (takeAction.getDirection().equals(Direction.NORTH)) axisY = context.getLastDiscovery().getRange();
-                if (context.getHeight() == 0) {
-                    context.setHeight(context.getLastDiscovery().getRange());
-                } else {
-                    context.setHeight(context.getLastDiscovery().getRange() + 1);
-                    context.setHeightDefined(true);
-                }
-            } else if (takeAction.getDirection().isHorizontal() && context.getHeading().isHorizontal()) {
-                //axisX = context.getLastDiscovery().getRange();
-                if (!context.isWidthDefined()) {
-                    context.setWidth(context.getLastDiscovery().getRange() + 1);
-                    context.setWidthDefined(true);
-                }
-            } else if (takeAction.getDirection().isHorizontal() && !context.getHeading().isHorizontal()) {
-                //if (takeAction.getDirection().equals(Direction.NORTH)) axisY = context.getLastDiscovery().getRange();
-                if (context.getWidth() == 0) {
-                    context.setWidth(context.getLastDiscovery().getRange());
-                } else {
-                    context.setWidth(context.getLastDiscovery().getRange() + 1);
-                    context.setWidthDefined(true);
-                }
+    public void initializeDimensions(Context context, Map map) {
+        if (context.getLastDiscovery().getDirection().isEquals(context.getFirst_head())) {
+            if (context.getFirst_head().isHorizontal()) {
+                setWidth(map, context.getLastDiscovery().getRange() + 1, true);
+            } else {
+                setHeight(map, context.getLastDiscovery().getRange() + 1, true);
             }
-        }
-        else if (context.getLastDiscovery().getFound().equals(Found.GROUND)) {
-            if (takeAction.getDirection().isVertical() && !context.isHeightDefined()) {
-                if (context.getHeight() == 0)
-                    context.setHeight(context.getLastDiscovery().getRange() + 2);
-                else
-                    context.setHeight(context.getLastDiscovery().getRange());
-            } else if (takeAction.getDirection().isHorizontal() && !context.isWidthDefined()) {
-                if (context.getWidth() == 0)
-                    context.setWidth(context.getLastDiscovery().getRange() + 2);
-                else
-                    context.setWidth(context.getLastDiscovery().getRange());
+        } else {
+            if (context.getFirst_head().isVertical()) {
+                if (map.getWidth() >= 0) {
+                    setWidth(map, context.getLastDiscovery().getRange() + 1, true);
+                } else {
+                    setWidth(map, context.getLastDiscovery().getRange() + 1, false);
+                }
+            } else {
+                if (map.getHeight() >= 0) {
+                    setHeight(map, context.getLastDiscovery().getRange() + 1, true);
+                } else {
+                    setHeight(map, context.getLastDiscovery().getRange() + 1, false);
+                }
             }
         }
     }
 
-    public void update(Context context, Map map) {
-        if (context.getHeight() != 0 && context.getWidth() != 0) {
-            map.initializeMap(context.getHeight(), context.getWidth(), true, true);
-        } else if (context.getHeight() != 0 && context.getWidth() == 0) {
-            map.initializeMap(context.getHeight(), 1, true, false);
-        } else if (context.getHeight() == 0 && context.getWidth() != 0) {
-            map.initializeMap(1, context.getWidth(), false, true);
-        }
+    public void setHeight(Map map, int value, boolean defined) {
+        map.initializeHeightMap(value, defined);
+    }
+
+    public void setWidth(Map map, int value, boolean defined) {
+        map.initializeWidthMap(value, defined);
     }
 
     public void updateLastPositionFly(Context context, Map map) {
@@ -94,6 +65,15 @@ public class UpdaterMap {
 
     public void setFirstPosition(Context context, Map map) throws PositionOutOfMapaRange {
         Position position = new Position(0, 0);
+        if (context.getHeading().isHorizontal()) {
+            position.setX(context.getLastDiscovery().getRange());
+            if (context.getHeading().isEquals(Direction.NORTH)) position.setY(0);
+            else position.setY(map.getHeight() - 1);
+        } else {
+            position.setY(context.getLastDiscovery().getRange());
+            if (context.getHeading().isEquals(Direction.EAST)) position.setX(0);
+            else position.setY(map.getWidth() - 1);
+        }
         map.initializeTileOcean(position);
         map.setLastPosition(position);
     }
