@@ -26,13 +26,6 @@ public class Discovery {
         creeks = new ArrayList<>();
     }
 
-    public Discovery(Found found, int range) {
-        this.found = found;
-        this.range = range;
-        biomes = new ArrayList<>();
-        creeks = new ArrayList<>();
-    }
-
     public Discovery(Found found, int range, Direction direction) {
         this.found = found;
         this.range = range;
@@ -46,11 +39,23 @@ public class Discovery {
         this.creeks = creeks;
     }
 
+    public void setUp() {
+        this.found = Found.UNDEFINED;
+        this.range = 0;
+        this.direction = null;
+        biomes = new ArrayList<>();
+        creeks = new ArrayList<>();
+    }
+
     public Found getFound() { return found; }
 
     public int getRange() { return range; }
 
     public Direction getDirection() { return direction; }
+
+    public List<Biome> getBiomes() { return biomes; }
+
+    public List<Creek> getCreeks() { return creeks; }
 
     public void setRange(int range) { this.range = range; }
 
@@ -62,8 +67,6 @@ public class Discovery {
 
     public void setCreeks(List<Creek> creeks) { this.creeks = creeks; }
 
-    public List<Biome> getBiomes() { return biomes; }
-
     public boolean containsBiome(Biome bio) {
         for (Biome b: biomes) {
             if (b.getName().equalsIgnoreCase(bio.getName()))
@@ -72,5 +75,4 @@ public class Discovery {
         return false;
     }
 
-    public List<Creek> getCreeks() { return creeks; }
 }

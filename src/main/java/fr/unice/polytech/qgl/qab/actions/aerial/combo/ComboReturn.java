@@ -33,6 +33,7 @@ public class ComboReturn {
             turnEastUp();
             actions.add(new Echo(Direction.NORTH));
             turnEastDown();
+            actions.add(new Echo(Direction.SOUTH));
         }
         else if (head.isEquals(Direction.SOUTH) && moveTo.isEquals(Direction.WEST)) {
             turnWestUp();
