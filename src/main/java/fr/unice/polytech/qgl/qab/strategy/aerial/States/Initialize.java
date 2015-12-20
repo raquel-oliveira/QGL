@@ -32,10 +32,18 @@ public class Initialize extends AerialState {
 
     @Override
     public AerialState getState(Context context, Map map, StateMediator stateMediator) throws PositionOutOfMapaRange {
-        if (actionCombo != null && actionCombo.isEmpty() && stateMediator.shouldGoToTheCorner())
-            return GoToTheCorner.getInstance();
-        else if (actionCombo != null && actionCombo.isEmpty() && !stateMediator.shouldGoToTheCorner())
-            return FindGround.getInstance();
+        if (actionCombo != null && !stateMediator.shouldGoToTheCorner())
+            updaterMap.initializeDimensions(context, map);
+
+        if (actionCombo != null && actionCombo.isEmpty()) {
+            updaterMap.setFirstPosition(context, map);
+            if (stateMediator.shouldGoToTheCorner()) {
+                actionCombo = null;
+                return GoToTheCorner.getInstance();
+            } else
+                return FindGround.getInstance();
+        }
+
         return Initialize.getInstance();
     }
 
@@ -52,9 +60,7 @@ public class Initialize extends AerialState {
 
         if (context.getLastDiscovery() != null && !stateMediator.shouldGoToTheCorner()) {
             if (context.getLastDiscovery().getFound().isEquals(Found.GROUND))
-                stateMediator.setGoToTheCorner(true) ;
-            else
-                stateMediator.setRangeToGround(context.getLastDiscovery().getRange());
+                stateMediator.setGoToTheCorner(true);
         }
 
         if (stateMediator.shouldGoToTheCorner()) {
@@ -65,11 +71,5 @@ public class Initialize extends AerialState {
         }
 
         return act;
-    }
-
-    private void updateContext(Context context, Map map) throws PositionOutOfMapaRange {
-        updaterMap.initializeDimensions(context, (Echo)lastAction);
-        updaterMap.update(context, map);
-        updaterMap.setFirstPosition(context, map);
     }
 }

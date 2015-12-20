@@ -9,16 +9,20 @@ public class StateMediator {
     private static StateMediator instance;
 
     // initialize - go to the corner
-    private boolean souldGoToTheCorner;
+    private boolean shouldGoToTheCorner;
     private int rangeToTheCorner;
     private Direction directionToTheCorner;
     private int rangeToGround;
 
+    // return back
+    private boolean foundGround;
+
     private StateMediator() {
-        souldGoToTheCorner = false;
+        shouldGoToTheCorner = false;
         rangeToTheCorner = 0;
         directionToTheCorner = null;
         rangeToGround = 0;
+        foundGround = false;
     }
 
     public static StateMediator getInstance() {
@@ -28,11 +32,11 @@ public class StateMediator {
     }
 
     public boolean shouldGoToTheCorner() {
-        return souldGoToTheCorner;
+        return shouldGoToTheCorner;
     }
 
     public void setGoToTheCorner(boolean goToTheCorner) {
-        this.souldGoToTheCorner = goToTheCorner;
+        this.shouldGoToTheCorner = goToTheCorner;
     }
 
     public int getRangeToTheCorner() {
@@ -59,4 +63,9 @@ public class StateMediator {
         this.rangeToGround = rangeToGround;
     }
 
+    public void setFoundGround(boolean foundGround) {
+        this.foundGround = foundGround;
+    }
+
+    public boolean getFoundGround() { return foundGround; }
 }
