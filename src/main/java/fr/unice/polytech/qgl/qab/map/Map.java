@@ -25,17 +25,23 @@ public class Map {
 
     public Map() {
         tiles = new HashMap<>();
-        height = 0;
-        width = 0;
+        height = -1;
+        width = -1;
         returnToGround = false;
     }
 
-    public void initializeMap(int height, int width, boolean definedHeight, boolean definedWidth) {
-        this.tiles = new HashMap<>();
-        this.height = height;
-        this.width = width;
-        this.definedHeight = definedHeight;
-        this.definedWidth = definedWidth;
+    public void initializeHeightMap(int height, boolean definedHeight) {
+        if (!this.definedHeight) {
+            this.height += (height + 1);
+            this.definedHeight = definedHeight;
+        }
+    }
+
+    public void initializeWidthMap(int width, boolean definedWidth) {
+        if (!this.definedWidth) {
+            this.width += (width + 1);
+            this.definedWidth = definedWidth;
+        }
     }
 
     public void initializeTileUndefined(Position position) throws PositionOutOfMapaRange {
@@ -49,13 +55,12 @@ public class Map {
         if (position.getX() >= width || position.getY() >= height)
             throw new PositionOutOfMapaRange("Value out of map range!");
         lastPosition = position;
-        returnToGround = false;
         tiles.put(position, new Tile(TileType.GROUND));
     }
 
     public void initializeTileOcean(Position position) throws PositionOutOfMapaRange {
-        if (position.getX() >= width || position.getY() >= height)
-            throw new PositionOutOfMapaRange("Value out of map range!");
+        //if (position.getX() >= width || position.getY() >= height)
+        //    throw new PositionOutOfMapaRange("Value out of map range!");
         lastPosition = position;
         tiles.put(position, new Tile(TileType.OCEAN));
     }
@@ -78,6 +83,10 @@ public class Map {
 
     public boolean returnGround() {
         return returnToGround;
+    }
+
+    public void setReturnGround(boolean returnToGround) {
+        this.returnToGround = returnToGround;
     }
 
     /**
