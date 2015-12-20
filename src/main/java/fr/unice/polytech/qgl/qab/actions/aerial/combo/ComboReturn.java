@@ -18,14 +18,14 @@ public class ComboReturn extends Combo {
 
     public void defineHeading(Direction head, Map map, Direction moveTo) {
         if (head.isHorizontal()) {
-            turnHorizontal(head, map, moveTo);
+            turnHorizontal(head, moveTo);
         }
         if (head.isVertical()) {
-            turnVertical(head, map, moveTo);
+            turnVertical(head, moveTo);
         }
     }
 
-    private void turnVertical(Direction head, Map map, Direction moveTo) {
+    private void turnVertical(Direction head, Direction moveTo) {
         if (head.isEquals(Direction.SOUTH) && moveTo.isEquals(Direction.EAST)) {
             turnEastUp();
             actions.add(new Echo(Direction.NORTH));
@@ -64,14 +64,7 @@ public class ComboReturn extends Combo {
         }
     }
 
-    private void choiceTurnHorizontal(Direction head, Map map, Direction moveTo) {
-        if (!head.isEquals(moveTo))
-            actions.add(new Heading(moveTo));
-        else
-            actions.add(new Heading(Direction.randomSideDirection(head)));
-    }
-
-    private void turnHorizontal(Direction head, Map map, Direction moveTo) {
+    private void turnHorizontal(Direction head, Direction moveTo) {
         if (head.isEquals(Direction.EAST) && moveTo.isEquals(Direction.SOUTH)) {
             turnDowntoWest();
             actions.add(new Echo(Direction.WEST));
