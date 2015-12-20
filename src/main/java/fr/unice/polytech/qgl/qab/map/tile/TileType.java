@@ -20,7 +20,7 @@ public enum TileType {
     }
 
     public boolean isEquals(Object type) {
-        return (type.toString().equalsIgnoreCase(name));
+        return type.toString().equalsIgnoreCase(name);
     }
 
     public static TileType fromString(String tileType){

@@ -48,7 +48,7 @@ public enum Direction {
     }
 
     public boolean isEquals(Direction direction) {
-        return (direction.toString().equalsIgnoreCase(name));
+        return direction.toString().equalsIgnoreCase(name);
     }
 
     /**

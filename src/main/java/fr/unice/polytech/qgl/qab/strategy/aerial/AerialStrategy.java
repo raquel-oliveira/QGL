@@ -36,7 +36,7 @@ public class AerialStrategy implements IAerialStrategy {
 
     private Action contextAnalyzer(Context context) {
         if (context.getBudget() < 100) {
-            return (new Stop());
+            return new Stop();
         }
         return null;
     }

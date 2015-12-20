@@ -27,7 +27,7 @@ public class ResponseHandler {
     public Context readData(String data, Action takeAction, Context contextIsland) throws InitializeException {
         JSONObject jsonObj = new JSONObject(data);
 
-        contextIsland.setStatus((jsonObj.getString("status").compareToIgnoreCase("ok") == 0));
+        contextIsland.setStatus(jsonObj.getString("status").compareToIgnoreCase("ok") == 0);
         contextIsland.setBudget(contextIsland.getBudget() - jsonObj.getInt("cost"));
 
         if (takeAction instanceof Echo) {

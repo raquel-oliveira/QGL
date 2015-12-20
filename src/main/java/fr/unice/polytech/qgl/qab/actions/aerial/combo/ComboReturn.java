@@ -1,22 +1,19 @@
 package fr.unice.polytech.qgl.qab.actions.aerial.combo;
 
-import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.aerial.Heading;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @version 9.12.2015
  */
-public class ComboReturn {
-    private List<Action> actions;
+public class ComboReturn extends Combo {
 
     public ComboReturn() {
-        actions = new ArrayList<>();
+        this.actions = new ArrayList<>();
     }
 
     public void defineHeading(Direction head, Map map, Direction moveTo) {
@@ -139,35 +136,5 @@ public class ComboReturn {
     private void turnWestDown() {
         actions.add(new Heading(Direction.WEST));
         actions.add(new Heading(Direction.SOUTH));
-    }
-
-    public List<Action> getActions() {
-        return actions;
-    }
-
-    /**
-     * Method that check if the action list is empty
-     * @return true if the list is empty, false if not
-     */
-    public boolean isEmpty() {
-        return actions.isEmpty();
-    }
-
-    /**
-     * Return one action in a defined index.
-     * @param index of the action to return
-     * @return action chosen
-     */
-    public Action get(int index) {
-        return actions.get(index);
-    }
-
-    /**
-     * Method to remove a item that is in the index gave.
-     * @param index to remove item
-     * @return the item removed
-     */
-    public Action remove(int index) {
-        return actions.remove(index);
     }
 }

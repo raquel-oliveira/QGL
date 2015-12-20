@@ -14,6 +14,6 @@ public enum Phase {
     }
 
     public boolean isEquals(Phase phase) {
-        return (phase.toString().equalsIgnoreCase(name));
+        return phase.toString().equalsIgnoreCase(name);
     }
 }

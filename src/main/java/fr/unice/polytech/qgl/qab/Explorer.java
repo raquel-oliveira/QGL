@@ -32,6 +32,7 @@ public class Explorer implements IExplorerRaid {
      * Method to initiate the game. It is invoked right after the initialization.
      * @param context assignment (modeled as a JSON data structure) with the main information to initiate the game.
      */
+    @Override
     public void initialize(String context) {
         try {
             strategy.initializeContext(context);
@@ -44,6 +45,8 @@ public class Explorer implements IExplorerRaid {
      * Method responsible for take decisions, invoked each time the bot must decide which action must be played.
      * @return for now, we always return the same action: stopping the game
      */
+    @Override
+    //TODO: Either log or rethrow this exception
     public String takeDecision() {
         try {
             return strategy.makeDecision();
@@ -57,6 +60,7 @@ public class Explorer implements IExplorerRaid {
      * It provides the results of the action when applied.
      * @param results information returned after as result of the strategy action
      */
+    @Override
     public void acknowledgeResults(String results) {
          strategy.readResults(results);
     }
