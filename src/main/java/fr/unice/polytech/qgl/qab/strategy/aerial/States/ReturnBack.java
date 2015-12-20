@@ -34,7 +34,7 @@ public class ReturnBack extends AerialState {
     public AerialState getState(Context context, Map map, StateMediator stateMediator) {
         if (lastAction instanceof Echo) {
             if (context.getLastDiscovery().getFound().isEquals(Found.OUT_OF_RANGE))
-                return MakeLand.getInstance();
+                return Finish.getInstance();
             return ScanTheGround.getInstance();
         }
         return ReturnBack.getInstance();

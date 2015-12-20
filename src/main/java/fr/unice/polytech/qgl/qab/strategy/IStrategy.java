@@ -1,5 +1,6 @@
 package fr.unice.polytech.qgl.qab.strategy;
 
+import fr.unice.polytech.qgl.qab.exception.InitializeException;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapaRange;
 
 /**
@@ -10,5 +11,5 @@ public interface IStrategy {
 
     void readResults(String data);
 
-    void initializeContext(String context);
+    void initializeContext(String context) throws InitializeException;
 }

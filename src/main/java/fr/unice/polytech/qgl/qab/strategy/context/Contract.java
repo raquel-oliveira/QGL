@@ -8,19 +8,11 @@ import fr.unice.polytech.qgl.qab.resources.Resource;
  * @version 16/12/15.
  */
 public class Contract {
-    private static Contract instance;
-
     private Resource resource;
     private int amount;
     private int accumulated;
 
-    public static Contract getInstance(Resource resource, int amount) throws InitializeException {
-        if (instance == null)
-            instance = new Contract(resource, amount);
-        return instance;
-    }
-
-    Contract(Resource resource, int amount) throws InitializeException {
+    public Contract(Resource resource, int amount) throws InitializeException {
         if (amount < 0) throw new InitializeException("The value to initial amount to the resource can not be negative.");
         this.resource = resource;
         this.amount = amount;

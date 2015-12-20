@@ -28,8 +28,10 @@ public class FlyUntil extends AerialState {
 
     @Override
     public AerialState getState(Context context, Map map, StateMediator stateMediator) {
-        if (actionCombo.isEmpty())
+        if (actionCombo.isEmpty()) {
+            actionCombo = new ComboFlyUntil();
             return ScanTheGround.getInstance();
+        }
         return FlyUntil.getInstance();
     }
 

@@ -12,25 +12,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Context {
-    private Budget budget;
     private int men;
     private boolean status;
+    private Budget budget;
     private List<Contract> contracts;
-    private Direction heading;
-    private int width, height;
-    private boolean widthDefined, heightDefined;
-    private Discovery lastDiscovery;
-    private Direction first_head;
 
-    public Context() {
+    private Direction first_head;
+    private Direction heading;
+
+    private Discovery lastDiscovery;
+
+    public Context() throws InitializeException {
         men = 0;
         status = true;
+        budget = new Budget(0);
         contracts = new ArrayList<>();
-        heading = null;
-        width = height = 0;
-        widthDefined = heightDefined = false;
-        lastDiscovery = null;
+
         first_head = null;
+        heading = null;
+
+        lastDiscovery = null;
     }
 
     public void read(String context) throws InitializeException {
@@ -59,12 +60,24 @@ public class Context {
         return budget.remaining();
     }
 
+    public Direction getFirst_head() {
+        return first_head;
+    }
+
+    public Discovery getLastDiscovery() {
+        return lastDiscovery;
+    }
+
     public void setStatus(boolean s) {
         status = s;
     }
 
     public void setBudget(int b) throws InitializeException {
-        budget = Budget.getInstance(b, b);
+        try {
+            budget = new Budget(b);
+        } catch (InitializeException e) {
+            budget = new Budget(0);
+        }
     }
 
     public void setMen(int m) {
@@ -79,15 +92,7 @@ public class Context {
         heading = dir;
     }
 
-    public Discovery getLastDiscovery() {
-        return lastDiscovery;
-    }
-
     public void setLastDiscovery(Discovery lastDiscovery) {
         this.lastDiscovery = lastDiscovery;
-    }
-
-    public Direction getFirst_head() {
-        return first_head;
     }
 }

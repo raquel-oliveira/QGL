@@ -2,6 +2,8 @@ package fr.unice.polytech.qgl.qab.strategy.context;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
+import fr.unice.polytech.qgl.qab.actions.aerial.Fly;
+import fr.unice.polytech.qgl.qab.actions.aerial.Scan;
 import fr.unice.polytech.qgl.qab.exception.InitializeException;
 import fr.unice.polytech.qgl.qab.map.tile.Biome;
 import fr.unice.polytech.qgl.qab.map.tile.Creek;
@@ -14,15 +16,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @version 8.12.2016
+ * @version 8/12/16
  */
 public class ResponseHandler {
 
     private Discovery discovery;
 
-    public ResponseHandler() {
-        discovery = new Discovery();
-    }
+    public ResponseHandler() { discovery = new Discovery(); }
 
     public Context readData(String data, Action takeAction, Context contextIsland) throws InitializeException {
         JSONObject jsonObj = new JSONObject(data);
@@ -30,10 +30,14 @@ public class ResponseHandler {
         contextIsland.setStatus(jsonObj.getString("status").compareToIgnoreCase("ok") == 0);
         contextIsland.setBudget(contextIsland.getBudget() - jsonObj.getInt("cost"));
 
-        if (takeAction instanceof Echo)
+        if (takeAction instanceof Echo) {
             contextIsland = readDataFromEcho(contextIsland, jsonObj);
-        else
+            contextIsland.getLastDiscovery().setDirection(((Echo) takeAction).getDirection());
+        } else if (takeAction instanceof Scan) {
             contextIsland = readDataFromScan(contextIsland, jsonObj);
+        } else if (takeAction instanceof Fly) {
+            contextIsland.getLastDiscovery().setUp();
+        }
 
         return contextIsland;
     }

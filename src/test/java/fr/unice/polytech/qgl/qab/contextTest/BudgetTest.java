@@ -13,25 +13,16 @@ public class BudgetTest {
 	
 	@Test
 	public void TestInitial() throws InitializeException{
-		b = Budget.getInstance(500, 500);
+		b = new Budget(500);
 		assertEquals(500,b.initial());
 	}
 	
 	
 	@Test
-	public void Testremaining() throws InitializeException{
-		b = Budget.getInstance(500, 400);
-		assertEquals(400,b.remaining());
+	public void Testremaining() throws InitializeException, NegativeException {
+		b = new Budget(500);
+		b.spend(100);
+		assertEquals(400, b.remaining());
 		
 	}
-	
-	@Test
-	public void TestSpend() throws InitializeException, NegativeException{
-		b = Budget.getInstance(500, 100);
-		b.spend(50);
-		assertEquals(50,b.remaining());
-	}
-	
-	
-
 }

@@ -30,6 +30,7 @@ public class ComboReturn extends Combo {
             turnEastUp();
             actions.add(new Echo(Direction.NORTH));
             turnEastDown();
+            actions.add(new Echo(Direction.SOUTH));
         }
         else if (head.isEquals(Direction.SOUTH) && moveTo.isEquals(Direction.WEST)) {
             turnWestUp();
