@@ -76,8 +76,6 @@ public class Context {
         try {
             budget = new Budget(b);
         } catch (InitializeException e) {
-            e.printStackTrace();
-        } finally {
             budget = new Budget(0);
         }
     }

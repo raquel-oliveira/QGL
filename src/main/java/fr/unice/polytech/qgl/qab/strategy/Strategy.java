@@ -15,7 +15,7 @@ import org.apache.bcel.generic.LAND;
 /**
  * Class responsible for represent the Strategy to management the making decision.
  *
- * @version 8.12.2016
+ * @version 8/12/16
  */
 public class Strategy implements IStrategy {
     // object responsible for choice the best action to the plane
@@ -31,7 +31,7 @@ public class Strategy implements IStrategy {
     // object to read the response
     private ResponseHandler responseHandler;
 
-    public Strategy() {
+    public Strategy() throws InitializeException {
         aerialStrategy = new AerialStrategy();
         groundStrategy = new GroundStrategy();
         phase = Phase.AERIAL;
@@ -73,11 +73,7 @@ public class Strategy implements IStrategy {
      * Method responsible to read and save the context gave int the begging of the simulation.
      * @param contextData the context gave in the begging of the simulation.
      */
-    public void initializeContext(String contextData) {
-        try {
-            context.read(contextData);
-        } catch (InitializeException e) {
-            e.printStackTrace();
-        }
+    public void initializeContext(String contextData) throws InitializeException {
+        context.read(contextData);
     }
 }

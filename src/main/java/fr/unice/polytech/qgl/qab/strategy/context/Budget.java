@@ -7,20 +7,13 @@ import fr.unice.polytech.qgl.qab.exception.NegativeException;
  * @version 16/12/15.
  */
 public class Budget {
-    private static Budget instance;
     private int initial;
     private int remaining;
 
-    public static Budget getInstance(int initial, int remaining) throws InitializeException {
-        if (instance == null)
-            instance = new Budget(initial, remaining);
-        return instance;
-    }
-
-    private Budget(int initial, int remaining) throws InitializeException {
-        if (initial < 0) throw new InitializeException("The value to initial budget can not be negative.");
+    public Budget(int initial) throws InitializeException {
+        if (initial < 0) throw new InitializeException();
         this.initial = initial;
-        this.remaining = remaining;
+        this.remaining = initial;
     }
 
     public int initial() {
