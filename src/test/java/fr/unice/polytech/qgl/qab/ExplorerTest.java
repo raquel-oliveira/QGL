@@ -1,6 +1,5 @@
 package fr.unice.polytech.qgl.qab;
 
-import fr.unice.polytech.qgl.qab.exception.InitializeException;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
