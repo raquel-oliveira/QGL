@@ -34,6 +34,7 @@ public class MapTest {
 
         m.initializeWidthMap(20, true);
         m.initializeHeightMap(20, true);
+
         assertEquals(31, m.getHeight());
         assertEquals(31, m.getWidth());
     }
