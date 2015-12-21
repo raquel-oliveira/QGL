@@ -4,7 +4,6 @@ import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.tile.Position;
 import fr.unice.polytech.qgl.qab.map.tile.Tile;
 import fr.unice.polytech.qgl.qab.map.tile.TileType;
-import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 import java.util.HashMap;
 
@@ -67,21 +66,37 @@ public class Map {
         tiles.put(position, new Tile(TileType.OCEAN));
     }
 
-    public int getHeight() { return height; }
+    public int getHeight() {
+        return height;
+    }
 
-    public int getWidth() { return width; }
+    public int getWidth() {
+        return width;
+    }
 
-    public TileType getTileType(Position position) { return tiles.get(position).getType(); }
+    public TileType getTileType(Position position) {
+        return tiles.get(position).getType();
+    }
 
-    public Position getLastPosition() { return lastPosition; }
+    public Position getLastPosition() {
+        return lastPosition;
+    }
 
-    public void setLastPosition(Position position) { lastPosition = position; }
+    public void setLastPosition(Position position) {
+        lastPosition = position;
+    }
 
-    public boolean isDefinedHeight() { return definedHeight; }
+    public boolean isDefinedHeight() {
+        return definedHeight;
+    }
 
-    public boolean isDefinedWidth() { return definedWidth; }
+    public boolean isDefinedWidth() {
+        return definedWidth;
+    }
 
-    public boolean isEmpty() { return tiles.isEmpty(); }
+    public boolean isEmpty() {
+        return tiles.isEmpty();
+    }
 
     public boolean returnGround() {
         return returnToGround;
@@ -89,45 +104,5 @@ public class Map {
 
     public void setReturnGround(boolean returnToGround) {
         this.returnToGround = returnToGround;
-    }
-
-    /**
-     * Method to calculate the distance between the position gave as parameter.
-     * @param position
-     * @param direction
-     * @return
-     */
-    public int distanceOutOfRange(Position position, Direction direction) {
-        if (direction.isHorizontal()) {
-            if (direction.isEquals(Direction.WEST)) {
-                return width - position.getX();
-            } else if (direction.isEquals(Direction.WEST)) {
-                return position.getX() - width;
-            }
-        } else {
-            if (direction.isEquals(Direction.NORTH)) {
-                return width - position.getX();
-            } else {
-                return position.getX() - width;
-            }
-        }
-        return -1;
-    }
-
-    public boolean hasSpace(Direction direction) {
-        if (direction.isHorizontal()) {
-            if (direction.isEquals(Direction.WEST)) {
-                if (width - lastPosition.getX() == 1) return false;
-            } else if (direction.isEquals(Direction.WEST)) {
-                if (lastPosition.getX() - width == 1) return false;
-            }
-        } else {
-            if (direction.isEquals(Direction.NORTH)) {
-                if (width - lastPosition.getX() == 1) return false;
-            } else {
-                if (lastPosition.getX() - width == 1) return false;
-            }
-        }
-        return true;
     }
 }
