@@ -1,8 +1,8 @@
 package fr.unice.polytech.qgl.qab.strategy;
 
-import fr.unice.polytech.qgl.qab.exception.InitializeException;
 import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapaRange;
+import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
+import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.strategy.aerial.AerialStrategy;
 import fr.unice.polytech.qgl.qab.strategy.aerial.IAerialStrategy;
 import fr.unice.polytech.qgl.qab.strategy.context.ResponseHandler;
@@ -31,7 +31,7 @@ public class Strategy implements IStrategy {
     // object to read the response
     private ResponseHandler responseHandler;
 
-    public Strategy() throws InitializeException {
+    public Strategy() throws NegativeBudgetException {
         aerialStrategy = new AerialStrategy();
         groundStrategy = new GroundStrategy();
         phase = Phase.AERIAL;
@@ -44,7 +44,7 @@ public class Strategy implements IStrategy {
      * Method called to make the decision.
      * @return the best action chosen
      */
-    public String makeDecision() throws PositionOutOfMapaRange {
+    public String makeDecision() throws PositionOutOfMapRange {
         Action act;
         if (phase.isEquals(Phase.AERIAL)) {
             act = aerialStrategy.makeDecision(context);
@@ -64,7 +64,7 @@ public class Strategy implements IStrategy {
     public void readResults(String data) {
         try {
             context = responseHandler.readData(data, currentAction, context);
-        } catch (InitializeException e) {
+        } catch (NegativeBudgetException e) {
             e.printStackTrace();
         }
     }
@@ -73,7 +73,7 @@ public class Strategy implements IStrategy {
      * Method responsible to read and save the context gave int the begging of the simulation.
      * @param contextData the context gave in the begging of the simulation.
      */
-    public void initializeContext(String contextData) throws InitializeException {
+    public void initializeContext(String contextData) throws NegativeBudgetException {
         context.read(contextData);
     }
 }

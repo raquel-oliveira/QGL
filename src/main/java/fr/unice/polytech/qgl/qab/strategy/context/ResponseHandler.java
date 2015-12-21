@@ -4,7 +4,7 @@ import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.aerial.Scan;
-import fr.unice.polytech.qgl.qab.exception.InitializeException;
+import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.map.tile.Biome;
 import fr.unice.polytech.qgl.qab.map.tile.Creek;
 import fr.unice.polytech.qgl.qab.util.Discovery;
@@ -24,7 +24,7 @@ public class ResponseHandler {
 
     public ResponseHandler() { discovery = new Discovery(); }
 
-    public Context readData(String data, Action takeAction, Context contextIsland) throws InitializeException {
+    public Context readData(String data, Action takeAction, Context contextIsland) throws NegativeBudgetException {
         JSONObject jsonObj = new JSONObject(data);
 
         contextIsland.setStatus(jsonObj.getString("status").compareToIgnoreCase("ok") == 0);

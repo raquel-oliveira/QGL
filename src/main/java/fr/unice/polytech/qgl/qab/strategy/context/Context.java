@@ -1,6 +1,6 @@
 package fr.unice.polytech.qgl.qab.strategy.context;
 
-import fr.unice.polytech.qgl.qab.exception.InitializeException;
+import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.resources.Resource;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
@@ -22,7 +22,7 @@ public class Context {
 
     private Discovery lastDiscovery;
 
-    public Context() throws InitializeException {
+    public Context() throws NegativeBudgetException {
         men = 0;
         status = true;
         budget = new Budget(0);
@@ -34,7 +34,7 @@ public class Context {
         lastDiscovery = null;
     }
 
-    public void read(String context) throws InitializeException {
+    public void read(String context) throws NegativeBudgetException {
         JSONObject jsonObj = new JSONObject(context);
 
         setMen(jsonObj.getInt("men"));
@@ -72,10 +72,10 @@ public class Context {
         status = s;
     }
 
-    public void setBudget(int b) throws InitializeException {
+    public void setBudget(int b) throws NegativeBudgetException {
         try {
             budget = new Budget(b);
-        } catch (InitializeException e) {
+        } catch (NegativeBudgetException e) {
             budget = new Budget(0);
         }
     }
@@ -84,7 +84,7 @@ public class Context {
         men = m;
     }
 
-    public void addContract(String resource, int amount) throws InitializeException {
+    public void addContract(String resource, int amount) throws NegativeBudgetException {
         contracts.add(new Contract(new Resource(resource), amount));
     }
 

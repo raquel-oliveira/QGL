@@ -1,11 +1,9 @@
 package fr.unice.polytech.qgl.qab.strategy.context;
 
-import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
-import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapaRange;
+import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.map.tile.Position;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
-import fr.unice.polytech.qgl.qab.util.enums.Found;
 
 /**
  * @version 11/12/15
@@ -63,7 +61,7 @@ public class UpdaterMap {
         }
     }
 
-    public void setFirstPosition(Context context, Map map) throws PositionOutOfMapaRange {
+    public void setFirstPosition(Context context, Map map) throws PositionOutOfMapRange {
         Position position = new Position(0, 0);
         if (context.getHeading().isHorizontal()) {
             position.setX(context.getLastDiscovery().getRange());

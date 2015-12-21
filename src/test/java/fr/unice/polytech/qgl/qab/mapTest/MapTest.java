@@ -1,6 +1,6 @@
 package fr.unice.polytech.qgl.qab.mapTest;
 
-import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapaRange;
+import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.map.tile.Position;
 import fr.unice.polytech.qgl.qab.map.tile.TileType;
@@ -39,7 +39,7 @@ public class MapTest {
     }
 
     @Test
-    public void testTitleUndefined() throws PositionOutOfMapaRange {
+    public void testTitleUndefined() throws PositionOutOfMapRange {
         position = new Position(0, 0);
         m.initializeTileUndefined(position);
         assertEquals(TileType.UNDEFINED, m.getTileType(position));
@@ -50,19 +50,19 @@ public class MapTest {
     }
 
     @Test
-    public void testTitleGround() throws PositionOutOfMapaRange {
+    public void testTitleGround() throws PositionOutOfMapRange {
         m.initializeTileGround(position);
         assertEquals(TileType.GROUND, m.getTileType(position));
     }
 
     @Test
-    public void testTitleOcean() throws PositionOutOfMapaRange {
+    public void testTitleOcean() throws PositionOutOfMapRange {
         m.initializeTileOcean(position);
         assertEquals(TileType.OCEAN, m.getTileType(position));
     }
 
     @Test
-    public void testChangeTypeTileToGround() throws PositionOutOfMapaRange {
+    public void testChangeTypeTileToGround() throws PositionOutOfMapRange {
         m.initializeTileUndefined(position);
         assertEquals(TileType.UNDEFINED, m.getTileType(position));
 
@@ -71,7 +71,7 @@ public class MapTest {
     }
 
     @Test
-    public void testChangeTypeTileToOcean() throws PositionOutOfMapaRange {
+    public void testChangeTypeTileToOcean() throws PositionOutOfMapRange {
         m.initializeTileUndefined(position);
         assertEquals(TileType.UNDEFINED, m.getTileType(position));
 
@@ -81,7 +81,7 @@ public class MapTest {
 
     // TODO: mockito
     @Test(expected = AssertionError.class)
-    public void testIdentifyBadReturns() throws PositionOutOfMapaRange {
+    public void testIdentifyBadReturns() throws PositionOutOfMapRange {
         Map map = mock(Map.class);
         map.initializeTileUndefined(position);
 
@@ -99,8 +99,8 @@ public class MapTest {
         assertEquals(true, m.isEmpty());
     }
 
-    @Test(expected = PositionOutOfMapaRange.class)
-    public void testChoiceTitleOutOfBound() throws PositionOutOfMapaRange {
+    @Test(expected = PositionOutOfMapRange.class)
+    public void testChoiceTitleOutOfBound() throws PositionOutOfMapRange {
         position = new Position(15, 15);
         m.initializeTileUndefined(position);
     }
