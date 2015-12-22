@@ -61,7 +61,7 @@ public class UpdaterMap {
         }
     }
 
-    public void setFirstPosition(Context context, Map map) throws PositionOutOfMapRange {
+    public void setFirstPosition(Context context, Map map) {
         Position position = new Position(0, 0);
         if (context.getHeading().isHorizontal()) {
             position.setX(context.getLastDiscovery().getRange());
@@ -72,7 +72,11 @@ public class UpdaterMap {
             if (context.getHeading().isEquals(Direction.EAST)) position.setX(0);
             else position.setY(map.getWidth() - 1);
         }
-        map.initializeTileOcean(position);
+        try {
+            map.initializeTileOcean(position);
+        } catch (PositionOutOfMapRange e) {
+            e.printStackTrace();
+        }
         map.setLastPosition(position);
     }
 }

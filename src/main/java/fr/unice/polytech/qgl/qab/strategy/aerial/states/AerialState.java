@@ -15,7 +15,7 @@ public abstract class AerialState {
         lastAction = null;
     }
 
-    public abstract AerialState getState(Context context, Map map, StateMediator stateMediator) throws PositionOutOfMapRange;
+    public abstract AerialState getState(Context context, Map map, StateMediator stateMediator);
 
     public abstract Action responseState(Context context,  Map map, StateMediator stateMediator);
 }
