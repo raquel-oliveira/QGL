@@ -11,8 +11,6 @@ import fr.unice.polytech.qgl.qab.strategy.context.Context;
 public class Finish extends AerialState {
     private static Finish instance;
 
-    private Finish() { }
-
     public static Finish getInstance() {
         if (instance == null)
             instance = new Finish();

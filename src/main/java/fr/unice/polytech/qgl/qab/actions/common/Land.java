@@ -20,7 +20,7 @@ public class Land implements Action {
     public boolean isValid(JSONObject jsonObj) {
         if (jsonObj.has("action")) {
             String action = jsonObj.getString("action");
-            if (!action.equals("land"))
+            if (!("land").equals(action))
                 return false;
         } else return false;
 

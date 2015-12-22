@@ -24,7 +24,7 @@ public class ResponseHandler {
 
     public ResponseHandler() { discovery = new Discovery(); }
 
-    public Context readData(String data, Action takeAction, Context contextIsland) throws NegativeBudgetException {
+    public Context readData(String data, Action takeAction, Context contextIsland) {
         JSONObject jsonObj = new JSONObject(data);
 
         contextIsland.setStatus(jsonObj.getString("status").compareToIgnoreCase("ok") == 0);

@@ -72,11 +72,11 @@ public class Context {
         status = s;
     }
 
-    public void setBudget(int b) throws NegativeBudgetException {
+    public void setBudget(int b) {
         try {
             budget = new Budget(b);
         } catch (NegativeBudgetException e) {
-            budget = new Budget(0);
+            e.printStackTrace();
         }
     }
 

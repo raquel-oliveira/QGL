@@ -25,7 +25,7 @@ public class AerialStrategy implements IAerialStrategy {
         stateMediator = StateMediator.getInstance();
     }
 
-    public Action makeDecision(Context context) throws PositionOutOfMapRange {
+    public Action makeDecision(Context context) {
         if (contextAnalyzer(context) != null) {
             return contextAnalyzer(context);
         }
