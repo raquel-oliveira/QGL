@@ -273,8 +273,14 @@ public class BiomesTest {
 
     @Test
     public void testTypeBiomeSubTropical() {
-        biome = Biomes.MANGROVE;
+        biome = Biomes.SHRUBLAND;
         assertEquals(biome.typeBiome(), TypeBiome.SUBTROPICAL);
+    }
+
+    @Test
+    public void testTypeBiomeTropical() {
+        biome = Biomes.MANGROVE;
+        assertEquals(biome.typeBiome(), TypeBiome.TROPICAL);
     }
 
     @Test

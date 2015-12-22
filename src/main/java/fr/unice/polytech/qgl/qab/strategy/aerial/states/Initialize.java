@@ -56,16 +56,15 @@ public class Initialize extends AerialState {
         lastAction = act;
         actionCombo.remove(0);
 
-        if (context.getLastDiscovery() != null && !stateMediator.shouldGoToTheCorner()) {
-            if (context.getLastDiscovery().getFound().isEquals(Found.GROUND))
+        if (context.getLastDiscovery() != null && !stateMediator.shouldGoToTheCorner() &&
+            context.getLastDiscovery().getFound().isEquals(Found.GROUND)) {
                 stateMediator.setGoToTheCorner(true);
         }
 
-        if (stateMediator.shouldGoToTheCorner()) {
-            if (context.getLastDiscovery().getRange() > stateMediator.getRangeToTheCorner()) {
-                stateMediator.setRangeToTheCorner(context.getLastDiscovery().getRange());
-                stateMediator.setDirectionToTheCorner(context.getLastDiscovery().getDirection());
-            }
+        if (stateMediator.shouldGoToTheCorner() && (context.getLastDiscovery().getRange() > stateMediator.getRangeToTheCorner())) {
+            stateMediator.setRangeToTheCorner(context.getLastDiscovery().getRange());
+            stateMediator.setDirectionToTheCorner(context.getLastDiscovery().getDirection());
+
         }
 
         return act;
