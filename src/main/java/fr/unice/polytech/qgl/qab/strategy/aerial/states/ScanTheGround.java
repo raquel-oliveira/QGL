@@ -34,7 +34,7 @@ public class ScanTheGround extends AerialState {
     @Override
     public AerialState getState(Context context, Map map, StateMediator stateMediator) {
         if (lastAction instanceof Land)
-            return MakeLand.getInstance();
+            return Finish.getInstance();
 
         if (context.getLastDiscovery().containsBiome(new Biome("OCEAN")) &&
                 (context.getLastDiscovery().getBiomes().size() == 1)) {

@@ -1,27 +1,18 @@
 package fr.unice.polytech.qgl.qab.strategy.context;
 
-import fr.unice.polytech.qgl.qab.exception.InitializeException;
-import fr.unice.polytech.qgl.qab.exception.NegativeException;
+import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.resources.Resource;
 
 /**
  * @version 16/12/15.
  */
 public class Contract {
-    private static Contract instance;
-
     private Resource resource;
     private int amount;
     private int accumulated;
 
-    public static Contract getInstance(Resource resource, int amount) throws InitializeException {
-        if (instance == null)
-            instance = new Contract(resource, amount);
-        return instance;
-    }
-
-    Contract(Resource resource, int amount) throws InitializeException {
-        if (amount < 0) throw new InitializeException("The value to initial amount to the resource can not be negative.");
+    public Contract(Resource resource, int amount) throws NegativeBudgetException {
+        if (amount < 0) throw new NegativeBudgetException("The value to initial amount to the resource can not be negative.");
         this.resource = resource;
         this.amount = amount;
         this.accumulated = 0;
@@ -37,10 +28,10 @@ public class Contract {
 
     public Resource resource() { return this.resource; }
 
-    public void collect(int amount) throws NegativeException {
+    public void collect(int amount) throws NegativeBudgetException {
         int temporaryAmount = this.accumulated() - this.amount();
         if(temporaryAmount < 0)
-            throw new NegativeException("The value collected can no be negative.");
+            throw new NegativeBudgetException("The value collected can no be negative.");
         this.amount = temporaryAmount;
     }
 

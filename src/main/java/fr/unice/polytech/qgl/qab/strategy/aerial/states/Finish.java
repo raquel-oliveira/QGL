@@ -8,20 +8,18 @@ import fr.unice.polytech.qgl.qab.strategy.context.Context;
 /**
  * @version 13.12.2015.
  */
-public class MakeLand extends AerialState {
-    private static MakeLand instance;
+public class Finish extends AerialState {
+    private static Finish instance;
 
-    private MakeLand() { }
-
-    public static MakeLand getInstance() {
+    public static Finish getInstance() {
         if (instance == null)
-            instance = new MakeLand();
+            instance = new Finish();
         return instance;
     }
 
     @Override
     public AerialState getState(Context context, Map map, StateMediator stateMediator) {
-        return MakeLand.getInstance();
+        return Finish.getInstance();
     }
 
     @Override

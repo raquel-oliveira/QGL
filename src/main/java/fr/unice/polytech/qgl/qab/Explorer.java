@@ -2,7 +2,8 @@ package fr.unice.polytech.qgl.qab;
 
 import eu.ace_design.island.bot.IExplorerRaid;
 import fr.unice.polytech.qgl.qab.actions.common.Stop;
-import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapaRange;
+import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
+import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.strategy.IStrategy;
 import fr.unice.polytech.qgl.qab.strategy.Strategy;
 
@@ -20,7 +21,11 @@ public class Explorer implements IExplorerRaid {
      * Constructor
      */
     public Explorer() {
-        strategy = new Strategy();
+        try {
+            strategy = new Strategy();
+        } catch (NegativeBudgetException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -29,7 +34,11 @@ public class Explorer implements IExplorerRaid {
      */
     @Override
     public void initialize(String context) {
-        strategy.initializeContext(context);
+        try {
+            strategy.initializeContext(context);
+        } catch (NegativeBudgetException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -41,7 +50,7 @@ public class Explorer implements IExplorerRaid {
     public String takeDecision() {
         try {
             return strategy.makeDecision();
-        } catch (PositionOutOfMapaRange positionOutOfMapaRange) {
+        } catch (PositionOutOfMapRange positionOutOfMapaRange) {
             return (new Stop()).toString();
         }
     }

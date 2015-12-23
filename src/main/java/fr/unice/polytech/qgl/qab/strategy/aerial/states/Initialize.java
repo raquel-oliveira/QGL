@@ -1,11 +1,10 @@
 package fr.unice.polytech.qgl.qab.strategy.aerial.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.aerial.combo.ComboEchos;
-import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapaRange;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
+import fr.unice.polytech.qgl.qab.strategy.context.UpdaterMap;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 
 /**
@@ -15,9 +14,11 @@ public class Initialize extends AerialState {
     private static Initialize instance;
 
     private ComboEchos actionCombo;
+    private UpdaterMap updaterMap;
 
     private Initialize() {
         super();
+        updaterMap = new UpdaterMap();
         actionCombo = null;
     }
 
@@ -28,11 +29,19 @@ public class Initialize extends AerialState {
     }
 
     @Override
-    public AerialState getState(Context context, Map map, StateMediator stateMediator) throws PositionOutOfMapaRange {
-        if (actionCombo != null && actionCombo.isEmpty() && stateMediator.shouldGoToTheCorner())
-            return GoToTheCorner.getInstance();
-        else if (actionCombo != null && actionCombo.isEmpty() && !stateMediator.shouldGoToTheCorner())
-            return FindGround.getInstance();
+    public AerialState getState(Context context, Map map, StateMediator stateMediator) {
+        if (actionCombo != null && !stateMediator.shouldGoToTheCorner())
+            updaterMap.initializeDimensions(context, map);
+
+        if (actionCombo != null && actionCombo.isEmpty()) {
+            updaterMap.setFirstPosition(context, map);
+            if (stateMediator.shouldGoToTheCorner()) {
+                actionCombo = null;
+                return GoToTheCorner.getInstance();
+            } else
+                return FindGround.getInstance();
+        }
+
         return Initialize.getInstance();
     }
 
@@ -49,9 +58,7 @@ public class Initialize extends AerialState {
 
         if (context.getLastDiscovery() != null && !stateMediator.shouldGoToTheCorner()) {
             if (context.getLastDiscovery().getFound().isEquals(Found.GROUND))
-                stateMediator.setGoToTheCorner(true) ;
-            else
-                stateMediator.setRangeToGround(context.getLastDiscovery().getRange());
+                stateMediator.setGoToTheCorner(true);
         }
 
         if (stateMediator.shouldGoToTheCorner()) {

@@ -1,8 +1,8 @@
 package fr.unice.polytech.qgl.qab.strategy;
 
-import fr.unice.polytech.qgl.qab.exception.InitializeException;
 import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapaRange;
+import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
+import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.strategy.aerial.AerialStrategy;
 import fr.unice.polytech.qgl.qab.strategy.aerial.IAerialStrategy;
 import fr.unice.polytech.qgl.qab.strategy.context.ResponseHandler;
@@ -15,7 +15,7 @@ import org.apache.bcel.generic.LAND;
 /**
  * Class responsible for represent the Strategy to management the making decision.
  *
- * @version 8.12.2016
+ * @version 8/12/16
  */
 public class Strategy implements IStrategy {
     // object responsible for choice the best action to the plane
@@ -31,7 +31,7 @@ public class Strategy implements IStrategy {
     // object to read the response
     private ResponseHandler responseHandler;
 
-    public Strategy() {
+    public Strategy() throws NegativeBudgetException {
         aerialStrategy = new AerialStrategy();
         groundStrategy = new GroundStrategy();
         phase = Phase.AERIAL;
@@ -44,7 +44,7 @@ public class Strategy implements IStrategy {
      * Method called to make the decision.
      * @return the best action chosen
      */
-    public String makeDecision() throws PositionOutOfMapaRange {
+    public String makeDecision() throws PositionOutOfMapRange {
         Action act;
         if (phase.isEquals(Phase.AERIAL)) {
             act = aerialStrategy.makeDecision(context);
@@ -62,22 +62,14 @@ public class Strategy implements IStrategy {
      * @param data information that the engine returned
      */
     public void readResults(String data) {
-        try {
-            context = responseHandler.readData(data, currentAction, context);
-        } catch (InitializeException e) {
-            e.printStackTrace();
-        }
+        context = responseHandler.readData(data, currentAction, context);
     }
 
     /**
      * Method responsible to read and save the context gave int the begging of the simulation.
      * @param contextData the context gave in the begging of the simulation.
      */
-    public void initializeContext(String contextData) {
-        try {
-            context.read(contextData);
-        } catch (InitializeException e) {
-            e.printStackTrace();
-        }
+    public void initializeContext(String contextData) throws NegativeBudgetException {
+        context.read(contextData);
     }
 }
