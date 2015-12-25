@@ -2,7 +2,6 @@ package fr.unice.polytech.qgl.qab.actions.aerial.combo;
 
 import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.aerial.Heading;
-import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ public class ComboReturn extends Combo {
         this.actions = new ArrayList<>();
     }
 
-    public void defineHeading(Direction head, Map map, Direction moveTo) {
+    public void defineHeading(Direction head, Direction moveTo) {
         if (head.isHorizontal()) {
             turnHorizontal(head, moveTo);
         }
@@ -98,16 +97,6 @@ public class ComboReturn extends Combo {
 
     private void turnDowntoWest() {
         actions.add(new Heading(Direction.SOUTH));
-        actions.add(new Heading(Direction.WEST));
-    }
-
-    private void turnUptoEast() {
-        actions.add(new Heading(Direction.NORTH));
-        actions.add(new Heading(Direction.EAST));
-    }
-
-    private void turnUptoWest() {
-        actions.add(new Heading(Direction.NORTH));
         actions.add(new Heading(Direction.WEST));
     }
 

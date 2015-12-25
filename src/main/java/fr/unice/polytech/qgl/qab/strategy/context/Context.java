@@ -72,6 +72,10 @@ public class Context {
         status = s;
     }
 
+    public void setFirst_head(Direction direction) {
+        first_head = direction;
+    }
+
     public void setBudget(int b) {
         try {
             budget = new Budget(b);
