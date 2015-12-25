@@ -43,6 +43,7 @@ public enum Direction {
      * Method that change the direction to String
      * @return name
      */
+    @Override
     public String toString() {
         return name;
     }
@@ -59,7 +60,8 @@ public enum Direction {
     public static Direction fromString(String direction){
         if (direction != null){
             for (Direction d : Direction.values()){
-                if (d.toString().equalsIgnoreCase(direction)) return d;
+                if (d.toString().equalsIgnoreCase(direction))
+                    return d;
             }
         }
         return null;
@@ -68,8 +70,6 @@ public enum Direction {
     public static Direction randomSideDirection(Direction direction) {
         Random rand = new Random();
         int side = rand.nextInt(2);
-        if (side > 1)
-            throw new RuntimeException("Value out of range");
         if (direction.isHorizontal())
             return (side == 0)? NORTH:SOUTH;
         if (direction.isVertical())

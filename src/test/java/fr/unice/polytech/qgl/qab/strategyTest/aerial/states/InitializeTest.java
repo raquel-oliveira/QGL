@@ -1,12 +1,16 @@
 package fr.unice.polytech.qgl.qab.strategyTest.aerial.states;
 
+import fr.unice.polytech.qgl.qab.actions.Action;
+import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.aerial.states.AerialState;
+import fr.unice.polytech.qgl.qab.strategy.aerial.states.FindGround;
 import fr.unice.polytech.qgl.qab.strategy.aerial.states.Initialize;
 import fr.unice.polytech.qgl.qab.strategy.aerial.states.StateMediator;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.util.Discovery;
+import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -20,28 +24,64 @@ import static junit.framework.TestCase.assertEquals;
 public class InitializeTest {
     Initialize initialize;
     Context context;
+    Discovery discovery;
+    StateMediator stateMediator;
+    Map map;
 
     @Before
     public void defineContext() throws NegativeBudgetException {
         initialize = Initialize.getInstance();
-        Discovery discovery = new Discovery();
+        discovery = new Discovery();
         context = new Context();
-        context.setLastDiscovery(discovery);
+        stateMediator = StateMediator.getInstance();
+        map = new Map();
+
+        context.setHeading(Direction.SOUTH);
+        context.setFirst_head(Direction.SOUTH);
     }
 
-    @Ignore
-    public void testInitializeDimention() { // TODO: finalizar
-        Map map = new Map();
-        StateMediator stateMediator = StateMediator.getInstance();
+    @Test
+    public void testInitializeDimention() {
+        AerialState state = initialize.getState(context, map, StateMediator.getInstance());
+        assertEquals(Initialize.getInstance(), state);
+
+        Action act = initialize.responseState(context, map, StateMediator.getInstance());
+        assertEquals(Echo.class, act.getClass());
+
         stateMediator.setGoToTheCorner(false);
 
-        Discovery discovery = new Discovery();
-        discovery.setRange(10);
+        discovery.setRange(1);
         discovery.setFound(Found.OUT_OF_RANGE);
+        discovery.setDirection(((Echo)act).getDirection());
+        context.setLastDiscovery(discovery);
 
-        initialize.responseState(context, map, StateMediator.getInstance());
-        AerialState state = initialize.getState(context, new Map(), StateMediator.getInstance());
-
+        state = initialize.getState(context, map, StateMediator.getInstance());
         assertEquals(Initialize.getInstance(), state);
+
+        act = initialize.responseState(context, map, StateMediator.getInstance());
+        assertEquals(Echo.class, act.getClass());
+
+        discovery.setRange(1);
+        discovery.setFound(Found.OUT_OF_RANGE);
+        discovery.setDirection(((Echo)act).getDirection());
+        context.setLastDiscovery(discovery);
+
+        state = initialize.getState(context, map, StateMediator.getInstance());
+        assertEquals(Initialize.getInstance(), state);
+
+        act = initialize.responseState(context, map, StateMediator.getInstance());
+        assertEquals(Echo.class, act.getClass());
+
+        discovery.setRange(4);
+        discovery.setFound(Found.OUT_OF_RANGE);
+        discovery.setDirection(((Echo)act).getDirection());
+        context.setLastDiscovery(discovery);
+
+        assertEquals(2, map.getHeight());
+        assertEquals(2, map.getWidth());
+    }
+
+    @Test
+    public void testGetState() {
     }
 }
