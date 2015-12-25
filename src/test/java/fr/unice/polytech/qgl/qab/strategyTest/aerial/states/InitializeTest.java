@@ -40,7 +40,16 @@ public class InitializeTest {
         context.setFirst_head(Direction.SOUTH);
     }
 
-    @Test
+    @Ignore
+    public void testFirtsEcho() throws NegativeBudgetException {
+        AerialState state = initialize.getState(context, map, stateMediator);
+        assertEquals(Initialize.class, state.getClass());
+
+        Action act = initialize.responseState(context, map, stateMediator);
+        assertEquals(Echo.class, act.getClass());
+    }
+
+    @Ignore
     public void testInitializeDimention() {
         AerialState state = initialize.getState(context, map, StateMediator.getInstance());
         assertEquals(Initialize.getInstance(), state);
@@ -48,11 +57,9 @@ public class InitializeTest {
         Action act = initialize.responseState(context, map, StateMediator.getInstance());
         assertEquals(Echo.class, act.getClass());
 
-        stateMediator.setGoToTheCorner(false);
-
         discovery.setRange(1);
         discovery.setFound(Found.OUT_OF_RANGE);
-        discovery.setDirection(((Echo)act).getDirection());
+        discovery.setDirection(Direction.SOUTH);
         context.setLastDiscovery(discovery);
 
         state = initialize.getState(context, map, StateMediator.getInstance());
@@ -61,6 +68,7 @@ public class InitializeTest {
         act = initialize.responseState(context, map, StateMediator.getInstance());
         assertEquals(Echo.class, act.getClass());
 
+        stateMediator.setGoToTheCorner(false);
         discovery.setRange(1);
         discovery.setFound(Found.OUT_OF_RANGE);
         discovery.setDirection(((Echo)act).getDirection());
@@ -77,11 +85,13 @@ public class InitializeTest {
         discovery.setDirection(((Echo)act).getDirection());
         context.setLastDiscovery(discovery);
 
+        state = initialize.getState(context, map, StateMediator.getInstance());
+        assertEquals(Initialize.getInstance(), state);
+
+        act = initialize.responseState(context, map, StateMediator.getInstance());
+        assertEquals(Echo.class, act.getClass());
+
         assertEquals(2, map.getHeight());
         assertEquals(2, map.getWidth());
-    }
-
-    @Test
-    public void testGetState() {
     }
 }

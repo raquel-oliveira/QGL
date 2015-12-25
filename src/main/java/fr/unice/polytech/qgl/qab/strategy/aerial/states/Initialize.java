@@ -66,7 +66,6 @@ public class Initialize extends AerialState {
             stateMediator.setDirectionToTheCorner(context.getLastDiscovery().getDirection());
 
         }
-
         return act;
     }
 }
