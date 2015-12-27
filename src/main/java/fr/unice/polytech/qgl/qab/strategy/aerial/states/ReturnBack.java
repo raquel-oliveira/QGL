@@ -4,6 +4,7 @@ import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.aerial.Heading;
 import fr.unice.polytech.qgl.qab.actions.aerial.combo.ComboReturn;
+import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
@@ -41,7 +42,7 @@ public class ReturnBack extends AerialState {
     }
 
     @Override
-    public Action responseState(Context context, Map map, StateMediator stateMediator) {
+    public Action responseState(Context context, Map map, StateMediator stateMediator) throws IndexOutOfBoundsComboAction {
         Action act = null;
 
         if (actionCombo == null) {

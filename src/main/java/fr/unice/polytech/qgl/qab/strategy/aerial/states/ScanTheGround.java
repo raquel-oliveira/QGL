@@ -5,6 +5,7 @@ import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.aerial.combo.ComboFlyScan;
 import fr.unice.polytech.qgl.qab.actions.common.Land;
+import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.map.tile.Biome;
@@ -45,7 +46,7 @@ public class ScanTheGround extends AerialState {
     }
 
     @Override
-    public Action responseState(Context context, Map map, StateMediator stateMediator) {
+    public Action responseState(Context context, Map map, StateMediator stateMediator) throws IndexOutOfBoundsComboAction {
         Action act;
 
         if (!context.getLastDiscovery().getCreeks().isEmpty()) {
@@ -62,7 +63,7 @@ public class ScanTheGround extends AerialState {
 
         if (actionCombo == null || actionCombo.isEmpty()) {
             actionCombo = new ComboFlyScan();
-            actionCombo.defineActions(context.getHeading());
+            actionCombo.defineActions();
         }
 
         act = actionCombo.get(0);
