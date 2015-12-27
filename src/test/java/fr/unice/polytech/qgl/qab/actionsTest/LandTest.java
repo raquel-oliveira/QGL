@@ -82,8 +82,8 @@ public class LandTest {
     public void formatResponseTest() {
         String response = "{ \"action\": \"land\", \"parameters\": { \"creek\": \"aaglk14sd12-&1\", \"people\": 1 }}";
         JSONObject jsonObj = new JSONObject(response);
-        assertTrue(!(land.isValid(jsonObj)));
-        assertTrue(!(land.formatResponse().equals(response)));
+        assertTrue((land.isValid(jsonObj)));
+        assertTrue((land.formatResponse().equals(response)));
     }
 
 }
