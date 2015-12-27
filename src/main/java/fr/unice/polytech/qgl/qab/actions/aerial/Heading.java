@@ -21,15 +21,23 @@ public class Heading implements Action {
     @Override
     public boolean isValid(JSONObject jsonObj) {
         if (jsonObj.has("action")) {
-            ActionBot act = ActionBot.fromString(jsonObj.getString("action"));
-            return act.isEquals(ActionBot.HEADING);
-        }
-        return false;
+            String action = jsonObj.getString("action");
+            if (!("heading").equals(action))
+                return false;
+        } else return false;
+
+        if (jsonObj.has("parameters")) {
+            if (!jsonObj.getJSONObject("parameters").has("direction")) {
+                return false;
+            }
+        } else return false;
+        return true;
     }
 
+    //TODO: let direction or direction.toString() ?
     @Override
     public String formatResponse() {
-        return "{ \"action\": \"heading\", \"parameters\": { \"direction\": \"" + direction + "\" } }";
+        return "{ \"action\": \"heading\", \"parameters\": { \"direction\": \"" + direction.toString() + "\" } }";
     }
 
     public Direction getDirection() {
