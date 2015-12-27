@@ -2,6 +2,7 @@ package fr.unice.polytech.qgl.qab.strategyTest.aerial.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
+import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.aerial.states.AerialState;
@@ -41,7 +42,7 @@ public class InitializeTest {
     }
 
     @Ignore
-    public void testFirtsEcho() throws NegativeBudgetException {
+    public void testFirtsEcho() throws NegativeBudgetException, IndexOutOfBoundsComboAction {
         AerialState state = initialize.getState(context, map, stateMediator);
         assertEquals(Initialize.class, state.getClass());
 
@@ -50,7 +51,7 @@ public class InitializeTest {
     }
 
     @Ignore
-    public void testInitializeDimention() {
+    public void testInitializeDimention() throws IndexOutOfBoundsComboAction {
         AerialState state = initialize.getState(context, map, StateMediator.getInstance());
         assertEquals(Initialize.getInstance(), state);
 
