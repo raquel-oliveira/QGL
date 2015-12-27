@@ -19,9 +19,8 @@ public class ComboFlyScan extends Combo{
 
     /**
      * Set the actions (fly and scan)
-     * @param head direction of the head
      */
-    public void defineActions(Direction head) {
+    public void defineActions() {
         actions.add(new Fly());
         actions.add(new Scan());
     }

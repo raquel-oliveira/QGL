@@ -41,5 +41,4 @@ public class ComboEchos extends Combo {
             actions.add(new Echo(Direction.EAST));
         }
     }
-
 }

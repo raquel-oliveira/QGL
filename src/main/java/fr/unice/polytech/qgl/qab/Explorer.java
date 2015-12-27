@@ -2,6 +2,7 @@ package fr.unice.polytech.qgl.qab;
 
 import eu.ace_design.island.bot.IExplorerRaid;
 import fr.unice.polytech.qgl.qab.actions.common.Stop;
+import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.strategy.IStrategy;
@@ -51,6 +52,8 @@ public class Explorer implements IExplorerRaid {
         try {
             return strategy.makeDecision();
         } catch (PositionOutOfMapRange positionOutOfMapaRange) {
+            return (new Stop()).toString();
+        } catch (IndexOutOfBoundsComboAction indexOutOfBoundsComboAction) {
             return (new Stop()).toString();
         }
     }

@@ -1,6 +1,7 @@
 package fr.unice.polytech.qgl.qab.actions.aerial.combo;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
+import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 
 import java.util.List;
 
@@ -34,7 +35,11 @@ public abstract class Combo {
      * @param index of the action to return
      * @return action chosen
      */
-    public Action get(int index) {
+    public Action get(int index) throws IndexOutOfBoundsComboAction {
+        if (index < 0 || index > actions.size())
+            throw new IndexOutOfBoundsComboAction("Index invalid");
+        if (actions.isEmpty())
+            throw new IndexOutOfBoundsComboAction("Index invalid");
         return actions.get(index);
     }
 
