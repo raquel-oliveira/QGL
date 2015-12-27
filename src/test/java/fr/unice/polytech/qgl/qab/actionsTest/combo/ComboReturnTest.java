@@ -23,8 +23,22 @@ public class ComboReturnTest {
     }
 
     @Test
-    public void testActionInCombo() throws IndexOutOfBoundsComboAction {
-        combo.defineHeading(Direction.EAST, Direction.SOUTH);
+    public void testAction() throws IndexOutOfBoundsComboAction {
+        testActionInCombo(Direction.EAST, Direction.SOUTH);
+        testActionInCombo(Direction.EAST, Direction.NORTH);
+
+        testActionInCombo(Direction.WEST, Direction.SOUTH);
+        testActionInCombo(Direction.WEST, Direction.NORTH);
+
+        testActionInCombo(Direction.NORTH, Direction.WEST);
+        testActionInCombo(Direction.NORTH, Direction.EAST);
+
+        testActionInCombo(Direction.SOUTH, Direction.WEST);
+        testActionInCombo(Direction.SOUTH, Direction.EAST);
+    }
+ 
+    public void testActionInCombo(Direction d1, Direction d2) throws IndexOutOfBoundsComboAction {
+        combo.defineHeading(d1, d2);
         assertEquals(combo.get(0).getClass(), Heading.class);
         assertEquals(combo.get(1).getClass(), Heading.class);
 
