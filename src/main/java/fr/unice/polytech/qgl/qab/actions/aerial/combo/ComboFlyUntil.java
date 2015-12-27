@@ -21,7 +21,7 @@ public class ComboFlyUntil extends Combo{
      * @param range number of times to fly -1
      */
     public void defineComboFlyUntil(int range) {
-        for (int i = 1; i < range; i++) {
+        for (int i = 0; i < range; i++) {
             actions.add(new Fly());
         }
     }
