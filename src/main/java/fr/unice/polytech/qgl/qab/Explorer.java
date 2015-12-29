@@ -65,6 +65,10 @@ public class Explorer implements IExplorerRaid {
      */
     @Override
     public void acknowledgeResults(String results) {
-         strategy.readResults(results);
+        try {
+            strategy.readResults(results);
+        } catch (NegativeBudgetException e) {
+            e.printStackTrace();
+        }
     }
 }

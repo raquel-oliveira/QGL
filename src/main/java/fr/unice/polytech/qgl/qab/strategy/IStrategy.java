@@ -10,7 +10,7 @@ import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 public interface IStrategy {
     String makeDecision() throws PositionOutOfMapRange, IndexOutOfBoundsComboAction;
 
-    void readResults(String data);
+    void readResults(String data) throws NegativeBudgetException;
 
     void initializeContext(String context) throws NegativeBudgetException;
 }

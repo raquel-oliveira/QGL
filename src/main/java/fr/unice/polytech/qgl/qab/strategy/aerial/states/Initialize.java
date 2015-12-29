@@ -3,6 +3,7 @@ package fr.unice.polytech.qgl.qab.strategy.aerial.states;
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.aerial.combo.ComboEchos;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
+import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.UpdaterMap;
@@ -30,7 +31,7 @@ public class Initialize extends AerialState {
     }
 
     @Override
-    public AerialState getState(Context context, Map map, StateMediator stateMediator) {
+    public AerialState getState(Context context, Map map, StateMediator stateMediator) throws PositionOutOfMapRange {
         if (actionCombo != null && !stateMediator.shouldGoToTheCorner())
             updaterMap.initializeDimensions(context, map);
 

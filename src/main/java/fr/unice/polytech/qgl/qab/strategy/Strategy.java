@@ -62,7 +62,7 @@ public class Strategy implements IStrategy {
      * Method the read and analyse the string returned.
      * @param data information that the engine returned
      */
-    public void readResults(String data) {
+    public void readResults(String data) throws NegativeBudgetException {
         context = responseHandler.readData(data, currentAction, context);
     }
 
