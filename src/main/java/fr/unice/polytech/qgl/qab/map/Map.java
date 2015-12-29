@@ -31,14 +31,14 @@ public class Map {
 
     public void initializeHeightMap(int height, boolean definedHeight) {
         if (!this.definedHeight) {
-            this.height += (height + 1);
+            this.height += (this.height == - 1)?height + 1:height;
             this.definedHeight = definedHeight;
         }
     }
 
     public void initializeWidthMap(int width, boolean definedWidth) {
         if (!this.definedWidth) {
-            this.width += (width + 1);
+            this.width += (this.width == - 1)?width + 1:width;
             this.definedWidth = definedWidth;
         }
     }
