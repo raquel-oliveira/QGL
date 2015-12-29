@@ -57,7 +57,7 @@ public class GoToTheCorner extends AerialState {
         }
 
         if (actionCombo != null && actionCombo.isEmpty() && turnCorner == null) {
-            turnCorner = new Heading(context.getFirst_head());
+            turnCorner = new Heading(context.getFirstHead());
             lastAction = turnCorner;
             return turnCorner;
         }

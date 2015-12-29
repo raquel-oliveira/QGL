@@ -47,7 +47,7 @@ public class ReturnBack extends AerialState {
 
         if (actionCombo == null) {
             actionCombo = new ComboReturn();
-            actionCombo.defineHeading(context.getHeading(), context.getFirst_head());
+            actionCombo.defineHeading(context.getHeading(), context.getFirstHead());
         }
 
         if (actionCombo != null) {
