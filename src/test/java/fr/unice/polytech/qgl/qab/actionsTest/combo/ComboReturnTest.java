@@ -36,7 +36,7 @@ public class ComboReturnTest {
         testActionInCombo(Direction.SOUTH, Direction.WEST);
         testActionInCombo(Direction.SOUTH, Direction.EAST);
     }
- 
+
     public void testActionInCombo(Direction d1, Direction d2) throws IndexOutOfBoundsComboAction {
         combo.defineHeading(d1, d2);
         assertEquals(combo.get(0).getClass(), Heading.class);
