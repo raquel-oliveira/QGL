@@ -16,12 +16,10 @@ public class GoToTheCorner extends AerialState {
 
     private Heading turnCorner;
     private ComboFlyUntil actionCombo;
-    private UpdaterMap updaterMap;
 
     private GoToTheCorner() {
         super();
         actionCombo = null;
-        updaterMap = new UpdaterMap();
         turnCorner = null;
     }
 
