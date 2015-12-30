@@ -1,5 +1,6 @@
 package fr.unice.polytech.qgl.qab.mapTest;
 
+import fr.unice.polytech.qgl.qab.map.tile.Creek;
 import fr.unice.polytech.qgl.qab.map.tile.Tile;
 import fr.unice.polytech.qgl.qab.map.tile.TileType;
 import org.junit.Before;
@@ -36,11 +37,8 @@ public class TileTest {
 
     @Test
     public void testSetCreek() {
-        tile.setCreek(true);
-        assertTrue(tile.getCreek());
-
-        tile.setCreek(false);
-        assertFalse(tile.getCreek());
+        tile.setCreek(new Creek());
+        assertEquals(Creek.class, tile.getCreek().getClass());
     }
 
     @Test
@@ -64,9 +62,9 @@ public class TileTest {
     @Test(expected = AssertionError.class)
     public void testBadReturnCreek() {
         Tile t = mock(Tile.class);
-        t.setCreek(true);
+        t.setCreek(new Creek());
 
-        when(t.getCreek()).thenReturn(false);
+        when(t.getCreek()).thenReturn(null);
         assertEquals(true, t.getCreek());
     }
 
