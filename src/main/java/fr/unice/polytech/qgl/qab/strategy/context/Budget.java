@@ -10,7 +10,8 @@ public class Budget {
     private int remaining;
 
     public Budget(int initial) throws NegativeBudgetException {
-        if (initial < 0) throw new NegativeBudgetException("The initial value for the budget can not be negative");
+        if (initial < 0)
+            throw new NegativeBudgetException("The initial value for the budget can not be negative");
         this.initial = initial;
         this.remaining = initial;
     }

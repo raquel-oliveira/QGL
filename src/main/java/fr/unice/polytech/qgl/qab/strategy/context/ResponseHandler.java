@@ -22,31 +22,40 @@ public class ResponseHandler {
 
     private Discovery discovery;
 
-    public ResponseHandler() { discovery = new Discovery(); }
+    private static final String EXTRAS = "extras";
+    private static final String FOUND = "found";
+    private static final String RANGE = "range";
+    private static final String BIOMES = "biomes";
+    private static final String CREEKS = "creeks";
 
-    public Context readData(String data, Action takeAction, Context contextIsland) {
+    public ResponseHandler() {
+        discovery = new Discovery();
+    }
+
+    public Context readData(String data, Action takeAction, Context contextIsland) throws NegativeBudgetException {
+        Context tempContext = contextIsland;
         JSONObject jsonObj = new JSONObject(data);
 
-        contextIsland.setStatus(jsonObj.getString("status").compareToIgnoreCase("ok") == 0);
-        contextIsland.setBudget(contextIsland.getBudget() - jsonObj.getInt("cost"));
+        tempContext.setStatus(jsonObj.getString("status").compareToIgnoreCase("ok") == 0);
+        tempContext.setBudget(contextIsland.getBudget() - jsonObj.getInt("cost"));
 
         if (takeAction instanceof Echo) {
-            contextIsland = readDataFromEcho(contextIsland, jsonObj);
-            contextIsland.getLastDiscovery().setDirection(((Echo) takeAction).getDirection());
+            tempContext = readDataFromEcho(tempContext, jsonObj);
+            tempContext.getLastDiscovery().setDirection(((Echo) takeAction).getDirection());
         } else if (takeAction instanceof Scan) {
-            contextIsland = readDataFromScan(contextIsland, jsonObj);
+            tempContext = readDataFromScan(tempContext, jsonObj);
         } else if (takeAction instanceof Fly) {
-            contextIsland.getLastDiscovery().setUp();
+            tempContext.getLastDiscovery().setUp();
         }
 
-        return contextIsland;
+        return tempContext;
     }
 
     private Context readDataFromEcho(Context context, JSONObject jsonObj) {
-        if (jsonObj.getJSONObject("extras").has("found"))
-            discovery.setFound(Found.fromString(jsonObj.getJSONObject("extras").getString("found")));
-        if (jsonObj.getJSONObject("extras").has("range"))
-            discovery.setRange(jsonObj.getJSONObject("extras").getInt("range"));
+        if (jsonObj.getJSONObject(EXTRAS).has(FOUND))
+            discovery.setFound(Found.fromString(jsonObj.getJSONObject(EXTRAS).getString(FOUND)));
+        if (jsonObj.getJSONObject(EXTRAS).has(RANGE))
+            discovery.setRange(jsonObj.getJSONObject(EXTRAS).getInt(RANGE));
 
         context.setLastDiscovery(discovery);
         return context;
@@ -58,10 +67,10 @@ public class ResponseHandler {
         JSONArray bio = null;
         JSONArray crk = null;
 
-        if(jsonObj.getJSONObject("extras").has("biomes"))
-            bio = jsonObj.getJSONObject("extras").getJSONArray("biomes");
-        if(jsonObj.getJSONObject("extras").has("creeks"))
-            crk = jsonObj.getJSONObject("extras").getJSONArray("creeks");
+        if(jsonObj.getJSONObject(EXTRAS).has(BIOMES))
+            bio = jsonObj.getJSONObject(EXTRAS).getJSONArray(BIOMES);
+        if(jsonObj.getJSONObject(EXTRAS).has(CREEKS))
+            crk = jsonObj.getJSONObject(EXTRAS).getJSONArray(CREEKS);
 
         if(bio != null){
             for(Object b : bio)
@@ -75,6 +84,7 @@ public class ResponseHandler {
 
         discovery.setBiomes(biomes);
         discovery.setCreeks(creeks);
+        context.setLastDiscovery(discovery);
 
         return context;
     }

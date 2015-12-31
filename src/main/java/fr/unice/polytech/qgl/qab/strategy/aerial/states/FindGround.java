@@ -5,6 +5,7 @@ import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.aerial.Heading;
 import fr.unice.polytech.qgl.qab.actions.aerial.combo.ComboFlyEcho;
+import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
@@ -39,7 +40,7 @@ public class FindGround extends AerialState {
     }
 
     @Override
-    public Action responseState(Context context, Map map, StateMediator stateMediator) {
+    public Action responseState(Context context, Map map, StateMediator stateMediator) throws IndexOutOfBoundsComboAction {
         Action act;
         if (context.getLastDiscovery().getFound().isEquals(Found.GROUND) && lastAction instanceof Echo) {
             Direction dir = ((Echo)lastAction).getDirection();
@@ -56,9 +57,7 @@ public class FindGround extends AerialState {
         }
 
         act = actionCombo.get(0);
-
         lastAction = act;
-
         actionCombo.remove(0);
 
         return act;
