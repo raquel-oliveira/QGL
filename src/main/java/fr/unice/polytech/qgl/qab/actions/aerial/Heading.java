@@ -11,6 +11,9 @@ import org.json.JSONObject;
  * @version 4.9
  */
 public class Heading implements Action {
+    private static final String ACTION = "action";
+    private static final String DIRECTION = "direction";
+    private static final String PARAMETERS = "parameters";
     private Direction direction;
 
     public Heading(Direction dir) {
@@ -20,17 +23,23 @@ public class Heading implements Action {
 
     @Override
     public boolean isValid(JSONObject jsonObj) {
-        if (jsonObj.has("action")) {
-            String action = jsonObj.getString("action");
-            if (!("heading").equals(action))
-                return false;
-        } else return false;
-
-        if (jsonObj.has("parameters")) {
-            if (!jsonObj.getJSONObject("parameters").has("direction")) {
+        if (jsonObj.has(ACTION)) {
+            String action = jsonObj.getString(ACTION);
+            if (!("heading").equals(action)) {
                 return false;
             }
+
+
+            if (jsonObj.has(PARAMETERS)) {
+                if (jsonObj.getJSONObject(PARAMETERS).has(DIRECTION)) {
+                    String dir = jsonObj.getJSONObject(PARAMETERS).getString(DIRECTION);
+                    if (Direction.fromString(dir) == null) {
+                        return false;
+                    }
+                } else return false;
+            } else return false;
         } else return false;
+
         return true;
     }
 

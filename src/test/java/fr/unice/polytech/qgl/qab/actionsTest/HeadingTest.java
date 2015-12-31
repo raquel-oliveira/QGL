@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import java.lang.reflect.Field;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -37,6 +38,17 @@ public class HeadingTest {
         JSONObject jsonObj = new JSONObject("{ \"action\": \"heading\", \"parameters\": { \"direction\": \"E\" }}");
         assertTrue(heading.isValid(jsonObj));
     }
+  @Test
+  public void testValidJnjhson() {
+      JSONObject jsonObj = new JSONObject("{ \"action\": \"heading\", \"parameters\": { \"direction\": \""+dir.toString()+"\" }}");
+      assertTrue(heading.isValid(jsonObj));
+  }
+
+    @Test
+    public void testInvalideDirection() {
+        JSONObject jsonObj = new JSONObject("{ \"action\": \"heading\", \"parameters\": { \"direction\": \"A\" }}");
+        assertTrue(!heading.isValid(jsonObj));
+    }
 
     @Test
     public void testNotValidJson() {
@@ -59,12 +71,18 @@ public class HeadingTest {
     }
 
     @Test
+    public void noDirectionParameterTest() {
+        String response = "{ \"action\": \"heading\", \"parameters\": { \"bla\": \"E\" }}";
+        JSONObject jsonObj = new JSONObject(response);
+        assertFalse(heading.isValid(jsonObj));
+        assertFalse(heading.formatResponse().equals(response));
+    }
+
+    @Test
     public void formatRequestTest() {
         String response = "{ \"action\": \"heading\", \"parameters\": { \"direction\": \"" + dir.toString() + "\" } }";
         JSONObject jsonObj = new JSONObject(response);
         assertTrue((heading.isValid(jsonObj)));
         assertTrue((heading.formatResponse().equals(response)));
     }
-
-
 }
