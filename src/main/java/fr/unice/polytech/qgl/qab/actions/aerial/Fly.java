@@ -1,7 +1,6 @@
 package fr.unice.polytech.qgl.qab.actions.aerial;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.util.enums.ActionBot;
 import org.json.JSONObject;
 
 /**
@@ -11,6 +10,8 @@ import org.json.JSONObject;
  */
 public class Fly implements Action {
 
+    private static final String ACTION_FLY = "fly";
+
     public Fly() {
         super();
     }
@@ -18,8 +19,8 @@ public class Fly implements Action {
     @Override
     public boolean isValid(JSONObject jsonObj) {
         if (jsonObj.has("action")) {
-            ActionBot act = ActionBot.fromString(jsonObj.getString("action"));
-            return act.isEquals(ActionBot.FLY);
+            String action = jsonObj.getString("action");
+            return ACTION_FLY.equals(action);
         }
         return false;
     }

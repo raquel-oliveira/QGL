@@ -8,7 +8,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Created by Raquel on 27/12/2015.
+ * @version 27/12/2015.
  */
 public class ScanTest {
     Scan scan;

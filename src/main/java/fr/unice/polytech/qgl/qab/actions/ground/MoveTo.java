@@ -10,9 +10,9 @@ import org.json.JSONObject;
 public class MoveTo implements Action {
     private Direction direction;
 
-    public MoveTo() {
+    public MoveTo(Direction dir) {
         super();
-        direction = direction;
+        this.direction = dir;
     }
 
     @Override
@@ -22,6 +22,6 @@ public class MoveTo implements Action {
 
     @Override
     public String formatResponse() {
-        return "{ \"action\": \"move_to\", \"parameters\": { \"direction\": \"" + direction + "\" } }";
+        return "{ \"action\": \"move_to\", \"parameters\": { \"direction\": \"" + this.direction + "\" } }";
     }
 }

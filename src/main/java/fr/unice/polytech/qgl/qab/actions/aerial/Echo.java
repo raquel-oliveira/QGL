@@ -1,7 +1,6 @@
 package fr.unice.polytech.qgl.qab.actions.aerial;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.util.enums.ActionBot;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import org.json.JSONObject;
 
@@ -21,8 +20,8 @@ public class Echo implements Action {
     @Override
     public boolean isValid(JSONObject jsonObj) {
         if (jsonObj.has("action")) {
-            ActionBot act = ActionBot.fromString(jsonObj.getString("action"));
-            return act.isEquals(ActionBot.ECHO);
+            //ActionBot act = ActionBot.fromString(jsonObj.getString("action"));
+            //return act.isEquals(ActionBot.ECHO);
         }
         return false;
     }
