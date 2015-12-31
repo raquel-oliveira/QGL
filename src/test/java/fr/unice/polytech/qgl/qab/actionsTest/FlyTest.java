@@ -5,10 +5,11 @@ import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Created by Raquel on 27/12/2015.
+ * @version 27/12/2015.
  */
 public class FlyTest {
     Fly fly;
@@ -27,13 +28,12 @@ public class FlyTest {
     @Test
     public void testNotValidActionJson() {
         JSONObject jsonObj = new JSONObject("{\"bla\": \"fly\"}");
-        assertTrue(!(fly.isValid(jsonObj)));
+        assertFalse(fly.isValid(jsonObj));
     }
 
     @Test
     public void formatResponseTest() {
         String response = "{ \"action\": \"fly\"}";
-        JSONObject jsonObj = new JSONObject(response);
-        assertTrue(!(fly.formatResponse().equals(response)));
+        assertFalse(fly.formatResponse().equals(response));
     }
 }

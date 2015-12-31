@@ -6,7 +6,6 @@ import fr.unice.polytech.qgl.qab.actions.aerial.combo.ComboFlyUntil;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import fr.unice.polytech.qgl.qab.strategy.context.UpdaterMap;
 
 /**
  * @version 17/12/15.
