@@ -57,9 +57,7 @@ public class FindGround extends AerialState {
         }
 
         act = actionCombo.get(0);
-
         lastAction = act;
-
         actionCombo.remove(0);
 
         return act;

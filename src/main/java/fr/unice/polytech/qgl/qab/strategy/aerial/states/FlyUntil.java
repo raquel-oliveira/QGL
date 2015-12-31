@@ -13,7 +13,6 @@ import fr.unice.polytech.qgl.qab.strategy.context.Context;
 public class FlyUntil extends AerialState {
     private static FlyUntil instance;
 
-    private StateMediator stateMediator;
     private ComboFlyUntil actionCombo;
 
     private FlyUntil() {

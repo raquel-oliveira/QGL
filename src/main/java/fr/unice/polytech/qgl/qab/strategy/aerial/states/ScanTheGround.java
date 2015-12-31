@@ -55,12 +55,6 @@ public class ScanTheGround extends AerialState {
             return act;
         }
 
-        if (actionCombo != null && actionCombo.isEmpty() && !(lastAction instanceof Echo)) {
-            act = new Echo(context.getHeading());
-            lastAction = act;
-            return act;
-        }
-
         if (actionCombo == null || actionCombo.isEmpty()) {
             actionCombo = new ComboFlyScan();
             actionCombo.defineActions();
