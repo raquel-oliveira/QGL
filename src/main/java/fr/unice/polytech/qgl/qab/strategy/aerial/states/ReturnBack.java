@@ -40,7 +40,8 @@ public class ReturnBack extends AerialState {
 
     @Override
     public AerialState getState(Context context, Map map, StateMediator stateMediator) {
-        if (lastAction instanceof Fly && !stateMediator.shouldFlyUntilGround()) {
+        if ((lastAction instanceof Fly && !stateMediator.shouldFlyUntilGround()) ||
+                (lastAction instanceof Echo && context.getLastDiscovery().getRange() == 0)) {
             return ScanTheGround.getInstance();
         }
         return ReturnBack.getInstance();
