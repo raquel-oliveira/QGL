@@ -9,7 +9,7 @@ import java.util.ArrayList;
  *
  * @version 12.12.2015
  */
-public class ComboFlyUntil extends Combo{
+public class ComboFlyUntil extends Combo {
 
     public ComboFlyUntil() {
         this.actions = new ArrayList<>();
@@ -24,5 +24,10 @@ public class ComboFlyUntil extends Combo{
         for (int i = 0; i < range; i++) {
             actions.add(new Fly());
         }
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return actions.isEmpty();
     }
 }
