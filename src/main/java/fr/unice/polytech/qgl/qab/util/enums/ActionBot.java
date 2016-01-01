@@ -14,6 +14,7 @@ public enum ActionBot {
     HEADING("heading"),
     EXPLORE("explore"),
     GLIMPSE("glimpse"),
+    SCOUT("scout"),
     MOVE_TO("move_to");
 
     private String name = "";

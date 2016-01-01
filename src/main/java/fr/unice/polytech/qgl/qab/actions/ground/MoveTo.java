@@ -6,11 +6,11 @@ import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import org.json.JSONObject;
 
 
-public class Move_to implements Action {
+public class MoveTo implements Action {
     private Direction direction;
 
 
-    public Move_to(Direction direction){
+    public MoveTo(Direction direction){
         super();
         this.direction = direction;
     }
