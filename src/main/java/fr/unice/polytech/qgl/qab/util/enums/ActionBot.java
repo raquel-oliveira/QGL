@@ -12,6 +12,7 @@ public enum ActionBot {
     FLY("fly"),
     LAND("land"),
     HEADING("heading"),
+    EXPLORE("explore"),
     GLIMPSE("glimpse"),
     MOVE_TO("move_to");
 
