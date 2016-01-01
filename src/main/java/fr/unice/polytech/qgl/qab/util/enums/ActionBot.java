@@ -12,7 +12,8 @@ public enum ActionBot {
     FLY("fly"),
     LAND("land"),
     HEADING("heading"),
-    GLIMPSE("glimpse");
+    GLIMPSE("glimpse"),
+    MOVE("move");
 
     private String name = "";
 
