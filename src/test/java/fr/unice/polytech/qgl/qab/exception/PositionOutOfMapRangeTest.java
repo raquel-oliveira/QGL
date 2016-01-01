@@ -1,6 +1,5 @@
-package fr.unice.polytech.qgl.qab.exceptionTest;
+package fr.unice.polytech.qgl.qab.exception;
 
-import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.map.tile.Position;
 import org.junit.Test;

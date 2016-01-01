@@ -1,35 +1,27 @@
 package fr.unice.polytech.qgl.qab.actions.ground;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.util.enums.ActionBot;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import org.json.JSONObject;
 
-
+/**
+ * @version 31/12/15.
+ */
 public class MoveTo implements Action {
     private Direction direction;
 
-
-    public MoveTo(Direction direction){
+    public MoveTo(Direction dir) {
         super();
-        this.direction = direction;
+        this.direction = dir;
     }
 
     @Override
     public boolean isValid(JSONObject jsonObj) {
-        if (jsonObj.has("action")) {
-            ActionBot act = ActionBot.fromString(jsonObj.getString("action"));
-            return (act.equals(ActionBot.MOVE_TO));
-        }
-        return false;
+        return true;
     }
 
     @Override
     public String formatResponse() {
-        return "{ \"action\": \"move_to\", \"parameters\": { \"direction\": \"" + direction + "\" } }";
-    }
-
-    public Direction getDirection(){
-        return this.direction;
+        return "{ \"action\": \"move_to\", \"parameters\": { \"direction\": \"" + this.direction + "\" } }";
     }
 }

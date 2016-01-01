@@ -6,12 +6,12 @@ package fr.unice.polytech.qgl.qab.map.tile;
  */
 public class Tile {
     private TileType type;
-    private boolean creek;
+    private Creek creek;
     private boolean wasVisited;
 
     public Tile() {
         this.type = TileType.UNDEFINED;
-        creek = false;
+        creek = new Creek();
         wasVisited = false;
     }
 
@@ -23,9 +23,9 @@ public class Tile {
 
     public TileType getType() { return type; }
 
-    public void setCreek(boolean creek) { this.creek = creek; }
+    public void setCreek(Creek creek) { this.creek = creek; }
 
-    public boolean getCreek() { return creek; }
+    public Creek getCreek() { return creek; }
 
     public boolean wasVisited() {
         return wasVisited;

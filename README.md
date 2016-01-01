@@ -1,4 +1,4 @@
-# ISLAND PROJECT
+﻿# ISLAND PROJECT
 
 ## Team Information
 
@@ -40,6 +40,8 @@ Map implemented and land corrected.
 
 ### Week 52
 
-Short list of the **features** available in the bot delivered for the championship that happened at the end of week 50.
+Added tests and fixed code at various locations.
 
-    
+### Week 53
+
+Short list of the **features** available in the bot delivered for the championship that happened at the end of week 50.

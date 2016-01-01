@@ -2,6 +2,8 @@ package fr.unice.polytech.qgl.qab.strategy.aerial.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.aerial.combo.ComboEchos;
+import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
+import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.UpdaterMap;
@@ -29,7 +31,7 @@ public class Initialize extends AerialState {
     }
 
     @Override
-    public AerialState getState(Context context, Map map, StateMediator stateMediator) {
+    public AerialState getState(Context context, Map map, StateMediator stateMediator) throws PositionOutOfMapRange {
         if (actionCombo != null && !stateMediator.shouldGoToTheCorner())
             updaterMap.initializeDimensions(context, map);
 
@@ -37,16 +39,18 @@ public class Initialize extends AerialState {
             updaterMap.setFirstPosition(context, map);
             if (stateMediator.shouldGoToTheCorner()) {
                 actionCombo = null;
+                context.setLastDiscovery(null);
                 return GoToTheCorner.getInstance();
-            } else
+            } else {
                 return FindGround.getInstance();
+            }
         }
 
         return Initialize.getInstance();
     }
 
     @Override
-    public Action responseState(Context context,  Map map, StateMediator stateMediator) {
+    public Action responseState(Context context,  Map map, StateMediator stateMediator) throws IndexOutOfBoundsComboAction {
         if (actionCombo == null) {
             actionCombo = new ComboEchos();
             actionCombo.defineComboEchos(context.getHeading());
@@ -56,18 +60,20 @@ public class Initialize extends AerialState {
         lastAction = act;
         actionCombo.remove(0);
 
-        if (context.getLastDiscovery() != null && !stateMediator.shouldGoToTheCorner()) {
-            if (context.getLastDiscovery().getFound().isEquals(Found.GROUND))
+        analizeState(context, stateMediator);
+
+        return act;
+    }
+
+    private void analizeState(Context context, StateMediator stateMediator) {
+        if (context.getLastDiscovery() != null && !stateMediator.shouldGoToTheCorner() &&
+            context.getLastDiscovery().getFound().isEquals(Found.GROUND)) {
                 stateMediator.setGoToTheCorner(true);
         }
 
-        if (stateMediator.shouldGoToTheCorner()) {
-            if (context.getLastDiscovery().getRange() > stateMediator.getRangeToTheCorner()) {
-                stateMediator.setRangeToTheCorner(context.getLastDiscovery().getRange());
-                stateMediator.setDirectionToTheCorner(context.getLastDiscovery().getDirection());
-            }
+        if (stateMediator.shouldGoToTheCorner() && (context.getLastDiscovery().getRange() < stateMediator.getRangeToTheCorner())) {
+            stateMediator.setRangeToTheCorner(context.getLastDiscovery().getRange());
+            stateMediator.setDirectionToTheCorner(context.getLastDiscovery().getDirection());
         }
-
-        return act;
     }
 }

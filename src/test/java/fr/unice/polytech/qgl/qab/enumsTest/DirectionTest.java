@@ -91,6 +91,11 @@ public class DirectionTest {
     }
 
     @Test
+    public void isNull() {
+
+    }
+
+    @Test
     public void testIsVerticalSouth() {
         direction = Direction.SOUTH;
         assertEquals(true, direction.isVertical());

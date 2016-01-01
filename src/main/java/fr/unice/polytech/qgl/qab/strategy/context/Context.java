@@ -17,7 +17,7 @@ public class Context {
     private Budget budget;
     private List<Contract> contracts;
 
-    private Direction first_head;
+    private Direction firstHead;
     private Direction heading;
 
     private Discovery lastDiscovery;
@@ -28,7 +28,7 @@ public class Context {
         budget = new Budget(0);
         contracts = new ArrayList<>();
 
-        first_head = null;
+        firstHead = null;
         heading = null;
 
         lastDiscovery = null;
@@ -48,8 +48,8 @@ public class Context {
             addContract(key, value);
         }
 
-        first_head = Direction.fromString(jsonObj.getString("heading"));
-        setHeading(first_head);
+        firstHead = Direction.fromString(jsonObj.getString("heading"));
+        setHeading(firstHead);
     }
 
     public Direction getHeading() {
@@ -60,24 +60,32 @@ public class Context {
         return budget.remaining();
     }
 
-    public Direction getFirst_head() {
-        return first_head;
+    public Direction getFirstHead() {
+        return firstHead;
     }
 
     public Discovery getLastDiscovery() {
         return lastDiscovery;
     }
 
+    public boolean getStatus() {
+        return status;
+    }
+
+    public int getMen() {
+        return men;
+    }
+
     public void setStatus(boolean s) {
         status = s;
     }
 
-    public void setBudget(int b) {
-        try {
-            budget = new Budget(b);
-        } catch (NegativeBudgetException e) {
-            e.printStackTrace();
-        }
+    public void setFirstHead(Direction direction) {
+        firstHead = direction;
+    }
+
+    public void setBudget(int b) throws NegativeBudgetException {
+        budget = new Budget(b);
     }
 
     public void setMen(int m) {

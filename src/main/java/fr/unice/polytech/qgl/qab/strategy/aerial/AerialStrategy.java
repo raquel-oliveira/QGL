@@ -2,6 +2,7 @@ package fr.unice.polytech.qgl.qab.strategy.aerial;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.common.Stop;
+import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.aerial.states.AerialState;
@@ -25,7 +26,7 @@ public class AerialStrategy implements IAerialStrategy {
         stateMediator = StateMediator.getInstance();
     }
 
-    public Action makeDecision(Context context) {
+    public Action makeDecision(Context context) throws IndexOutOfBoundsComboAction, PositionOutOfMapRange {
         if (contextAnalyzer(context) != null) {
             return contextAnalyzer(context);
         }

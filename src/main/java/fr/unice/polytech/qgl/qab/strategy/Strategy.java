@@ -1,6 +1,7 @@
 package fr.unice.polytech.qgl.qab.strategy;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
+import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.strategy.aerial.AerialStrategy;
@@ -44,14 +45,16 @@ public class Strategy implements IStrategy {
      * Method called to make the decision.
      * @return the best action chosen
      */
-    public String makeDecision() throws PositionOutOfMapRange {
+    public String makeDecision() throws PositionOutOfMapRange, IndexOutOfBoundsComboAction {
         Action act;
         if (phase.isEquals(Phase.AERIAL)) {
             act = aerialStrategy.makeDecision(context);
-            if (act instanceof LAND) phase = Phase.GROUND;
+            if (act instanceof LAND)
+                phase = Phase.GROUND;
         } else {
             act = groundStrategy.makeDecision(context);
-            if (act instanceof LAND) phase = Phase.AERIAL;
+            if (act instanceof LAND)
+                phase = Phase.AERIAL;
         }
         currentAction = act;
         return act.formatResponse();
@@ -61,7 +64,7 @@ public class Strategy implements IStrategy {
      * Method the read and analyse the string returned.
      * @param data information that the engine returned
      */
-    public void readResults(String data) {
+    public void readResults(String data) throws NegativeBudgetException {
         context = responseHandler.readData(data, currentAction, context);
     }
 

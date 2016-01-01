@@ -43,8 +43,47 @@ public class LandTest {
     }
 
     @Test
-    public void test() {
-        String response = "{ \"action\": \"land\", \"parameters\": { \"creek\": \"aaglk14sd12-&1\", \"people\": 1 }}";
-        assertTrue(land.formatResponse().equals(response));
+    public void testNotValidJson() {
+        JSONObject jsonObj = new JSONObject("{ \"action\": \"stop\", \"parameters\": { \"creek\": \"id\", \"people\": 42 }}");
+        assertTrue(!(land.isValid(jsonObj)));
     }
+
+    @Test
+    public void testNotValidActionJson() {
+        JSONObject jsonObj = new JSONObject("{\"bla\": \"land\", \"parameters\": { \"creek\": \"id\", \"people\": 42 }}");
+        assertTrue(!(land.isValid(jsonObj)));
+    }
+
+    @Test
+    public void noParametersTest() {
+        String response = "{ \"action\": \"land\"}";
+        JSONObject jsonObj = new JSONObject(response);
+        assertTrue(!(land.isValid(jsonObj)));
+        assertTrue(!(land.formatResponse().equals(response)));
+    }
+
+    @Test
+    public void noCreekTest() {
+        String response = "{ \"action\": \"land\", \"parameters\": { \"people\": 1 }}";
+        JSONObject jsonObj = new JSONObject(response);
+        assertTrue(!(land.isValid(jsonObj)));
+        assertTrue(!(land.formatResponse().equals(response)));
+    }
+
+    @Test
+    public void noPeopleTest() {
+        String response = "{ \"action\": \"land\", \"parameters\": { \"creek\": \"aaglk14sd12-&1\"}}";
+        JSONObject jsonObj = new JSONObject(response);
+        assertTrue(!(land.isValid(jsonObj)));
+        assertTrue(!(land.formatResponse().equals(response)));
+    }
+
+    @Test
+    public void formatResponseTest() {
+        String response = "{ \"action\": \"land\", \"parameters\": { \"creek\": \"aaglk14sd12-&1\", \"people\": 1 }}";
+        JSONObject jsonObj = new JSONObject(response);
+        assertTrue((land.isValid(jsonObj)));
+        assertTrue((land.formatResponse().equals(response)));
+    }
+
 }
