@@ -50,6 +50,12 @@ public class ActionBotTest {
     }
 
     @Test
+    public void testActionBotMoveTo() {
+        action = ActionBot.MOVE_TO;
+        assertEquals(ActionBot.MOVE_TO, action);
+    }
+
+    @Test
     public void testToStringEcho() {
         action = ActionBot.ECHO;
         assertEquals(ActionBot.ECHO.toString(), action.toString());
@@ -83,9 +89,9 @@ public class ActionBotTest {
     }
 
     @Test
-    public void testToStringMove() {
-        action = ActionBot.MOVE;
-        assertEquals(ActionBot.MOVE.toString(), action.toString());
+    public void testToStringMoveTo() {
+        action = ActionBot.MOVE_TO;
+        assertEquals(ActionBot.MOVE_TO.toString(), action.toString());
     }
 
     @Test
@@ -125,9 +131,9 @@ public class ActionBotTest {
     }
 
     @Test
-    public void testFromStringMove() {
-        action = ActionBot.fromString("move");
-        assertTrue(action.equals(ActionBot.MOVE));
+    public void testFromStringMoveTo() {
+        action = ActionBot.fromString("move_to");
+        assertTrue(action.equals(ActionBot.MOVE_TO));
     }
 
     @Test(expected = NullPointerException.class)

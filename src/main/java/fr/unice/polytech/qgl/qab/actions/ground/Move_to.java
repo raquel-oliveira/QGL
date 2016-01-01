@@ -8,11 +8,11 @@ import org.json.JSONObject;
 /**
  * Created by quent on 01/01/2016.
  */
-public class Move implements Action {
+public class Move_to implements Action {
     private Direction direction;
 
 
-    public Move(Direction direction){
+    public Move_to(Direction direction){
         super();
         this.direction = direction;
     }
@@ -21,14 +21,14 @@ public class Move implements Action {
     public boolean isValid(JSONObject jsonObj) {
         if (jsonObj.has("action")) {
             ActionBot act = ActionBot.fromString(jsonObj.getString("action"));
-            return (act.equals(ActionBot.MOVE));
+            return (act.equals(ActionBot.MOVE_TO));
         }
         return false;
     }
 
     @Override
     public String formatResponse() {
-        return "{ \"action\": \"move\", \"parameters\": { \"direction\": \"" + direction + "\" } }";
+        return "{ \"action\": \"move_to\", \"parameters\": { \"direction\": \"" + direction + "\" } }";
     }
 
     public Direction getDirection(){

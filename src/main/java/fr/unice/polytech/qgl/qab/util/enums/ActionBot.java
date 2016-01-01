@@ -13,7 +13,7 @@ public enum ActionBot {
     LAND("land"),
     HEADING("heading"),
     GLIMPSE("glimpse"),
-    MOVE("move");
+    MOVE_TO("move_to");
 
     private String name = "";
 
