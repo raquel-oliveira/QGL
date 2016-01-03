@@ -47,6 +47,5 @@ Added tests and fixed code at various locations.
 Add more tests and implement fly to work in different map situations.
 
 ### Week 54
-### Week 54
 
 Short list of the **features** available in the bot delivered for the championship that happened at the end of week 50.
