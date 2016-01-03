@@ -32,20 +32,14 @@ public class Initialize extends AerialState {
 
     @Override
     public AerialState getState(Context context, Map map, StateMediator stateMediator) throws PositionOutOfMapRange {
-        if (actionCombo != null && !stateMediator.shouldGoToTheCorner())
-            updaterMap.initializeDimensions(context, map);
+        //if (actionCombo != null && !stateMediator.shouldGoToTheCorner())
+        //    updaterMap.initializeDimensions(context, map);
 
-        if (actionCombo != null && actionCombo.isEmpty()) {
-            updaterMap.setFirstPosition(context, map);
-            if (stateMediator.shouldGoToTheCorner()) {
-                actionCombo = null;
-                context.setLastDiscovery(null);
-                return GoToTheCorner.getInstance();
-            } else {
-                return FindGround.getInstance();
-            }
-        }
-
+        if (actionCombo != null && actionCombo.isEmpty() && stateMediator.shouldGoToTheCorner()) {
+            actionCombo = null;
+            return GoToTheCorner.getInstance();
+        } else if (actionCombo != null && actionCombo.isEmpty() && !stateMediator.shouldGoToTheCorner())
+            return FindGround.getInstance();
         return Initialize.getInstance();
     }
 
@@ -60,20 +54,20 @@ public class Initialize extends AerialState {
         lastAction = act;
         actionCombo.remove(0);
 
-        analizeState(context, stateMediator);
+        if (context.getLastDiscovery() != null && !stateMediator.shouldGoToTheCorner()) {
+            if (context.getLastDiscovery().getFound().isEquals(Found.GROUND))
+                stateMediator.setGoToTheCorner(true) ;
+            else
+                stateMediator.setRangeToGround(context.getLastDiscovery().getRange());
+        }
+
+        if (stateMediator.shouldGoToTheCorner()) {
+            if (context.getLastDiscovery().getRange() > stateMediator.getRangeToTheCorner()) {
+                stateMediator.setRangeToTheCorner(context.getLastDiscovery().getRange());
+                stateMediator.setDirectionToTheCorner(context.getLastDiscovery().getDirection());
+            }
+        }
 
         return act;
-    }
-
-    private void analizeState(Context context, StateMediator stateMediator) {
-        if (context.getLastDiscovery() != null && !stateMediator.shouldGoToTheCorner() &&
-            context.getLastDiscovery().getFound().isEquals(Found.GROUND)) {
-                stateMediator.setGoToTheCorner(true);
-        }
-
-        if (stateMediator.shouldGoToTheCorner() && (context.getLastDiscovery().getRange() < stateMediator.getRangeToTheCorner())) {
-            stateMediator.setRangeToTheCorner(context.getLastDiscovery().getRange());
-            stateMediator.setDirectionToTheCorner(context.getLastDiscovery().getDirection());
-        }
     }
 }

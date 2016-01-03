@@ -32,7 +32,7 @@ public class StateMediator {
     }
 
     public boolean shouldGoToTheCorner() {
-        return shouldGoToTheCorner;
+        return this.shouldGoToTheCorner;
     }
 
     public void setGoToTheCorner(boolean goToTheCorner) {

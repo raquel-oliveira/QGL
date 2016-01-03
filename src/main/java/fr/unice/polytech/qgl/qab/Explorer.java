@@ -47,7 +47,6 @@ public class Explorer implements IExplorerRaid {
      * @return for now, we always return the same action: stopping the game
      */
     @Override
-    //TODO: Either log or rethrow this exception
     public String takeDecision() {
         try {
             return strategy.makeDecision();
