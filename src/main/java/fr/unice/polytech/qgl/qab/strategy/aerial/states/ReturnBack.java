@@ -56,7 +56,7 @@ public class ReturnBack extends AerialState {
                 return new Stop();
             else {
                 comboFlyUntil = new ComboFlyUntil();
-                comboFlyUntil.defineComboFlyUntil(context.getLastDiscovery().getRange() + 1);
+                comboFlyUntil.defineComboFlyUntil(context.getLastDiscovery().getRange());
                 stateMediator.shouldFlyUntilGround(true);
             }
         }
