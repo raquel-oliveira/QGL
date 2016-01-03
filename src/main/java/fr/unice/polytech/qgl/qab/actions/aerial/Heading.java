@@ -29,8 +29,6 @@ public class Heading implements Action {
             if (!(ACTION_HEADING).equals(action)) {
                 return false;
             }
-
-
             if (jsonObj.has(PARAMETERS)) {
                 if (jsonObj.getJSONObject(PARAMETERS).has(DIRECTION)) {
                     String dir = jsonObj.getJSONObject(PARAMETERS).getString(DIRECTION);
