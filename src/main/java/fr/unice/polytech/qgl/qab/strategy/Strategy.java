@@ -11,7 +11,7 @@ import fr.unice.polytech.qgl.qab.strategy.ground.GroundStrategy;
 import fr.unice.polytech.qgl.qab.strategy.ground.IGroundStrategy;
 import fr.unice.polytech.qgl.qab.util.enums.Phase;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import org.apache.bcel.generic.LAND;
+import fr.unice.polytech.qgl.qab.actions.common.Land;
 
 /**
  * Class responsible for represent the Strategy to management the making decision.
@@ -49,11 +49,11 @@ public class Strategy implements IStrategy {
         Action act;
         if (phase.isEquals(Phase.AERIAL)) {
             act = aerialStrategy.makeDecision(context);
-            if (act instanceof LAND)
+            if (act instanceof Land)
                 phase = Phase.GROUND;
         } else {
             act = groundStrategy.makeDecision(context);
-            if (act instanceof LAND)
+            if (act instanceof Land)
                 phase = Phase.AERIAL;
         }
         currentAction = act;
