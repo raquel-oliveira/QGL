@@ -1,16 +1,12 @@
 package fr.unice.polytech.qgl.qab;
 
 import eu.ace_design.island.bot.IExplorerRaid;
-import eu.ace_design.island.util.Logger;
-import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.common.Stop;
-import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
-import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.strategy.IStrategy;
 import fr.unice.polytech.qgl.qab.strategy.Strategy;
-
-import java.util.logging.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 /**
  * Class that represents the bot in the game.
@@ -21,7 +17,8 @@ import java.util.logging.LogManager;
 public class Explorer implements IExplorerRaid {
     // strategy with the bot actions
     private IStrategy strategy;
-    private static org.apache.logging.log4j.Logger logger = org.apache.logging.log4j.LogManager.getLogger(Explorer.class);
+    private static final Logger LOGGER = LogManager.getLogger(Explorer.class);
+    private static final String ERROR = "error";
 
     /**
      * Constructor
@@ -30,7 +27,7 @@ public class Explorer implements IExplorerRaid {
         try {
             strategy = new Strategy();
         } catch (NegativeBudgetException e) {
-            e.printStackTrace();
+            LOGGER.error(ERROR, e);
         }
     }
 
@@ -43,7 +40,7 @@ public class Explorer implements IExplorerRaid {
         try {
             strategy.initializeContext(context);
         } catch (NegativeBudgetException e) {
-            e.printStackTrace();
+            LOGGER.error(ERROR, e);
         }
     }
 
@@ -55,12 +52,8 @@ public class Explorer implements IExplorerRaid {
     public String takeDecision() {
         try {
             return strategy.makeDecision();
-        } catch (PositionOutOfMapRange positionOutOfMapaRange) {
-            return (new Stop()).toString();
-        } catch (IndexOutOfBoundsComboAction indexOutOfBoundsComboAction) {
-            return (new Stop()).toString();
         } catch (Exception e){
-            logger.error("error",e);
+            LOGGER.error(ERROR,e);
             return (new Stop()).toString();
         }
     }
@@ -75,7 +68,7 @@ public class Explorer implements IExplorerRaid {
         try {
             strategy.readResults(results);
         } catch (NegativeBudgetException e) {
-            e.printStackTrace();
+            LOGGER.error(ERROR, e);
         }
     }
 }
