@@ -53,8 +53,6 @@ public class Strategy implements IStrategy {
                 phase = Phase.GROUND;
         } else {
             act = groundStrategy.makeDecision(context);
-            if (act instanceof Land)
-                phase = Phase.AERIAL;
         }
         currentAction = act;
         return act.formatResponse();
