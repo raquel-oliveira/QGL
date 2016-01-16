@@ -8,23 +8,21 @@ import org.json.JSONObject;
  *
  * @version 8.12.2016
  */
-public class Scan implements Action {
+public class Scan extends Action {
     private static final String ACTION_SCAN = "scan";
 
     public Scan() {
         super();
     }
 
-    @Override
     public boolean isValid(JSONObject jsonObj) {
-        if (jsonObj.has("action")) {
-            String action = jsonObj.getString("action");
+        if (jsonObj.has(ACTION)) {
+            String action = jsonObj.getString(ACTION);
             return ACTION_SCAN.equals(action);
         }
         return false;
     }
 
-    @Override
     public String formatResponse() {
         return "{ \"action\": \"scan\" }";
     }
