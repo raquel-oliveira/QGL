@@ -1,12 +1,16 @@
 package fr.unice.polytech.qgl.qab;
 
 import eu.ace_design.island.bot.IExplorerRaid;
+import eu.ace_design.island.util.Logger;
+import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.common.Stop;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.strategy.IStrategy;
 import fr.unice.polytech.qgl.qab.strategy.Strategy;
+
+import java.util.logging.LogManager;
 
 /**
  * Class that represents the bot in the game.
@@ -17,6 +21,7 @@ import fr.unice.polytech.qgl.qab.strategy.Strategy;
 public class Explorer implements IExplorerRaid {
     // strategy with the bot actions
     private IStrategy strategy;
+    private static org.apache.logging.log4j.Logger logger = org.apache.logging.log4j.LogManager.getLogger(Explorer.class);
 
     /**
      * Constructor
@@ -53,6 +58,9 @@ public class Explorer implements IExplorerRaid {
         } catch (PositionOutOfMapRange positionOutOfMapaRange) {
             return (new Stop()).toString();
         } catch (IndexOutOfBoundsComboAction indexOutOfBoundsComboAction) {
+            return (new Stop()).toString();
+        } catch (Exception e){
+            logger.error("error",e);
             return (new Stop()).toString();
         }
     }
