@@ -9,7 +9,9 @@ import org.json.JSONObject;
  *
  * @version 4.9
  */
-public class Echo implements Action {
+public class Echo extends Action {
+    private static final String ACTION_ECHO = "echo";
+
     private Direction direction;
 
     public Echo(Direction dir) {
@@ -17,16 +19,21 @@ public class Echo implements Action {
         direction = dir;
     }
 
-    @Override
     public boolean isValid(JSONObject jsonObj) {
-        if (jsonObj.has("action")) {
-            //ActionBot act = ActionBot.fromString(jsonObj.getString("action"));
-            //return act.isEquals(ActionBot.ECHO);
+        if (jsonObj.has(ACTION)) {
+            String action = jsonObj.getString(ACTION);
+            if (!(ACTION_ECHO).equals(action)) {
+                return false;
+            }
+            if(!checkParameter(jsonObj)) {
+                return false;
+            }
         }
-        return false;
+        else return false;
+
+        return true;
     }
 
-    @Override
     public String formatResponse() {
         return "{ \"action\": \"echo\", \"parameters\": { \"direction\": \"" + direction + "\" } }";
     }
