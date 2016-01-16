@@ -10,11 +10,9 @@ import org.json.JSONObject;
  *
  * @version 4.9
  */
-public class Heading implements Action {
+public class Heading extends Action {
     private static final String ACTION_HEADING = "heading";
-    private static final String ACTION = "action";
-    private static final String DIRECTION = "direction";
-    private static final String PARAMETERS = "parameters";
+
     private Direction direction;
 
     public Heading(Direction dir) {
@@ -22,27 +20,21 @@ public class Heading implements Action {
         direction = dir;
     }
 
-    @Override
     public boolean isValid(JSONObject jsonObj) {
         if (jsonObj.has(ACTION)) {
             String action = jsonObj.getString(ACTION);
             if (!(ACTION_HEADING).equals(action)) {
                 return false;
             }
-            if (jsonObj.has(PARAMETERS)) {
-                if (jsonObj.getJSONObject(PARAMETERS).has(DIRECTION)) {
-                    String dir = jsonObj.getJSONObject(PARAMETERS).getString(DIRECTION);
-                    if (Direction.fromString(dir) == null) {
-                        return false;
-                    }
-                } else return false;
-            } else return false;
-        } else return false;
+            if(!checkParameter(jsonObj)) {
+                return false;
+            }
+        }
+        else return false;
 
         return true;
     }
 
-    @Override
     public String formatResponse() {
         return "{ \"action\": \"heading\", \"parameters\": { \"direction\": \"" + direction + "\" } }";
     }
