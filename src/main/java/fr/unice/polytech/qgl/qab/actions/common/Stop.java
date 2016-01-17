@@ -9,7 +9,7 @@ import org.json.JSONObject;
  *
  * @version 4.9
  */
-public class Stop implements Action {
+public class Stop extends Action {
     private static final String ACTION_STOP = "stop";
 
     public Stop() {
@@ -18,8 +18,8 @@ public class Stop implements Action {
 
     @Override
     public boolean isValid(JSONObject jsonObj) {
-        if (jsonObj.has("action")) {
-            String action = jsonObj.getString("action");
+        if (jsonObj.has(ACTION)) {
+            String action = jsonObj.getString(ACTION);
             return ACTION_STOP.equals(action);
         }
         return false;
