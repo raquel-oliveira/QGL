@@ -15,6 +15,7 @@ public class Scan extends Action {
         super();
     }
 
+    @Override
     public boolean isValid(JSONObject jsonObj) {
         if (jsonObj.has(ACTION)) {
             String action = jsonObj.getString(ACTION);
@@ -23,6 +24,7 @@ public class Scan extends Action {
         return false;
     }
 
+    @Override
     public String formatResponse() {
         return "{ \"action\": \"scan\" }";
     }

@@ -17,6 +17,7 @@ public class MoveTo extends Action {
         this.direction = dir;
     }
 
+    @Override
     public boolean isValid(JSONObject jsonObj) {
         if (jsonObj.has(ACTION)) {
             String action = jsonObj.getString(ACTION);
@@ -32,6 +33,7 @@ public class MoveTo extends Action {
         return true;
     }
 
+    @Override
     public String formatResponse() {
         return "{ \"action\": \"move_to\", \"parameters\": { \"direction\": \"" + this.direction + "\" } }";
     }

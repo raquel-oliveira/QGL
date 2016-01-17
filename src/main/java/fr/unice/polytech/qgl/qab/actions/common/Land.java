@@ -17,6 +17,7 @@ public class Land extends Action {
         this.people = people;
     }
 
+    @Override
     public boolean isValid(JSONObject jsonObj) {
         if (jsonObj.has(ACTION)) {
             String action = jsonObj.getString(ACTION);
@@ -35,6 +36,7 @@ public class Land extends Action {
         return true;
     }
 
+    @Override
     public String formatResponse() {
         return "{ \"action\": \"land\", \"parameters\": { \"creek\": \""+id+"\", \"people\": "+people+" }}";
     }
