@@ -13,13 +13,12 @@ import org.json.JSONObject;
 public class Heading extends Action {
     private static final String ACTION_HEADING = "heading";
 
-    private Direction direction;
-
     public Heading(Direction dir) {
         super();
         direction = dir;
     }
 
+    @Override
     public boolean isValid(JSONObject jsonObj) {
         if (jsonObj.has(ACTION)) {
             String action = jsonObj.getString(ACTION);
@@ -35,11 +34,9 @@ public class Heading extends Action {
         return true;
     }
 
+    @Override
     public String formatResponse() {
         return "{ \"action\": \"heading\", \"parameters\": { \"direction\": \"" + direction + "\" } }";
     }
 
-    public Direction getDirection() {
-        return direction;
-    }
 }

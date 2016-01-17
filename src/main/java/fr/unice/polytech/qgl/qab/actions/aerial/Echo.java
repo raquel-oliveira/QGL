@@ -12,13 +12,11 @@ import org.json.JSONObject;
 public class Echo extends Action {
     private static final String ACTION_ECHO = "echo";
 
-    private Direction direction;
-
     public Echo(Direction dir) {
         super();
         direction = dir;
     }
-
+    @Override
     public boolean isValid(JSONObject jsonObj) {
         if (jsonObj.has(ACTION)) {
             String action = jsonObj.getString(ACTION);
@@ -34,15 +32,9 @@ public class Echo extends Action {
         return true;
     }
 
+    @Override
     public String formatResponse() {
         return "{ \"action\": \"echo\", \"parameters\": { \"direction\": \"" + direction + "\" } }";
     }
 
-    /**
-     * Method to get the direction of the Echo.
-     * @return the direction.
-     */
-    public Direction getDirection() {
-        return direction;
-    }
 }

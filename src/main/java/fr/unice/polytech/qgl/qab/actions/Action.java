@@ -12,6 +12,7 @@ public abstract class Action {
     public static final String ACTION = "action";
     public static final String DIRECTION = "direction";
     public static final String PARAMETERS = "parameters";
+    protected Direction direction;
 
     public abstract boolean isValid(JSONObject jsonObj);
 
@@ -28,5 +29,13 @@ public abstract class Action {
             } else return false;
         }
         else return false;
+    }
+
+    /**
+     * Method to get the direction of the Echo.
+     * @return the direction.
+     */
+    public Direction getDirection() {
+        return direction;
     }
 }
