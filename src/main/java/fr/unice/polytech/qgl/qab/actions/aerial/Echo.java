@@ -11,6 +11,7 @@ import org.json.JSONObject;
  */
 public class Echo extends Action {
     private static final String ACTION_ECHO = "echo";
+    private Direction direction;
 
     public Echo(Direction dir) {
         super();
@@ -35,6 +36,14 @@ public class Echo extends Action {
     @Override
     public String formatResponse() {
         return "{ \"action\": \"echo\", \"parameters\": { \"direction\": \"" + direction + "\" } }";
+    }
+
+    /**
+     * Method to get the direction of the Echo.
+     * @return the direction.
+     */
+    public Direction getDirection() {
+        return direction;
     }
 
 }

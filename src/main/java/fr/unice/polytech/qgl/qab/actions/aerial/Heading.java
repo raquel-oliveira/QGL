@@ -12,6 +12,7 @@ import org.json.JSONObject;
  */
 public class Heading extends Action {
     private static final String ACTION_HEADING = "heading";
+    private Direction direction;
 
     public Heading(Direction dir) {
         super();
@@ -37,6 +38,14 @@ public class Heading extends Action {
     @Override
     public String formatResponse() {
         return "{ \"action\": \"heading\", \"parameters\": { \"direction\": \"" + direction + "\" } }";
+    }
+
+    /**
+     * Method to get the direction of the Heading.
+     * @return the direction.
+     */
+    public Direction getDirection() {
+        return direction;
     }
 
 }
