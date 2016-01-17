@@ -1,7 +1,7 @@
 package fr.unice.polytech.qgl.qab.util.enums;
 
 /**
- * Created by Quentin Prod'Homme on 17/01/2016.
+ * @version 17/01/2016.
  */
 public enum PrimaryResources {
     FISH("FISH"),
