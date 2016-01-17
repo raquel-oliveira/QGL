@@ -3,7 +3,7 @@ package fr.unice.polytech.qgl.qab.actions.ground;
 import fr.unice.polytech.qgl.qab.actions.Action;
 import org.json.JSONObject;
 
-public class Explore implements Action {
+public class Explore extends Action {
     public Explore(){
         super();
     }

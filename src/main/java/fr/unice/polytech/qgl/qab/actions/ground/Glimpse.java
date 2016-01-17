@@ -7,7 +7,7 @@ import org.json.JSONObject;
 /**
  * Created by Quentin Prod'Homme on 13/12/15.
  */
-public class Glimpse implements Action {
+public class Glimpse extends Action {
     private Direction direction;
     private int range;
 
