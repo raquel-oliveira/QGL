@@ -18,7 +18,7 @@ public abstract class Action {
     public abstract String formatResponse();
 
     /**
-     *Check parameters if the parameter is the direction
+     * Check parameters if the parameter is the direction
      */
     public boolean checkParameter(JSONObject jsonObj){
         if (jsonObj.has(PARAMETERS)) {

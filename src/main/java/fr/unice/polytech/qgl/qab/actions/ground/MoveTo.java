@@ -19,12 +19,10 @@ public class MoveTo extends Action {
     public boolean isValid(JSONObject jsonObj) {
         if (jsonObj.has(ACTION)) {
             String action = jsonObj.getString(ACTION);
-            if (!(ACTION_MOVE_TO).equals(action)) {
+            if (!(ACTION_MOVE_TO).equals(action))
                 return false;
-            }
-            if(!checkParameter(jsonObj)) {
+            if(!checkParameter(jsonObj))
                 return false;
-            }
         }
         else return false;
 

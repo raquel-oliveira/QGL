@@ -26,7 +26,7 @@ public class MoveToTest {
         assertTrue(move.isValid(jsonObj));
     }
 
-    @Test(expected = AssertionError.class)
+    @Test
     public void testNotValidActionJson() {
         JSONObject jsonObj = new JSONObject("{ \"aon\": \"move_to\", \"parameters\": { \"direction\": \"" + Direction.EAST + "\" } }");
         assertFalse(move.isValid(jsonObj));

@@ -13,7 +13,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Created by Raquel on 17/01/2016.
+ * @version 17/01/2016.
  */
 public class EchoTest {
     Echo echo;
