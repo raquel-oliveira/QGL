@@ -4,16 +4,16 @@ import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import org.json.JSONObject;
 
-/**
- * @version 31/12/15.
- */
-public class MoveTo implements Action {
+
+public class Scout implements Action{
     private Direction direction;
 
-    public MoveTo(Direction dir) {
+
+    public Scout(Direction direction){
         super();
-        this.direction = dir;
+        this.direction = direction;
     }
+
     //TODO
     @Override
     public boolean isValid(JSONObject jsonObj) {
@@ -22,6 +22,10 @@ public class MoveTo implements Action {
 
     @Override
     public String formatResponse() {
-        return "{ \"action\": \"move_to\", \"parameters\": { \"direction\": \"" + this.direction + "\" } }";
+        return "{ \"action\": \"scout\", \"parameters\": { \"direction\": \"" + direction + "\" } }";
+    }
+
+    public Direction getDirection(){
+        return this.direction;
     }
 }
