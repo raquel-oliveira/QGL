@@ -8,12 +8,11 @@ import org.json.JSONObject;
  * Created by Quentin Prod'Homme on 13/12/15.
  */
 public class Glimpse extends Action {
-    private Direction direction;
     private int range;
 
     public Glimpse(Direction direction,int range){
         super();
-        this.direction = direction;
+        setDirection(direction);
         this.range = range;
     }
 
@@ -26,10 +25,6 @@ public class Glimpse extends Action {
     @Override
     public String formatResponse() {
         return "{ \"action\": \"glimpse\", \"parameters\": { \"direction\": \"" + direction + "\", \"range\": "+range+" } }";
-    }
-
-    public Direction getDirection(){
-        return this.direction;
     }
 
     public int getRange(){

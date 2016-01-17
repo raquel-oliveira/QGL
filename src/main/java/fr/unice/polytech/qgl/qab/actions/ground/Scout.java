@@ -6,12 +6,10 @@ import org.json.JSONObject;
 
 
 public class Scout extends Action{
-    private Direction direction;
-
 
     public Scout(Direction direction){
         super();
-        this.direction = direction;
+        setDirection(direction);
     }
 
     //TODO
@@ -25,7 +23,4 @@ public class Scout extends Action{
         return "{ \"action\": \"scout\", \"parameters\": { \"direction\": \"" + direction + "\" } }";
     }
 
-    public Direction getDirection(){
-        return this.direction;
-    }
 }
