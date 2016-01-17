@@ -1,7 +1,6 @@
 package fr.unice.polytech.qgl.qab.actions.aerial;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.strategy.Strategy;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import org.json.JSONObject;
 
@@ -12,11 +11,10 @@ import org.json.JSONObject;
  */
 public class Heading extends Action {
     private static final String ACTION_HEADING = "heading";
-    private Direction direction;
 
     public Heading(Direction dir) {
         super();
-        direction = dir;
+        setDirection(dir);
     }
 
     @Override
@@ -40,12 +38,5 @@ public class Heading extends Action {
         return "{ \"action\": \"heading\", \"parameters\": { \"direction\": \"" + direction + "\" } }";
     }
 
-    /**
-     * Method to get the direction of the Heading.
-     * @return the direction.
-     */
-    public Direction getDirection() {
-        return direction;
-    }
 
 }

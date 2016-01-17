@@ -1,5 +1,6 @@
 package fr.unice.polytech.qgl.qab.actionsTest;
 
+import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import org.json.JSONObject;
@@ -26,7 +27,7 @@ public class EchoTest {
 
     @Test
     public void testCreateGoodObject() throws NoSuchFieldException, IllegalAccessException {
-        Field fieldDirection = Echo.class.getDeclaredField("direction");
+        Field fieldDirection = Action.class.getDeclaredField("direction");
         fieldDirection.setAccessible(true);
         Direction value = (Direction) fieldDirection.get(echo);
 
