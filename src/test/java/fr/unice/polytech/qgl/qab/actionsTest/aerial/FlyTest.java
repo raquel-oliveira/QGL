@@ -33,7 +33,7 @@ public class FlyTest {
 
     @Test
     public void formatResponseTest() {
-        String response = "{ \"action\": \"fly\"}";
-        assertFalse(fly.formatResponse().equals(response));
+        String response = "{ \"action\": \"fly\" }";
+        assertTrue(fly.formatResponse().equals(response));
     }
 }
