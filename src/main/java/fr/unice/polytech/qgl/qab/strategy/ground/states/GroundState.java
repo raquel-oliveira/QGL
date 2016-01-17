@@ -4,7 +4,6 @@ import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
-import fr.unice.polytech.qgl.qab.strategy.aerial.states.StateMediator;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 
 /**
@@ -17,9 +16,9 @@ public abstract class GroundState {
         lastAction = null;
     }
 
-    public abstract GroundState getState(Context context, Map map, StateMediator stateMediator) throws PositionOutOfMapRange;
+    public abstract GroundState getState(Context context, Map map, StateManager stateManager) throws PositionOutOfMapRange;
 
-    public abstract Action responseState(Context context,  Map map, StateMediator stateMediator) throws IndexOutOfBoundsComboAction;
+    public abstract Action responseState(Context context,  Map map, StateManager stateManager) throws IndexOutOfBoundsComboAction;
 
 
 }
