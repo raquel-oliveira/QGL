@@ -1,4 +1,4 @@
-package fr.unice.polytech.qgl.qab.actionsTest;
+package fr.unice.polytech.qgl.qab.actionsTest.aerial;
 
 import fr.unice.polytech.qgl.qab.actions.aerial.Scan;
 import org.json.JSONObject;
@@ -32,8 +32,7 @@ public class ScanTest {
 
     @Test
     public void formatResponseTest() {
-        String response = "{ \"action\": \"scan\"}";
-        JSONObject jsonObj = new JSONObject(response);
-        assertTrue(!(scan.formatResponse().equals(response)));
+        String response = "{ \"action\": \"scan\" }";
+        assertTrue(scan.formatResponse().equals(response));
     }
 }

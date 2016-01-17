@@ -1,4 +1,4 @@
-package fr.unice.polytech.qgl.qab.actionsTest.combo;
+package fr.unice.polytech.qgl.qab.actionsTest.aerial.combo;
 
 import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.aerial.combo.ComboEchos;
