@@ -1,4 +1,4 @@
-package fr.unice.polytech.qgl.qab.actionsTest;
+package fr.unice.polytech.qgl.qab.actionsTest.aerial;
 
 import fr.unice.polytech.qgl.qab.actions.aerial.Fly;
 import org.json.JSONObject;

@@ -1,4 +1,4 @@
-package fr.unice.polytech.qgl.qab.actionsTest.combo;
+package fr.unice.polytech.qgl.qab.actionsTest.aerial.combo;
 
 import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.aerial.Heading;
@@ -6,7 +6,6 @@ import fr.unice.polytech.qgl.qab.actions.aerial.combo.ComboReturn;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
