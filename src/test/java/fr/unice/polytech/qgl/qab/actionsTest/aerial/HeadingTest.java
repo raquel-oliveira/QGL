@@ -1,5 +1,6 @@
 package fr.unice.polytech.qgl.qab.actionsTest.aerial;
 
+import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.aerial.Heading;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import org.json.JSONObject;
@@ -26,7 +27,7 @@ public class HeadingTest {
 
     @Test
     public void testCreateGoodObject() throws NoSuchFieldException, IllegalAccessException {
-        Field fieldDirection = Heading.class.getDeclaredField("direction");
+        Field fieldDirection = Action.class.getDeclaredField("direction");
         fieldDirection.setAccessible(true);
         Direction value = (Direction) fieldDirection.get(heading);
 
