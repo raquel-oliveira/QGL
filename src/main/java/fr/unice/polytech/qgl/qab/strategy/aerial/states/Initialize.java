@@ -32,8 +32,8 @@ public class Initialize extends AerialState {
 
     @Override
     public AerialState getState(Context context, Map map, StateMediator stateMediator) throws PositionOutOfMapRange {
-        //if (actionCombo != null && !stateMediator.shouldGoToTheCorner())
-        //    updaterMap.initializeDimensions(context, map);
+        if (actionCombo != null && !stateMediator.shouldGoToTheCorner())
+            updaterMap.initializeDimensions(context, map);
 
         if (actionCombo != null && actionCombo.isEmpty() && stateMediator.shouldGoToTheCorner()) {
             actionCombo = null;
