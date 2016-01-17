@@ -5,7 +5,7 @@ import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import org.json.JSONObject;
 
 /**
- * Created by prodhommebloup on 13/12/15.
+ * Created by Quentin Prod'Homme on 13/12/15.
  */
 public class Glimpse implements Action {
     private Direction direction;
@@ -17,12 +17,9 @@ public class Glimpse implements Action {
         this.range = range;
     }
 
+    //TODO
     @Override
     public boolean isValid(JSONObject jsonObj) {
-/*        if (jsonObj.has("action")) {
-            ActionBot act = ActionBot.fromString(jsonObj.getString("action"));
-            return (act.equals(ActionBot.GLIMPSE));
-        }*/
         return true;
     }
 

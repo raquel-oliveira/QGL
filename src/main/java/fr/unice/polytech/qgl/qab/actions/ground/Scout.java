@@ -14,12 +14,9 @@ public class Scout implements Action{
         this.direction = direction;
     }
 
+    //TODO
     @Override
     public boolean isValid(JSONObject jsonObj) {
-/*        if (jsonObj.has("action")) {
-            ActionBot act = ActionBot.fromString(jsonObj.getString("action"));
-            return (act.equals(ActionBot.SCOUT));
-        }*/
         return true;
     }
 

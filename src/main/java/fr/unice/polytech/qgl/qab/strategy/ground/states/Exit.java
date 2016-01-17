@@ -8,7 +8,7 @@ import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 
 /**
- * Created by quent on 17/01/2016.
+ * Created by Quentin Prod'Homme on 17/01/2016.
  */
 public class Exit extends GroundState{
 

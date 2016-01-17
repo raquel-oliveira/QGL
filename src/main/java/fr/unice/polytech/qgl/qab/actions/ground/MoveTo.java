@@ -14,7 +14,7 @@ public class MoveTo implements Action {
         super();
         this.direction = dir;
     }
-
+    //TODO
     @Override
     public boolean isValid(JSONObject jsonObj) {
         return true;

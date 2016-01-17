@@ -8,12 +8,9 @@ public class Explore implements Action {
         super();
     }
 
+    //TODO
     @Override
     public boolean isValid(JSONObject jsonObj) {
-/*        if (jsonObj.has("action")) {
-            ActionBot act = ActionBot.fromString(jsonObj.getString("action"));
-            return (act.equals(ActionBot.EXPLORE));
-        }*/
         return true;
     }
 

@@ -1,7 +1,7 @@
 package fr.unice.polytech.qgl.qab.strategy.ground.states;
 
 /**
- * Created by quent on 17/01/2016.
+ * Created by Quentin Prod'Homme on 17/01/2016.
  */
 public class StateManager {
     private static StateManager instance;
