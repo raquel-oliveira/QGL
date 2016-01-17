@@ -8,7 +8,7 @@ import org.json.JSONObject;
  *
  * @version 4.9
  */
-public class Fly implements Action {
+public class Fly extends Action {
 
     private static final String ACTION_FLY = "fly";
 
@@ -18,8 +18,8 @@ public class Fly implements Action {
 
     @Override
     public boolean isValid(JSONObject jsonObj) {
-        if (jsonObj.has("action")) {
-            String action = jsonObj.getString("action");
+        if (jsonObj.has(ACTION)) {
+            String action = jsonObj.getString(ACTION);
             return ACTION_FLY.equals(action);
         }
         return false;

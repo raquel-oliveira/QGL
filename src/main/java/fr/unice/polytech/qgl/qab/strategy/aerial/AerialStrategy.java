@@ -24,6 +24,7 @@ public class AerialStrategy implements IAerialStrategy {
         stateMediator = StateMediator.getInstance();
     }
 
+    @Override
     public Action makeDecision(Context context) throws IndexOutOfBoundsComboAction, PositionOutOfMapRange {
         if (contextAnalyzer(context) != null) {
             return contextAnalyzer(context);
@@ -33,7 +34,7 @@ public class AerialStrategy implements IAerialStrategy {
         return state.responseState(context, map, stateMediator);
     }
 
-    private Action contextAnalyzer(Context context) {
+    private static Action contextAnalyzer(Context context) {
         if (context.getBudget() < 100) {
             return new Stop();
         }

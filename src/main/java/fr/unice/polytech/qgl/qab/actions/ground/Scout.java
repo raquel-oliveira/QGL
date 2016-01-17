@@ -5,7 +5,7 @@ import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import org.json.JSONObject;
 
 
-public class Scout implements Action{
+public class Scout extends Action{
     private Direction direction;
 
 
