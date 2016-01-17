@@ -18,4 +18,14 @@ public enum PrimaryResources {
     PrimaryResources(String name) {
         this.name = name;
     }
+
+    public static PrimaryResources fromString(String resources){
+        if (resources != null){
+            for (PrimaryResources d : PrimaryResources.values()){
+                if (d.toString().equalsIgnoreCase(resources))
+                    return d;
+            }
+        }
+        return null;
+    }
 }

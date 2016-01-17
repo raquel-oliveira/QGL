@@ -10,11 +10,9 @@ import org.json.JSONObject;
 public class MoveTo extends Action {
     private static final String ACTION_MOVE_TO = "move_to";
 
-    private Direction direction;
-
     public MoveTo(Direction dir) {
         super();
-        this.direction = dir;
+        setDirection(dir);
     }
     //TODO
     @Override
