@@ -5,7 +5,6 @@ import fr.unice.polytech.qgl.qab.actions.common.Stop;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
-import fr.unice.polytech.qgl.qab.strategy.ground.states.Exit;
 import fr.unice.polytech.qgl.qab.strategy.ground.states.GroundState;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.ground.states.MoveInTheGround;
@@ -26,6 +25,7 @@ public class GroundStrategy implements IGroundStrategy {
         stateManager = StateManager.getInstance();
     }
 
+    @Override
     public Action makeDecision(Context context) throws PositionOutOfMapRange, IndexOutOfBoundsComboAction {
         if (contextAnalyzer(context) != null) {
             return contextAnalyzer(context);

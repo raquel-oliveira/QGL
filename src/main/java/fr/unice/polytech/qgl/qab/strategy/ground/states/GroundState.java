@@ -19,6 +19,4 @@ public abstract class GroundState {
     public abstract GroundState getState(Context context, Map map, StateManager stateManager) throws PositionOutOfMapRange;
 
     public abstract Action responseState(Context context,  Map map, StateManager stateManager) throws IndexOutOfBoundsComboAction;
-
-
 }

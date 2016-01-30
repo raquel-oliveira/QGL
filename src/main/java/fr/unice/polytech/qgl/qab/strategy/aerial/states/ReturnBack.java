@@ -22,14 +22,12 @@ public class ReturnBack extends AerialState {
     private ComboReturn actionCombo;
     private ComboFlyUntil comboFlyUntil;
     private int indexAction;
-    private StateMediator stateMediator;
 
     private ReturnBack() {
         super();
         actionCombo = null;
         indexAction = 0;
         comboFlyUntil = null;
-        stateMediator = StateMediator.getInstance();
     }
 
     public static ReturnBack getInstance() {
@@ -85,7 +83,8 @@ public class ReturnBack extends AerialState {
             indexAction++;
         }
 
-        if (indexAction == 6) indexAction = 0;
+        if (indexAction == 6)
+            indexAction = 0;
 
         return act;
     }

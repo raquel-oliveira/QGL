@@ -16,11 +16,9 @@ public class Exit extends GroundState{
 
     private Exit(){
         super();
-
     }
 
     public static Exit getInstance() {
-
         if (instance == null)
             instance = new Exit();
         return instance;

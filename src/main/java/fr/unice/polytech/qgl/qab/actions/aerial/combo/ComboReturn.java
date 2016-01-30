@@ -111,9 +111,9 @@ public class ComboReturn extends Combo {
         }
         else if (moveTo.isEquals(Direction.NORTH)) {
             turnUptoWest();
-            actions.add(new Echo(Direction.EAST));
-            turnUptoEast();
             actions.add(new Echo(Direction.WEST));
+            turnUptoEast();
+            actions.add(new Echo(Direction.EAST));
         }
     }
 
@@ -126,9 +126,9 @@ public class ComboReturn extends Combo {
         }
         else if (moveTo.isEquals(Direction.NORTH)) {
             turnUptoEast();
-            actions.add(new Echo(Direction.WEST));
-            turnUptoWest();
             actions.add(new Echo(Direction.EAST));
+            turnUptoWest();
+            actions.add(new Echo(Direction.WEST));
         }
     }
 
