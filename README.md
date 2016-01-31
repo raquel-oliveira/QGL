@@ -60,4 +60,8 @@ No improvement.
 
 ### Week 04
 
+Add more tests and actions **explore**, **glimpse**, **move_to** and **scout**.
+
+### Week 05
+
 Short list of the **features** available in the bot delivered for the championship that happened at the end of week 50.
