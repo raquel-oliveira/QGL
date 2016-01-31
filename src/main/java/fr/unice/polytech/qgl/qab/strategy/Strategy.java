@@ -45,6 +45,7 @@ public class Strategy implements IStrategy {
      * Method called to make the decision.
      * @return the best action chosen
      */
+    @Override
     public String makeDecision() throws PositionOutOfMapRange, IndexOutOfBoundsComboAction {
         Action act;
         if (phase.isEquals(Phase.AERIAL)) {
@@ -55,7 +56,6 @@ public class Strategy implements IStrategy {
             act = groundStrategy.makeDecision(context);
             if (act instanceof Land)
                 phase = Phase.GROUND;
-            //return new Stop().formatResponse();
         }
         currentAction = act;
         return act.formatResponse();
@@ -65,6 +65,7 @@ public class Strategy implements IStrategy {
      * Method the read and analyse the string returned.
      * @param data information that the engine returned
      */
+    @Override
     public void readResults(String data) throws NegativeBudgetException {
         context = responseHandler.readData(data, currentAction, context);
     }
@@ -73,6 +74,7 @@ public class Strategy implements IStrategy {
      * Method responsible to read and save the context gave int the begging of the simulation.
      * @param contextData the context gave in the begging of the simulation.
      */
+    @Override
     public void initializeContext(String contextData) throws NegativeBudgetException {
         context.read(contextData);
     }

@@ -30,6 +30,10 @@ public class MoveToTest {
     public void testNotValidActionJson() {
         JSONObject jsonObj = new JSONObject("{ \"aon\": \"move_to\", \"parameters\": { \"direction\": \"" + Direction.EAST + "\" } }");
         assertFalse(move.isValid(jsonObj));
+        jsonObj = new JSONObject("{ \"action\": \"mov\", \"parameters\": { \"direction\": \"" + Direction.EAST + "\" } }");
+        assertFalse(move.isValid(jsonObj));
+        jsonObj = new JSONObject("{ \"action\": \"move_to\", \"parameters\": { \"dir\": \"" + Direction.EAST + "\" } }");
+        assertFalse(move.isValid(jsonObj));
     }
 
     @Test
