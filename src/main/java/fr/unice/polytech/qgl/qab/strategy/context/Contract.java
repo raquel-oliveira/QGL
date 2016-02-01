@@ -12,7 +12,8 @@ public class Contract {
     private int accumulated;
 
     public Contract(Resource resource, int amount) throws NegativeBudgetException {
-        if (amount < 0) throw new NegativeBudgetException("The value to initial amount to the resource can not be negative.");
+        if (amount < 0)
+            throw new NegativeBudgetException("The value to initial amount to the resource can not be negative.");
         this.resource = resource;
         this.amount = amount;
         this.accumulated = 0;
@@ -26,13 +27,15 @@ public class Contract {
         return this.accumulated;
     }
 
-    public Resource resource() { return this.resource; }
+    public Resource resource() {
+        return this.resource;
+    }
 
     public void collect(int amount) throws NegativeBudgetException {
-        int temporaryAmount = this.accumulated() - this.amount();
+        int temporaryAmount = this.accumulated() + amount;
         if(temporaryAmount < 0)
             throw new NegativeBudgetException("The value collected can no be negative.");
-        this.amount = temporaryAmount;
+        this.accumulated = temporaryAmount;
     }
 
 }

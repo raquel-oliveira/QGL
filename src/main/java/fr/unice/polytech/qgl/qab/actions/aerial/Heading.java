@@ -1,7 +1,6 @@
 package fr.unice.polytech.qgl.qab.actions.aerial;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.util.enums.ActionBot;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import org.json.JSONObject;
 
@@ -10,21 +9,28 @@ import org.json.JSONObject;
  *
  * @version 4.9
  */
-public class Heading implements Action {
-    private Direction direction;
+public class Heading extends Action {
+    private static final String ACTION_HEADING = "heading";
 
     public Heading(Direction dir) {
         super();
-        direction = dir;
+        setDirection(dir);
     }
 
     @Override
     public boolean isValid(JSONObject jsonObj) {
-        if (jsonObj.has("action")) {
-            ActionBot act = ActionBot.fromString(jsonObj.getString("action"));
-            return act.isEquals(ActionBot.HEADING);
+        if (jsonObj.has(ACTION)) {
+            String action = jsonObj.getString(ACTION);
+            if (!(ACTION_HEADING).equals(action)) {
+                return false;
+            }
+            if(!checkParameter(jsonObj)) {
+                return false;
+            }
         }
-        return false;
+        else return false;
+
+        return true;
     }
 
     @Override
@@ -32,7 +38,5 @@ public class Heading implements Action {
         return "{ \"action\": \"heading\", \"parameters\": { \"direction\": \"" + direction + "\" } }";
     }
 
-    public Direction getDirection() {
-        return direction;
-    }
+
 }

@@ -6,6 +6,10 @@ package fr.unice.polytech.qgl.qab.map.tile;
 public class Creek {
     private String idCreek;
 
+    public Creek() {
+        idCreek = null;
+    }
+
     public Creek(String numCreeks) {
         idCreek = numCreeks;
     }

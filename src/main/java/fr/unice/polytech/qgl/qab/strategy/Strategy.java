@@ -1,6 +1,8 @@
 package fr.unice.polytech.qgl.qab.strategy;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
+import fr.unice.polytech.qgl.qab.actions.common.Land;
+import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.strategy.aerial.AerialStrategy;
@@ -10,7 +12,6 @@ import fr.unice.polytech.qgl.qab.strategy.ground.GroundStrategy;
 import fr.unice.polytech.qgl.qab.strategy.ground.IGroundStrategy;
 import fr.unice.polytech.qgl.qab.util.enums.Phase;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import org.apache.bcel.generic.LAND;
 
 /**
  * Class responsible for represent the Strategy to management the making decision.
@@ -44,14 +45,17 @@ public class Strategy implements IStrategy {
      * Method called to make the decision.
      * @return the best action chosen
      */
-    public String makeDecision() throws PositionOutOfMapRange {
+    @Override
+    public String makeDecision() throws PositionOutOfMapRange, IndexOutOfBoundsComboAction {
         Action act;
         if (phase.isEquals(Phase.AERIAL)) {
             act = aerialStrategy.makeDecision(context);
-            if (act instanceof LAND) phase = Phase.GROUND;
+            if (act instanceof Land)
+                phase = Phase.GROUND;
         } else {
             act = groundStrategy.makeDecision(context);
-            if (act instanceof LAND) phase = Phase.AERIAL;
+            if (act instanceof Land)
+                phase = Phase.GROUND;
         }
         currentAction = act;
         return act.formatResponse();
@@ -61,7 +65,8 @@ public class Strategy implements IStrategy {
      * Method the read and analyse the string returned.
      * @param data information that the engine returned
      */
-    public void readResults(String data) {
+    @Override
+    public void readResults(String data) throws NegativeBudgetException {
         context = responseHandler.readData(data, currentAction, context);
     }
 
@@ -69,6 +74,7 @@ public class Strategy implements IStrategy {
      * Method responsible to read and save the context gave int the begging of the simulation.
      * @param contextData the context gave in the begging of the simulation.
      */
+    @Override
     public void initializeContext(String contextData) throws NegativeBudgetException {
         context.read(contextData);
     }

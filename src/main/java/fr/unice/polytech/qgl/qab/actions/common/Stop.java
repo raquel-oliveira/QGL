@@ -1,7 +1,7 @@
 package fr.unice.polytech.qgl.qab.actions.common;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.util.enums.ActionBot;
+import fr.unice.polytech.qgl.qab.strategy.Strategy;
 import org.json.JSONObject;
 
 /**
@@ -9,16 +9,18 @@ import org.json.JSONObject;
  *
  * @version 4.9
  */
-public class Stop implements Action {
+public class Stop extends Action {
+    private static final String ACTION_STOP = "stop";
+
     public Stop() {
         super();
     }
 
     @Override
     public boolean isValid(JSONObject jsonObj) {
-        if (jsonObj.has("action")) {
-            ActionBot act = ActionBot.fromString(jsonObj.getString("action"));
-            return act.isEquals(ActionBot.STOP);
+        if (jsonObj.has(ACTION)) {
+            String action = jsonObj.getString(ACTION);
+            return ACTION_STOP.equals(action);
         }
         return false;
     }

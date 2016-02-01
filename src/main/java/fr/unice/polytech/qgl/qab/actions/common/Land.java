@@ -6,7 +6,8 @@ import org.json.JSONObject;
 /**
  * @version 12.12.2015.
  */
-public class Land implements Action {
+public class Land extends Action {
+    private static final String ACTION_LAND = "land";
     private String id;
     private int people;
 
@@ -18,15 +19,19 @@ public class Land implements Action {
 
     @Override
     public boolean isValid(JSONObject jsonObj) {
-        if (jsonObj.has("action")) {
-            String action = jsonObj.getString("action");
-            if (!("land").equals(action))
+        if (jsonObj.has(ACTION)) {
+            String action = jsonObj.getString(ACTION);
+            if (!(ACTION_LAND).equals(action))
                 return false;
         } else return false;
 
-        if (jsonObj.has("parameters")) {
-            if (!jsonObj.getJSONObject("parameters").has("creek")) return false;
-            if (!jsonObj.getJSONObject("parameters").has("people")) return false;
+        if (jsonObj.has(PARAMETERS)) {
+            if (!jsonObj.getJSONObject(PARAMETERS).has("creek")) {
+                return false;
+            }
+            if (!jsonObj.getJSONObject(PARAMETERS).has("people")){
+                return false;
+            }
         } else return false;
         return true;
     }

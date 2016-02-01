@@ -1,5 +1,6 @@
 package fr.unice.polytech.qgl.qab.tileTest;
 
+import fr.unice.polytech.qgl.qab.map.tile.Creek;
 import fr.unice.polytech.qgl.qab.map.tile.Tile;
 import fr.unice.polytech.qgl.qab.map.tile.TileType;
 import org.junit.Test;
@@ -66,14 +67,14 @@ public class TileTest {
 
     @Test(expected = NullPointerException.class)
     public void testUseBadInstance() {
-        t.setCreek(true);
-        assertEquals(true, t.getCreek());
+        t.setCreek(new Creek());
+        assertEquals(Creek.class, t.getCreek().getClass());
     }
 
     @Test
     public void testSetCreek() {
         t = new Tile();
-        t.setCreek(true);
-        assertEquals(true, t.getCreek());
+        t.setCreek(new Creek());
+        assertEquals(Creek.class, t.getCreek().getClass());
     }
 }
