@@ -8,7 +8,7 @@ import java.util.Set;
 
 /**
  * Created by Raquel on 20/12/2015.
- * version 01.01.2016
+ * version 01.02.2016
  */
 public enum Resources {
     FISH,

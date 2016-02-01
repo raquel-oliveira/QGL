@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by Quentin Prod'Homme on 17/01/2016.
+ * Created by Quentin Prod'Homme on 17.01.2016.
  * Raquel Lopes de Oliveira update at 01.02.2016
  */
 public enum ManufacturedResources {
@@ -18,60 +18,80 @@ public enum ManufacturedResources {
     RUM();
 
     private Set<Biomes> biomes = new HashSet<>();
-    private int qtdResources;
 
-    HashMap<Resources, Integer> recipeTmp = new HashMap<>();
+    HashMap<Resources, Integer> recipe = new HashMap<>();
+
     ManufacturedResources() {
         Resources res;
         switch (this){
             case GLASS:
                 res = Resources.QUARTZ;
                 biomes.addAll(res.getBiome());
-                recipeTmp.put(res, 5*qtdResources);
 
                 res = Resources.WOOD;
                 biomes.addAll(res.getBiome());
-                recipeTmp.put(res, 10*qtdResources);
                 break;
+
             case INGOT:
                 res = Resources.ORE;
                 biomes.addAll(res.getBiome());
-                recipeTmp.put(res, 5*qtdResources);
+
                 res = Resources.WOOD;
                 biomes.addAll(res.getBiome());
-                recipeTmp.put(res, 5*qtdResources);
                 break;
+
             case LEATHER:
                 res = Resources.FUR;
                 biomes.addAll(res.getBiome());
-                recipeTmp.put(res, 3*qtdResources);
                 break;
+
             case PLANK:
                 res = Resources.WOOD;
                 biomes.addAll(res.getBiome());
-                recipeTmp.put(res, qtdResources/4 + ((qtdResources % 4 == 0)? 0: 1));
                 break;
+
             case RUM:
                 res = Resources.SUGAR_CANE;
                 biomes.addAll(res.getBiome());
-                recipeTmp.put(res, 10*qtdResources);
                 res = Resources.FRUITS;
+
                 biomes.addAll(res.getBiome());
-                recipeTmp.put(res, qtdResources);
                 break;
         }
-    }
-
-    public int getQtdResources(){
-        return qtdResources;
-    }
-
-    public void setQtdResources(int qtd){
-        qtdResources = qtd;
     }
 
     public Set<Biomes> getBiome(){
         return biomes;
     }
-    
+
+    public HashMap<Resources, Integer> getRecipe(int amountRecipe){
+        if (amountRecipe < 1)
+            new Exception("Invalid value\n");
+
+        switch (this){
+            case GLASS:
+                recipe.put(Resources.QUARTZ, 5*amountRecipe);
+                recipe.put(Resources.WOOD, 10*amountRecipe);
+                break;
+
+            case INGOT:
+                recipe.put(Resources.WOOD, 5*amountRecipe);
+                break;
+
+            case LEATHER:
+                recipe.put(Resources.FUR, 3*amountRecipe);
+                break;
+
+            case PLANK:;
+                recipe.put(Resources.WOOD, amountRecipe/4 + ((amountRecipe % 4 == 0)? 0: 1));
+                break;
+
+            case RUM:
+                recipe.put(Resources.SUGAR_CANE, 10*amountRecipe);
+                recipe.put(Resources.FRUITS, amountRecipe);
+                break;
+        }
+
+        return recipe;
+    }
 }
