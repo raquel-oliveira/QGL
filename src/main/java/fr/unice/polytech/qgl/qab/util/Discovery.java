@@ -1,6 +1,6 @@
 package fr.unice.polytech.qgl.qab.util;
 
-import fr.unice.polytech.qgl.qab.map.tile.Biome;
+import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.map.tile.Creek;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
@@ -15,7 +15,7 @@ public class Discovery {
     private Found found;
     private int range;
     private Direction direction;
-    private List<Biome> biomes;
+    private List<Biomes> biomes;
     private List<Creek> creeks;
 
     public Discovery() {
@@ -34,7 +34,7 @@ public class Discovery {
         creeks = new ArrayList<>();
     }
 
-    public Discovery(List<Biome> biomes, List<Creek> creeks) {
+    public Discovery(List<Biomes> biomes, List<Creek> creeks) {
         this.biomes = biomes;
         this.creeks = creeks;
     }
@@ -53,7 +53,7 @@ public class Discovery {
 
     public Direction getDirection() { return direction; }
 
-    public List<Biome> getBiomes() { return biomes; }
+    public List<Biomes> getBiomes() { return biomes; }
 
     public List<Creek> getCreeks() { return creeks; }
 
@@ -63,13 +63,13 @@ public class Discovery {
 
     public void setDirection(Direction direction) { this.direction = direction; }
 
-    public void setBiomes(List<Biome> biomes) { this.biomes = biomes; }
+    public void setBiomes(List<Biomes> biomes) { this.biomes = biomes; }
 
     public void setCreeks(List<Creek> creeks) { this.creeks = creeks; }
 
-    public boolean containsBiome(Biome bio) {
-        for (Biome b: biomes) {
-            if (b.getName().equalsIgnoreCase(bio.getName()))
+    public boolean containsBiome(Biomes bio) {
+        for (Biomes b: biomes) {
+            if (b.equals(bio))
                 return true;
         }
         return false;

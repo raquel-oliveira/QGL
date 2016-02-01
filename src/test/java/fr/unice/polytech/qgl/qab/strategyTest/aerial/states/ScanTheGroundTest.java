@@ -8,7 +8,7 @@ import fr.unice.polytech.qgl.qab.actions.common.Land;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.map.Map;
-import fr.unice.polytech.qgl.qab.map.tile.Biome;
+import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.map.tile.Creek;
 import fr.unice.polytech.qgl.qab.strategy.aerial.states.*;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
@@ -60,7 +60,7 @@ public class ScanTheGroundTest {
 
     @Test
     public void testResponseStateReturnBack() {
-        Biome biome = new Biome("OCEAN");
+        Biomes biome = Biomes.OCEAN;
         Discovery discovery = new Discovery();
 
         List biomes = new ArrayList<>();

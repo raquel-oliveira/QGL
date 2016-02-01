@@ -4,11 +4,10 @@ import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.aerial.Scan;
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
-import fr.unice.polytech.qgl.qab.map.tile.Biome;
+import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.ResponseHandler;
 import fr.unice.polytech.qgl.qab.util.Discovery;
-import fr.unice.polytech.qgl.qab.util.enums.Biomes;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 import org.junit.Before;
@@ -80,8 +79,8 @@ public class ResponseHandlerTest {
         responseHandler.readData(data, new Scan(), context);
 
         assertEquals(98, context.getBudget());
-        assertEquals(Biome.class, context.getLastDiscovery().getBiomes().get(0).getClass());
-        assertEquals(Biome.class, context.getLastDiscovery().getBiomes().get(1).getClass());
+        assertEquals(Biomes.class, context.getLastDiscovery().getBiomes().get(0).getClass());
+        assertEquals(Biomes.class, context.getLastDiscovery().getBiomes().get(1).getClass());
         assertEquals("123", context.getLastDiscovery().getCreeks().get(0).getIdCreek());
         assertTrue(context.getStatus());
     }

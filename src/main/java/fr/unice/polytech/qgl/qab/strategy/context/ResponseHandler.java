@@ -5,7 +5,7 @@ import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.aerial.Scan;
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
-import fr.unice.polytech.qgl.qab.map.tile.Biome;
+import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.map.tile.Creek;
 import fr.unice.polytech.qgl.qab.util.Discovery;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
@@ -62,7 +62,7 @@ public class ResponseHandler {
     }
 
     private Context readDataFromScan(Context context, JSONObject jsonObj) {
-        List<Biome> biomes = new ArrayList<>();
+        List<Biomes> biomes = new ArrayList<>();
         List<Creek> creeks = new ArrayList<>();
         JSONArray bio = null;
         JSONArray crk = null;
@@ -74,7 +74,7 @@ public class ResponseHandler {
 
         if(bio != null){
             for(Object b : bio)
-                biomes.add(new Biome(b.toString()));
+                biomes.add(Biomes.valueOf((String) b));
         }
 
         if(crk != null){

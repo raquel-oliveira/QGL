@@ -1,6 +1,6 @@
 package fr.unice.polytech.qgl.qab.enumsTest;
 
-import fr.unice.polytech.qgl.qab.util.enums.Biomes;
+import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.util.enums.TypeBiome;
 import org.junit.Test;
 

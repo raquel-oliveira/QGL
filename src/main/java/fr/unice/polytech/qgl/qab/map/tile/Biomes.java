@@ -1,4 +1,6 @@
-package fr.unice.polytech.qgl.qab.util.enums;
+package fr.unice.polytech.qgl.qab.map.tile;
+
+import fr.unice.polytech.qgl.qab.util.enums.TypeBiome;
 
 /**
  * @version 12/12/2015.

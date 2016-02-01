@@ -1,14 +1,13 @@
 package fr.unice.polytech.qgl.qab.strategy.aerial.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.aerial.combo.ComboFlyScan;
 import fr.unice.polytech.qgl.qab.actions.common.Land;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.map.Map;
+import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import fr.unice.polytech.qgl.qab.map.tile.Biome;
 
 import java.util.ArrayList;
 
@@ -37,7 +36,7 @@ public class ScanTheGround extends AerialState {
         if (lastAction instanceof Land)
             return Finish.getInstance();
 
-        if (context.getLastDiscovery().containsBiome(new Biome("OCEAN")) &&
+        if (context.getLastDiscovery().containsBiome(Biomes.OCEAN) &&
                 context.getLastDiscovery().getBiomes().size() == 1) {
             context.getLastDiscovery().setBiomes(new ArrayList<>());
             return ReturnBack.getInstance();
