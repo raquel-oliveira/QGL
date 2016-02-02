@@ -37,6 +37,4 @@ public class Heading extends Action {
     public String formatResponse() {
         return "{ \"action\": \"heading\", \"parameters\": { \"direction\": \"" + direction + "\" } }";
     }
-
-
 }

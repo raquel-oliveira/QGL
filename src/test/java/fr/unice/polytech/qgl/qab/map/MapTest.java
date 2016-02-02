@@ -26,7 +26,7 @@ public class MapTest {
         position = new Position(9, 9);
     }
 
-    @Test // TODO: this method
+    @Test
     public void testInitializeMap() {
         assertEquals(10, m.getHeight());
         assertEquals(10, m.getWidth());
@@ -79,7 +79,6 @@ public class MapTest {
         assertEquals(TileType.OCEAN, m.getTileType(position));
     }
 
-    // TODO: mockito
     @Test(expected = AssertionError.class)
     public void testIdentifyBadReturns() throws PositionOutOfMapRange {
         Map map = mock(Map.class);

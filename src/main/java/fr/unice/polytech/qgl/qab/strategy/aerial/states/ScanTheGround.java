@@ -1,9 +1,9 @@
 package fr.unice.polytech.qgl.qab.strategy.aerial.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.actions.aerial.Fly;
-import fr.unice.polytech.qgl.qab.actions.aerial.combo.ComboFlyScan;
-import fr.unice.polytech.qgl.qab.actions.common.Land;
+import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
+import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboFlyScan;
+import fr.unice.polytech.qgl.qab.actions.simple.common.Land;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.map.tile.Biomes;

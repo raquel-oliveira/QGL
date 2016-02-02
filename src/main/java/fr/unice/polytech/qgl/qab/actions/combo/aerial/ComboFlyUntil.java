@@ -1,5 +1,6 @@
 package fr.unice.polytech.qgl.qab.actions.combo.aerial;
 
+import fr.unice.polytech.qgl.qab.actions.combo.Combo;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
 
 import java.util.ArrayList;

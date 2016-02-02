@@ -1,7 +1,10 @@
 package fr.unice.polytech.qgl.qab.strategy.context;
 
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
-import fr.unice.polytech.qgl.qab.resources.Resource;
+import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
+import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedType;
+import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
+import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 import fr.unice.polytech.qgl.qab.util.Discovery;
@@ -15,7 +18,7 @@ public class Context {
     private int men;
     private boolean status;
     private Budget budget;
-    private List<Contract> contracts;
+    private List<ContractItem> contracts;
 
     private Direction firstHead;
     private Direction heading;
@@ -93,7 +96,11 @@ public class Context {
     }
 
     public void addContract(String resource, int amount) throws NegativeBudgetException {
-        contracts.add(new Contract(new Resource(resource), amount));
+        try {
+            contracts.add(new ContractItem(new ManufacturedResource(ManufacturedType.valueOf(resource)), amount));
+        } catch (Exception ex) {
+            contracts.add(new ContractItem(new PrimaryResource(PrimaryType.valueOf(resource)), amount));
+        }
     }
 
     public void setHeading(Direction dir) {

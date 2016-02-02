@@ -70,7 +70,6 @@ public class FoundTest {
         assertEquals(null, found);
     }
 
-    //TODO: Should put to this case return a exception?
     @Test
     public void testFromStringNothing() {
         found = Found.fromString("");

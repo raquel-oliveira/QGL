@@ -14,7 +14,7 @@ public class MoveTo extends Action {
         super();
         setDirection(dir);
     }
-    //TODO
+
     @Override
     public boolean isValid(JSONObject jsonObj) {
         if (jsonObj.has(ACTION)) {

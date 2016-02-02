@@ -1,7 +1,8 @@
 package fr.unice.polytech.qgl.qab.strategy.context;
 
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
-import fr.unice.polytech.qgl.qab.resources.Resource;
+import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
+import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,18 +16,18 @@ public class ContractTest {
 
     @Before
     public void defineContext() throws NegativeBudgetException {
-        contract = new ContractItem(new Resource("TEST"), 10);
+        contract = new ContractItem(new ManufacturedResource(ManufacturedType.GLASS), 10);
     }
 
     @Test
     public void testInicialize() {
         assertEquals(10, contract.amount());
-        assertEquals("TEST", contract.resource().getName());
+        assertEquals(ManufacturedType.GLASS.toString(), contract.resource().getName());
     }
 
     @Test (expected = NegativeBudgetException.class)
     public void testBadInicialize() throws NegativeBudgetException {
-        contract = new ContractItem(new Resource("TEST"), -10);
+        contract = new ContractItem(new ManufacturedResource(ManufacturedType.GLASS), -10);
     }
 
     @Test

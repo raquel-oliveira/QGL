@@ -1,6 +1,6 @@
 package fr.unice.polytech.qgl.qab.actions.simple.aerial;
 
-import fr.unice.polytech.qgl.qab.actions.common.Land;
+import fr.unice.polytech.qgl.qab.actions.simple.common.Land;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
