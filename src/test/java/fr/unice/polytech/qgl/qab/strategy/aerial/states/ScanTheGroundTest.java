@@ -1,10 +1,10 @@
 package fr.unice.polytech.qgl.qab.strategy.aerial.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.actions.aerial.Echo;
-import fr.unice.polytech.qgl.qab.actions.aerial.Fly;
-import fr.unice.polytech.qgl.qab.actions.aerial.Scan;
-import fr.unice.polytech.qgl.qab.actions.common.Land;
+import fr.unice.polytech.qgl.qab.actions.simple.aerial.Echo;
+import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
+import fr.unice.polytech.qgl.qab.actions.simple.aerial.Scan;
+import fr.unice.polytech.qgl.qab.actions.simple.common.Land;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.map.Map;
