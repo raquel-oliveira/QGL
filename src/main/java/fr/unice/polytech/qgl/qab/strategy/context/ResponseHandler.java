@@ -4,10 +4,12 @@ import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Scan;
+import fr.unice.polytech.qgl.qab.actions.simple.ground.Explore;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Glimpse;
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.map.tile.Creek;
+import fr.unice.polytech.qgl.qab.response.ExploreResponse;
 import fr.unice.polytech.qgl.qab.response.GlimpseResponse;
 import fr.unice.polytech.qgl.qab.util.Discovery;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
@@ -52,8 +54,9 @@ public class ResponseHandler {
             tempContext.getLastDiscovery().setUp();
         } else if (takeAction instanceof Glimpse) {
             tempContext = readDataFromGlimpse(contextIsland, jsonObj);
+        } else if (takeAction instanceof Explore) {
+            tempContext = readDataFromExplore(contextIsland, jsonObj);
         }
-
         return tempContext;
     }
 
@@ -139,5 +142,26 @@ public class ResponseHandler {
         context.setLastDiscovery(discovery);
 
         return context;
+    }
+
+    private Context readDataFromExplore(Context contextIsland, JSONObject jsonObj) {
+        ExploreResponse explore = new ExploreResponse();
+
+        if(jsonObj.getJSONObject(EXTRAS).has("resources")) {
+            JSONArray resources = jsonObj.getJSONObject(EXTRAS).getJSONArray("resources");
+            for (int i = 0; i < resources.length(); i++) {
+                List<String> res = new ArrayList<>();
+                JSONObject obj = resources.getJSONObject(i);
+                res.add(obj.getString("amount"));
+                res.add(obj.getString("resource"));
+                res.add(obj.getString("cond"));
+                explore.addResource(res);
+            }
+        }
+
+        discovery.setExploreResponse(explore);
+        contextIsland.setLastDiscovery(discovery);
+
+        return contextIsland;
     }
 }

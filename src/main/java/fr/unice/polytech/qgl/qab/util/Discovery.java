@@ -2,6 +2,7 @@ package fr.unice.polytech.qgl.qab.util;
 
 import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.map.tile.Creek;
+import fr.unice.polytech.qgl.qab.response.ExploreResponse;
 import fr.unice.polytech.qgl.qab.response.GlimpseResponse;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
@@ -19,6 +20,7 @@ public class Discovery {
     private List<Biomes> biomes;
     private List<Creek> creeks;
     private GlimpseResponse glimpseResponse;
+    private ExploreResponse exploreResponse;
 
     public Discovery() {
         this.found = Found.UNDEFINED;
@@ -27,6 +29,7 @@ public class Discovery {
         biomes = new ArrayList<>();
         creeks = new ArrayList<>();
         glimpseResponse = new GlimpseResponse();
+        exploreResponse = new ExploreResponse();
     }
 
     public Discovery(Found found, int range, Direction direction) {
@@ -36,6 +39,7 @@ public class Discovery {
         biomes = new ArrayList<>();
         creeks = new ArrayList<>();
         glimpseResponse = new GlimpseResponse();
+        exploreResponse = new ExploreResponse();
     }
 
     public void setUp() {
@@ -60,6 +64,10 @@ public class Discovery {
         return glimpseResponse;
     }
 
+    public ExploreResponse getExploreResponse() {
+        return exploreResponse;
+    }
+
     public void setRange(int range) { this.range = range; }
 
     public void setFound(Found found) { this.found = found; }
@@ -72,6 +80,10 @@ public class Discovery {
 
     public void setGlimpseResponse(GlimpseResponse glimpseResponse) {
         this.glimpseResponse = glimpseResponse;
+    }
+
+    public void setExploreResponse(ExploreResponse exploreResponse) {
+        this.exploreResponse = exploreResponse;
     }
 
     public boolean containsBiome(Biomes bio) {
