@@ -6,6 +6,7 @@ import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Exploit;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Explore;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Glimpse;
+import fr.unice.polytech.qgl.qab.actions.simple.ground.MoveTo;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
@@ -26,13 +27,16 @@ import java.util.List;
  */
 public class MoveInTheGround extends GroundState {
     private static MoveInTheGround instance;
-
+    private int index_tile;
+    private List<Boolean> resources;
     private ComboMoveTo actionCombo;
 
     private MoveInTheGround() {
         super();
         this.lastAction = null;
         actionCombo = null;
+        index_tile = 0;
+        resources = new ArrayList<>();
     }
 
     public static MoveInTheGround getInstance() {
@@ -55,12 +59,19 @@ public class MoveInTheGround extends GroundState {
             lastAction = act;
             return act;
         } else if (lastAction instanceof Glimpse) {
-            List<Boolean> resources = biomeAnalyzer(context);
+            resources = biomeAnalyzer(context);
             for (int i = 0; i < resources.size(); i++) {
-                if (i == 0 && resources.get(i)) {
-                    act = new Explore();
-                    lastAction = act;
-                    return act;
+                if (resources.get(i)) {
+                    if (i == 0) {
+                        act = new Explore();
+                        lastAction = act;
+                        return act;
+                    } else {
+                        act = new MoveTo(context.getHeading());
+                        lastAction = act;
+                        index_tile++;
+                        return act;
+                    }
                 }
             }
         } else if (lastAction instanceof Explore) {
@@ -71,6 +82,30 @@ public class MoveInTheGround extends GroundState {
                 lastAction = act;
                 return act;
             } else return new Stop();
+        } else if (lastAction instanceof MoveTo) {
+            if (resources.get(index_tile)) {
+                act = new Explore();
+                lastAction = act;
+                return act;
+            } else {
+                act = new MoveTo(context.getHeading());
+                lastAction = act;
+                index_tile++;
+                return act;
+            }
+        } else if (lastAction instanceof Exploit) {
+            if (index_tile == 4) {
+                return new Stop();
+            } else {
+                for (int i = ++index_tile; i < resources.size(); i++) {
+                    if (resources.get(i)) {
+                        act = new MoveTo(context.getHeading());
+                        lastAction = act;
+                        index_tile++;
+                        return act;
+                    }
+                }
+            }
         }
         return new Stop();
     }
