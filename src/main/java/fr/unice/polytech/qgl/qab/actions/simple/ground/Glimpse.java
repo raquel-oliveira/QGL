@@ -12,7 +12,7 @@ public class Glimpse extends Action {
 
     private int range;
 
-    public Glimpse (Direction direction,int range){
+    public Glimpse (Direction direction, int range){
         super();
         this.direction = direction;
         this.range = range;

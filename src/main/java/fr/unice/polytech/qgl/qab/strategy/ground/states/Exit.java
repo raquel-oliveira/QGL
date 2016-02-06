@@ -10,7 +10,7 @@ import fr.unice.polytech.qgl.qab.strategy.context.Context;
 /**
  * Created by Quentin Prod'Homme on 17/01/2016.
  */
-public class Exit extends GroundState{
+public class Exit extends GroundState {
 
     private static Exit instance;
 
