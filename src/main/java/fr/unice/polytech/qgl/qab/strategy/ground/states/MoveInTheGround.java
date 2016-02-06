@@ -64,12 +64,27 @@ public class MoveInTheGround extends GroundState {
                 }
             }
         } else if (lastAction instanceof Explore) {
-            Resource res = new PrimaryResource(PrimaryType.FISH);
-            act = new Exploit(res);
-            lastAction = act;
-            return act;
+            List<PrimaryType> resources = resourceAnalyzer(context);
+            if (!resources.isEmpty()) {
+                Resource res = new PrimaryResource(resources.get(0));
+                act = new Exploit(res);
+                lastAction = act;
+                return act;
+            } else return new Stop();
         }
         return new Stop();
+    }
+
+    public List<PrimaryType> resourceAnalyzer(Context context) {
+        List<ContractItem> contract = context.getContracts();
+        List<PrimaryType> resources = new ArrayList<>();
+
+        for (ContractItem item: contract) {
+            if (context.getLastDiscovery().getExploreResponse().contains(item.resource())) {
+                resources.add(PrimaryType.valueOf(item.resource().getName()));
+            }
+        }
+        return resources;
     }
 
     public List<Boolean> biomeAnalyzer(Context context) {
@@ -84,18 +99,21 @@ public class MoveInTheGround extends GroundState {
         List<Boolean> goodTiles = new ArrayList<>();
 
         int index_tile = 0;
+        boolean find_good_biome = false;
 
         // two firts tiles
         for (HashMap<Biomes, Double> tile: initial_tiles) {
             for (Biomes key : tile.keySet()) {
                 for (ContractItem item: contract) {
                     if (item.resource().getBiome().contains(key)) {
-                        goodTiles.add(index_tile, true);
+                        //goodTiles.add(index_tile, true);
+                        find_good_biome = true;
                         break;
                     }
-                }
-                if (goodTiles.get(index_tile)) break;
+                } if (find_good_biome) break;
             }
+            goodTiles.add(index_tile, find_good_biome);
+            find_good_biome = false;
             index_tile++;
         }
 
@@ -103,19 +121,23 @@ public class MoveInTheGround extends GroundState {
         for (Biomes key : third_tile) {
             for (ContractItem item: contract) {
                 if (item.resource().getBiome().contains(key)) {
-                    goodTiles.add(index_tile++, true);
+                    find_good_biome = true;
                     break;
                 }
-            } if (goodTiles.get(index_tile-1)) break;
+            } if (find_good_biome) break;
         }
+        goodTiles.add(index_tile, find_good_biome);
+        find_good_biome = false;
+        index_tile++;
 
         Biomes fourth = gr.getFourth_tile();
         for (ContractItem item: contract) {
             if (item.resource().getBiome().contains(fourth)) {
-                goodTiles.add(index_tile++, true);
+                find_good_biome = true;
                 break;
             }
         }
+        goodTiles.add(index_tile, find_good_biome);
 
         return goodTiles;
     }
