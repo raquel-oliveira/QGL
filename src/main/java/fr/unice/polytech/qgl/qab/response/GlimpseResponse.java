@@ -11,46 +11,42 @@ import java.util.List;
  */
 public class GlimpseResponse {
     private int asked_range;
-    private List<HashMap<Biomes, Double>> initial_tiles;
-    private List<Biomes> third_tile;
-    private Biomes fourth_tile;
+    private List<HashMap<Biomes, Double>> initialTiles;
+    private List<Biomes> thirdTile;
+    private Biomes fourthTile;
 
     public GlimpseResponse() {
         asked_range = 0;
-        initial_tiles = new ArrayList<>();
-        third_tile = new ArrayList<>();
-        fourth_tile = null;
+        initialTiles = new ArrayList<>();
+        thirdTile = new ArrayList<>();
+        fourthTile = null;
     }
 
-    public void setAsked_range(int asked_range){
+    public void setAskedRange(int asked_range){
         this.asked_range = asked_range;
     }
 
-    public void setFourth_tile(Biomes fourth_tile) {
-        this.fourth_tile = fourth_tile;
+    public void setFourthTile(Biomes fourthTile) {
+        this.fourthTile = fourthTile;
     }
 
-    public void setInitial_tiles(List<HashMap<Biomes, Double>> initial_tiles) {
-        this.initial_tiles = initial_tiles;
+    public void setInitialTiles(List<HashMap<Biomes, Double>> initialTiles) {
+        this.initialTiles = initialTiles;
     }
 
-    public void setThird_tile(List<Biomes> third_tile) {
-        this.third_tile = third_tile;
+    public void setThirdTile(List<Biomes> thirdTile) {
+        this.thirdTile = thirdTile;
     }
 
-    public int getAsked_range() {
-        return asked_range;
+    public List<HashMap<Biomes, Double>> getInitialTiles() {
+        return initialTiles;
     }
 
-    public List<HashMap<Biomes, Double>> getInitial_tiles() {
-        return initial_tiles;
+    public List<Biomes> getThirdTile() {
+        return thirdTile;
     }
 
-    public List<Biomes> getThird_tile() {
-        return third_tile;
-    }
-
-    public Biomes getFourth_tile() {
-        return fourth_tile;
+    public Biomes getFourthTile() {
+        return fourthTile;
     }
 }

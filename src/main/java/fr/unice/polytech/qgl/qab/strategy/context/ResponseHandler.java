@@ -13,7 +13,6 @@ import fr.unice.polytech.qgl.qab.response.ExploreResponse;
 import fr.unice.polytech.qgl.qab.response.GlimpseResponse;
 import fr.unice.polytech.qgl.qab.util.Discovery;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
-import fr.unice.polytech.qgl.qab.util.enums.TypeBiome;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -103,7 +102,7 @@ public class ResponseHandler {
 
         if(jsonObj.getJSONObject(EXTRAS).has("asked_range")) {
             int range = jsonObj.getJSONObject(EXTRAS).getInt("asked_range");
-            glimpseResponse.setAsked_range(range);
+            glimpseResponse.setAskedRange(range);
         }
 
         JSONArray jsonArray;
@@ -134,9 +133,9 @@ public class ResponseHandler {
             fourth = Biomes.valueOf(jsonArray.getJSONArray(3).getString(0));
         }
 
-        glimpseResponse.setInitial_tiles(initial_tiles);
-        glimpseResponse.setThird_tile(third);
-        glimpseResponse.setFourth_tile(fourth);
+        glimpseResponse.setInitialTiles(initial_tiles);
+        glimpseResponse.setThirdTile(third);
+        glimpseResponse.setFourthTile(fourth);
 
         discovery.setGlimpseResponse(glimpseResponse);
         context.setLastDiscovery(discovery);

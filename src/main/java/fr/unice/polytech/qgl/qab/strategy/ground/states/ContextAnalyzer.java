@@ -15,8 +15,8 @@ import java.util.List;
  */
 public class ContextAnalyzer {
     public boolean shouldStop(Context context) {
-        if (!context.getLastDiscovery().getGlimpseResponse().getInitial_tiles().isEmpty()) {
-            HashMap<Biomes, Double> initial_tiles = context.getLastDiscovery().getGlimpseResponse().getInitial_tiles().get(0);
+        if (!context.getLastDiscovery().getGlimpseResponse().getInitialTiles().isEmpty()) {
+            HashMap<Biomes, Double> initial_tiles = context.getLastDiscovery().getGlimpseResponse().getInitialTiles().get(0);
             if (initial_tiles.containsKey(Biomes.valueOf("OCEAN"))) {
                 if (initial_tiles.get(Biomes.valueOf("OCEAN")) > 90)
                     return true;
@@ -44,7 +44,7 @@ public class ContextAnalyzer {
         List<ContractItem> contract = context.getContracts();
 
         // the initial tiles info
-        List<HashMap<Biomes, Double>> initial_tiles = gr.getInitial_tiles();
+        List<HashMap<Biomes, Double>> initial_tiles = gr.getInitialTiles();
         // if for each tile there is one or more good biome
         List<Boolean> goodTiles = new ArrayList<>();
 
@@ -56,7 +56,6 @@ public class ContextAnalyzer {
             for (Biomes key : tile.keySet()) {
                 for (ContractItem item: contract) {
                     if (item.resource().getBiome().contains(key)) {
-                        //goodTiles.add(indexTile, true);
                         find_good_biome = true;
                         break;
                     }
@@ -67,7 +66,7 @@ public class ContextAnalyzer {
             index_tile++;
         }
 
-        List<Biomes> third_tile = gr.getThird_tile();
+        List<Biomes> third_tile = gr.getThirdTile();
         for (Biomes key : third_tile) {
             for (ContractItem item: contract) {
                 if (item.resource().getBiome().contains(key)) {
@@ -80,7 +79,7 @@ public class ContextAnalyzer {
         find_good_biome = false;
         index_tile++;
 
-        Biomes fourth = gr.getFourth_tile();
+        Biomes fourth = gr.getFourthTile();
         for (ContractItem item: contract) {
             if (item.resource().getBiome().contains(fourth)) {
                 find_good_biome = true;
