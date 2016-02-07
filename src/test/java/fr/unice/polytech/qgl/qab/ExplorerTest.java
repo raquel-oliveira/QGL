@@ -70,16 +70,15 @@ public class ExplorerTest {
                 "  ],\n" +
                 "  \"heading\": \"W\"\n" +
                 "}\n";
-        // TODO: see this test
-        //e.initialize(context);
-        //JSONObject jsonObj = new JSONObject(e.takeDecision());
-        //assertEquals("stop", jsonObj.getString("action"));
+        e.initialize(context);
+        JSONObject jsonObj = new JSONObject(e.takeDecision());
+        assertEquals("stop", jsonObj.getString("action"));
     }
 
     /**
      * Test to check how the program works when the budget is negative.
      */
-    @Test //TODO:test wrong
+    @Test
     public void testEchoLikeFirstAction() {
         String context = "{ \n" +
                 "  \"men\": 12,\n" +

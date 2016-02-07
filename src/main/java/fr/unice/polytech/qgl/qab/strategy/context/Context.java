@@ -79,6 +79,10 @@ public class Context {
         return men;
     }
 
+    public List<ContractItem> getContracts() {
+        return contracts;
+    }
+
     public void setStatus(boolean s) {
         status = s;
     }
