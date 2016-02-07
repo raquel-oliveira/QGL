@@ -38,7 +38,7 @@ public class MoveInTheGround extends GroundState {
     @Override
     public GroundState getState(Context context, Map map) throws PositionOutOfMapRange {
         resources = contextAnalyzer.biomeAnalyzer(context);
-        if (resources.get(indexTile))
+        if (!resources.isEmpty() && resources.get(indexTile))
             return ExploreTile.getInstance();
         else
             return MoveInTheGround.getInstance();
@@ -71,6 +71,6 @@ public class MoveInTheGround extends GroundState {
         indexTile = 0;
         lastAction = null;
 
-        return act; // return act;
+        return act;
     }
 }
