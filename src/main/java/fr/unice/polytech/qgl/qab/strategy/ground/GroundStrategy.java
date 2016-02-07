@@ -8,7 +8,6 @@ import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.ground.states.GroundState;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.ground.states.MoveInTheGround;
-import fr.unice.polytech.qgl.qab.strategy.ground.states.StateManager;
 
 /**
  * @version 09/12/15.
@@ -17,12 +16,10 @@ public class GroundStrategy implements IGroundStrategy {
     // object that represent the game map in the aerial space
     private Map map;
     private GroundState state;
-    private StateManager stateManager;
 
     public GroundStrategy(){
         state = MoveInTheGround.getInstance();
         map = new Map();
-        stateManager = StateManager.getInstance();
     }
 
     @Override
@@ -31,8 +28,8 @@ public class GroundStrategy implements IGroundStrategy {
             return contextAnalyzer(context);
         }
 
-        state =  state.getState(context, map, stateManager);
-        return state.responseState(context, map, stateManager);
+        state =  state.getState(context, map);
+        return state.responseState(context, map);
     }
 
     private Action contextAnalyzer(Context context) {

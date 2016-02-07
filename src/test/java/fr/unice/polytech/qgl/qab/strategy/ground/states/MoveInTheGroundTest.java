@@ -33,13 +33,13 @@ public class MoveInTheGroundTest {
 
     @Test
     public void testGetState() throws NegativeBudgetException, PositionOutOfMapRange {
-        GroundState state = moveInTheGround.getState(new Context(), new Map(), StateManager.getInstance());
+        GroundState state = moveInTheGround.getState(new Context(), new Map());
         assertEquals(state, moveInTheGround);
     }
 
     @Ignore
     public void testResponseState() throws NegativeBudgetException, IndexOutOfBoundsComboAction {
-        Action act = moveInTheGround.responseState(new Context(), new Map(), StateManager.getInstance());
+        Action act = moveInTheGround.responseState(new Context(), new Map());
         assertEquals(act.getClass(), new MoveTo(Direction.EAST).getClass());
     }
 }
