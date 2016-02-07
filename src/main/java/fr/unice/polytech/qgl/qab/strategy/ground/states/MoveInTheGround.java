@@ -29,14 +29,14 @@ public class MoveInTheGround extends GroundState {
     private static MoveInTheGround instance;
     private int index_tile;
     private List<Boolean> resources;
-    private ComboMoveTo actionCombo;
+    List<PrimaryType> resources_analyzer;
 
     private MoveInTheGround() {
         super();
         this.lastAction = null;
-        actionCombo = null;
         index_tile = 0;
         resources = new ArrayList<>();
+        resources_analyzer = new ArrayList<>();
     }
 
     public static MoveInTheGround getInstance() {
@@ -89,9 +89,10 @@ public class MoveInTheGround extends GroundState {
             index_tile++;
             return act;
         } else if (lastAction instanceof Explore) {
-            List<PrimaryType> resources = resourceAnalyzer(context);
+            resources_analyzer = resourceAnalyzer(context);
             if (!resources.isEmpty()) {
-                Resource res = new PrimaryResource(resources.get(0));
+                Resource res = new PrimaryResource(resources_analyzer.get(0));
+                resources_analyzer.remove(0);
                 act = new Exploit(res);
                 lastAction = act;
                 return act;
@@ -108,6 +109,13 @@ public class MoveInTheGround extends GroundState {
                 return act;
             }
         } else if (lastAction instanceof Exploit) {
+            if (!resources_analyzer.isEmpty()) {
+                Resource res = new PrimaryResource(resources_analyzer.get(0));
+                resources_analyzer.remove(0);
+                act = new Exploit(res);
+                lastAction = act;
+                return act;
+            }
             act = new MoveTo(context.getHeading());
             lastAction = act;
             index_tile++;
