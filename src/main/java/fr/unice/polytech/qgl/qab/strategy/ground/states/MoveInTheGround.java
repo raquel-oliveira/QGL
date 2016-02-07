@@ -54,6 +54,16 @@ public class MoveInTheGround extends GroundState {
     public Action responseState(Context context, Map map, StateManager stateManager) throws IndexOutOfBoundsComboAction {
         Action act;
 
+        if (shouldStop(context))
+            return new Stop();
+
+        if (index_tile == 4) {
+            act = new Glimpse(context.getHeading(), 4);
+            lastAction = act;
+            index_tile = 0;
+            return act;
+        }
+
         if (lastAction == null) {
             act = new Glimpse(context.getHeading(), 4);
             lastAction = act;
@@ -74,6 +84,10 @@ public class MoveInTheGround extends GroundState {
                     }
                 }
             }
+            act = new MoveTo(context.getHeading());
+            lastAction = act;
+            index_tile++;
+            return act;
         } else if (lastAction instanceof Explore) {
             List<PrimaryType> resources = resourceAnalyzer(context);
             if (!resources.isEmpty()) {
@@ -94,20 +108,23 @@ public class MoveInTheGround extends GroundState {
                 return act;
             }
         } else if (lastAction instanceof Exploit) {
-            if (index_tile == 4) {
-                return new Stop();
-            } else {
-                for (int i = ++index_tile; i < resources.size(); i++) {
-                    if (resources.get(i)) {
-                        act = new MoveTo(context.getHeading());
-                        lastAction = act;
-                        index_tile++;
-                        return act;
-                    }
-                }
-            }
+            act = new MoveTo(context.getHeading());
+            lastAction = act;
+            index_tile++;
+            return act;
         }
         return new Stop();
+    }
+
+    private boolean shouldStop(Context context) {
+        if (!context.getLastDiscovery().getGlimpseResponse().getInitial_tiles().isEmpty()) {
+            HashMap<Biomes, Double> initial_tiles = context.getLastDiscovery().getGlimpseResponse().getInitial_tiles().get(0);
+            if (initial_tiles.containsKey(Biomes.valueOf("OCEAN"))) {
+                if (initial_tiles.get(Biomes.valueOf("OCEAN")) > 90)
+                    return true;
+            }
+        }
+        return false;
     }
 
     public List<PrimaryType> resourceAnalyzer(Context context) {
