@@ -64,4 +64,8 @@ Add more tests and actions **explore**, **glimpse**, **move_to** and **scout**.
 
 ### Week 05
 
+Move, analyze and collect of contract resources founded in straight line of the map (first version).
+
+### Week 06
+
 Short list of the **features** available in the bot delivered for the championship that happened at the end of week 50.
