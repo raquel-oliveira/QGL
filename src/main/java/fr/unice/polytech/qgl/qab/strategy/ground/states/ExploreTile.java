@@ -65,6 +65,7 @@ public class ExploreTile extends GroundState {
             lastAction = act;
             return act;
         }
+
         return new Stop();
     }
 }

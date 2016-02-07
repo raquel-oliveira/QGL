@@ -21,10 +21,13 @@ import static org.junit.Assert.assertEquals;
  */
 public class FindGroundTest {
     FindGround findGround;
+    Context context;
 
     @Before
-    public void defineContext() {
+    public void defineContext() throws NegativeBudgetException {
         findGround = FindGround.getInstance();
+        context = new Context();
+        context.setLastDiscovery(new Discovery());
     }
 
     @Test
@@ -41,14 +44,11 @@ public class FindGroundTest {
 
     @Test
     public void testResponseState() throws NegativeBudgetException, IndexOutOfBoundsComboAction {
-        Context context = new Context();
-        context.setLastDiscovery(new Discovery());
         context.setHeading(Direction.NORTH);
         context.setFirstHead(Direction.NORTH);
         Action act = findGround.responseState(context, new Map(), StateMediator.getInstance());
         assertEquals(act.getClass(), new Fly().getClass());
 
-        context = new Context();
         context.setLastDiscovery(new Discovery());
         context.setHeading(Direction.NORTH);
         context.setFirstHead(Direction.NORTH);
