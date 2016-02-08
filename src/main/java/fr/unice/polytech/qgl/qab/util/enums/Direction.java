@@ -67,6 +67,11 @@ public enum Direction {
         return null;
     }
 
+    /**
+     * Method that choose a direction randomly
+     * @param direction reference point to select the direction
+     * @return direction chosen
+     */
     public static Direction randomSideDirection(Direction direction) {
         Random rand = new Random();
         int side = rand.nextInt(2);

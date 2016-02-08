@@ -12,6 +12,7 @@ import java.util.List;
 
 /**
  * @version 07/02/16.
+ * Class reponsible by analyze the context and return specificals informations.
  */
 public class ContextAnalyzer {
     public boolean shouldStop(Context context) {
