@@ -47,7 +47,6 @@ public class Discovery {
         this.range = 0;
         this.direction = null;
         biomes = new ArrayList<>();
-        creeks = new ArrayList<>();
     }
 
     public Found getFound() { return found; }
