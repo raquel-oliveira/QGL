@@ -8,6 +8,7 @@ import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
+import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ public class MoveInTheGround extends GroundState {
     private ContextAnalyzer contextAnalyzer;
     private List<Boolean> resources;
     private int indexTile;
+    private List<MoveTo> movemove;
 
     private MoveInTheGround() {
         super();
@@ -27,6 +29,7 @@ public class MoveInTheGround extends GroundState {
         contextAnalyzer = new ContextAnalyzer();
         resources = new ArrayList<>();
         indexTile = 0;
+        movemove = null;
     }
 
     public static MoveInTheGround getInstance() {
@@ -48,7 +51,28 @@ public class MoveInTheGround extends GroundState {
     public Action responseState(Context context, Map map) throws IndexOutOfBoundsComboAction {
         Action act;
 
-        if (contextAnalyzer.shouldStop(context))
+        if (contextAnalyzer.shouldChangeDirection(context)) {
+            if (movemove == null) movemove = new ArrayList<>();
+            if (context.getHeading().isHorizontal()) {
+                if (context.getHeading().equals(Direction.EAST))
+                    movemove.add(new MoveTo(Direction.WEST));
+                else  movemove.add(new MoveTo(Direction.EAST));
+            } else if (context.getHeading().isVertical()) {
+                if (context.getHeading().equals(Direction.NORTH))
+                    movemove.add(new MoveTo(Direction.SOUTH));
+                else  movemove.add(new MoveTo(Direction.SOUTH));
+            }
+            movemove.add(new MoveTo(Direction.randomSideDirection(context.getHeading())));
+        }
+
+        if (movemove != null && !movemove.isEmpty()) {
+            act = movemove.remove(0);
+            lastAction = act;
+            return act;
+        }
+
+
+        if (contextAnalyzer.shouldChangeStop(context))
             return new Stop();
 
         if (lastAction == null) {
@@ -70,7 +94,7 @@ public class MoveInTheGround extends GroundState {
         act = new MoveTo(context.getHeading());
         indexTile = 0;
         lastAction = null;
-
+        movemove = null;
         return act;
     }
 }
