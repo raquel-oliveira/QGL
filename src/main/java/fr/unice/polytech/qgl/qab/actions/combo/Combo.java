@@ -52,4 +52,10 @@ public abstract class Combo {
         return actions.remove(index);
     }
 
+    /**
+     * Method to remove all intens of actions
+     */
+    public void removeAll() {
+        actions.clear();
+    }
 }
