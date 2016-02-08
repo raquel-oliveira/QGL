@@ -28,7 +28,8 @@ public enum Found {
     public static Found fromString(String found){
         if (found != null){
             for (Found f : Found.values()){
-                if (f.toString().equalsIgnoreCase(found)) return f;
+                if (f.toString().equalsIgnoreCase(found))
+                    return f;
             }
         }
         return null;

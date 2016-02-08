@@ -1,6 +1,7 @@
 package fr.unice.polytech.qgl.qab.strategy.aerial.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
+import fr.unice.polytech.qgl.qab.actions.combo.Combo;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboFlyScan;
 import fr.unice.polytech.qgl.qab.actions.simple.common.Land;
@@ -10,6 +11,7 @@ import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * @version 12/12/15.
@@ -17,7 +19,7 @@ import java.util.ArrayList;
 public class ScanTheGround extends AerialState {
     private static ScanTheGround instance;
 
-    private ComboFlyScan actionCombo;
+    private Combo actionCombo;
 
     private ScanTheGround() {
         super();
@@ -37,7 +39,8 @@ public class ScanTheGround extends AerialState {
             return Finish.getInstance();
 
         if (context.getLastDiscovery().containsBiome(Biomes.OCEAN) &&
-                context.getLastDiscovery().getBiomes().size() == 1) {
+                context.getLastDiscovery().getBiomes().size() == 1 &&
+                    context.getLastDiscovery().getCreeks().isEmpty()) {
             context.getLastDiscovery().setBiomes(new ArrayList<>());
             return ReturnBack.getInstance();
         }
@@ -54,9 +57,13 @@ public class ScanTheGround extends AerialState {
             return act;
         }
 
+        Random rnd = new Random();
         if (actionCombo == null || actionCombo.isEmpty()) {
             actionCombo = new ComboFlyScan();
-            actionCombo.defineActions();
+            ((ComboFlyScan)actionCombo).defineActions();
+            if(rnd.nextBoolean()){
+                actionCombo.remove(1);
+            }
         }
 
         act = actionCombo.get(0);
