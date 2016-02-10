@@ -51,6 +51,9 @@ public class MoveInTheGround extends GroundState {
     public Action responseState(Context context, Map map) throws IndexOutOfBoundsComboAction {
         Action act;
 
+        if (contextAnalyzer.shouldChangeStop(context))
+            return new Stop();
+
         if (contextAnalyzer.shouldChangeDirection(context)) {
             if (movemove == null) movemove = new ArrayList<>();
             if (context.getHeading().isHorizontal()) {
@@ -68,12 +71,9 @@ public class MoveInTheGround extends GroundState {
         if (movemove != null && !movemove.isEmpty()) {
             act = movemove.remove(0);
             lastAction = act;
+            context.setHeading(act.getDirection());
             return act;
         }
-
-
-        if (contextAnalyzer.shouldChangeStop(context))
-            return new Stop();
 
         if (lastAction == null) {
             act = new Glimpse(context.getHeading(), 4);

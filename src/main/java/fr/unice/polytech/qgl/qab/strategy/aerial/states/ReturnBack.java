@@ -77,7 +77,7 @@ public class ReturnBack extends AerialState {
             act = actionCombo.get(indexAction);
             lastAction = act;
             if (lastAction instanceof Heading) {
-                Direction dir = ((Heading) lastAction).getDirection();
+                Direction dir = (lastAction).getDirection();
                 context.setHeading(dir);
             }
             indexAction++;

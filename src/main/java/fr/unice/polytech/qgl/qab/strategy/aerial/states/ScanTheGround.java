@@ -20,11 +20,14 @@ public class ScanTheGround extends AerialState {
     private static ScanTheGround instance;
 
     private Combo actionCombo;
+    private final static int SCAN_RATIO = 2;
+    private int cont_scan;
 
     private ScanTheGround() {
         super();
         this.lastAction = new Fly();
         actionCombo = null;
+        cont_scan = 0;
     }
 
     public static ScanTheGround getInstance() {
@@ -57,13 +60,13 @@ public class ScanTheGround extends AerialState {
             return act;
         }
 
-        Random rnd = new Random();
         if (actionCombo == null || actionCombo.isEmpty()) {
             actionCombo = new ComboFlyScan();
             ((ComboFlyScan)actionCombo).defineActions();
-            if(rnd.nextBoolean()){
+            if(cont_scan != SCAN_RATIO) {
                 actionCombo.remove(1);
-            }
+            } else cont_scan = 0;
+            cont_scan++;
         }
 
         act = actionCombo.get(0);
