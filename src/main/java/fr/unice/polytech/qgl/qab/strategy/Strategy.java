@@ -41,10 +41,7 @@ public class Strategy implements IStrategy {
         responseHandler = new ResponseHandler();
     }
 
-    /**
-     * Method called to make the decision.
-     * @return the best action chosen
-     */
+
     @Override
     public String makeDecision() throws PositionOutOfMapRange, IndexOutOfBoundsComboAction {
         Action act;
@@ -61,19 +58,11 @@ public class Strategy implements IStrategy {
         return act.formatResponse();
     }
 
-    /**
-     * Method the read and analyse the string returned.
-     * @param data information that the engine returned
-     */
     @Override
     public void readResults(String data) throws NegativeBudgetException {
         context = responseHandler.readData(data, currentAction, context);
     }
 
-    /**
-     * Method responsible to read and save the context gave int the begging of the simulation.
-     * @param contextData the context gave in the begging of the simulation.
-     */
     @Override
     public void initializeContext(String contextData) throws NegativeBudgetException {
         context.read(contextData);

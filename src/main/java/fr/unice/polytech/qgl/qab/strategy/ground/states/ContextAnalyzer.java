@@ -26,11 +26,7 @@ public class ContextAnalyzer {
                 } else if (initial_tiles1.containsKey(Biomes.valueOf("OCEAN"))) {
                     value2 = initial_tiles2.get(Biomes.valueOf("OCEAN"));
                 }
-                if (value1 < 70)
-                    return true;
-                else if (value1 <= 70 && value2 <= 100)
-                    return true;
-                else if (value2 > 70)
+                if (value1 != 0 || value2 != 0)
                     return true;
             }
         }

@@ -106,6 +106,7 @@ public class MoveInTheGround extends GroundState {
         }
         movemove.add(new MoveTo(dir));
         movemove.add(new MoveTo(dir));
+        movemove.add(new MoveTo(dir));
         movemove.add(new MoveTo(Direction.randomSideDirection(context.getHeading())));
     }
 }
