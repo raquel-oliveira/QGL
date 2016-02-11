@@ -8,6 +8,7 @@ import static org.junit.Assert.*;
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Scan;
+import fr.unice.polytech.qgl.qab.actions.simple.ground.Explore;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Glimpse;
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.map.tile.Biomes;
@@ -102,10 +103,39 @@ public class ResponseHandlerTest {
         c1.read(context);
         Context c2 = r.readData(data, new Glimpse(Direction.EAST, 2), c1 );
         assertEquals(997, c2.getBudget());
-        //HashMap<Biomes,Double> h1 = new HashMap<>();
         Double d1 = c2.getLastDiscovery().getGlimpseResponse().getInitialTiles().get(0).get(Biomes.BEACH);
-        assertEquals((Double)59.35, d1);;
+        assertEquals((Double)59.35, d1);
 
+    }
+
+    @Test
+    public void TestreadDataFromExplore() throws NegativeBudgetException{
+        String data = "{\n" +
+                "  \"cost\": 5,\n" +
+                "  \"extras\": {\n" +
+                "    \"resources\": [\n" +
+                "      { \"amount\": \"HIGH\", \"resource\": \"FUR\", \"cond\": \"FAIR\" },\n" +
+                "      { \"amount\": \"LOW\", \"resource\": \"WOOD\", \"cond\": \"HARSH\" }\n" +
+                "    ],\n" +
+                "    \"pois\": [ \"creek-id\" ]\n" +
+                "  },\n" +
+                "  \"status\": \"OK\"\n" +
+                "}\n";
+
+        String context = "{ \n" +
+                "  \"men\": 12,\n" +
+                "  \"budget\": 1000,\n" +
+                "  \"contracts\": [\n" +
+                "    { \"amount\": 600, \"resource\": \"WOOD\" },\n" +
+                "    { \"amount\": 200, \"resource\": \"GLASS\" }\n" +
+                "  ],\n" +
+                "  \"heading\": \"W\"\n" +
+                "}\n";
+
+        Context c1 = new Context();
+        c1.read(context);
+        Context c2 = r.readData(data, new Explore(), c1 );
+        assertEquals(995, c2.getBudget());
     }
 
 }
