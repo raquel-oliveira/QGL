@@ -51,33 +51,25 @@ public class MoveInTheGround extends GroundState {
     public Action responseState(Context context, Map map) throws IndexOutOfBoundsComboAction {
         Action act;
 
-        if (contextAnalyzer.shouldChangeStop(context))
+        if (lastAction == null) {
+            act = new Glimpse(context.getHeading(), 4);
+            lastAction = act;
+            return act;
+        }
+
+        if (contextAnalyzer.shouldChangeStop(context) && movemove == null)
             return new Stop();
 
-        if (contextAnalyzer.shouldChangeDirection(context)) {
-            if (movemove == null) movemove = new ArrayList<>();
-            if (context.getHeading().isHorizontal()) {
-                if (context.getHeading().equals(Direction.EAST))
-                    movemove.add(new MoveTo(Direction.WEST));
-                else  movemove.add(new MoveTo(Direction.EAST));
-            } else if (context.getHeading().isVertical()) {
-                if (context.getHeading().equals(Direction.NORTH))
-                    movemove.add(new MoveTo(Direction.SOUTH));
-                else  movemove.add(new MoveTo(Direction.SOUTH));
-            }
-            movemove.add(new MoveTo(Direction.randomSideDirection(context.getHeading())));
-        }
+        if (contextAnalyzer.shouldChangeDirection(context) && movemove == null)
+            changeDirection(context);
 
         if (movemove != null && !movemove.isEmpty()) {
             act = movemove.remove(0);
             lastAction = act;
             context.setHeading(act.getDirection());
-            return act;
-        }
-
-        if (lastAction == null) {
-            act = new Glimpse(context.getHeading(), 4);
-            lastAction = act;
+            if (movemove.isEmpty()) {
+                new ArrayList<>();
+            }
             return act;
         }
 
@@ -96,5 +88,24 @@ public class MoveInTheGround extends GroundState {
         lastAction = null;
         movemove = null;
         return act;
+    }
+
+    private void changeDirection(Context context) {
+        if (movemove == null) movemove = new ArrayList<>();
+        Direction dir = Direction.EAST;
+        if (context.getHeading().isHorizontal()) {
+            if (context.getHeading().equals(Direction.EAST))
+                dir = Direction.WEST;
+            else
+                dir = Direction.EAST;
+        } else if (context.getHeading().isVertical()) {
+            if (context.getHeading().equals(Direction.NORTH))
+                dir = Direction.SOUTH;
+            else
+                dir = Direction.SOUTH;
+        }
+        movemove.add(new MoveTo(dir));
+        movemove.add(new MoveTo(dir));
+        movemove.add(new MoveTo(Direction.randomSideDirection(context.getHeading())));
     }
 }
