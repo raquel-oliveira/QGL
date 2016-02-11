@@ -16,7 +16,7 @@ public abstract class GroundState {
         lastAction = null;
     }
 
-    public abstract GroundState getState(Context context, Map map, StateManager stateManager) throws PositionOutOfMapRange;
+    public abstract GroundState getState(Context context, Map map) throws PositionOutOfMapRange;
 
-    public abstract Action responseState(Context context,  Map map, StateManager stateManager) throws IndexOutOfBoundsComboAction;
+    public abstract Action responseState(Context context,  Map map) throws IndexOutOfBoundsComboAction;
 }

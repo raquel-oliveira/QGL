@@ -23,7 +23,8 @@ public class PrimaryResource implements Resource {
         return resource.toString();
     }
 
-    private void setBiomes() {
+    @Override
+    public void setBiomes() {
         switch (resource) {
             case FISH:
                 biomes.add(Biomes.OCEAN);
@@ -70,6 +71,7 @@ public class PrimaryResource implements Resource {
         }
     }
 
+    @Override
     public Set<Biomes> getBiome(){
         return biomes;
     }

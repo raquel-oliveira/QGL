@@ -2,6 +2,8 @@ package fr.unice.polytech.qgl.qab.util;
 
 import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.map.tile.Creek;
+import fr.unice.polytech.qgl.qab.response.ExploreResponse;
+import fr.unice.polytech.qgl.qab.response.GlimpseResponse;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 
@@ -17,6 +19,8 @@ public class Discovery {
     private Direction direction;
     private List<Biomes> biomes;
     private List<Creek> creeks;
+    private GlimpseResponse glimpseResponse;
+    private ExploreResponse exploreResponse;
 
     public Discovery() {
         this.found = Found.UNDEFINED;
@@ -24,6 +28,8 @@ public class Discovery {
         this.direction = null;
         biomes = new ArrayList<>();
         creeks = new ArrayList<>();
+        glimpseResponse = new GlimpseResponse();
+        exploreResponse = new ExploreResponse();
     }
 
     public Discovery(Found found, int range, Direction direction) {
@@ -32,11 +38,8 @@ public class Discovery {
         this.direction = direction;
         biomes = new ArrayList<>();
         creeks = new ArrayList<>();
-    }
-
-    public Discovery(List<Biomes> biomes, List<Creek> creeks) {
-        this.biomes = biomes;
-        this.creeks = creeks;
+        glimpseResponse = new GlimpseResponse();
+        exploreResponse = new ExploreResponse();
     }
 
     public void setUp() {
@@ -57,6 +60,14 @@ public class Discovery {
 
     public List<Creek> getCreeks() { return creeks; }
 
+    public GlimpseResponse getGlimpseResponse() {
+        return glimpseResponse;
+    }
+
+    public ExploreResponse getExploreResponse() {
+        return exploreResponse;
+    }
+
     public void setRange(int range) { this.range = range; }
 
     public void setFound(Found found) { this.found = found; }
@@ -66,6 +77,14 @@ public class Discovery {
     public void setBiomes(List<Biomes> biomes) { this.biomes = biomes; }
 
     public void setCreeks(List<Creek> creeks) { this.creeks = creeks; }
+
+    public void setGlimpseResponse(GlimpseResponse glimpseResponse) {
+        this.glimpseResponse = glimpseResponse;
+    }
+
+    public void setExploreResponse(ExploreResponse exploreResponse) {
+        this.exploreResponse = exploreResponse;
+    }
 
     public boolean containsBiome(Biomes bio) {
         for (Biomes b: biomes) {

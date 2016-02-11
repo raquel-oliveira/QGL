@@ -32,7 +32,7 @@ public class ResponseHandlerTest {
                 "  ],\n" +
                 "  \"status\": \"OK\"\n" +
                 "}\n";
-        
+
         String context = "{ \n" +
                 "  \"men\": 12,\n" +
                 "  \"budget\": 1000,\n" +
