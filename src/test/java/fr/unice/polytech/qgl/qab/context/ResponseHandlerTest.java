@@ -42,6 +42,7 @@ public class ResponseHandlerTest {
                 "  ],\n" +
                 "  \"heading\": \"W\"\n" +
                 "}\n";
+
         Context c1 = new Context();
         c1.read(context);
         Context c2 = new Context();
