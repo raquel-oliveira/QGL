@@ -21,7 +21,7 @@ public class Explorer implements IExplorerRaid {
     private static final String ERROR = "error";
 
     /**
-     * Constructor
+     * Explorer's constructor
      */
     public Explorer() {
         try {
