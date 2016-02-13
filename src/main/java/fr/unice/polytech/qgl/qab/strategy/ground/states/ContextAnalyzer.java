@@ -15,6 +15,14 @@ import java.util.List;
  * Class reponsible by analyze the context and return specificals informations.
  */
 public class ContextAnalyzer {
+
+    /**
+     * Analize if the bot should change of direction.
+     * This method analize if the return of the glimpse response show values that
+     * indicate the need for change of direction.
+     * @param context datas about the context of the simulation
+     * @return true if necessary, and false if not
+     */
     public boolean shouldChangeDirection(Context context) {
         if (!context.getLastDiscovery().getGlimpseResponse().getInitialTiles().isEmpty()) {
             HashMap<Biomes, Double> initial_tiles1 = context.getLastDiscovery().getGlimpseResponse().getInitialTiles().get(0);
@@ -34,6 +42,13 @@ public class ContextAnalyzer {
         return false;
     }
 
+    /**$
+     * Analize if the bot should stop.
+     * This method will see if it's necessary stop the simulation after recive
+     * the response of the glimpse action
+     * @param context datas about the context of the simulation
+     * @return true if necessary, and false if not
+     */
     public boolean shouldChangeStop(Context context) {
         if (!context.getLastDiscovery().getGlimpseResponse().getInitialTiles().isEmpty()) {
             HashMap<Biomes, Double> initial_tiles = context.getLastDiscovery().getGlimpseResponse().getInitialTiles().get(0);
@@ -45,6 +60,12 @@ public class ContextAnalyzer {
         return false;
     }
 
+    /**
+     * Method that return a set of primary type resources that were
+     * founded after explore a tile and are on the contract
+     * @param context datas about the context of the simulation
+     * @return list of resources founded
+     */
     public List<PrimaryType> resourceAnalyzer(Context context) {
         List<ContractItem> contract = context.getContracts();
         List<PrimaryType> resources = new ArrayList<>();
@@ -57,6 +78,15 @@ public class ContextAnalyzer {
         return resources;
     }
 
+    /**
+     * This method will check the resources in the contract and take what are the
+     * biomes that are likely to have these resources. After will see in each
+     * tile that the glimpse returned, and will check if there are some these
+     * biomes in any tile, after will return a list of boolean values indicating
+     * if some tile have the biomes.
+     * @param context datas about the context of the simulation
+     * @return list of boolean values indicating if some tile have the biomes
+     */
     public List<Boolean> biomeAnalyzer(Context context) {
         // the glimpse response
         GlimpseResponse gr = context.getLastDiscovery().getGlimpseResponse();
