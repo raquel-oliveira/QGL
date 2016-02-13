@@ -23,7 +23,7 @@ public interface IStrategy {
 
     /**
      * Method responsible to read and save the context gave int the begging of the simulation.
-     * @param contextData the context gave in the begging of the simulation.
+     * @param context the context gave in the begging of the simulation.
      */
-    void initializeContext(String contextData) throws NegativeBudgetException;
+    void initializeContext(String context) throws NegativeBudgetException;
 }

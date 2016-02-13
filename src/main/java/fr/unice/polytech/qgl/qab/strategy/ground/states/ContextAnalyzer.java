@@ -15,11 +15,30 @@ import java.util.List;
  * Class reponsible by analyze the context and return specificals informations.
  */
 public class ContextAnalyzer {
-    public boolean shouldStop(Context context) {
+    public boolean shouldChangeDirection(Context context) {
+        if (!context.getLastDiscovery().getGlimpseResponse().getInitialTiles().isEmpty()) {
+            HashMap<Biomes, Double> initial_tiles1 = context.getLastDiscovery().getGlimpseResponse().getInitialTiles().get(0);
+            HashMap<Biomes, Double> initial_tiles2 = context.getLastDiscovery().getGlimpseResponse().getInitialTiles().get(1);
+
+            if (initial_tiles1.containsKey(Biomes.valueOf("OCEAN")) || initial_tiles2.containsKey(Biomes.valueOf("OCEAN"))) {
+                double value1 = 0, value2 = 0;
+                if (initial_tiles1.containsKey(Biomes.valueOf("OCEAN"))) {
+                    value1 = initial_tiles1.get(Biomes.valueOf("OCEAN"));
+                } else if (initial_tiles1.containsKey(Biomes.valueOf("OCEAN"))) {
+                    value2 = initial_tiles2.get(Biomes.valueOf("OCEAN"));
+                }
+                if (value1 != 0 || value2 != 0)
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean shouldChangeStop(Context context) {
         if (!context.getLastDiscovery().getGlimpseResponse().getInitialTiles().isEmpty()) {
             HashMap<Biomes, Double> initial_tiles = context.getLastDiscovery().getGlimpseResponse().getInitialTiles().get(0);
             if (initial_tiles.containsKey(Biomes.valueOf("OCEAN"))) {
-                if (initial_tiles.get(Biomes.valueOf("OCEAN")) > 90)
+                if (initial_tiles.get(Biomes.valueOf("OCEAN")) >= 90)
                     return true;
             }
         }

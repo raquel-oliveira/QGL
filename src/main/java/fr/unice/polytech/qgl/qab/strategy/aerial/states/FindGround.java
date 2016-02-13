@@ -43,7 +43,7 @@ public class FindGround extends AerialState {
     public Action responseState(Context context, Map map, StateMediator stateMediator) throws IndexOutOfBoundsComboAction {
         Action act;
         if (context.getLastDiscovery().getFound().isEquals(Found.GROUND) && lastAction instanceof Echo) {
-            Direction dir = ((Echo)lastAction).getDirection();
+            Direction dir = (lastAction).getDirection();
             act = new Heading(dir);
             context.setHeading(dir);
             stateMediator.setRangeToGround(context.getLastDiscovery().getRange());

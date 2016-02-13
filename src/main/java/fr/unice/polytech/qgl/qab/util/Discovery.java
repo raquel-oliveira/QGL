@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * @version 4.9
  *
- * Class that represents the information discovered by bot.
+ * Class that represents the information discovered by the actions of the bot.
  */
 public class Discovery {
     private Found found;
@@ -39,8 +39,8 @@ public class Discovery {
 
     /**
      * Discobery's constructor
-     * @param found the object that represents what was founded (GROUND or OUT_OF_RANGE)
-     * @param range value of the discovery
+     * @param found the object that represents the data that was founded (GROUND or OUT_OF_RANGE)
+     * @param range the range until the data founded
      * @param direction indicate the direction of the discobery
      */
     public Discovery(Found found, int range, Direction direction) {
@@ -62,7 +62,6 @@ public class Discovery {
         this.range = 0;
         this.direction = null;
         biomes = new ArrayList<>();
-        creeks = new ArrayList<>();
     }
 
     /**
@@ -72,20 +71,20 @@ public class Discovery {
     public Found getFound() { return found; }
 
     /**
-     * Get range of the last discovery.
+     * Get range value of the last discovery
      * @return range value
      */
     public int getRange() { return range; }
 
     /**
-     * Get direction of the last discovery.
-     * @return direction value
+     * Get the direction of the last discovery
+     * @return discovery direction
      */
     public Direction getDirection() { return direction; }
 
     /**
-     * Get biomes of the last scan discovery
-     * @return biomes values
+     * Get the set of biomes founded in the last scan discovery
+     * @return set of biomes
      */
     public List<Biomes> getBiomes() { return biomes; }
 
@@ -96,20 +95,24 @@ public class Discovery {
     public List<Creek> getCreeks() { return creeks; }
 
     /**
-     * Get last glimpse response.
-     * @return glimpse response
+     * Get the data of the glimpse response
+     * @return data of the glimpse response
      */
-    public GlimpseResponse getGlimpseResponse() { return glimpseResponse; }
+    public GlimpseResponse getGlimpseResponse() {
+        return glimpseResponse;
+    }
 
     /**
-     * Get last explore response.
-     * @return explore response
+     * Get the data of the explore response
+     * @return data of the explore response
      */
-    public ExploreResponse getExploreResponse() { return exploreResponse; }
+    public ExploreResponse getExploreResponse() {
+        return exploreResponse;
+    }
 
     /**
-     * Set a value in range.
-     * @param range value of the last discovery
+     * Set the range of the last discovery founded
+     * @param range of the last discovery founded
      */
     public void setRange(int range) { this.range = range; }
 

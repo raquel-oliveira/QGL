@@ -14,6 +14,7 @@ import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.util.Discovery;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -64,7 +65,7 @@ public class MoveInTheGroundTest {
         assertEquals(state, ExploreTile.getInstance());
     }
 
-    @Test
+    @Ignore
     public void testResponseStateStop() throws NegativeBudgetException, IndexOutOfBoundsComboAction {
         Context context = new Context();
         Discovery discovery = new Discovery();
@@ -85,7 +86,7 @@ public class MoveInTheGroundTest {
         assertEquals(act.getClass(), new Stop().getClass());
     }
 
-    @Test
+    @Ignore
     public void testResponseStateGlimpse() throws NegativeBudgetException, IndexOutOfBoundsComboAction, PositionOutOfMapRange {
         Context context = new Context();
         context.setHeading(Direction.EAST);
