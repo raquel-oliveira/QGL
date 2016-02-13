@@ -7,7 +7,12 @@ import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import java.util.ArrayList;
 
 /**
- * Class to represent the set of actions Echo.
+ * Class to represent the set of (3) actions Echo.
+ * The three echos are defined to be for the three possibilites.
+ * Of the 4 directions, the only one impossible to do the echo
+ * is the direction oposite to the heading.
+ * ex: Heading = NORTH;
+ * ECHOS = NORTH, EAST, WEST (impossibility to do SOUTH).
  *
  * @version 9.12.2015
  */
@@ -18,7 +23,7 @@ public class ComboEchos extends Combo {
     }
 
     /**
-     * Choice the direction to three echos.
+     * Set a combo(ArrayList) of echos
      *
      * @param head direction of the head
      */
