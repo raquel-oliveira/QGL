@@ -15,6 +15,9 @@ import java.util.List;
 
 /**
  * @version 07/02/16.
+ *
+ * State responsable by move the explorer in the ground.
+ * In this state we can make the move_to and glimpse.
  */
 public class MoveInTheGround extends GroundState {
     private static MoveInTheGround instance;
@@ -23,6 +26,9 @@ public class MoveInTheGround extends GroundState {
     private int indexTile;
     private List<MoveTo> movemove;
 
+    /**
+     * MoveInTheGround's constructor
+     */
     private MoveInTheGround() {
         super();
         this.lastAction = null;
@@ -32,6 +38,10 @@ public class MoveInTheGround extends GroundState {
         movemove = null;
     }
 
+    /**
+     * Method to get the instance of the MoveInTheGround class
+     * @return instance of the MoveInTheGround class
+     */
     public static MoveInTheGround getInstance() {
         if (instance == null)
             instance = new MoveInTheGround();
@@ -90,6 +100,10 @@ public class MoveInTheGround extends GroundState {
         return act;
     }
 
+    /**
+     * This method will set the direction that the explorers need to move.
+     * @param context datas about the context of the simulation
+     */
     private void changeDirection(Context context) {
         if (movemove == null) movemove = new ArrayList<>();
         Direction dir = Direction.EAST;

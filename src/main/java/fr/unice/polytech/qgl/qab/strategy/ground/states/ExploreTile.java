@@ -19,12 +19,18 @@ import java.util.List;
 
 /**
  * @version 07/02/16.
+ *
+ * State responsable by explore the specifical tile of the ground.
+ * In this state we can make the explore and exploit of the tile.
  */
 public class ExploreTile extends GroundState {
     private static ExploreTile instance;
     private ContextAnalyzer contextAnalyzer;
     private List<PrimaryType> resourcesAnalyzer;
 
+    /**
+     * ExploreTile's contructor
+     */
     private ExploreTile() {
         super();
         this.lastAction = null;
@@ -32,6 +38,10 @@ public class ExploreTile extends GroundState {
         resourcesAnalyzer = null;
     }
 
+    /**
+     * Method to get the instance of the ExploreTile class
+     * @return instance of ExploreTile
+     */
     public static ExploreTile getInstance() {
         if (instance == null)
             instance = new ExploreTile();
