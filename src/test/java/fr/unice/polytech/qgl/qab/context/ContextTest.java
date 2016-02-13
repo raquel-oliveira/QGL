@@ -3,15 +3,22 @@ package fr.unice.polytech.qgl.qab.context;
 import static org.junit.Assert.*;
 
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
+import org.junit.Before;
 import org.junit.Ignore;
 
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
+import org.junit.Test;
 
 public class ContextTest {
 	Context c;
+
+	@Before
+	public void defineContext() throws NegativeBudgetException {
+		c = new Context();
+	}
 	
-	@Ignore
+	@Test
 	public void TestgetHeading() throws NegativeBudgetException {
 		String context = "{ \n" +
                 "  \"men\": 12,\n" +
@@ -26,7 +33,7 @@ public class ContextTest {
 		assertEquals(Direction.WEST,c.getHeading());
 	}
 	
-	@Ignore
+	@Test
 	public void TestgetBudget() throws NegativeBudgetException {
 		String context = "{ \n" +
                 "  \"men\": 12,\n" +
@@ -38,6 +45,6 @@ public class ContextTest {
                 "  \"heading\": \"W\"\n" +
                 "}\n";
 		c.read(context);
-		assertEquals("1000",c.getBudget());
+		assertEquals(1000,c.getBudget());
 	}
 }
