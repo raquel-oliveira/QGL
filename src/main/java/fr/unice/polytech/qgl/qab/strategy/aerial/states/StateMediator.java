@@ -31,41 +31,81 @@ public class StateMediator {
         return instance;
     }
 
+    /**
+     * Judge if should go to the corner
+     * @return if should return true, if not return false
+     */
     public boolean shouldGoToTheCorner() {
         return this.shouldGoToTheCorner;
     }
 
+    /**
+     * set value of shouldGoToTheCorner
+     * @param goToTheCorner
+     */
     public void setGoToTheCorner(boolean goToTheCorner) {
         this.shouldGoToTheCorner = goToTheCorner;
     }
 
+    /**
+     * get the range to the corner
+     * @return range to the corner
+     */
     public int getRangeToTheCorner() {
         return rangeToTheCorner;
     }
 
+    /**
+     * set value of the range to the corner
+     * @param rangeToTheCorner
+     */
     public void setRangeToTheCorner(int rangeToTheCorner) {
         this.rangeToTheCorner = rangeToTheCorner;
     }
 
+    /**
+     * get the direction to the corner
+     * @return the direction to the corner
+     */
     public Direction getDirectionToTheCorner() {
         return directionToTheCorner;
     }
 
+    /**
+     * set the value of the direction to the corner
+     * @param directionToTheCorner
+     */
     public void setDirectionToTheCorner(Direction directionToTheCorner) {
         this.directionToTheCorner = directionToTheCorner;
     }
 
+    /**
+     * get the range to ground
+     * @return the range to ground
+     */
     public int getRangeToGround() {
         return rangeToGround;
     }
 
+    /**
+     * set the value of the range to ground
+     * @param rangeToGround
+     */
     public void setRangeToGround(int rangeToGround) {
         this.rangeToGround = rangeToGround;
     }
 
+    /**
+     * set the value of flyUntilGround
+     * @param foundGround
+     */
     public void shouldFlyUntilGround(boolean foundGround) {
         this.flyUntilGround = foundGround;
     }
 
+    /**
+     * get if should fly until ground
+     * @return flyUntilGround
+     */
     public boolean shouldFlyUntilGround() { return flyUntilGround; }
 }
