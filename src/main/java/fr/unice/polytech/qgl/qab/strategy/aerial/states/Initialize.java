@@ -1,7 +1,9 @@
 package fr.unice.polytech.qgl.qab.strategy.aerial.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
+import fr.unice.polytech.qgl.qab.actions.combo.Combo;
 import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboEchos;
+import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboFlyUntil;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
@@ -15,7 +17,7 @@ import fr.unice.polytech.qgl.qab.util.enums.Found;
 public class Initialize extends AerialState {
     private static Initialize instance;
 
-    private ComboEchos actionCombo;
+    private Combo actionCombo;
     private UpdaterMap updaterMap;
 
     private Initialize() {
@@ -47,7 +49,7 @@ public class Initialize extends AerialState {
     public Action responseState(Context context,  Map map, StateMediator stateMediator) throws IndexOutOfBoundsComboAction {
         if (actionCombo == null) {
             actionCombo = new ComboEchos();
-            actionCombo.defineComboEchos(context.getHeading());
+            ((ComboEchos)actionCombo).defineComboEchos(context.getHeading());
         }
 
         Action act = actionCombo.get(0);
@@ -65,6 +67,7 @@ public class Initialize extends AerialState {
             if (context.getLastDiscovery().getRange() > stateMediator.getRangeToTheCorner()) {
                 stateMediator.setRangeToTheCorner(context.getLastDiscovery().getRange());
                 stateMediator.setDirectionToTheCorner(context.getLastDiscovery().getDirection());
+
             }
         }
 

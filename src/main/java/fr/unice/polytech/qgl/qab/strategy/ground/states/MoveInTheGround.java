@@ -15,6 +15,9 @@ import java.util.List;
 
 /**
  * @version 07/02/16.
+ *
+ * State responsable by move the explorer in the ground.
+ * In this state we can make the move_to and glimpse.
  */
 public class MoveInTheGround extends GroundState {
     private static MoveInTheGround instance;
@@ -23,6 +26,9 @@ public class MoveInTheGround extends GroundState {
     private int indexTile;
     private List<MoveTo> movemove;
 
+    /**
+     * MoveInTheGround's constructor
+     */
     private MoveInTheGround() {
         super();
         this.lastAction = null;
@@ -32,6 +38,10 @@ public class MoveInTheGround extends GroundState {
         movemove = null;
     }
 
+    /**
+     * Method to get the instance of the MoveInTheGround class
+     * @return instance of the MoveInTheGround class
+     */
     public static MoveInTheGround getInstance() {
         if (instance == null)
             instance = new MoveInTheGround();
@@ -51,33 +61,25 @@ public class MoveInTheGround extends GroundState {
     public Action responseState(Context context, Map map) throws IndexOutOfBoundsComboAction {
         Action act;
 
-        if (contextAnalyzer.shouldChangeDirection(context)) {
-            if (movemove == null) movemove = new ArrayList<>();
-            if (context.getHeading().isHorizontal()) {
-                if (context.getHeading().equals(Direction.EAST))
-                    movemove.add(new MoveTo(Direction.WEST));
-                else  movemove.add(new MoveTo(Direction.EAST));
-            } else if (context.getHeading().isVertical()) {
-                if (context.getHeading().equals(Direction.NORTH))
-                    movemove.add(new MoveTo(Direction.SOUTH));
-                else  movemove.add(new MoveTo(Direction.SOUTH));
-            }
-            movemove.add(new MoveTo(Direction.randomSideDirection(context.getHeading())));
-        }
-
-        if (movemove != null && !movemove.isEmpty()) {
-            act = movemove.remove(0);
+        if (lastAction == null) {
+            act = new Glimpse(context.getHeading(), 4);
             lastAction = act;
             return act;
         }
 
-
-        if (contextAnalyzer.shouldChangeStop(context))
+        if (contextAnalyzer.shouldChangeStop(context) && movemove == null)
             return new Stop();
 
-        if (lastAction == null) {
-            act = new Glimpse(context.getHeading(), 4);
+        if (contextAnalyzer.shouldChangeDirection(context) && movemove == null)
+            changeDirection(context);
+
+        if (movemove != null && !movemove.isEmpty()) {
+            act = movemove.remove(0);
             lastAction = act;
+            context.setHeading(act.getDirection());
+            if (movemove.isEmpty()) {
+                new ArrayList<>();
+            }
             return act;
         }
 
@@ -96,5 +98,29 @@ public class MoveInTheGround extends GroundState {
         lastAction = null;
         movemove = null;
         return act;
+    }
+
+    /**
+     * This method will set the direction that the explorers need to move.
+     * @param context datas about the context of the simulation
+     */
+    private void changeDirection(Context context) {
+        if (movemove == null) movemove = new ArrayList<>();
+        Direction dir = Direction.EAST;
+        if (context.getHeading().isHorizontal()) {
+            if (context.getHeading().equals(Direction.EAST))
+                dir = Direction.WEST;
+            else
+                dir = Direction.EAST;
+        } else if (context.getHeading().isVertical()) {
+            if (context.getHeading().equals(Direction.NORTH))
+                dir = Direction.SOUTH;
+            else
+                dir = Direction.SOUTH;
+        }
+        movemove.add(new MoveTo(dir));
+        movemove.add(new MoveTo(dir));
+        movemove.add(new MoveTo(dir));
+        movemove.add(new MoveTo(Direction.randomSideDirection(context.getHeading())));
     }
 }

@@ -12,12 +12,18 @@ import java.util.Set;
 
 /**
  * @version 01/02/16.
+ *
+ * Class that represent the manufactured resources
  */
 public class ManufacturedResource implements Resource {
     private ManufacturedType resource;
     private EnumMap<PrimaryType, Integer> recipe = new EnumMap<PrimaryType, Integer>(PrimaryType.class);
     private Set<Biomes> biomes = new HashSet<>();
 
+    /**
+     * ManufacturedResource's constructor
+     * @param resource
+     */
     public ManufacturedResource(ManufacturedType resource) {
         this.resource = resource;
         setBiomes();
@@ -70,6 +76,11 @@ public class ManufacturedResource implements Resource {
         return biomes;
     }
 
+    /**
+     * Return the "recipe" to making this manufactured resource
+     * @param amountRecipe
+     * @return
+     */
     public Map<PrimaryType, Integer> getRecipe(int amountRecipe){
         if (amountRecipe < 1)
             throw new IllegalArgumentException("Not allow negative value");

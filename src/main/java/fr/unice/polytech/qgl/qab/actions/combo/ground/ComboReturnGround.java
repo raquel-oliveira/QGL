@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 /**
  * @version 01/02/16.
+ *
+ * Class that represents
  */
 public class ComboReturnGround extends Combo {
     public ComboReturnGround() {
@@ -15,8 +17,9 @@ public class ComboReturnGround extends Combo {
     }
 
     /**
-     * @param head
-     * @param firstHead
+     * Method that set the move_to to return to the ground
+     * @param head direction of the head
+     * @param firstHead direction of the firts head
      */
     public void defineActions(Direction head, Direction firstHead) {
         actions.add(new MoveTo(firstHead));

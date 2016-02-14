@@ -4,9 +4,9 @@ import fr.unice.polytech.qgl.qab.actions.Action;
 import org.json.JSONObject;
 
 /**
- * Class to represent the action scan.
- *
  * @version 8.12.2016
+ *
+ * Class to represent the action scan.
  */
 public class Scan extends Action {
     private static final String ACTION_SCAN = "scan";

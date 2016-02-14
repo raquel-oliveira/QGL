@@ -5,9 +5,9 @@ import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import org.json.JSONObject;
 
 /**
- * Class to represent the action heading.
- *
  * @version 4.9
+ *
+ * Class to represent the action heading.
  */
 public class Heading extends Action {
     private static final String ACTION_HEADING = "heading";

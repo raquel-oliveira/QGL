@@ -15,6 +15,10 @@ public abstract class Action {
     protected Direction direction;
     public abstract boolean isValid(JSONObject jsonObj);
 
+    /**
+     * Method that return the response in the right structure
+     * @return
+     */
     public abstract String formatResponse();
 
     /**
