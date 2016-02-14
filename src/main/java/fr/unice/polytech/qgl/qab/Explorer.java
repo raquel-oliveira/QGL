@@ -8,11 +8,12 @@ import fr.unice.polytech.qgl.qab.strategy.Strategy;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
+
 /**
+ * @version 4.9
+ *
  * Class that represents the bot in the game.
  * Description based on documentation (http://ace-design.github.io/island/bot/)
- *
- * @version 4.9
  */
 public class Explorer implements IExplorerRaid {
     // strategy with the bot actions
@@ -21,7 +22,7 @@ public class Explorer implements IExplorerRaid {
     private static final String ERROR = "error";
 
     /**
-     * Constructor
+     * Explorer's constructor
      */
     public Explorer() {
         try {

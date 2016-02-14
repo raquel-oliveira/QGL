@@ -7,9 +7,16 @@ import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 /**
  * @version 11/12/15
+ *
+ * Class responsible for update the data of the map
  */
 public class UpdaterMap {
 
+    /**
+     * Method tha receive the context and the map, and update the dimension of the map.
+     * @param context context data of the current simulation
+     * @param map from the simulation
+     */
     public void initializeDimensions(Context context, Map map) {
         if (context.getLastDiscovery().getDirection().isEquals(context.getFirstHead())) {
             if (context.getFirstHead().isHorizontal()) {
@@ -34,14 +41,31 @@ public class UpdaterMap {
         }
     }
 
+    /**
+     * Set the map height
+     * @param map object map
+     * @param value height
+     * @param defined if is the value defined, or if is just a part of the dimention
+     */
     public void setHeight(Map map, int value, boolean defined) {
         map.initializeHeightMap(value, defined);
     }
 
+    /**
+     * Set the map width
+     * @param map object map
+     * @param value widthe
+     * @param defined if is the value defined, or if is just a part of the dimention
+     */
     public void setWidth(Map map, int value, boolean defined) {
         map.initializeWidthMap(value, defined);
     }
 
+    /**
+     * after each fly, it's necessary update the position of the plane
+     * @param context data context of simulation
+     * @param map object map
+     */
     public void updateLastPositionFly(Context context, Map map) {
         Position position = map.getLastPosition();
 
@@ -60,6 +84,12 @@ public class UpdaterMap {
         }
     }
 
+    /**
+     * set the first postion of the plane
+     * @param context data context of simulation
+     * @param map object map
+     * @throws PositionOutOfMapRange
+     */
     public void setFirstPosition(Context context, Map map) throws PositionOutOfMapRange {
         Position position = new Position(0, 0);
         if (context.getHeading().isHorizontal()) {

@@ -8,11 +8,17 @@ import java.util.Set;
 
 /**
  * @version 01/02/16.
+ *
+ * Class that represent the primary resources
  */
 public class PrimaryResource implements Resource {
     private PrimaryType resource;
     private Set<Biomes> biomes = new HashSet<>();
 
+    /**
+     * PrimaryResource's constructor
+     * @param resource
+     */
     public PrimaryResource(PrimaryType resource) {
         this.resource = resource;
         setBiomes();

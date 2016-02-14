@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 /**
  * @version 01/02/16.
+ *
+ * Class that represent the combo of action move.
  */
 public class ComboMoveTo extends Combo {
     public ComboMoveTo() {
@@ -15,8 +17,9 @@ public class ComboMoveTo extends Combo {
     }
 
     /**
-     * @param direction
-     * @param range
+     * Gave a number of range, this method add in the list of action a set of move_to
+     * @param direction move_to direction
+     * @param range move_to range
      */
     public void defineActions(Direction direction, int range) {
         for (int i = 0; i < range; i++)

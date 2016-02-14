@@ -2,7 +2,6 @@ package fr.unice.polytech.qgl.qab.util.enums;
 
 /**
  * Enum to represent the items founded.
- *
  * @version 4.9
  */
 public enum Found {
@@ -12,6 +11,10 @@ public enum Found {
 
     private String name = "";
 
+    /**
+     * Enum's constructor
+     * @param name value
+     */
     Found(String name) {
         this.name = name;
     }
@@ -28,7 +31,8 @@ public enum Found {
     public static Found fromString(String found){
         if (found != null){
             for (Found f : Found.values()){
-                if (f.toString().equalsIgnoreCase(found)) return f;
+                if (f.toString().equalsIgnoreCase(found))
+                    return f;
             }
         }
         return null;

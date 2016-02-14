@@ -4,6 +4,8 @@ import fr.unice.polytech.qgl.qab.util.enums.TypeBiome;
 
 /**
  * @version 12/12/2015.
+ *
+ * Enum that represent the bimes' types
  */
 public enum Biomes {
     OCEAN("OCEAN"),
@@ -34,18 +36,34 @@ public enum Biomes {
         this.name = name;
     }
 
+    /**
+     * true if this biome is common
+     * @return
+     */
     public boolean isCommon(){
         return this == OCEAN || this == LAKE || this == BEACH || this == GRASSLAND;
     }
 
+    /**
+     * true if this biome is tropical
+     * @return
+     */
     public boolean isTropical(){
         return this == MANGROVE || this == TROPICAL_RAIN_FOREST || this == TROPICAL_SEASONAL_FOREST;
     }
 
+    /**
+     * true if this biome is temperate
+     * @return
+     */
     public boolean isTemperate(){
         return this == TEMPERATE_DECIDUOUS_FOREST || this == TEMPERATE_DESERT || this == TEMPERATE_RAIN_FOREST;
     }
 
+    /**
+     * true if this biome is nordic
+     * @return
+     */
     public boolean isNordic(){
         if (this == TAIGA || this == SNOW || this == TUNDRA)
             return true;
@@ -54,6 +72,10 @@ public enum Biomes {
         return false;
     }
 
+    /**
+     * return true if is subtropical
+     * @return
+     */
     public boolean isSubTropical(){
         return this == SHRUBLAND || this == SUB_TROPICAL_DESERT;
     }
@@ -67,6 +89,10 @@ public enum Biomes {
         return biomes.toString().equalsIgnoreCase(name);
     }
 
+    /**
+     * return the biome's group
+     * @return
+     */
     public TypeBiome typeBiome(){
         if (this.isCommon())
             return TypeBiome.COMMON;
