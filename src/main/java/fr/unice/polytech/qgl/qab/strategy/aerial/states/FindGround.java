@@ -25,6 +25,10 @@ public class FindGround extends AerialState {
         this.lastAction = new Fly();
     }
 
+    /**
+     * get the instance of FindGround
+     * @return
+     */
     public static FindGround getInstance() {
         if (instance == null)
             instance = new FindGround();
