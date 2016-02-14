@@ -5,6 +5,7 @@ import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Exploit;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Explore;
+import fr.unice.polytech.qgl.qab.actions.simple.ground.MoveTo;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
@@ -12,17 +13,24 @@ import fr.unice.polytech.qgl.qab.resources.Resource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
+import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 import java.util.List;
 
 /**
  * @version 07/02/16.
+ *
+ * State responsable by explore the specifical tile of the ground.
+ * In this state we can make the explore and exploit of the tile.
  */
 public class ExploreTile extends GroundState {
     private static ExploreTile instance;
     private ContextAnalyzer contextAnalyzer;
     private List<PrimaryType> resourcesAnalyzer;
 
+    /**
+     * ExploreTile's contructor
+     */
     private ExploreTile() {
         super();
         this.lastAction = null;
@@ -30,6 +38,10 @@ public class ExploreTile extends GroundState {
         resourcesAnalyzer = null;
     }
 
+    /**
+     * Method to get the instance of the ExploreTile class
+     * @return instance of ExploreTile
+     */
     public static ExploreTile getInstance() {
         if (instance == null)
             instance = new ExploreTile();
@@ -66,6 +78,6 @@ public class ExploreTile extends GroundState {
             return act;
         }
 
-        return new Stop();
+        return new MoveTo(Direction.randomSideDirection(context.getHeading()));
     }
 }

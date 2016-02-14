@@ -9,5 +9,12 @@ import fr.unice.polytech.qgl.qab.strategy.context.Context;
  * @version 09/12/15.
  */
 public interface IGroundStrategy {
+    /**
+     * Method responsable by make the decision about what is the best action to the ground phase
+     * @param context values about the context of this simulation
+     * @return the best action
+     * @throws PositionOutOfMapRange if a irregular position tried to be accessed in the map
+     * @throws IndexOutOfBoundsComboAction if a irregular index tried to be acessed in the combo of action
+     */
     Action makeDecision(Context context) throws PositionOutOfMapRange, IndexOutOfBoundsComboAction;
 }

@@ -22,6 +22,8 @@ import java.util.List;
 
 /**
  * @version 8/12/16
+ *
+ * Class responsible for handling the answers after make an action
  */
 public class ResponseHandler {
 
@@ -33,10 +35,21 @@ public class ResponseHandler {
     private static final String BIOMES = "biomes";
     private static final String CREEKS = "creeks";
 
+    /**
+     * ResponseHandler's constructor
+     */
     public ResponseHandler() {
         discovery = new Discovery();
     }
 
+    /**
+     * Method that read the response data gave a string json and update the context.
+     * @param data string json with the response
+     * @param takeAction the action taken for a given response
+     * @param contextIsland context data of the current simulation
+     * @return context updated
+     * @throws NegativeBudgetException
+     */
     public Context readData(String data, Action takeAction, Context contextIsland) throws NegativeBudgetException {
         Context tempContext = contextIsland;
         JSONObject jsonObj = new JSONObject(data);
@@ -59,6 +72,12 @@ public class ResponseHandler {
         return tempContext;
     }
 
+    /**
+     * Method tha read response from echo
+     * @param context context data of the current simulation
+     * @param jsonObj json with the response
+     * @return context updated
+     */
     private Context readDataFromEcho(Context context, JSONObject jsonObj) {
         if (jsonObj.getJSONObject(EXTRAS).has(FOUND))
             discovery.setFound(Found.fromString(jsonObj.getJSONObject(EXTRAS).getString(FOUND)));
@@ -69,6 +88,12 @@ public class ResponseHandler {
         return context;
     }
 
+    /**
+     * Method tha read response from scan
+     * @param context context data of the current simulation
+     * @param jsonObj json with the response
+     * @return context updated
+     */
     private Context readDataFromScan(Context context, JSONObject jsonObj) {
         List<Biomes> biomes = new ArrayList<>();
         List<Creek> creeks = new ArrayList<>();
@@ -97,6 +122,12 @@ public class ResponseHandler {
         return context;
     }
 
+    /**
+     * Method tha read response from glimpse
+     * @param context context data of the current simulation
+     * @param jsonObj json with the response
+     * @return context updated
+     */
     private Context readDataFromGlimpse(Context context, JSONObject jsonObj) {
         GlimpseResponse glimpseResponse = new GlimpseResponse();
 
@@ -143,6 +174,12 @@ public class ResponseHandler {
         return context;
     }
 
+    /**
+     * Method tha read response from explore
+     * @param contextIsland context data of the current simulation
+     * @param jsonObj json with the response
+     * @return context updated
+     */
     private Context readDataFromExplore(Context contextIsland, JSONObject jsonObj) {
         ExploreResponse explore = new ExploreResponse();
 
