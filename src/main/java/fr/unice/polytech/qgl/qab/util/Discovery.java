@@ -157,7 +157,7 @@ public class Discovery {
     }
 
     /**
-     * Method that check if there is a specifical biome in the list
+     * Method that check if there is a specific biome in the list
      * of the last biomes founded.
      * @param bio that will be search
      * @return true if founded, or false if not

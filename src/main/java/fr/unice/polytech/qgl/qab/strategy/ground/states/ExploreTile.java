@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * @version 07/02/16.
  *
- * State responsable by explore the specifical tile of the ground.
+ * State responsable by explore the specific tile of the ground.
  * In this state we can make the explore and exploit of the tile.
  */
 public class ExploreTile extends GroundState {
