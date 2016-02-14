@@ -1,8 +1,9 @@
 package fr.unice.polytech.qgl.qab.map.tile;
 
 /**
- * @author Gabriela
- * @version 4.9
+ * @version 8/12/16
+ *
+ * Enum that represent the tile types
  */
 public enum TileType {
     GROUND("ground"),
