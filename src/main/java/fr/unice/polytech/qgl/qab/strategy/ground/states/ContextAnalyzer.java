@@ -16,6 +16,7 @@ import java.util.List;
  */
 public class ContextAnalyzer {
 
+    private static final String BIOME_OCEAN = "OCEAN";
     /**
      * Analize if the bot should change of direction.
      * This method analize if the return of the glimpse response show values that
@@ -25,17 +26,17 @@ public class ContextAnalyzer {
      */
     public boolean shouldChangeDirection(Context context) {
         if (!context.getLastDiscovery().getGlimpseResponse().getInitialTiles().isEmpty()) {
-            HashMap<Biomes, Double> initial_tiles1 = context.getLastDiscovery().getGlimpseResponse().getInitialTiles().get(0);
-            HashMap<Biomes, Double> initial_tiles2 = context.getLastDiscovery().getGlimpseResponse().getInitialTiles().get(1);
+            HashMap<Biomes, Double> initialTiles1 = context.getLastDiscovery().getGlimpseResponse().getInitialTiles().get(0);
+            HashMap<Biomes, Double> initialTiles2 = context.getLastDiscovery().getGlimpseResponse().getInitialTiles().get(1);
 
-            if (initial_tiles1.containsKey(Biomes.valueOf("OCEAN")) || initial_tiles2.containsKey(Biomes.valueOf("OCEAN"))) {
+            if (initialTiles1.containsKey(Biomes.valueOf(BIOME_OCEAN)) || initialTiles2.containsKey(Biomes.valueOf(BIOME_OCEAN))) {
                 double value1 = 0, value2 = 0;
-                if (initial_tiles1.containsKey(Biomes.valueOf("OCEAN"))) {
-                    value1 = initial_tiles1.get(Biomes.valueOf("OCEAN"));
-                } else if (initial_tiles1.containsKey(Biomes.valueOf("OCEAN"))) {
-                    value2 = initial_tiles2.get(Biomes.valueOf("OCEAN"));
+                if (initialTiles1.containsKey(Biomes.valueOf(BIOME_OCEAN))) {
+                    value1 = initialTiles1.get(Biomes.valueOf(BIOME_OCEAN));
+                } else if (initialTiles2.containsKey(Biomes.valueOf(BIOME_OCEAN))) {
+                    value2 = initialTiles2.get(Biomes.valueOf(BIOME_OCEAN));
                 }
-                if (value1 != 0 || value2 != 0)
+                if (value1 > 0 || value2 > 0)
                     return true;
             }
         }
@@ -52,10 +53,8 @@ public class ContextAnalyzer {
     public boolean shouldChangeStop(Context context) {
         if (!context.getLastDiscovery().getGlimpseResponse().getInitialTiles().isEmpty()) {
             HashMap<Biomes, Double> initial_tiles = context.getLastDiscovery().getGlimpseResponse().getInitialTiles().get(0);
-            if (initial_tiles.containsKey(Biomes.valueOf("OCEAN"))) {
-                if (initial_tiles.get(Biomes.valueOf("OCEAN")) >= 90)
+            if (initial_tiles.containsKey(Biomes.valueOf(BIOME_OCEAN)) && initial_tiles.get(Biomes.valueOf(BIOME_OCEAN)) >= 90)
                     return true;
-            }
         }
         return false;
     }
@@ -109,7 +108,8 @@ public class ContextAnalyzer {
                         find_good_biome = true;
                         break;
                     }
-                } if (find_good_biome) break;
+                } if (find_good_biome)
+                    break;
             }
             goodTiles.add(index_tile, find_good_biome);
             find_good_biome = false;
@@ -123,7 +123,8 @@ public class ContextAnalyzer {
                     find_good_biome = true;
                     break;
                 }
-            } if (find_good_biome) break;
+            } if (find_good_biome)
+                break;
         }
         goodTiles.add(index_tile, find_good_biome);
         find_good_biome = false;
