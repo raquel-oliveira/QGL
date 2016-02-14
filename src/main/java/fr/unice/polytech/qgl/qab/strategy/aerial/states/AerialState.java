@@ -16,7 +16,23 @@ public abstract class AerialState {
         lastAction = null;
     }
 
+    /**
+     *Get the state current
+     * @param context
+     * @param map
+     * @param stateMediator
+     * @return return the state
+     * @throws PositionOutOfMapRange
+     */
     public abstract AerialState getState(Context context, Map map, StateMediator stateMediator) throws PositionOutOfMapRange;
 
+    /**
+     * Determine the action chosed by the state
+     * @param context
+     * @param map
+     * @param stateMediator
+     * @return return the action
+     * @throws IndexOutOfBoundsComboAction
+     */
     public abstract Action responseState(Context context,  Map map, StateMediator stateMediator) throws IndexOutOfBoundsComboAction;
 }
