@@ -78,7 +78,7 @@ public class MoveInTheGround extends GroundState {
             lastAction = act;
             context.setHeading(act.getDirection());
             if (movemove.isEmpty()) {
-                new ArrayList<>();
+                movemove = new ArrayList<>();
             }
             return act;
         }
@@ -105,7 +105,8 @@ public class MoveInTheGround extends GroundState {
      * @param context datas about the context of the simulation
      */
     private void changeDirection(Context context) {
-        if (movemove == null) movemove = new ArrayList<>();
+        if (movemove == null)
+            movemove = new ArrayList<>();
         Direction dir = Direction.EAST;
         if (context.getHeading().isHorizontal()) {
             if (context.getHeading().equals(Direction.EAST))

@@ -68,4 +68,8 @@ Move, analyze and collect of contract resources founded in straight line of the 
 
 ### Week 06
 
-Short list of the **features** available in the bot delivered for the championship that happened at the end of week 50.
+Comments in the code, more tests, phase aerial spending less and improvement in earthly phase.
+
+### Week 07
+
+Short list of the **features** available in the bot delivered for the championship that happened at the end of week 06.
