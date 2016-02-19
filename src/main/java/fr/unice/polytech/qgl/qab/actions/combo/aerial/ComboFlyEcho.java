@@ -23,17 +23,10 @@ public class ComboFlyEcho extends Combo {
      * Set the actions
      * Actions: Fly and 2 echos from dinstintc directions
      * perpendiculars to heading.
-     * @param head direction of the head
+     * @param dir direction of the head
      */
-    public void defineActions(Direction head) {
+    public void defineActions(Direction dir) {
         actions.add(new Fly());
-        if (head.isHorizontal()) {
-            actions.add(new Echo(Direction.NORTH));
-            actions.add(new Echo(Direction.SOUTH));
-        }
-        if (head.isVertical()) {
-            actions.add(new Echo(Direction.WEST));
-            actions.add(new Echo(Direction.EAST));
-        }
+        actions.add(new Echo(dir));
     }
 }

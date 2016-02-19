@@ -57,7 +57,7 @@ public class FindGround extends AerialState {
 
         if (actionCombo == null || actionCombo.isEmpty()) {
             actionCombo = new ComboFlyEcho();
-            actionCombo.defineActions(context.getHeading());
+            actionCombo.defineActions(choiceDirectionEcho(context, map));
         }
 
         act = actionCombo.get(0);
@@ -65,5 +65,19 @@ public class FindGround extends AerialState {
         actionCombo.remove(0);
 
         return act;
+    }
+
+    private Direction choiceDirectionEcho(Context context, Map map) {
+        if (context.getHeading().isVertical()) {
+            if (map.getLastPosition().getX() > map.getWidth()/2)
+                return Direction.WEST;
+            else
+                return Direction.EAST;
+        } else {
+            if (map.getLastPosition().getY() < map.getHeight()/2)
+                return Direction.SOUTH;
+            else
+                return Direction.NORTH;
+        }
     }
 }

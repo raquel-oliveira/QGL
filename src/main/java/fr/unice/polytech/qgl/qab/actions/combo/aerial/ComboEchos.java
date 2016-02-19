@@ -34,8 +34,8 @@ public class ComboEchos extends Combo {
             } else {
                 actions.add(new Echo(Direction.WEST));
             }
-            actions.add(new Echo(Direction.NORTH));
             actions.add(new Echo(Direction.SOUTH));
+            actions.add(new Echo(Direction.NORTH));
         }
         if (head.isVertical()) {
             if (head.compareTo(Direction.NORTH) == 0) {
@@ -43,8 +43,8 @@ public class ComboEchos extends Combo {
             } else {
                 actions.add(new Echo(Direction.SOUTH));
             }
-            actions.add(new Echo(Direction.WEST));
             actions.add(new Echo(Direction.EAST));
+            actions.add(new Echo(Direction.WEST));
         }
     }
 }
