@@ -67,21 +67,25 @@ public class ScanTheGround extends AerialState {
             return act;
         }
 
+        if (context.getLastDiscovery().getScanResponse().outOfGround()) {
+            if (lastAction instanceof Echo) {
+                comboFlyUntil = new ComboFlyUntil();
+                comboFlyUntil.defineComboFlyUntil(context.getLastDiscovery().getEchoResponse().getRange() + 1);
+            } else {
+                act = new Echo(context.getHeading());
+                lastAction = act;
+                return act;
+            }
+        }
+
         if (comboFlyUntil != null && !comboFlyUntil.isEmpty()) {
             act = comboFlyUntil.get(0);
             lastAction = act;
             comboFlyUntil.remove(0);
-            if (comboFlyUntil.isEmpty()) actionCombo = null;
-            return act;
-        }
-
-        if (context.getLastDiscovery().getScanResponse().outOfGround()) {
-            if (lastAction instanceof Echo) {
-                comboFlyUntil = new ComboFlyUntil();
-                comboFlyUntil.defineComboFlyUntil(context.getLastDiscovery().getEchoResponse().getRange());
+            if (comboFlyUntil.isEmpty()) {
+                actionCombo = null;
+                context.getLastDiscovery().getScanResponse().setUpBiomes();
             }
-            act = new Echo(context.getHeading());
-            lastAction = act;
             return act;
         }
 
