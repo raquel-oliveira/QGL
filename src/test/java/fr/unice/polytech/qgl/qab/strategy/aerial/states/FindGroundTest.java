@@ -52,7 +52,7 @@ public class FindGroundTest {
         context.setLastDiscovery(new Discovery());
         context.setHeading(Direction.NORTH);
         context.setFirstHead(Direction.NORTH);
-        context.setLastDiscovery(new Discovery(Found.GROUND, 10, Direction.EAST));
+        //context.setLastDiscovery(new Discovery(Found.GROUND, 10, Direction.EAST));
 
         act = findGround.responseState(context, new Map(), StateMediator.getInstance());
         assertEquals(act.getClass(), new Echo(Direction.EAST).getClass());

@@ -68,7 +68,7 @@ public class Initialize extends AerialState {
 
         if (stateMediator.shouldGoToTheCorner()) {
             if (context.getLastDiscovery().getEchoResponse().getRange() > stateMediator.getRangeToTheCorner()) {
-                stateMediator.setRangeToTheCorner(context.getLastDiscovery().getRange());
+                stateMediator.setRangeToTheCorner(context.getLastDiscovery().getEchoResponse().getRange());
                 stateMediator.setDirectionToTheCorner(context.getLastDiscovery().getEchoResponse().getDirection());
             }
         }
@@ -76,7 +76,7 @@ public class Initialize extends AerialState {
         return act;
     }
 
-    private void setFirtsPosition(Context context, Map map) {
+    private void setFirtsPosition(Context context, Map map) throws PositionOutOfMapRange {
         if (context.getHeading().isVertical()) {
             if (context.getHeading().equals(Direction.NORTH))
                 map.setLastPosition(new Position(context.getLastDiscovery().getEchoResponse().getRange(), map.getHeight() - 1));
@@ -88,5 +88,6 @@ public class Initialize extends AerialState {
             else
                 map.setLastPosition(new Position(map.getWidth() - 1, context.getLastDiscovery().getEchoResponse().getRange()));
         }
+        map.initializeTileOcean(map.getLastPosition());
     }
 }

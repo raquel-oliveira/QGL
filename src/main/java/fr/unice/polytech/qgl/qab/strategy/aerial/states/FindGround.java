@@ -46,11 +46,11 @@ public class FindGround extends AerialState {
     @Override
     public Action responseState(Context context, Map map, StateMediator stateMediator) throws IndexOutOfBoundsComboAction {
         Action act;
-        if (context.getLastDiscovery().getFound().isEquals(Found.GROUND) && lastAction instanceof Echo) {
+        if (context.getLastDiscovery().getEchoResponse().getFound().equals(Found.GROUND) && lastAction instanceof Echo) {
             Direction dir = (lastAction).getDirection();
             act = new Heading(dir);
             context.setHeading(dir);
-            stateMediator.setRangeToGround(context.getLastDiscovery().getRange());
+            stateMediator.setRangeToGround(context.getLastDiscovery().getEchoResponse().getRange());
             lastAction = act;
             return act;
         }
@@ -67,6 +67,12 @@ public class FindGround extends AerialState {
         return act;
     }
 
+    /**
+     * Choice the direction to make echo
+     * @param context data context of the simulation
+     * @param map of the simulation
+     * @return direction
+     */
     private Direction choiceDirectionEcho(Context context, Map map) {
         if (context.getHeading().isVertical()) {
             if (map.getLastPosition().getX() > map.getWidth()/2)

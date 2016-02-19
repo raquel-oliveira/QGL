@@ -31,12 +31,12 @@ public class ScanTheGroundTest {
 
     @Before
     public void defineContext() throws NegativeBudgetException {
-        scanTheGround = ScanTheGround.getInstance();
+        /*scanTheGround = ScanTheGround.getInstance();
         Discovery discovery = new Discovery();
         discovery.setFound(Found.GROUND);
         discovery.setRange(10);
         context = new Context();
-        context.setLastDiscovery(discovery);
+        context.setLastDiscovery(discovery);*/
     }
 
     @Test
@@ -64,7 +64,7 @@ public class ScanTheGroundTest {
 
         List biomes = new ArrayList<>();
         biomes.add(biome);
-        discovery.setBiomes(biomes);
+        //discovery.setBiomes(biomes);
         context.setLastDiscovery(discovery);
 
         AerialState state = scanTheGround.getState(context, new Map(), StateMediator.getInstance());

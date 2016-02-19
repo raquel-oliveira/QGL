@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 public class DiscoveryTest {
     private Discovery d;
 
-    @Test
+    /*@Test
     public void testInitializeGround() {
         d = new Discovery(Found.GROUND, 10, Direction.SOUTH);
         assertEquals(Found.GROUND, d.getFound());
@@ -46,5 +46,5 @@ public class DiscoveryTest {
 
         d.setRange(6);
         assertEquals(6, d.getRange());
-    }
+    }*/
 }

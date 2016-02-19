@@ -20,22 +20,22 @@ public class UpdaterMap {
     public void initializeDimensions(Context context, Map map) {
         if (context.getLastDiscovery().getDirection().isEquals(context.getFirstHead())) {
             if (context.getFirstHead().isHorizontal()) {
-                setWidth(map, context.getLastDiscovery().getRange() + 1, true);
+                setWidth(map, context.getLastDiscovery().getEchoResponse().getRange() + 1, true);
             } else {
-                setHeight(map, context.getLastDiscovery().getRange() + 1, true);
+                setHeight(map, context.getLastDiscovery().getEchoResponse().getRange() + 1, true);
             }
         } else {
             if (context.getFirstHead().isVertical()) {
                 if (map.getWidth() >= 0) {
-                    setWidth(map, context.getLastDiscovery().getRange() + 1, true);
+                    setWidth(map, context.getLastDiscovery().getEchoResponse().getRange() + 1, true);
                 } else {
-                    setWidth(map, context.getLastDiscovery().getRange(), false);
+                    setWidth(map, context.getLastDiscovery().getEchoResponse().getRange(), false);
                 }
             } else {
                 if (map.getHeight() >= 0) {
-                    setHeight(map, context.getLastDiscovery().getRange() + 1, true);
+                    setHeight(map, context.getLastDiscovery().getEchoResponse().getRange() + 1, true);
                 } else {
-                    setHeight(map, context.getLastDiscovery().getRange(), false);
+                    setHeight(map, context.getLastDiscovery().getEchoResponse().getRange(), false);
                 }
             }
         }
@@ -93,13 +93,13 @@ public class UpdaterMap {
     public void setFirstPosition(Context context, Map map) throws PositionOutOfMapRange {
         Position position = new Position(0, 0);
         if (context.getHeading().isHorizontal()) {
-            position.setX(context.getLastDiscovery().getRange());
+            position.setX(context.getLastDiscovery().getEchoResponse().getRange());
             if (context.getHeading().isEquals(Direction.NORTH))
                 position.setY(0);
             else
                 position.setY(map.getHeight() - 1);
         } else {
-            position.setY(context.getLastDiscovery().getRange());
+            position.setY(context.getLastDiscovery().getEchoResponse().getRange());
             if (context.getHeading().isEquals(Direction.EAST))
                 position.setX(0);
             else

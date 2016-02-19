@@ -12,6 +12,7 @@ import fr.unice.polytech.qgl.qab.map.tile.Creek;
 import fr.unice.polytech.qgl.qab.response.EchoResponse;
 import fr.unice.polytech.qgl.qab.response.ExploreResponse;
 import fr.unice.polytech.qgl.qab.response.GlimpseResponse;
+import fr.unice.polytech.qgl.qab.response.ScanResponse;
 import fr.unice.polytech.qgl.qab.util.Discovery;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 import org.json.JSONArray;
@@ -60,7 +61,7 @@ public class ResponseHandler {
 
         if (takeAction instanceof Echo) {
             tempContext = readDataFromEcho(tempContext, jsonObj, takeAction);
-            tempContext.getLastDiscovery().setDirection(((Echo) takeAction).getDirection());
+            tempContext.getLastDiscovery().setDirection((takeAction).getDirection());
         } else if (takeAction instanceof Scan) {
             tempContext = readDataFromScan(tempContext, jsonObj);
         } else if (takeAction instanceof Fly) {
@@ -82,13 +83,15 @@ public class ResponseHandler {
      */
     private Context readDataFromEcho(Context context, JSONObject jsonObj, Action takeAction) {
         EchoResponse echoResponse = new EchoResponse();
+        Found found = null;
+        int range = 0;
 
         if (jsonObj.getJSONObject(EXTRAS).has(FOUND))
-            discovery.setFound(Found.fromString(jsonObj.getJSONObject(EXTRAS).getString(FOUND)));
+            found = Found.fromString(jsonObj.getJSONObject(EXTRAS).getString(FOUND));
         if (jsonObj.getJSONObject(EXTRAS).has(RANGE))
-            discovery.setRange(jsonObj.getJSONObject(EXTRAS).getInt(RANGE));
+            range = jsonObj.getJSONObject(EXTRAS).getInt(RANGE);
 
-        echoResponse.addData(discovery.getFound(), takeAction.getDirection(), discovery.getRange());
+        echoResponse.addData(found, takeAction.getDirection(), range);
         discovery.setEchoResponse(echoResponse);
 
         context.setLastDiscovery(discovery);
@@ -102,6 +105,7 @@ public class ResponseHandler {
      * @return context updated
      */
     private Context readDataFromScan(Context context, JSONObject jsonObj) {
+        ScanResponse scanResponse = new ScanResponse();
         List<Biomes> biomes = new ArrayList<>();
         List<Creek> creeks = new ArrayList<>();
         JSONArray bio = null;
@@ -122,7 +126,8 @@ public class ResponseHandler {
                 creeks.add(new Creek(c.toString()));
         }
 
-        discovery.setBiomes(biomes);
+        scanResponse.setBiomes(biomes);
+        discovery.setScanResponse(scanResponse);
         discovery.setCreeks(creeks);
         context.setLastDiscovery(discovery);
 

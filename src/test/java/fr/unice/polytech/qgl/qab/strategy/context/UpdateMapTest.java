@@ -35,9 +35,9 @@ public class UpdateMapTest {
         context.setHeading(Direction.NORTH);
 
         Discovery discovery = new Discovery();
-        discovery.setRange(9);
+        //discovery.setRange(9);
         discovery.setDirection(Direction.NORTH);
-        discovery.setFound(Found.OUT_OF_RANGE);
+        //discovery.setFound(Found.OUT_OF_RANGE);
         context.setLastDiscovery(discovery);
 
         Map map = new Map();
@@ -45,17 +45,17 @@ public class UpdateMapTest {
         updaterMap.initializeDimensions(context, map);
         assertEquals(10, map.getHeight());
 
-        discovery.setRange(9);
+        //discovery.setRange(9);
         discovery.setDirection(Direction.WEST);
-        discovery.setFound(Found.OUT_OF_RANGE);
+        //discovery.setFound(Found.OUT_OF_RANGE);
         context.setLastDiscovery(discovery);
 
         updaterMap.initializeDimensions(context, map);
         assertEquals(9, map.getWidth());
 
-        discovery.setRange(5);
+        //discovery.setRange(5);
         discovery.setDirection(Direction.EAST);
-        discovery.setFound(Found.OUT_OF_RANGE);
+        //discovery.setFound(Found.OUT_OF_RANGE);
         context.setLastDiscovery(discovery);
 
         updaterMap.initializeDimensions(context, map);
@@ -69,9 +69,9 @@ public class UpdateMapTest {
         context.setHeading(Direction.EAST);
 
         Discovery discovery = new Discovery();
-        discovery.setRange(10);
+        //discovery.setRange(10);
         discovery.setDirection(Direction.EAST);
-        discovery.setFound(Found.OUT_OF_RANGE);
+        //discovery.setFound(Found.OUT_OF_RANGE);
         context.setLastDiscovery(discovery);
 
         Map map = new Map();
@@ -79,17 +79,17 @@ public class UpdateMapTest {
         updaterMap.initializeDimensions(context, map);
         assertEquals(11, map.getWidth());
 
-        discovery.setRange(9);
+        //discovery.setRange(9);
         discovery.setDirection(Direction.NORTH);
-        discovery.setFound(Found.OUT_OF_RANGE);
+        //discovery.setFound(Found.OUT_OF_RANGE);
         context.setLastDiscovery(discovery);
 
         updaterMap.initializeDimensions(context, map);
         assertEquals(9, map.getHeight());
 
-        discovery.setRange(5);
+        //discovery.setRange(5);
         discovery.setDirection(Direction.SOUTH);
-        discovery.setFound(Found.OUT_OF_RANGE);
+        //discovery.setFound(Found.OUT_OF_RANGE);
         context.setLastDiscovery(discovery);
 
         updaterMap.initializeDimensions(context, map);

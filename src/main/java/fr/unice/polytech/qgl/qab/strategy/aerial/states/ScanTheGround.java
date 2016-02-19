@@ -2,13 +2,17 @@ package fr.unice.polytech.qgl.qab.strategy.aerial.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.combo.Combo;
+import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboFlyUntil;
+import fr.unice.polytech.qgl.qab.actions.simple.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboFlyScan;
 import fr.unice.polytech.qgl.qab.actions.simple.common.Land;
+import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
+import fr.unice.polytech.qgl.qab.util.enums.Found;
 
 import java.util.ArrayList;
 
@@ -21,12 +25,14 @@ public class ScanTheGround extends AerialState {
     private Combo actionCombo;
     private final static int SCAN_RATIO = 2;
     private int cont_scan;
+    private ComboFlyUntil comboFlyUntil;
 
     private ScanTheGround() {
         super();
         this.lastAction = new Fly();
         actionCombo = null;
         cont_scan = 0;
+        comboFlyUntil = null;
     }
 
     public static ScanTheGround getInstance() {
@@ -40,11 +46,13 @@ public class ScanTheGround extends AerialState {
         if (lastAction instanceof Land)
             return Finish.getInstance();
 
-        if (context.getLastDiscovery().containsBiome(Biomes.OCEAN) &&
-                context.getLastDiscovery().getBiomes().size() == 1 &&
+        if (context.getLastDiscovery().getScanResponse().outOfGround() &&
                     context.getLastDiscovery().getCreeks().isEmpty()) {
-            context.getLastDiscovery().setBiomes(new ArrayList<>());
-            return ReturnBack.getInstance();
+            if (lastAction instanceof Echo &&
+                    context.getLastDiscovery().getEchoResponse().getFound().equals(Found.OUT_OF_RANGE)) {
+                context.getLastDiscovery().getScanResponse().setUpBiomes();
+                return ReturnBack.getInstance();
+            }
         }
         return ScanTheGround.getInstance();
     }
@@ -55,6 +63,24 @@ public class ScanTheGround extends AerialState {
 
         if (!context.getLastDiscovery().getCreeks().isEmpty()) {
             act = new Land(context.getLastDiscovery().getCreeks().get(0).getIdCreek(), 1);
+            lastAction = act;
+            return act;
+        }
+
+        if (comboFlyUntil != null && !comboFlyUntil.isEmpty()) {
+            act = comboFlyUntil.get(0);
+            lastAction = act;
+            comboFlyUntil.remove(0);
+            if (comboFlyUntil.isEmpty()) actionCombo = null;
+            return act;
+        }
+
+        if (context.getLastDiscovery().getScanResponse().outOfGround()) {
+            if (lastAction instanceof Echo) {
+                comboFlyUntil = new ComboFlyUntil();
+                comboFlyUntil.defineComboFlyUntil(context.getLastDiscovery().getEchoResponse().getRange());
+            }
+            act = new Echo(context.getHeading());
             lastAction = act;
             return act;
         }
