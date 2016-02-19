@@ -11,7 +11,6 @@ import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * @version 12/12/15.

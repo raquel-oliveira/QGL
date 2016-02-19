@@ -2,6 +2,7 @@ package fr.unice.polytech.qgl.qab.util;
 
 import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.map.tile.Creek;
+import fr.unice.polytech.qgl.qab.response.EchoResponse;
 import fr.unice.polytech.qgl.qab.response.ExploreResponse;
 import fr.unice.polytech.qgl.qab.response.GlimpseResponse;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
@@ -23,6 +24,7 @@ public class Discovery {
     private List<Creek> creeks;
     private GlimpseResponse glimpseResponse;
     private ExploreResponse exploreResponse;
+    private EchoResponse echoResponse;
 
     /**
      * Discovery's constructor
@@ -35,6 +37,7 @@ public class Discovery {
         creeks = new ArrayList<>();
         glimpseResponse = new GlimpseResponse();
         exploreResponse = new ExploreResponse();
+        echoResponse = new EchoResponse();
     }
 
     /**
@@ -51,6 +54,7 @@ public class Discovery {
         creeks = new ArrayList<>();
         glimpseResponse = new GlimpseResponse();
         exploreResponse = new ExploreResponse();
+        echoResponse = new EchoResponse();
     }
 
     /**
@@ -111,6 +115,14 @@ public class Discovery {
     }
 
     /**
+     * Get the data of the echo response
+     * @return data of the echo response
+     */
+    public EchoResponse getEchoResponse() {
+        return echoResponse;
+    }
+
+    /**
      * Set the range of the last discovery founded
      * @param range of the last discovery founded
      */
@@ -146,6 +158,14 @@ public class Discovery {
      */
     public void setGlimpseResponse(GlimpseResponse glimpseResponse) {
         this.glimpseResponse = glimpseResponse;
+    }
+
+    /**
+     * Set last echo response
+     * @param echoResponse value of the echo response
+     */
+    public void setEchoResponse(EchoResponse echoResponse) {
+        this.echoResponse = echoResponse;
     }
 
     /**

@@ -9,6 +9,7 @@ import fr.unice.polytech.qgl.qab.actions.simple.ground.Glimpse;
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.map.tile.Creek;
+import fr.unice.polytech.qgl.qab.response.EchoResponse;
 import fr.unice.polytech.qgl.qab.response.ExploreResponse;
 import fr.unice.polytech.qgl.qab.response.GlimpseResponse;
 import fr.unice.polytech.qgl.qab.util.Discovery;
@@ -58,7 +59,7 @@ public class ResponseHandler {
         tempContext.setBudget(contextIsland.getBudget() - jsonObj.getInt("cost"));
 
         if (takeAction instanceof Echo) {
-            tempContext = readDataFromEcho(tempContext, jsonObj);
+            tempContext = readDataFromEcho(tempContext, jsonObj, takeAction);
             tempContext.getLastDiscovery().setDirection(((Echo) takeAction).getDirection());
         } else if (takeAction instanceof Scan) {
             tempContext = readDataFromScan(tempContext, jsonObj);
@@ -76,13 +77,19 @@ public class ResponseHandler {
      * Method tha read response from echo
      * @param context context data of the current simulation
      * @param jsonObj json with the response
+     * @param takeAction
      * @return context updated
      */
-    private Context readDataFromEcho(Context context, JSONObject jsonObj) {
+    private Context readDataFromEcho(Context context, JSONObject jsonObj, Action takeAction) {
+        EchoResponse echoResponse = new EchoResponse();
+
         if (jsonObj.getJSONObject(EXTRAS).has(FOUND))
             discovery.setFound(Found.fromString(jsonObj.getJSONObject(EXTRAS).getString(FOUND)));
         if (jsonObj.getJSONObject(EXTRAS).has(RANGE))
             discovery.setRange(jsonObj.getJSONObject(EXTRAS).getInt(RANGE));
+
+        echoResponse.addData(discovery.getFound(), takeAction.getDirection(), discovery.getRange());
+        discovery.setEchoResponse(echoResponse);
 
         context.setLastDiscovery(discovery);
         return context;

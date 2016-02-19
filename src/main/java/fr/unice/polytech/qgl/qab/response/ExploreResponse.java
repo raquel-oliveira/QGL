@@ -1,6 +1,7 @@
 package fr.unice.polytech.qgl.qab.response;
 
 import fr.unice.polytech.qgl.qab.resources.Resource;
+import fr.unice.polytech.qgl.qab.util.enums.Found;
 
 import java.util.ArrayList;
 import java.util.List;
