@@ -63,12 +63,26 @@ public class MoveInTheGround extends GroundState {
     public Action responseState(Context context, Map map) throws IndexOutOfBoundsComboAction {
         Action act;
 
+        // if any action was made, we made the glimpse first
         if (lastAction == null) {
             act = new Glimpse(context.getHeading(), 4);
             lastAction = act;
             return act;
         }
 
+        // we can check if the response of the glimpse was good
+        // if not, we can change of the direction, for now, this is random
+        // but after we can use the scout to choice the bast side
+        if (lastAction instanceof Glimpse) {
+            if (contextAnalyzer.goodGlimpse(context)) {
+                act = new MoveTo(Direction.randomSideDirection(context.getHeading()));
+                indexTile = 0;
+                lastAction = null;
+                return act;
+            }
+        }
+
+        // we can move in the squares that the glimpse saw
         for (int i = indexTile + 1; i < resources.size(); i++) {
             if (resources.get(i)) {
                 act = new MoveTo(context.getHeading());
@@ -82,7 +96,6 @@ public class MoveInTheGround extends GroundState {
         act = new MoveTo(context.getHeading());
         indexTile = 0;
         lastAction = null;
-        movemove = null;
         return act;
     }
 

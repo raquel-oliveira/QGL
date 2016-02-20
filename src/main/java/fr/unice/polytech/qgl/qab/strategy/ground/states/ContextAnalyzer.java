@@ -5,6 +5,7 @@ import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.response.GlimpseResponse;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.ContractItem;
+import org.apache.xpath.operations.Bool;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -126,5 +127,12 @@ public class ContextAnalyzer {
         goodTiles.add(index_tile, find_good_biome);
 
         return goodTiles;
+    }
+
+    public boolean goodGlimpse(Context context) {
+        List<Boolean> responseGlimpse = biomeAnalyzer(context);
+        if (responseGlimpse.contains(true))
+            return true;
+        return false;
     }
 }
