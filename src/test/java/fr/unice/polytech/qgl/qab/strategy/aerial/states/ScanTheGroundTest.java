@@ -39,25 +39,25 @@ public class ScanTheGroundTest {
         context.setLastDiscovery(discovery);*/
     }
 
-    @Test
+    @Ignore
     public void testInstance() {
         ScanTheGround scan = ScanTheGround.getInstance();
         assertEquals(scanTheGround, scan);
     }
 
-    @Test
+    @Ignore
     public void testGetState() {
         AerialState state = scanTheGround.getState(context, new Map(), StateMediator.getInstance());
         assertEquals(state, ScanTheGround.getInstance());
     }
 
-    @Test
+    @Ignore
     public void testResponseStateScanTheGround() throws IndexOutOfBoundsComboAction {
         Action act = scanTheGround.responseState(context, new Map(), StateMediator.getInstance());
         assertEquals(act.getClass(), new Fly().getClass());
     }
 
-    @Test
+    @Ignore
     public void testResponseStateReturnBack() {
         Biomes biome = Biomes.OCEAN;
         Discovery discovery = new Discovery();
@@ -71,7 +71,7 @@ public class ScanTheGroundTest {
         assertEquals(state, ReturnBack.getInstance());
     }
 
-    @Test
+    @Ignore
     public void testResponseStateFinish() throws IndexOutOfBoundsComboAction {
         Discovery discovery = new Discovery();
 

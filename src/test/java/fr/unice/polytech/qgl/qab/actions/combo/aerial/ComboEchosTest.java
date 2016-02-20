@@ -23,35 +23,35 @@ public class ComboEchosTest {
     public void defineComboEchosHorizontalEast() throws IndexOutOfBoundsComboAction {
         combo.defineComboEchos(Direction.EAST);
         assertEquals(combo.get(0).getClass(), Echo.class);
-        assertEquals(((Echo) combo.get(0)).getDirection(), Direction.EAST);
-        assertEquals(((Echo) combo.get(1)).getDirection(), Direction.NORTH);
-        assertEquals(((Echo) combo.get(2)).getDirection(), Direction.SOUTH);
+        assertEquals((combo.get(0)).getDirection(), Direction.EAST);
+        assertEquals((combo.get(1)).getDirection(), Direction.SOUTH);
+        assertEquals((combo.get(2)).getDirection(), Direction.NORTH);
     }
 
     @Test
     public void defineComboEchosHorizontalWest() throws IndexOutOfBoundsComboAction {
         combo.defineComboEchos(Direction.WEST);
         assertEquals(combo.get(0).getClass(), Echo.class);
-        assertEquals(((Echo)combo.get(0)).getDirection(), Direction.WEST);
-        assertEquals(((Echo)combo.get(1)).getDirection(), Direction.NORTH);
-        assertEquals(((Echo)combo.get(2)).getDirection(), Direction.SOUTH);
+        assertEquals((combo.get(0)).getDirection(), Direction.WEST);
+        assertEquals((combo.get(1)).getDirection(), Direction.SOUTH);
+        assertEquals((combo.get(2)).getDirection(), Direction.NORTH);
     }
 
     @Test
     public void defineComboEchosVerticalNorth() throws IndexOutOfBoundsComboAction {
         combo.defineComboEchos(Direction.NORTH);
         assertEquals(combo.get(0).getClass(), Echo.class);
-        assertEquals(((Echo) combo.get(0)).getDirection(), Direction.NORTH);
-        assertEquals(((Echo) combo.get(1)).getDirection(), Direction.WEST);
-        assertEquals(((Echo) combo.get(2)).getDirection(), Direction.EAST);
+        assertEquals((combo.get(0)).getDirection(), Direction.NORTH);
+        assertEquals((combo.get(1)).getDirection(), Direction.EAST);
+        assertEquals((combo.get(2)).getDirection(), Direction.WEST);
     }
 
     @Test
     public void defineComboEchosVerticalSouth() throws IndexOutOfBoundsComboAction {
         combo.defineComboEchos(Direction.SOUTH);
         assertEquals(combo.get(0).getClass(), Echo.class);
-        assertEquals(((Echo)combo.get(0)).getDirection(), Direction.SOUTH);
-        assertEquals(((Echo)combo.get(1)).getDirection(), Direction.WEST);
-        assertEquals(((Echo)combo.get(2)).getDirection(), Direction.EAST);
+        assertEquals((combo.get(0)).getDirection(), Direction.SOUTH);
+        assertEquals((combo.get(1)).getDirection(), Direction.EAST);
+        assertEquals((combo.get(2)).getDirection(), Direction.WEST);
     }
 }
