@@ -81,4 +81,18 @@ public enum Direction {
             return (side == 0)? WEST:EAST;
         return null;
     }
+
+    public static Direction inverse(Direction direction) {
+        if (direction.isHorizontal()) {
+            if (direction.equals(Direction.EAST))
+                return Direction.WEST;
+            else
+                return Direction.EAST;
+        } else {
+            if (direction.equals(Direction.NORTH))
+                return Direction.SOUTH;
+            else
+                return Direction.NORTH;
+        }
+    }
 }

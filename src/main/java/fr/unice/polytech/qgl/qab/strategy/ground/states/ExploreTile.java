@@ -78,6 +78,7 @@ public class ExploreTile extends GroundState {
             return act;
         }
 
-        return new MoveTo(Direction.randomSideDirection(context.getHeading()));
+        //context.setHeading(Direction.randomSideDirection(context.getHeading()));
+        return new MoveTo(context.getHeading());
     }
 }

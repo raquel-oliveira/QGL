@@ -6,6 +6,7 @@ import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboFlyUntil;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboFlyScan;
+import fr.unice.polytech.qgl.qab.actions.simple.aerial.Scan;
 import fr.unice.polytech.qgl.qab.actions.simple.common.Land;
 import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
@@ -62,31 +63,18 @@ public class ScanTheGround extends AerialState {
         Action act;
 
         if (!context.getLastDiscovery().getCreeks().isEmpty()) {
-            act = new Land(context.getLastDiscovery().getCreeks().get(0).getIdCreek(), 1);
-            lastAction = act;
-            return act;
+            return getLand(context);
         }
 
-        if (context.getLastDiscovery().getScanResponse().outOfGround()) {
-            if (lastAction instanceof Echo) {
-                comboFlyUntil = new ComboFlyUntil();
-                comboFlyUntil.defineComboFlyUntil(context.getLastDiscovery().getEchoResponse().getRange() + 1);
-            } else {
-                act = new Echo(context.getHeading());
-                lastAction = act;
-                return act;
-            }
+        if (lastAction instanceof Scan) {
+            act = getEcho(context);
+            if (act != null) return act;
+        } else if (lastAction instanceof Echo) {
+            setFlyUntil(context);
         }
 
         if (comboFlyUntil != null && !comboFlyUntil.isEmpty()) {
-            act = comboFlyUntil.get(0);
-            lastAction = act;
-            comboFlyUntil.remove(0);
-            if (comboFlyUntil.isEmpty()) {
-                actionCombo = null;
-                context.getLastDiscovery().getScanResponse().setUpBiomes();
-            }
-            return act;
+            return getFly(context);
         }
 
         if (actionCombo == null || actionCombo.isEmpty()) {
@@ -99,8 +87,45 @@ public class ScanTheGround extends AerialState {
         }
 
         act = actionCombo.get(0);
+        lastAction = act;
         actionCombo.remove(0);
 
+        return act;
+    }
+
+    private void setFlyUntil(Context context) {
+        if (context.getLastDiscovery().getScanResponse().outOfGround()) {
+            comboFlyUntil = new ComboFlyUntil();
+            comboFlyUntil.defineComboFlyUntil(context.getLastDiscovery().getEchoResponse().getRange() + 1);
+        }
+    }
+
+    private Action getEcho(Context context) {
+        Action act;
+        if (context.getLastDiscovery().getScanResponse().outOfGround()) {
+            act = new Echo(context.getHeading());
+            lastAction = act;
+            return act;
+        }
+        return null;
+    }
+
+    private Action getFly(Context context) throws IndexOutOfBoundsComboAction {
+        Action act;
+        act = comboFlyUntil.get(0);
+        lastAction = act;
+        comboFlyUntil.remove(0);
+        if (comboFlyUntil.isEmpty()) {
+            actionCombo = null;
+            context.getLastDiscovery().getScanResponse().setUpBiomes();
+        }
+        return act;
+    }
+
+    private Action getLand(Context context) {
+        Action act;
+        act = new Land(context.getLastDiscovery().getCreeks().get(0).getIdCreek(), 1);
+        lastAction = act;
         return act;
     }
 }

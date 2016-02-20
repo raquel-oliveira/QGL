@@ -16,31 +16,17 @@ import java.util.List;
  */
 public class ContextAnalyzer {
 
-    private static final String BIOME_OCEAN = "OCEAN";
-    /**
-     * Analize if the bot should change of direction.
-     * This method analize if the return of the glimpse response show values that
-     * indicate the need for change of direction.
-     * @param context datas about the context of the simulation
-     * @return true if necessary, and false if not
-     */
-    public boolean shouldChangeDirection(Context context) {
-        if (!context.getLastDiscovery().getGlimpseResponse().getInitialTiles().isEmpty()) {
-            HashMap<Biomes, Double> initialTiles1 = context.getLastDiscovery().getGlimpseResponse().getInitialTiles().get(0);
-            HashMap<Biomes, Double> initialTiles2 = context.getLastDiscovery().getGlimpseResponse().getInitialTiles().get(1);
+    public boolean isOcean(Context context) {
+        HashMap<Biomes, Double> initialTiles1, initialTiles2;
+        List<Biomes> thirdTile;
+        Biomes fourth;
 
-            if (initialTiles1.containsKey(Biomes.valueOf(BIOME_OCEAN)) || initialTiles2.containsKey(Biomes.valueOf(BIOME_OCEAN))) {
-                double value1 = 0, value2 = 0;
-                if (initialTiles1.containsKey(Biomes.valueOf(BIOME_OCEAN))) {
-                    value1 = initialTiles1.get(Biomes.valueOf(BIOME_OCEAN));
-                } else if (initialTiles2.containsKey(Biomes.valueOf(BIOME_OCEAN))) {
-                    value2 = initialTiles2.get(Biomes.valueOf(BIOME_OCEAN));
-                }
-                if (value1 > 0 || value2 > 0)
-                    return true;
-            }
-        }
-        return false;
+        initialTiles1 = context.getLastDiscovery().getGlimpseResponse().getInitialTiles().get(0);
+        initialTiles2 = context.getLastDiscovery().getGlimpseResponse().getInitialTiles().get(1);
+        thirdTile = context.getLastDiscovery().getGlimpseResponse().getThirdTile();
+        fourth = context.getLastDiscovery().getGlimpseResponse().getFourthTile();
+
+        return (thirdTile.contains(Biomes.OCEAN) || fourth.equals(Biomes.OCEAN));
     }
 
     /**$
@@ -53,7 +39,7 @@ public class ContextAnalyzer {
     public boolean shouldChangeStop(Context context) {
         if (!context.getLastDiscovery().getGlimpseResponse().getInitialTiles().isEmpty()) {
             HashMap<Biomes, Double> initial_tiles = context.getLastDiscovery().getGlimpseResponse().getInitialTiles().get(0);
-            if (initial_tiles.containsKey(Biomes.valueOf(BIOME_OCEAN)) && initial_tiles.get(Biomes.valueOf(BIOME_OCEAN)) >= 90)
+            if (initial_tiles.containsKey(Biomes.OCEAN) && initial_tiles.get(Biomes.OCEAN) >= 90)
                     return true;
         }
         return false;

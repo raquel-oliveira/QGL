@@ -51,7 +51,9 @@ public class MoveInTheGround extends GroundState {
     @Override
     public GroundState getState(Context context, Map map) throws PositionOutOfMapRange {
         resources = contextAnalyzer.biomeAnalyzer(context);
-        if (!resources.isEmpty() && resources.get(indexTile))
+        if (lastAction != null && contextAnalyzer.isOcean(context))
+            return ChoiceASide.getInstance();
+        else if (!resources.isEmpty() && resources.get(indexTile))
             return ExploreTile.getInstance();
         else
             return MoveInTheGround.getInstance();
@@ -67,22 +69,6 @@ public class MoveInTheGround extends GroundState {
             return act;
         }
 
-        if (contextAnalyzer.shouldChangeStop(context) && movemove == null)
-            return new Stop();
-
-        if (contextAnalyzer.shouldChangeDirection(context) && movemove == null)
-            changeDirection(context);
-
-        if (movemove != null && !movemove.isEmpty()) {
-            act = movemove.remove(0);
-            lastAction = act;
-            context.setHeading(act.getDirection());
-            if (movemove.isEmpty()) {
-                movemove = new ArrayList<>();
-            }
-            return act;
-        }
-
         for (int i = indexTile + 1; i < resources.size(); i++) {
             if (resources.get(i)) {
                 act = new MoveTo(context.getHeading());
@@ -92,7 +78,7 @@ public class MoveInTheGround extends GroundState {
             }
         }
 
-        // if the program arive here, so, we need move, because thare are nothing until here
+        // if the program arive here, so, we need move, because there are nothing until here
         act = new MoveTo(context.getHeading());
         indexTile = 0;
         lastAction = null;
@@ -104,24 +90,24 @@ public class MoveInTheGround extends GroundState {
      * This method will set the direction that the explorers need to move.
      * @param context datas about the context of the simulation
      */
-    private void changeDirection(Context context) {
+    private void changeDirection(Context context, int move) {
         if (movemove == null)
             movemove = new ArrayList<>();
-        Direction dir = Direction.EAST;
+        Direction dir;
         if (context.getHeading().isHorizontal()) {
             if (context.getHeading().equals(Direction.EAST))
                 dir = Direction.WEST;
             else
                 dir = Direction.EAST;
-        } else if (context.getHeading().isVertical()) {
+        } else {
             if (context.getHeading().equals(Direction.NORTH))
                 dir = Direction.SOUTH;
             else
-                dir = Direction.SOUTH;
+                dir = Direction.NORTH;
         }
-        movemove.add(new MoveTo(dir));
-        movemove.add(new MoveTo(dir));
-        movemove.add(new MoveTo(dir));
+        for (int i = 0; i < move; i++) {
+            movemove.add(new MoveTo(dir));
+        }
         movemove.add(new MoveTo(Direction.randomSideDirection(context.getHeading())));
     }
 }
