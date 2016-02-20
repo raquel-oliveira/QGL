@@ -27,6 +27,10 @@ public class ScanResponse {
         return (biomes.contains(Biomes.OCEAN) && biomes.size() == 1);
     }
 
+    public boolean foundOcean() {
+        return (biomes.contains(Biomes.OCEAN));
+    }
+
     public void setUpBiomes() {
         biomes = new ArrayList<>();
     }

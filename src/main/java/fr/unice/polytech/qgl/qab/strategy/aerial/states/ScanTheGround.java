@@ -80,10 +80,12 @@ public class ScanTheGround extends AerialState {
         if (actionCombo == null || actionCombo.isEmpty()) {
             actionCombo = new ComboFlyScan();
             ((ComboFlyScan)actionCombo).defineActions();
-            if(cont_scan != SCAN_RATIO) {
-                actionCombo.remove(1);
-            } else cont_scan = 0;
-            cont_scan++;
+            if (!context.getLastDiscovery().getScanResponse().foundOcean()) {
+                if (cont_scan != SCAN_RATIO) {
+                    actionCombo.remove(1);
+                } else cont_scan = 0;
+                cont_scan++;
+            }
         }
 
         act = actionCombo.get(0);
