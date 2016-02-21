@@ -18,7 +18,7 @@ public class UpdaterMap {
      * @param map from the simulation
      */
     public void initializeDimensions(Context context, Map map) {
-        if (context.getLastDiscovery().getDirection().isEquals(context.getFirstHead())) {
+        if (context.getLastDiscovery().getEchoResponse().getDirection().equals(context.getFirstHead())) {
             if (context.getFirstHead().isHorizontal()) {
                 setWidth(map, context.getLastDiscovery().getEchoResponse().getRange() + 1, true);
             } else {
