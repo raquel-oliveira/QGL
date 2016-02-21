@@ -72,7 +72,7 @@ public class Initialize extends AerialState {
         return act;
     }
 
-    private void setFirtsPosition(Context context, Map map) throws PositionOutOfMapRange {
+    public void setFirtsPosition(Context context, Map map) throws PositionOutOfMapRange {
         if (context.getHeading().isVertical()) {
             if (context.getHeading().equals(Direction.NORTH))
                 map.setLastPosition(new Position(context.getLastDiscovery().getEchoResponse().getRange(), map.getHeight() - 1));
