@@ -1,7 +1,6 @@
 package fr.unice.polytech.qgl.qab.strategy.ground.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Glimpse;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.MoveTo;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
@@ -24,7 +23,6 @@ public class MoveInTheGround extends GroundState {
     private ContextAnalyzer contextAnalyzer;
     private List<Boolean> resources;
     private int indexTile;
-    private List<MoveTo> movemove;
 
     /**
      * MoveInTheGround's constructor
@@ -35,7 +33,6 @@ public class MoveInTheGround extends GroundState {
         contextAnalyzer = new ContextAnalyzer();
         resources = new ArrayList<>();
         indexTile = 0;
-        movemove = null;
     }
 
     /**
@@ -51,7 +48,9 @@ public class MoveInTheGround extends GroundState {
     @Override
     public GroundState getState(Context context, Map map) throws PositionOutOfMapRange {
         resources = contextAnalyzer.biomeAnalyzer(context);
-        if (!resources.isEmpty() && resources.get(indexTile))
+        if (lastAction != null && contextAnalyzer.isOcean(context))
+            return ChoiceASide.getInstance();
+        else if (!resources.isEmpty() && resources.get(indexTile))
             return ExploreTile.getInstance();
         else
             return MoveInTheGround.getInstance();
@@ -61,28 +60,24 @@ public class MoveInTheGround extends GroundState {
     public Action responseState(Context context, Map map) throws IndexOutOfBoundsComboAction {
         Action act;
 
+        // if any action was made, we made the glimpse first
         if (lastAction == null) {
             act = new Glimpse(context.getHeading(), 4);
             lastAction = act;
             return act;
         }
 
-        if (contextAnalyzer.shouldChangeStop(context) && movemove == null)
-            return new Stop();
-
-        if (contextAnalyzer.shouldChangeDirection(context) && movemove == null)
-            changeDirection(context);
-
-        if (movemove != null && !movemove.isEmpty()) {
-            act = movemove.remove(0);
-            lastAction = act;
-            context.setHeading(act.getDirection());
-            if (movemove.isEmpty()) {
-                movemove = new ArrayList<>();
-            }
+        // we can check if the response of the glimpse was good
+        // if not, we can change of the direction, for now, this is random
+        // but after we can use the scout to choice the bast side
+        if (lastAction instanceof Glimpse && contextAnalyzer.goodGlimpse(context)) {
+            act = new MoveTo(Direction.randomSideDirection(context.getHeading()));
+            indexTile = 0;
+            lastAction = null;
             return act;
         }
 
+        // we can move in the squares that the glimpse saw
         for (int i = indexTile + 1; i < resources.size(); i++) {
             if (resources.get(i)) {
                 act = new MoveTo(context.getHeading());
@@ -92,36 +87,10 @@ public class MoveInTheGround extends GroundState {
             }
         }
 
-        // if the program arive here, so, we need move, because thare are nothing until here
+        // if the program arive here, so, we need move, because there are nothing until here
         act = new MoveTo(context.getHeading());
         indexTile = 0;
         lastAction = null;
-        movemove = null;
         return act;
-    }
-
-    /**
-     * This method will set the direction that the explorers need to move.
-     * @param context datas about the context of the simulation
-     */
-    private void changeDirection(Context context) {
-        if (movemove == null)
-            movemove = new ArrayList<>();
-        Direction dir = Direction.EAST;
-        if (context.getHeading().isHorizontal()) {
-            if (context.getHeading().equals(Direction.EAST))
-                dir = Direction.WEST;
-            else
-                dir = Direction.EAST;
-        } else if (context.getHeading().isVertical()) {
-            if (context.getHeading().equals(Direction.NORTH))
-                dir = Direction.SOUTH;
-            else
-                dir = Direction.SOUTH;
-        }
-        movemove.add(new MoveTo(dir));
-        movemove.add(new MoveTo(dir));
-        movemove.add(new MoveTo(dir));
-        movemove.add(new MoveTo(Direction.randomSideDirection(context.getHeading())));
     }
 }

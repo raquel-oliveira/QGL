@@ -4,10 +4,12 @@ import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.map.tile.Position;
+import fr.unice.polytech.qgl.qab.response.EchoResponse;
 import fr.unice.polytech.qgl.qab.util.Discovery;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -35,9 +37,9 @@ public class UpdateMapTest {
         context.setHeading(Direction.NORTH);
 
         Discovery discovery = new Discovery();
-        discovery.setRange(9);
-        discovery.setDirection(Direction.NORTH);
-        discovery.setFound(Found.OUT_OF_RANGE);
+        EchoResponse echoResponse = new EchoResponse();
+        echoResponse.addData(Found.OUT_OF_RANGE, Direction.NORTH, 9);
+        discovery.setEchoResponse(echoResponse);
         context.setLastDiscovery(discovery);
 
         Map map = new Map();
@@ -45,17 +47,19 @@ public class UpdateMapTest {
         updaterMap.initializeDimensions(context, map);
         assertEquals(10, map.getHeight());
 
-        discovery.setRange(9);
-        discovery.setDirection(Direction.WEST);
-        discovery.setFound(Found.OUT_OF_RANGE);
+        discovery = new Discovery();
+        echoResponse = new EchoResponse();
+        echoResponse.addData(Found.OUT_OF_RANGE, Direction.WEST, 9);
+        discovery.setEchoResponse(echoResponse);
         context.setLastDiscovery(discovery);
 
         updaterMap.initializeDimensions(context, map);
         assertEquals(9, map.getWidth());
 
-        discovery.setRange(5);
-        discovery.setDirection(Direction.EAST);
-        discovery.setFound(Found.OUT_OF_RANGE);
+        discovery = new Discovery();
+        echoResponse = new EchoResponse();
+        echoResponse.addData(Found.OUT_OF_RANGE, Direction.EAST, 5);
+        discovery.setEchoResponse(echoResponse);
         context.setLastDiscovery(discovery);
 
         updaterMap.initializeDimensions(context, map);
@@ -69,9 +73,9 @@ public class UpdateMapTest {
         context.setHeading(Direction.EAST);
 
         Discovery discovery = new Discovery();
-        discovery.setRange(10);
-        discovery.setDirection(Direction.EAST);
-        discovery.setFound(Found.OUT_OF_RANGE);
+        EchoResponse echoResponse = new EchoResponse();
+        echoResponse.addData(Found.OUT_OF_RANGE, Direction.EAST, 10);
+        discovery.setEchoResponse(echoResponse);
         context.setLastDiscovery(discovery);
 
         Map map = new Map();
@@ -79,27 +83,24 @@ public class UpdateMapTest {
         updaterMap.initializeDimensions(context, map);
         assertEquals(11, map.getWidth());
 
-        discovery.setRange(9);
-        discovery.setDirection(Direction.NORTH);
-        discovery.setFound(Found.OUT_OF_RANGE);
+        discovery = new Discovery();
+        echoResponse = new EchoResponse();
+        echoResponse.addData(Found.OUT_OF_RANGE, Direction.NORTH, 9);
+        discovery.setEchoResponse(echoResponse);
         context.setLastDiscovery(discovery);
 
         updaterMap.initializeDimensions(context, map);
         assertEquals(9, map.getHeight());
 
-        discovery.setRange(5);
-        discovery.setDirection(Direction.SOUTH);
-        discovery.setFound(Found.OUT_OF_RANGE);
+        discovery = new Discovery();
+        echoResponse = new EchoResponse();
+        echoResponse.addData(Found.OUT_OF_RANGE, Direction.SOUTH, 5);
+        discovery.setEchoResponse(echoResponse);
         context.setLastDiscovery(discovery);
 
         updaterMap.initializeDimensions(context, map);
         assertEquals(15, map.getHeight());
 
-
-        updaterMap.setFirstPosition(context, map);
-        Position lastPosition = map.getLastPosition();
-        assertEquals(5, lastPosition.getX());
-        assertEquals(14, lastPosition.getY());
     }
 
     @Test

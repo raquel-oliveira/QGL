@@ -25,6 +25,7 @@ import static org.junit.Assert.assertEquals;
 
 /**
  * @version 30/01/16.
+ * TODO: review this test
  */
 public class MoveInTheGroundTest {
     MoveInTheGround moveInTheGround;
@@ -65,7 +66,7 @@ public class MoveInTheGroundTest {
         assertEquals(state, ExploreTile.getInstance());
     }
 
-    @Ignore
+    @Test
     public void testResponseStateStop() throws NegativeBudgetException, IndexOutOfBoundsComboAction {
         Context context = new Context();
         Discovery discovery = new Discovery();
@@ -83,10 +84,10 @@ public class MoveInTheGroundTest {
         context.setLastDiscovery(discovery);
 
         Action act = moveInTheGround.responseState(context, new Map());
-        assertEquals(act.getClass(), new Stop().getClass());
+        assertEquals(act.getClass(), new Glimpse(Direction.NORTH, 4).getClass());
     }
 
-    @Ignore
+    @Test
     public void testResponseStateGlimpse() throws NegativeBudgetException, IndexOutOfBoundsComboAction, PositionOutOfMapRange {
         Context context = new Context();
         context.setHeading(Direction.EAST);
@@ -95,13 +96,13 @@ public class MoveInTheGroundTest {
         context.setLastDiscovery(discovery);
 
         Action act = moveInTheGround.responseState(context, new Map());
-        assertEquals(act.getClass(), new Glimpse(context.getHeading(), 4).getClass());
-
-        act = moveInTheGround.responseState(context, new Map());
         assertEquals(act.getClass(), new MoveTo(context.getHeading()).getClass());
 
         act = moveInTheGround.responseState(context, new Map());
         assertEquals(act.getClass(), new Glimpse(context.getHeading(), 4).getClass());
+
+        act = moveInTheGround.responseState(context, new Map());
+        assertEquals(act.getClass(), new MoveTo(context.getHeading()).getClass());
 
         GlimpseResponse gr = new GlimpseResponse();
         HashMap<Biomes, Double> b = new HashMap<>();
@@ -117,6 +118,6 @@ public class MoveInTheGroundTest {
         assertEquals(state, MoveInTheGround.getInstance());
 
         act = moveInTheGround.responseState(context, new Map());
-        assertEquals(act.getClass(), new MoveTo(context.getHeading()).getClass());
+        assertEquals(act.getClass(), new Glimpse(context.getHeading(), 4).getClass());
     }
 }

@@ -12,6 +12,7 @@ public class StateMediator {
     private boolean shouldGoToTheCorner;
     private int rangeToTheCorner;
     private Direction directionToTheCorner;
+    private Direction directionToFindGround;
     private int rangeToGround;
 
     // return back
@@ -23,6 +24,7 @@ public class StateMediator {
         directionToTheCorner = null;
         rangeToGround = 0;
         flyUntilGround = false;
+        directionToFindGround = null;
     }
 
     public static StateMediator getInstance() {
@@ -108,4 +110,13 @@ public class StateMediator {
      * @return flyUntilGround
      */
     public boolean shouldFlyUntilGround() { return flyUntilGround; }
+
+
+    public Direction getDirectionToFindGround() {
+        return directionToFindGround;
+    }
+
+    public void setDirectionToFindGround(Direction directionToFindGround) {
+        this.directionToFindGround = directionToFindGround;
+    }
 }

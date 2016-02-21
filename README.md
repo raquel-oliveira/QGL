@@ -72,4 +72,8 @@ Comments in the code, more tests, phase aerial spending less and improvement in 
 
 ### Week 07
 
-Short list of the **features** available in the bot delivered for the championship that happened at the end of week 06.
+Add more tests (88,8% Overall coverage), reduce Technical Debt, improvement the plane fly and improvement in earthly phase.
+
+### Week 08
+
+Short list of the **features** available in the bot delivered for the championship that happened at the end of week 08.

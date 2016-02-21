@@ -1,12 +1,11 @@
 package fr.unice.polytech.qgl.qab.util;
 
-import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.map.tile.Creek;
 import fr.unice.polytech.qgl.qab.response.EchoResponse;
 import fr.unice.polytech.qgl.qab.response.ExploreResponse;
 import fr.unice.polytech.qgl.qab.response.GlimpseResponse;
+import fr.unice.polytech.qgl.qab.response.ScanResponse;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
-import fr.unice.polytech.qgl.qab.util.enums.Found;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +16,9 @@ import java.util.List;
  * Class that represents the information discovered by the actions of the bot.
  */
 public class Discovery {
-    private Found found;
-    private int range;
     private Direction direction;
-    private List<Biomes> biomes;
     private List<Creek> creeks;
+    private ScanResponse scanResponse;
     private GlimpseResponse glimpseResponse;
     private ExploreResponse exploreResponse;
     private EchoResponse echoResponse;
@@ -30,27 +27,20 @@ public class Discovery {
      * Discovery's constructor
      */
     public Discovery() {
-        this.found = Found.UNDEFINED;
-        this.range = 0;
         this.direction = null;
-        biomes = new ArrayList<>();
         creeks = new ArrayList<>();
         glimpseResponse = new GlimpseResponse();
         exploreResponse = new ExploreResponse();
         echoResponse = new EchoResponse();
+        scanResponse = new ScanResponse();
     }
 
     /**
      * Discobery's constructor
-     * @param found the object that represents the data that was founded (GROUND or OUT_OF_RANGE)
-     * @param range the range until the data founded
      * @param direction indicate the direction of the discobery
      */
-    public Discovery(Found found, int range, Direction direction) {
-        this.found = found;
-        this.range = range;
+    public Discovery(Direction direction) {
         this.direction = direction;
-        biomes = new ArrayList<>();
         creeks = new ArrayList<>();
         glimpseResponse = new GlimpseResponse();
         exploreResponse = new ExploreResponse();
@@ -62,41 +52,24 @@ public class Discovery {
      * In some cases is necessary return to initial state.
      */
     public void setUp() {
-        this.found = Found.UNDEFINED;
-        this.range = 0;
         this.direction = null;
-        biomes = new ArrayList<>();
     }
-
-    /**
-     * Get Found's object (GROUND or OUT_OF_RANGE)
-     * @return found's object
-     */
-    public Found getFound() { return found; }
-
-    /**
-     * Get range value of the last discovery
-     * @return range value
-     */
-    public int getRange() { return range; }
 
     /**
      * Get the direction of the last discovery
      * @return discovery direction
      */
-    public Direction getDirection() { return direction; }
-
-    /**
-     * Get the set of biomes founded in the last scan discovery
-     * @return set of biomes
-     */
-    public List<Biomes> getBiomes() { return biomes; }
+    public Direction getDirection() {
+        return direction;
+    }
 
     /**
      * Get creeks of the last scan discovery
      * @return creeks values
      */
-    public List<Creek> getCreeks() { return creeks; }
+    public List<Creek> getCreeks() {
+        return creeks;
+    }
 
     /**
      * Get the data of the glimpse response
@@ -123,34 +96,28 @@ public class Discovery {
     }
 
     /**
-     * Set the range of the last discovery founded
-     * @param range of the last discovery founded
+     * Get the data of the scan response
+     * @return data of the scan response
      */
-    public void setRange(int range) { this.range = range; }
-
-    /**
-     * Set a value in the Found attr.
-     * @param found value founded in the tile (GROUND or OUT_OF_RANGE)
-     */
-    public void setFound(Found found) { this.found = found; }
+    public ScanResponse getScanResponse() {
+        return scanResponse;
+    }
 
     /**
      * Set Direction of the last discovery.
      * @param direction value of the direction
      */
-    public void setDirection(Direction direction) { this.direction = direction; }
-
-    /**
-     * Set biomes of the last discovery (scan response)
-     * @param biomes values of the last discovery
-     */
-    public void setBiomes(List<Biomes> biomes) { this.biomes = biomes; }
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
 
     /**
      * Set creeks of the last discovery (scan response)
      * @param creeks values of the last discovery
      */
-    public void setCreeks(List<Creek> creeks) { this.creeks = creeks; }
+    public void setCreeks(List<Creek> creeks) {
+        this.creeks = creeks;
+    }
 
     /**
      * Set last glimpse response
@@ -177,16 +144,10 @@ public class Discovery {
     }
 
     /**
-     * Method that check if there is a specific biome in the list
-     * of the last biomes founded.
-     * @param bio that will be search
-     * @return true if founded, or false if not
+     * Set last scan response
+     * @param scanResponse value of the explore response
      */
-    public boolean containsBiome(Biomes bio) {
-        for (Biomes b: biomes) {
-            if (b.equals(bio))
-                return true;
-        }
-        return false;
+    public void setScanResponse(ScanResponse scanResponse) {
+        this.scanResponse = scanResponse;
     }
 }

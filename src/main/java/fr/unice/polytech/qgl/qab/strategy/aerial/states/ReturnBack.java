@@ -39,7 +39,8 @@ public class ReturnBack extends AerialState {
     @Override
     public AerialState getState(Context context, Map map, StateMediator stateMediator) {
         if ((lastAction instanceof Fly && !stateMediator.shouldFlyUntilGround()) ||
-                (lastAction instanceof Echo && context.getLastDiscovery().getRange() == 0)) {
+                (lastAction instanceof Echo && context.getLastDiscovery().getEchoResponse().getRange() == 0)) {
+            lastAction = null;
             return ScanTheGround.getInstance();
         }
         return ReturnBack.getInstance();
@@ -50,11 +51,11 @@ public class ReturnBack extends AerialState {
         Action act = null;
 
         if (lastAction instanceof Echo) {
-            if (context.getLastDiscovery().getFound().isEquals(Found.OUT_OF_RANGE))
+            if (context.getLastDiscovery().getEchoResponse().getFound().isEquals(Found.OUT_OF_RANGE))
                 return new Stop();
             else {
                 comboFlyUntil = new ComboFlyUntil();
-                comboFlyUntil.defineComboFlyUntil(context.getLastDiscovery().getRange());
+                comboFlyUntil.defineComboFlyUntil(context.getLastDiscovery().getEchoResponse().getRange());
                 stateMediator.shouldFlyUntilGround(true);
             }
         }

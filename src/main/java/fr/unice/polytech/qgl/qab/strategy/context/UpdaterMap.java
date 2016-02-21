@@ -1,6 +1,5 @@
 package fr.unice.polytech.qgl.qab.strategy.context;
 
-import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.map.tile.Position;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
@@ -18,24 +17,24 @@ public class UpdaterMap {
      * @param map from the simulation
      */
     public void initializeDimensions(Context context, Map map) {
-        if (context.getLastDiscovery().getDirection().isEquals(context.getFirstHead())) {
+        if (context.getLastDiscovery().getEchoResponse().getDirection().equals(context.getFirstHead())) {
             if (context.getFirstHead().isHorizontal()) {
-                setWidth(map, context.getLastDiscovery().getRange() + 1, true);
+                setWidth(map, context.getLastDiscovery().getEchoResponse().getRange() + 1, true);
             } else {
-                setHeight(map, context.getLastDiscovery().getRange() + 1, true);
+                setHeight(map, context.getLastDiscovery().getEchoResponse().getRange() + 1, true);
             }
         } else {
             if (context.getFirstHead().isVertical()) {
                 if (map.getWidth() >= 0) {
-                    setWidth(map, context.getLastDiscovery().getRange() + 1, true);
+                    setWidth(map, context.getLastDiscovery().getEchoResponse().getRange() + 1, true);
                 } else {
-                    setWidth(map, context.getLastDiscovery().getRange(), false);
+                    setWidth(map, context.getLastDiscovery().getEchoResponse().getRange(), false);
                 }
             } else {
                 if (map.getHeight() >= 0) {
-                    setHeight(map, context.getLastDiscovery().getRange() + 1, true);
+                    setHeight(map, context.getLastDiscovery().getEchoResponse().getRange() + 1, true);
                 } else {
-                    setHeight(map, context.getLastDiscovery().getRange(), false);
+                    setHeight(map, context.getLastDiscovery().getEchoResponse().getRange(), false);
                 }
             }
         }
@@ -82,34 +81,5 @@ public class UpdaterMap {
                 map.setLastPosition(new Position(position.getX(), position.getY() + 1));
             }
         }
-    }
-
-    /**
-     * set the first postion of the plane
-     * @param context data context of simulation
-     * @param map object map
-     * @throws PositionOutOfMapRange
-     */
-    public void setFirstPosition(Context context, Map map) throws PositionOutOfMapRange {
-        Position position = new Position(0, 0);
-        if (context.getHeading().isHorizontal()) {
-            position.setX(context.getLastDiscovery().getRange());
-            if (context.getHeading().isEquals(Direction.NORTH))
-                position.setY(0);
-            else
-                position.setY(map.getHeight() - 1);
-        } else {
-            position.setY(context.getLastDiscovery().getRange());
-            if (context.getHeading().isEquals(Direction.EAST))
-                position.setX(0);
-            else
-                position.setY(map.getWidth() - 1);
-        }
-        try {
-            map.initializeTileOcean(position);
-        } catch (PositionOutOfMapRange e) {
-            throw e;
-        }
-        map.setLastPosition(position);
     }
 }

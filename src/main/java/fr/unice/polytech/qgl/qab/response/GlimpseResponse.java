@@ -82,4 +82,12 @@ public class GlimpseResponse {
     public Biomes getFourthTile() {
         return fourthTile;
     }
+
+    /**
+     * check if there was response
+     * @return
+     */
+    public boolean hasResponse() {
+        return asked_range > 0;
+    }
 }

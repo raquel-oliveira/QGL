@@ -7,11 +7,14 @@ import fr.unice.polytech.qgl.qab.actions.simple.aerial.Heading;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.map.Map;
+import fr.unice.polytech.qgl.qab.map.tile.Position;
+import fr.unice.polytech.qgl.qab.response.EchoResponse;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.util.Discovery;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -46,24 +49,46 @@ public class FindGroundTest {
     public void testResponseState() throws NegativeBudgetException, IndexOutOfBoundsComboAction {
         context.setHeading(Direction.NORTH);
         context.setFirstHead(Direction.NORTH);
-        Action act = findGround.responseState(context, new Map(), StateMediator.getInstance());
-        assertEquals(act.getClass(), new Fly().getClass());
 
-        context.setLastDiscovery(new Discovery());
-        context.setHeading(Direction.NORTH);
-        context.setFirstHead(Direction.NORTH);
-        context.setLastDiscovery(new Discovery(Found.GROUND, 10, Direction.EAST));
+        Map map = new Map();
+        map.setLastPosition(new Position(30, 30));
+        map.initializeWidthMap(100, true);
+        map.initializeHeightMap(100, true);
 
-        act = findGround.responseState(context, new Map(), StateMediator.getInstance());
-        assertEquals(act.getClass(), new Echo(Direction.EAST).getClass());
+        Action act = findGround.responseState(context, map, StateMediator.getInstance());
+        assertEquals(act.getClass(), Fly.class);
 
-        act = findGround.responseState(context, new Map(), StateMediator.getInstance());
-        assertEquals(act.getClass(), new Heading(Direction.EAST).getClass());
+        AerialState aerialState = findGround.getState(context, map, StateMediator.getInstance());
+        assertEquals(aerialState.getClass(), FindGround.class);
 
-        AerialState aerialState = findGround.getState(context, new Map(), StateMediator.getInstance());
-        assertEquals(aerialState.getClass(), FlyUntil.getInstance().getClass());
+        act = findGround.responseState(context, map, StateMediator.getInstance());
+        assertEquals(act.getClass(), Echo.class);
+        assertEquals(Direction.EAST, act.getDirection());
 
-        act = findGround.responseState(context, new Map(), StateMediator.getInstance());
-        assertEquals(act.getClass(), new Echo(Direction.WEST).getClass());
+        aerialState = findGround.getState(context, map, StateMediator.getInstance());
+        assertEquals(aerialState.getClass(), FindGround.class);
+
+        act = findGround.responseState(context, map, StateMediator.getInstance());
+        assertEquals(act.getClass(), Fly.class);
+
+        aerialState = findGround.getState(context, map, StateMediator.getInstance());
+        assertEquals(aerialState.getClass(), FindGround.class);
+
+        act = findGround.responseState(context, map, StateMediator.getInstance());
+        assertEquals(act.getClass(), Echo.class);
+        assertEquals(Direction.EAST, act.getDirection());
+
+        EchoResponse echoResponse = new EchoResponse();
+        echoResponse.addData(Found.GROUND, Direction.EAST, 10);
+        Discovery disc = new Discovery();
+        disc.setEchoResponse(echoResponse);
+        context.setLastDiscovery(disc);
+
+        act = findGround.responseState(context, map, StateMediator.getInstance());
+        assertEquals(act.getClass(), Heading.class);
+        assertEquals(Direction.EAST, act.getDirection());
+
+        aerialState = findGround.getState(context, map, StateMediator.getInstance());
+        assertEquals(aerialState.getClass(), FlyUntil.class);
     }
 }

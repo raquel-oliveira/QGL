@@ -23,22 +23,32 @@ public class ComboFlyEchoTest {
     @Test
     public void defineComboEchosHorizontal() throws IndexOutOfBoundsComboAction {
         combo.defineActions(Direction.EAST);
-        assertEquals(Fly.class, ((Fly)combo.get(0)).getClass());
+        assertEquals(Fly.class, (combo.get(0)).getClass());
 
-        assertEquals(Echo.class, ((Echo)combo.get(1)).getClass());
-        assertEquals(Direction.NORTH, ((Echo)combo.get(1)).getDirection());
-        assertEquals(Echo.class, ((Echo)combo.get(2)).getClass());
-        assertEquals(Direction.SOUTH, ((Echo)combo.get(2)).getDirection());
+        assertEquals(Echo.class, (combo.get(1)).getClass());
+        assertEquals(Direction.EAST, (combo.get(1)).getDirection());
+
+        combo = new ComboFlyEcho();
+        combo.defineActions(Direction.WEST);
+        assertEquals(Fly.class, (combo.get(0)).getClass());
+
+        assertEquals(Echo.class, (combo.get(1)).getClass());
+        assertEquals(Direction.WEST, (combo.get(1)).getDirection());
     }
 
     @Test
     public void defineComboEchosVertical() throws IndexOutOfBoundsComboAction {
         combo.defineActions(Direction.NORTH);
-        assertEquals(Fly.class, ((Fly)combo.get(0)).getClass());
+        assertEquals(Fly.class, (combo.get(0)).getClass());
 
-        assertEquals(Echo.class, ((Echo)combo.get(1)).getClass());
-        assertEquals(Direction.WEST, ((Echo)combo.get(1)).getDirection());
-        assertEquals(Echo.class, ((Echo)combo.get(2)).getClass());
-        assertEquals(Direction.EAST, ((Echo)combo.get(2)).getDirection());
+        assertEquals(Echo.class, (combo.get(1)).getClass());
+        assertEquals(Direction.NORTH, (combo.get(1)).getDirection());
+
+        combo = new ComboFlyEcho();
+        combo.defineActions(Direction.SOUTH);
+        assertEquals(Fly.class, (combo.get(0)).getClass());
+
+        assertEquals(Echo.class, (combo.get(1)).getClass());
+        assertEquals(Direction.SOUTH, (combo.get(1)).getDirection());
     }
 }

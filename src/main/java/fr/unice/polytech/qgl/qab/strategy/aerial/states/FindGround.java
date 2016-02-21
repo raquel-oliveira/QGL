@@ -46,18 +46,18 @@ public class FindGround extends AerialState {
     @Override
     public Action responseState(Context context, Map map, StateMediator stateMediator) throws IndexOutOfBoundsComboAction {
         Action act;
-        if (context.getLastDiscovery().getFound().isEquals(Found.GROUND) && lastAction instanceof Echo) {
+        if (context.getLastDiscovery().getEchoResponse().getFound().equals(Found.GROUND) && lastAction instanceof Echo) {
             Direction dir = (lastAction).getDirection();
             act = new Heading(dir);
             context.setHeading(dir);
-            stateMediator.setRangeToGround(context.getLastDiscovery().getRange());
+            stateMediator.setRangeToGround(context.getLastDiscovery().getEchoResponse().getRange());
             lastAction = act;
             return act;
         }
 
         if (actionCombo == null || actionCombo.isEmpty()) {
             actionCombo = new ComboFlyEcho();
-            actionCombo.defineActions(context.getHeading());
+            actionCombo.defineActions(choiceDirectionEcho(context, map));
         }
 
         act = actionCombo.get(0);
@@ -65,5 +65,25 @@ public class FindGround extends AerialState {
         actionCombo.remove(0);
 
         return act;
+    }
+
+    /**
+     * Choice the direction to make echo
+     * @param context data context of the simulation
+     * @param map of the simulation
+     * @return direction
+     */
+    private Direction choiceDirectionEcho(Context context, Map map) {
+        if (context.getHeading().isVertical()) {
+            if (map.getLastPosition().getX() > map.getWidth()/2)
+                return Direction.WEST;
+            else
+                return Direction.EAST;
+        } else {
+            if (map.getLastPosition().getY() < map.getHeight()/2)
+                return Direction.SOUTH;
+            else
+                return Direction.NORTH;
+        }
     }
 }
