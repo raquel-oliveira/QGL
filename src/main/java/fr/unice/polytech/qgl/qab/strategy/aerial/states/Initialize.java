@@ -39,9 +39,11 @@ public class Initialize extends AerialState {
             // if it's necessary go to the corner
             needGoToTheCorner(context, stateMediator);
 
+            // initialize the dimention of the map
             if (!stateMediator.shouldGoToTheCorner())
                 updaterMap.initializeDimensions(context, map);
 
+            // after made the 3 acho and see if it's necessary go to the corner
             if (actionCombo.isEmpty() && stateMediator.shouldGoToTheCorner()) {
                 actionCombo = null;
                 return GoToTheCorner.getInstance();
@@ -61,6 +63,7 @@ public class Initialize extends AerialState {
             ((ComboEchos)actionCombo).defineComboEchos(context.getHeading());
         }
 
+        // return the action of the combo
         Action act = actionCombo.get(0);
         lastAction = act;
         actionCombo.remove(0);
@@ -82,18 +85,16 @@ public class Initialize extends AerialState {
                 && context.getLastDiscovery().getEchoResponse().getFound().isEquals(Found.GROUND))
             mediator.setGoToTheCorner(true);
 
-        int a = 0;
-
         if (mediator.shouldGoToTheCorner() && context.getLastDiscovery().getEchoResponse().getRange() <= mediator.getRangeToTheCorner()) {
             mediator.setRangeToTheCorner(context.getLastDiscovery().getEchoResponse().getRange());
             mediator.setDirectionToTheCorner(context.getLastDiscovery().getEchoResponse().getDirection());
-        } 
+        }
     }
 
     /**
      * Set the first position in the map
      * @param context data context of the simulation
-     * @param map
+     * @param map of the simulation
      * @throws PositionOutOfMapRange
      */
     public void setFirtsPosition(Context context, Map map) throws PositionOutOfMapRange {

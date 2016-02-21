@@ -41,28 +41,43 @@ public class GoToTheCorner extends AerialState {
     public Action responseState(Context context, Map map, StateMediator stateMediator) throws IndexOutOfBoundsComboAction {
         Action act;
 
-        if (turnCorner == null && actionCombo == null) {
-            turnCorner = new Heading(stateMediator.getDirectionToTheCorner());
-            lastAction = turnCorner;
-            return turnCorner;
-        }
+        // make the first and last heading
+        if (turnCorner == null)
+            return getHeading(context, stateMediator);
 
-        if (actionCombo == null && turnCorner != null) {
-            turnCorner = null;
+
+        // after the first heading make the fly until the corner
+        if (actionCombo == null) {
             actionCombo = new ComboFlyUntil();
             actionCombo.defineComboFlyUntil(stateMediator.getRangeToTheCorner() - 2);
-        }
-
-        if (actionCombo != null && actionCombo.isEmpty() && turnCorner == null) {
-            turnCorner = new Heading(context.getFirstHead());
-            lastAction = turnCorner;
-            return turnCorner;
         }
 
         act = actionCombo.get(0);
         lastAction = act;
         actionCombo.remove(0);
 
+        // after the fly until, we set turnCorn null, to make the last heading action
+        if (actionCombo.isEmpty())
+            turnCorner = null;
+
         return act;
+    }
+
+    /**
+     * Return the heading initial and final.
+     * @param context data context of the simulation
+     * @param stateMediator
+     * @return heading action
+     */
+    private Action getHeading(Context context, StateMediator stateMediator) {
+        if (actionCombo == null) {
+            turnCorner = new Heading(stateMediator.getDirectionToTheCorner());
+            lastAction = turnCorner;
+            return turnCorner;
+        } else {
+            turnCorner = new Heading(context.getFirstHead());
+            lastAction = turnCorner;
+            return turnCorner;
+        }
     }
 }
