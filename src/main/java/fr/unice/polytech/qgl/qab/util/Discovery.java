@@ -16,7 +16,6 @@ import java.util.List;
  * Class that represents the information discovered by the actions of the bot.
  */
 public class Discovery {
-    private Direction direction;
     private List<Creek> creeks;
     private ScanResponse scanResponse;
     private GlimpseResponse glimpseResponse;
@@ -27,7 +26,6 @@ public class Discovery {
      * Discovery's constructor
      */
     public Discovery() {
-        this.direction = null;
         creeks = new ArrayList<>();
         glimpseResponse = new GlimpseResponse();
         exploreResponse = new ExploreResponse();
@@ -40,7 +38,6 @@ public class Discovery {
      * @param direction indicate the direction of the discobery
      */
     public Discovery(Direction direction) {
-        this.direction = direction;
         creeks = new ArrayList<>();
         glimpseResponse = new GlimpseResponse();
         exploreResponse = new ExploreResponse();
@@ -52,15 +49,7 @@ public class Discovery {
      * In some cases is necessary return to initial state.
      */
     public void setUp() {
-        this.direction = null;
-    }
-
-    /**
-     * Get the direction of the last discovery
-     * @return discovery direction
-     */
-    public Direction getDirection() {
-        return direction;
+        this.echoResponse = new EchoResponse();
     }
 
     /**
@@ -101,14 +90,6 @@ public class Discovery {
      */
     public ScanResponse getScanResponse() {
         return scanResponse;
-    }
-
-    /**
-     * Set Direction of the last discovery.
-     * @param direction value of the direction
-     */
-    public void setDirection(Direction direction) {
-        this.direction = direction;
     }
 
     /**

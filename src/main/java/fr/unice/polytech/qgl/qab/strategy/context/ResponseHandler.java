@@ -61,7 +61,6 @@ public class ResponseHandler {
 
         if (takeAction instanceof Echo) {
             tempContext = readDataFromEcho(tempContext, jsonObj, takeAction);
-            tempContext.getLastDiscovery().setDirection((takeAction).getDirection());
         } else if (takeAction instanceof Scan) {
             tempContext = readDataFromScan(tempContext, jsonObj);
         } else if (takeAction instanceof Fly) {

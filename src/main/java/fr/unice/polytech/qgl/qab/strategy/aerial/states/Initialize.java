@@ -52,26 +52,45 @@ public class Initialize extends AerialState {
 
     @Override
     public Action responseState(Context context, Map map, StateMediator mediator) throws IndexOutOfBoundsComboAction {
+        // if is the first execution
         if (actionCombo == null) {
             actionCombo = new ComboEchos();
             ((ComboEchos)actionCombo).defineComboEchos(context.getHeading());
         }
 
+        // if it's necessary go to the corner
+        needGoToTheCorner(context, mediator);
+
         Action act = actionCombo.get(0);
         lastAction = act;
         actionCombo.remove(0);
+        return act;
+    }
 
-        if (context.getLastDiscovery() != null && !mediator.shouldGoToTheCorner() && context.getLastDiscovery().getEchoResponse().getFound().isEquals(Found.GROUND))
+    /**
+     * This method will see if it's necessary go to the corner.
+     * If the Echo found a ground, the mediator will be changed,
+     * and the range and direction to the corner will be save.
+     * @param context data's context of the simulation
+     * @param mediator
+     */
+    private void needGoToTheCorner(Context context, StateMediator mediator) {
+        if (context.getLastDiscovery() != null && !mediator.shouldGoToTheCorner()
+                && context.getLastDiscovery().getEchoResponse().getFound().isEquals(Found.GROUND))
             mediator.setGoToTheCorner(true);
 
         if (mediator.shouldGoToTheCorner() && context.getLastDiscovery().getEchoResponse().getRange() > mediator.getRangeToTheCorner()) {
             mediator.setRangeToTheCorner(context.getLastDiscovery().getEchoResponse().getRange());
             mediator.setDirectionToTheCorner(context.getLastDiscovery().getEchoResponse().getDirection());
         }
-
-        return act;
     }
 
+    /**
+     * Set the first position in the map
+     * @param context data context of the simulation
+     * @param map
+     * @throws PositionOutOfMapRange
+     */
     public void setFirtsPosition(Context context, Map map) throws PositionOutOfMapRange {
         if (context.getHeading().isVertical()) {
             if (context.getHeading().equals(Direction.NORTH))

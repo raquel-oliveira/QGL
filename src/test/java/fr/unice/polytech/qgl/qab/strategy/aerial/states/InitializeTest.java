@@ -11,7 +11,6 @@ import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.util.Discovery;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
-import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -45,7 +44,6 @@ public class InitializeTest {
         EchoResponse echoResponse = new EchoResponse();
         echoResponse.addData(Found.OUT_OF_RANGE, Direction.SOUTH, 10);
         discovery.setEchoResponse(echoResponse);
-        discovery.setDirection(Direction.SOUTH);
         context.setLastDiscovery(discovery);
         context.setFirstHead(Direction.SOUTH);
 
@@ -81,7 +79,6 @@ public class InitializeTest {
         echoResponse = new EchoResponse();
         echoResponse.addData(Found.OUT_OF_RANGE, Direction.WEST, 10);
         discovery.setEchoResponse(echoResponse);
-        discovery.setDirection(act.getDirection());
         context.setLastDiscovery(discovery);
 
         AerialState state = initialize.getState(context, map, StateMediator.getInstance());
@@ -98,7 +95,6 @@ public class InitializeTest {
         echoResponse = new EchoResponse();
         echoResponse.addData(Found.OUT_OF_RANGE, Direction.SOUTH, 4);
         discovery.setEchoResponse(echoResponse);
-        discovery.setDirection(act.getDirection());
         context.setLastDiscovery(discovery);
 
         state = initialize.getState(context, map, StateMediator.getInstance());
