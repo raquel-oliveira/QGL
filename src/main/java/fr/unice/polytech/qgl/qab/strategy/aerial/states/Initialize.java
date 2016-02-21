@@ -51,7 +51,7 @@ public class Initialize extends AerialState {
     }
 
     @Override
-    public Action responseState(Context context, Map map, StateMediator stateMediator) throws IndexOutOfBoundsComboAction {
+    public Action responseState(Context context, Map map, StateMediator mediator) throws IndexOutOfBoundsComboAction {
         if (actionCombo == null) {
             actionCombo = new ComboEchos();
             ((ComboEchos)actionCombo).defineComboEchos(context.getHeading());
@@ -61,16 +61,14 @@ public class Initialize extends AerialState {
         lastAction = act;
         actionCombo.remove(0);
 
-        if (context.getLastDiscovery() != null && !stateMediator.shouldGoToTheCorner()) {
-            if (context.getLastDiscovery().getEchoResponse().getFound().isEquals(Found.GROUND))
-                stateMediator.setGoToTheCorner(true);
-        }
+        if (context.getLastDiscovery() != null && !mediator.shouldGoToTheCorner() && context.getLastDiscovery().getEchoResponse().getFound().isEquals(Found.GROUND))
+            mediator.setGoToTheCorner(true);
 
-        if (stateMediator.shouldGoToTheCorner()) {
-            if (context.getLastDiscovery().getEchoResponse().getRange() > stateMediator.getRangeToTheCorner()) {
-                stateMediator.setRangeToTheCorner(context.getLastDiscovery().getEchoResponse().getRange());
-                stateMediator.setDirectionToTheCorner(context.getLastDiscovery().getEchoResponse().getDirection());
-            }
+
+        if (mediator.shouldGoToTheCorner() && context.getLastDiscovery().getEchoResponse().getRange() > mediator.getRangeToTheCorner()) {
+            mediator.setRangeToTheCorner(context.getLastDiscovery().getEchoResponse().getRange());
+            mediator.setDirectionToTheCorner(context.getLastDiscovery().getEchoResponse().getDirection());
+
         }
 
         return act;
