@@ -8,6 +8,7 @@ import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.map.Map;
+import fr.unice.polytech.qgl.qab.response.EchoResponse;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.util.Discovery;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
@@ -36,17 +37,56 @@ public class ReturnBackTest {
 
     @Test
     public void testResponseState() throws NegativeBudgetException, IndexOutOfBoundsComboAction {
-        /*Context context = new Context();
+        Context context = new Context();
         context.setFirstHead(Direction.NORTH);
         context.setHeading(Direction.EAST);
 
         StateMediator state = StateMediator.getInstance();
 
-        //assertEquals(act.getClass(), new Heading(Direction.NORTH).getClass());
         AerialState as = returnBack.getState(context, new Map(), state);
         assertEquals(as.getClass(), ReturnBack.getInstance().getClass());
 
-        Action act = returnBack.responseState(context, new Map(), state);
+        testHeading(context, state);
+        Action act;
+
+        EchoResponse echoResponse = new EchoResponse();
+        echoResponse.addData(Found.GROUND, Direction.WEST, 0);
+        Discovery discovery = new Discovery();
+        discovery.setEchoResponse(echoResponse);
+        context.setLastDiscovery(discovery);
+
+        as = returnBack.getState(context, new Map(), state);
+        assertEquals(as.getClass(), ScanTheGround.getInstance().getClass());
+
+        testHeading(context, state);
+
+        discovery = new Discovery();
+        echoResponse = new EchoResponse();
+        echoResponse.addData(Found.OUT_OF_RANGE, Direction.WEST, 0);
+        discovery.setEchoResponse(echoResponse);
+        context.setLastDiscovery(discovery);
+
+        act = returnBack.responseState(context, new Map(), state);
+        assertEquals(act.getClass(), new Stop().getClass());
+
+        echoResponse = new EchoResponse();
+        echoResponse.addData(Found.GROUND, Direction.WEST, 2);
+        discovery = new Discovery();
+        discovery.setEchoResponse(echoResponse);
+        context.setLastDiscovery(discovery);
+
+        act = returnBack.responseState(context, new Map(), state);
+        assertEquals(act.getClass(), new Fly().getClass());
+
+        act = returnBack.responseState(context, new Map(), state);
+
+        assertEquals(act.getClass(), new Fly().getClass());
+
+        assertEquals(false, state.shouldFlyUntilGround());
+    }
+
+    private void testHeading(Context context, StateMediator state) throws IndexOutOfBoundsComboAction {
+        AerialState as;Action act = returnBack.responseState(context, new Map(), state);
         assertEquals(act.getClass(), new Heading(Direction.NORTH).getClass());
 
         as = returnBack.getState(context, new Map(), state);
@@ -60,32 +100,5 @@ public class ReturnBackTest {
 
         act = returnBack.responseState(context, new Map(), state);
         assertEquals(act.getClass(), new Echo(Direction.WEST).getClass());
-
-        Discovery discovery = new Discovery();
-        discovery.setRange(0);
-        context.setLastDiscovery(discovery);
-
-        as = returnBack.getState(context, new Map(), state);
-        assertEquals(as.getClass(), ScanTheGround.getInstance().getClass());
-
-        discovery = new Discovery();
-        discovery.setFound(Found.OUT_OF_RANGE);
-        context.setLastDiscovery(discovery);
-
-        act = returnBack.responseState(context, new Map(), state);
-        assertEquals(act.getClass(), new Stop().getClass());
-
-        discovery = new Discovery();
-        discovery.setFound(Found.GROUND);
-        discovery.setRange(2);
-        context.setLastDiscovery(discovery);
-
-        act = returnBack.responseState(context, new Map(), state);
-        assertEquals(act.getClass(), new Fly().getClass());
-
-        act = returnBack.responseState(context, new Map(), state);
-        assertEquals(act.getClass(), new Fly().getClass());
-
-        assertEquals(false, state.shouldFlyUntilGround());*/
     }
 }
