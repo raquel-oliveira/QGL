@@ -5,7 +5,6 @@ import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.response.GlimpseResponse;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.ContractItem;
-import org.apache.xpath.operations.Bool;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,33 +16,19 @@ import java.util.List;
  */
 public class ContextAnalyzer {
 
+    /**
+     * Check if the explorers are in the ocean (or next)
+     * @param context
+     * @return
+     */
     public boolean isOcean(Context context) {
-        HashMap<Biomes, Double> initialTiles1, initialTiles2;
         List<Biomes> thirdTile;
         Biomes fourth;
 
-        initialTiles1 = context.getLastDiscovery().getGlimpseResponse().getInitialTiles().get(0);
-        initialTiles2 = context.getLastDiscovery().getGlimpseResponse().getInitialTiles().get(1);
         thirdTile = context.getLastDiscovery().getGlimpseResponse().getThirdTile();
         fourth = context.getLastDiscovery().getGlimpseResponse().getFourthTile();
 
-        return (thirdTile.contains(Biomes.OCEAN) || fourth.equals(Biomes.OCEAN));
-    }
-
-    /**$
-     * Analize if the bot should stop.
-     * This method will see if it's necessary stop the simulation after recive
-     * the response of the glimpse action
-     * @param context datas about the context of the simulation
-     * @return true if necessary, and false if not
-     */
-    public boolean shouldChangeStop(Context context) {
-        if (!context.getLastDiscovery().getGlimpseResponse().getInitialTiles().isEmpty()) {
-            HashMap<Biomes, Double> initial_tiles = context.getLastDiscovery().getGlimpseResponse().getInitialTiles().get(0);
-            if (initial_tiles.containsKey(Biomes.OCEAN) && initial_tiles.get(Biomes.OCEAN) >= 90)
-                    return true;
-        }
-        return false;
+        return thirdTile.contains(Biomes.OCEAN) || fourth.equals(Biomes.OCEAN);
     }
 
     /**
@@ -80,51 +65,53 @@ public class ContextAnalyzer {
         List<ContractItem> contract = context.getContracts();
 
         // the initial tiles info
-        List<HashMap<Biomes, Double>> initial_tiles = gr.getInitialTiles();
+        List<HashMap<Biomes, Double>> initialTiles = gr.getInitialTiles();
         // if for each tile there is one or more good biome
         List<Boolean> goodTiles = new ArrayList<>();
 
-        int index_tile = 0;
-        boolean find_good_biome = false;
+        int indexTile = 0;
+        boolean findGoodBiome = false;
 
         // two firts tiles
-        for (HashMap<Biomes, Double> tile: initial_tiles) {
+        for (HashMap<Biomes, Double> tile: initialTiles) {
             for (Biomes key : tile.keySet()) {
                 for (ContractItem item: contract) {
                     if (item.resource().getBiome().contains(key)) {
-                        find_good_biome = true;
+                        findGoodBiome = true;
                         break;
                     }
-                } if (find_good_biome)
+                }
+                if (findGoodBiome)
                     break;
             }
-            goodTiles.add(index_tile, find_good_biome);
-            find_good_biome = false;
-            index_tile++;
+            goodTiles.add(indexTile, findGoodBiome);
+            findGoodBiome = false;
+            indexTile++;
         }
 
-        List<Biomes> third_tile = gr.getThirdTile();
-        for (Biomes key : third_tile) {
+        List<Biomes> thirdTile = gr.getThirdTile();
+        for (Biomes key : thirdTile) {
             for (ContractItem item: contract) {
                 if (item.resource().getBiome().contains(key)) {
-                    find_good_biome = true;
+                    findGoodBiome = true;
                     break;
                 }
-            } if (find_good_biome)
+            }
+            if (findGoodBiome)
                 break;
         }
-        goodTiles.add(index_tile, find_good_biome);
-        find_good_biome = false;
-        index_tile++;
+        goodTiles.add(indexTile, findGoodBiome);
+        findGoodBiome = false;
+        indexTile++;
 
         Biomes fourth = gr.getFourthTile();
         for (ContractItem item: contract) {
             if (item.resource().getBiome().contains(fourth)) {
-                find_good_biome = true;
+                findGoodBiome = true;
                 break;
             }
         }
-        goodTiles.add(index_tile, find_good_biome);
+        goodTiles.add(indexTile, findGoodBiome);
 
         return goodTiles;
     }
