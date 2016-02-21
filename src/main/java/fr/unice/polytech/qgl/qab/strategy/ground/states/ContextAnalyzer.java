@@ -35,9 +35,8 @@ public class ContextAnalyzer {
      * @param context datas about the context of the simulation
      * @return list of resources founded
      */
-    public List<PrimaryType> resourceAnalyzer(Context context) {
+    public Map<PrimaryType, Integer> resourceAnalyzer(Context context) {
         Set<ContractItem> contract = context.getContracts();
-        List<PrimaryType> resourcesList = new ArrayList<>();
         Map<PrimaryType, Integer> resources = new HashMap<PrimaryType, Integer>();
 
         for (ContractItem item: contract) {
@@ -55,10 +54,8 @@ public class ContextAnalyzer {
             }
         }
 
-        while(resources != null){
-           resourcesList.addAll(resources.keySet());
-        }
-        return resourcesList;
+
+        return resources;
     }
 
     /**
