@@ -36,7 +36,7 @@ public class ChoiceASideTest {
     }
 
     @Test
-    public void testTest() throws NegativeBudgetException, PositionOutOfMapRange, IndexOutOfBoundsComboAction {
+    public void testActions() throws NegativeBudgetException, PositionOutOfMapRange, IndexOutOfBoundsComboAction {
         Context context = new Context();
         context.setFirstHead(Direction.NORTH);
         context.setHeading(Direction.NORTH);
