@@ -6,7 +6,9 @@ import fr.unice.polytech.qgl.qab.response.GlimpseResponse;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.ContractItem;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * @version 07/02/16.
@@ -35,26 +37,15 @@ public class ContextAnalyzer {
      * @param context datas about the context of the simulation
      * @return list of resources founded
      */
-    public Map<PrimaryType, Integer> resourceAnalyzer(Context context) {
-        Set<ContractItem> contract = context.getContracts();
-        Map<PrimaryType, Integer> resources = new HashMap<PrimaryType, Integer>();
+    public List<PrimaryType> resourceAnalyzer(Context context) {
+        List<ContractItem> contract = context.getContracts();
+        List<PrimaryType> resources = new ArrayList<>();
 
         for (ContractItem item: contract) {
             if (context.getLastDiscovery().getExploreResponse().contains(item.resource())) {
-                PrimaryType name = PrimaryType.valueOf(item.resource().getName());
-                if(resources.containsKey(name)){
-                    if(item.amount() < resources.get(name)){
-                        resources.put(name, resources.get(name)+1);
-                    }
-                }
-                else{
-                    resources.put(name, 0);
-
-                }
+                resources.add(PrimaryType.valueOf(item.resource().getName()));
             }
         }
-
-
         return resources;
     }
 
@@ -71,7 +62,7 @@ public class ContextAnalyzer {
         // the glimpse response
         GlimpseResponse gr = context.getLastDiscovery().getGlimpseResponse();
         // the contract info
-        Set<ContractItem> contract = context.getContracts();
+        List<ContractItem> contract = context.getContracts();
 
         // the initial tiles info
         List<HashMap<Biomes, Double>> initialTiles = gr.getInitialTiles();

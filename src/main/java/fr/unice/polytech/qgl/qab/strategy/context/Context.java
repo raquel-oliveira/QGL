@@ -12,9 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @version 16/12/15.
@@ -25,7 +23,7 @@ public class Context {
     private int men;
     private boolean status;
     private Budget budget;
-    private Set<ContractItem> contracts;
+    private List<ContractItem> contracts;
 
     // direction of the head in the begin
     private Direction firstHead;
@@ -42,7 +40,7 @@ public class Context {
         men = 0;
         status = true;
         budget = new Budget(0);
-        contracts = new HashSet<>();
+        contracts = new ArrayList<>();
 
         firstHead = null;
         heading = null;
@@ -125,7 +123,7 @@ public class Context {
      * The the list of contracts gave in the begin of the simulation
      * @return list of contracts
      */
-    public Set<ContractItem> getContracts() {
+    public List<ContractItem> getContracts() {
         return contracts;
     }
 
