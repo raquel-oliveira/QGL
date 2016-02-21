@@ -36,6 +36,9 @@ public class Initialize extends AerialState {
     @Override
     public AerialState getState(Context context, Map map, StateMediator stateMediator) throws PositionOutOfMapRange {
         if (actionCombo != null) {
+            // if it's necessary go to the corner
+            needGoToTheCorner(context, stateMediator);
+
             if (!stateMediator.shouldGoToTheCorner())
                 updaterMap.initializeDimensions(context, map);
 
@@ -58,9 +61,6 @@ public class Initialize extends AerialState {
             ((ComboEchos)actionCombo).defineComboEchos(context.getHeading());
         }
 
-        // if it's necessary go to the corner
-        needGoToTheCorner(context, mediator);
-
         Action act = actionCombo.get(0);
         lastAction = act;
         actionCombo.remove(0);
@@ -75,14 +75,19 @@ public class Initialize extends AerialState {
      * @param mediator
      */
     private void needGoToTheCorner(Context context, StateMediator mediator) {
+        if (mediator.shouldGoToTheCorner() && mediator.getRangeToTheCorner() == 0)
+            mediator.setRangeToTheCorner(context.getLastDiscovery().getEchoResponse().getRange());
+
         if (context.getLastDiscovery() != null && !mediator.shouldGoToTheCorner()
                 && context.getLastDiscovery().getEchoResponse().getFound().isEquals(Found.GROUND))
             mediator.setGoToTheCorner(true);
 
-        if (mediator.shouldGoToTheCorner() && context.getLastDiscovery().getEchoResponse().getRange() > mediator.getRangeToTheCorner()) {
+        int a = 0;
+
+        if (mediator.shouldGoToTheCorner() && context.getLastDiscovery().getEchoResponse().getRange() <= mediator.getRangeToTheCorner()) {
             mediator.setRangeToTheCorner(context.getLastDiscovery().getEchoResponse().getRange());
             mediator.setDirectionToTheCorner(context.getLastDiscovery().getEchoResponse().getDirection());
-        }
+        } 
     }
 
     /**
