@@ -11,6 +11,7 @@ import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.util.Discovery;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
+import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -42,51 +43,56 @@ public class InitializeTest {
     @Test
     public void testFirtsEcho() throws NegativeBudgetException, IndexOutOfBoundsComboAction, PositionOutOfMapRange {
         EchoResponse echoResponse = new EchoResponse();
-        echoResponse.addData(Found.OUT_OF_RANGE, Direction.SOUTH, 1);
+        echoResponse.addData(Found.OUT_OF_RANGE, Direction.SOUTH, 10);
         discovery.setEchoResponse(echoResponse);
-        discovery.setDirection(Direction.NORTH);
+        discovery.setDirection(Direction.SOUTH);
         context.setLastDiscovery(discovery);
-        context.setFirstHead(Direction.NORTH);
+        context.setFirstHead(Direction.SOUTH);
 
         AerialState state = initialize.getState(context, map, stateMediator);
         assertEquals(Initialize.class, state.getClass());
 
         Action act = initialize.responseState(context, map, stateMediator);
         assertEquals(Echo.class, act.getClass());
+
+        state = initialize.getState(context, map, stateMediator);
+        assertEquals(Initialize.class, state.getClass());
+
+        act = initialize.responseState(context, map, stateMediator);
+        assertEquals(Echo.class, act.getClass());
     }
 
-    @Test
+    @Ignore
     public void testInitializeDimention() throws IndexOutOfBoundsComboAction, PositionOutOfMapRange {
-        EchoResponse echoResponse = new EchoResponse();
-        echoResponse.addData(Found.OUT_OF_RANGE, Direction.SOUTH, 1);
-        discovery.setEchoResponse(echoResponse);
-        discovery.setDirection(Direction.NORTH);
-        context.setLastDiscovery(discovery);
-        context.setFirstHead(Direction.NORTH);
-
-        AerialState state = initialize.getState(context, map, StateMediator.getInstance());
-        assertEquals(Initialize.getInstance(), state);
-
+        // first moment = just make a echo
         Action act = initialize.responseState(context, map, StateMediator.getInstance());
         assertEquals(Echo.class, act.getClass());
 
-        //state = initialize.getState(context, map, StateMediator.getInstance());
-        assertEquals(Initialize.getInstance(), state);
+        // found a out_of_range as response
+        EchoResponse echoResponse = new EchoResponse();
+        echoResponse.addData(Found.OUT_OF_RANGE, Direction.EAST, 10);
+        discovery.setEchoResponse(echoResponse);
+        context.setLastDiscovery(discovery);
 
-        //act = initialize.responseState(context, map, StateMediator.getInstance());
+        act = initialize.responseState(context, map, StateMediator.getInstance());
         assertEquals(Echo.class, act.getClass());
 
         stateMediator.setGoToTheCorner(false);
         echoResponse = new EchoResponse();
-        echoResponse.addData(Found.OUT_OF_RANGE, Direction.SOUTH, 1);
+        echoResponse.addData(Found.OUT_OF_RANGE, Direction.WEST, 10);
         discovery.setEchoResponse(echoResponse);
         discovery.setDirection(act.getDirection());
         context.setLastDiscovery(discovery);
 
-//        state = initialize.getState(context, map, StateMediator.getInstance());
+        AerialState state = initialize.getState(context, map, StateMediator.getInstance());
+        assertEquals(Initialize.getInstance(), state);
+        act = initialize.responseState(context, map, StateMediator.getInstance());
+        assertEquals(Echo.class, act.getClass());
+
+        state = initialize.getState(context, map, StateMediator.getInstance());
         assertEquals(Initialize.getInstance(), state);
 
-        //act = initialize.responseState(context, map, StateMediator.getInstance());
+        act = initialize.responseState(context, map, StateMediator.getInstance());
         assertEquals(Echo.class, act.getClass());
 
         echoResponse = new EchoResponse();
@@ -95,13 +101,13 @@ public class InitializeTest {
         discovery.setDirection(act.getDirection());
         context.setLastDiscovery(discovery);
 
-//        state = initialize.getState(context, map, StateMediator.getInstance());
-//        assertEquals(Initialize.getInstance(), state);
+        state = initialize.getState(context, map, StateMediator.getInstance());
+        assertEquals(Initialize.getInstance(), state);
 
-//        act = initialize.responseState(context, map, StateMediator.getInstance());
+        act = initialize.responseState(context, map, StateMediator.getInstance());
         assertEquals(Echo.class, act.getClass());
 
-       // assertEquals(2, map.getHeight());
-//        assertEquals(2, map.getWidth());
+        assertEquals(2, map.getHeight());
+        assertEquals(2, map.getWidth());
     }
 }
