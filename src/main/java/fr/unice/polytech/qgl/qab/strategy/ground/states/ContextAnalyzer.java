@@ -6,9 +6,7 @@ import fr.unice.polytech.qgl.qab.response.GlimpseResponse;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.ContractItem;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * @version 07/02/16.
@@ -38,15 +36,29 @@ public class ContextAnalyzer {
      * @return list of resources founded
      */
     public List<PrimaryType> resourceAnalyzer(Context context) {
-        List<ContractItem> contract = context.getContracts();
-        List<PrimaryType> resources = new ArrayList<>();
+        Set<ContractItem> contract = context.getContracts();
+        List<PrimaryType> resourcesList = new ArrayList<>();
+        Map<PrimaryType, Integer> resources = new HashMap<PrimaryType, Integer>();
 
         for (ContractItem item: contract) {
             if (context.getLastDiscovery().getExploreResponse().contains(item.resource())) {
-                resources.add(PrimaryType.valueOf(item.resource().getName()));
+                PrimaryType name = PrimaryType.valueOf(item.resource().getName());
+                if(resources.containsKey(name)){
+                    if(item.amount() < resources.get(name)){
+                        resources.put(name, resources.get(name)+1);
+                    }
+                }
+                else{
+                    resources.put(name, 0);
+
+                }
             }
         }
-        return resources;
+
+        while(resources != null){
+           resourcesList.addAll(resources.keySet());
+        }
+        return resourcesList;
     }
 
     /**
@@ -62,7 +74,7 @@ public class ContextAnalyzer {
         // the glimpse response
         GlimpseResponse gr = context.getLastDiscovery().getGlimpseResponse();
         // the contract info
-        List<ContractItem> contract = context.getContracts();
+        Set<ContractItem> contract = context.getContracts();
 
         // the initial tiles info
         List<HashMap<Biomes, Double>> initialTiles = gr.getInitialTiles();
