@@ -8,7 +8,7 @@ import fr.unice.polytech.qgl.qab.strategy.context.Context;
 
 /**
  * This AerialState represents the phase when the plane fly until it gets over the land.
- * @version 12.12.2015.
+ * @version 12/12/2015.
  */
 public class FlyUntil extends AerialState {
     private static FlyUntil instance;
@@ -39,6 +39,7 @@ public class FlyUntil extends AerialState {
     public Action responseState(Context context,  Map map, StateMediator stateMediator) throws IndexOutOfBoundsComboAction {
         Action act;
 
+        // if action is empty, set the combo fly
         if (actionCombo.isEmpty())
             actionCombo.defineComboFlyUntil(stateMediator.getRangeToGround());
 

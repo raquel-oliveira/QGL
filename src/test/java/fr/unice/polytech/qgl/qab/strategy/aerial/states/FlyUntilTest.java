@@ -36,7 +36,19 @@ public class FlyUntilTest {
 
     @Test
     public void testResponseState() throws NegativeBudgetException, IndexOutOfBoundsComboAction {
-        Action act = flyUntil.responseState(new Context(), new Map(), StateMediator.getInstance());
+        StateMediator sm = StateMediator.getInstance();
+        sm.setRangeToGround(2);
+
+        Action act = flyUntil.responseState(new Context(), new Map(), sm);
         assertEquals(act.getClass(), new Fly().getClass());
+
+        AerialState as = flyUntil.getState(new Context(), new Map(), sm);
+        assertEquals(as, FlyUntil.getInstance());
+
+        act = flyUntil.responseState(new Context(), new Map(), sm);
+        assertEquals(act.getClass(), new Fly().getClass());
+
+        as = flyUntil.getState(new Context(), new Map(), sm);
+        assertEquals(as, ScanTheGround.getInstance());
     }
 }

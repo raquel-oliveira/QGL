@@ -57,7 +57,7 @@ public class FindGround extends AerialState {
             return act;
         }
 
-        // set the combo fly+echo to find the ground
+        // set the combo fly + echo to find the ground
         if (actionCombo == null || actionCombo.isEmpty()) {
             actionCombo = new ComboFlyEcho();
             actionCombo.defineActions(choiceDirectionEcho(context, map));
