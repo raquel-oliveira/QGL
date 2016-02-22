@@ -1,6 +1,7 @@
 package fr.unice.polytech.qgl.qab.strategy.aerial.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
+import fr.unice.polytech.qgl.qab.actions.combo.Combo;
 import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboFlyEcho;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Heading;
@@ -13,27 +14,20 @@ import fr.unice.polytech.qgl.qab.util.enums.Found;
  * @version 17/12/15.
  */
 public class GoToTheCorner extends AerialState {
-    private static GoToTheCorner instance;
-
-    private Heading turnCorner;
-    private ComboFlyEcho actionCombo;
 
     private GoToTheCorner() {
         super();
-        actionCombo = null;
-        turnCorner = null;
     }
 
     public static GoToTheCorner getInstance() {
-        if (instance == null)
-            instance = new GoToTheCorner();
-        return instance;
+        return new GoToTheCorner();
     }
 
     @Override
     public AerialState getState(Context context, Map map, StateMediator stateMediator) {
         if (foundFreeZone(context)) {
             stateMediator.setGoToTheCorner(false);
+            context.setComboAction(null);
             return Initialize.getInstance();
         } else
             return GoToTheCorner.getInstance();
@@ -44,24 +38,24 @@ public class GoToTheCorner extends AerialState {
         Action act = null;
 
         // make the first and last heading
-        if (turnCorner == null)
+        if (context.getSimpleAction() == null)
             return getHeading(context, stateMediator);
 
 
         // after the first heading make the fly until the corner
-        if (actionCombo == null || actionCombo.isEmpty()) {
-            actionCombo = new ComboFlyEcho();
-            actionCombo.defineActions(context.getFirstHead());
+        if (context.getComboAction() == null || context.getComboAction().isEmpty()) {
+            context.setComboAction(new ComboFlyEcho());
+            context.getComboAction().defineActions(context.getFirstHead());
         }
 
         // if the actionCombo has a action
-        if (actionCombo != null) {
-            if (lastAction instanceof Fly)
+        if (context.getComboAction() != null) {
+            if (context.getLastAction() instanceof Fly)
                 stateMediator.setRangeToTheCorner(stateMediator.getRangeToTheCorner() - 1);
 
-            act = actionCombo.get(0);
-            lastAction = act;
-            actionCombo.remove(0);
+            act = context.getComboAction().get(0);
+            context.setLastAction(act);
+            context.getComboAction().remove(0);
 
             // if the echo found the out_of_range, return the action heading
             if (needLastTurn(context, stateMediator))
@@ -92,14 +86,14 @@ public class GoToTheCorner extends AerialState {
      * @return heading action
      */
     private Action getHeading(Context context, StateMediator stateMediator) {
-        if (actionCombo == null) {
-            turnCorner = new Heading(stateMediator.getDirectionToTheCorner());
-            lastAction = turnCorner;
-            return turnCorner;
+        if (context.getComboAction() == null) {
+            context.setSimpleAction(new Heading(stateMediator.getDirectionToTheCorner()));
+            context.setLastAction(context.getSimpleAction());
+            return context.getSimpleAction();
         } else {
-            turnCorner = new Heading(context.getFirstHead());
-            lastAction = turnCorner;
-            return turnCorner;
+            context.setSimpleAction(new Heading(context.getFirstHead()));
+            context.setLastAction(context.getSimpleAction());
+            return context.getSimpleAction();
         }
     }
 
@@ -112,6 +106,6 @@ public class GoToTheCorner extends AerialState {
     private boolean foundFreeZone(Context context) {
         return context.getLastDiscovery().getEchoResponse().getFound().equals(Found.OUT_OF_RANGE) &&
                 context.getLastDiscovery().getEchoResponse().getDirection().equals(context.getFirstHead()) &&
-                lastAction instanceof Heading;
+                context.getLastAction() instanceof Heading;
     }
 }

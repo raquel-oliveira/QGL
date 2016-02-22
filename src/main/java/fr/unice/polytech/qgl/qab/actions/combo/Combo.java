@@ -2,6 +2,7 @@ package fr.unice.polytech.qgl.qab.actions.combo;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
+import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 import java.util.List;
 
@@ -58,4 +59,8 @@ public abstract class Combo {
     public void removeAll() {
         actions.clear();
     }
+
+    public void defineActions(Direction dir) {};
+
+    public void defineActions() {};
 }

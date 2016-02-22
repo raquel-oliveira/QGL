@@ -1,5 +1,8 @@
 package fr.unice.polytech.qgl.qab.strategy.context;
 
+import fr.unice.polytech.qgl.qab.actions.Action;
+import fr.unice.polytech.qgl.qab.actions.combo.Combo;
+import fr.unice.polytech.qgl.qab.actions.simple.aerial.Heading;
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedType;
@@ -29,8 +32,15 @@ public class Context {
     private Direction firstHead;
     // direction of the current head
     private Direction heading;
-
+    // last discovery
     private Discovery lastDiscovery;
+
+    private Combo comboAction;
+
+    private Action simpleAction;
+
+    private Action lastAction;
+
 
     /**
      * Context's constructor
@@ -46,6 +56,10 @@ public class Context {
         heading = null;
 
         lastDiscovery = null;
+
+        comboAction = null;
+        simpleAction = null;
+        lastAction = null;
     }
 
     /**
@@ -125,6 +139,38 @@ public class Context {
      */
     public List<ContractItem> getContracts() {
         return contracts;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Combo getComboAction() {
+        return comboAction;
+    }
+
+    public Action getSimpleAction() {
+        return simpleAction;
+    }
+
+    public Action getLastAction() {
+        return lastAction;
+    }
+
+    public void setLastAction(Action lastAction) {
+        this.lastAction = lastAction;
+    }
+
+    public void setSimpleAction(Action simpleAction) {
+        this.simpleAction = simpleAction;
+    }
+
+    /**
+     *
+     * @param comboAction
+     */
+    public void setComboAction(Combo comboAction) {
+        this.comboAction = comboAction;
     }
 
     /**

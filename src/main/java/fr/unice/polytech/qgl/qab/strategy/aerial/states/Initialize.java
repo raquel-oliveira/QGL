@@ -16,26 +16,21 @@ import fr.unice.polytech.qgl.qab.util.enums.Found;
  * @version 10.12.2015
  */
 public class Initialize extends AerialState {
-    private static Initialize instance;
 
-    private Combo actionCombo;
+    //private Combo actionCombo;
     private UpdaterMap updaterMap;
 
     private Initialize() {
-        super();
         updaterMap = new UpdaterMap();
-        actionCombo = null;
     }
 
     public static Initialize getInstance() {
-        if (instance == null)
-            instance = new Initialize();
-        return instance;
+        return new Initialize();
     }
 
     @Override
     public AerialState getState(Context context, Map map, StateMediator stateMediator) throws PositionOutOfMapRange {
-        if (actionCombo != null) {
+        if (context.getComboAction() != null) {
             // if it's necessary go to the corner
             needGoToTheCorner(context, stateMediator);
 
@@ -44,10 +39,10 @@ public class Initialize extends AerialState {
                 updaterMap.initializeDimensions(context, map);
 
             // after made the 3 acho and see if it's necessary go to the corner
-            if (actionCombo.isEmpty() && stateMediator.shouldGoToTheCorner()) {
-                actionCombo = null;
+            if (context.getComboAction().isEmpty() && stateMediator.shouldGoToTheCorner()) {
+                context.setComboAction(null);
                 return GoToTheCorner.getInstance();
-            } else if (actionCombo.isEmpty() && !stateMediator.shouldGoToTheCorner()) {
+            } else if (context.getComboAction().isEmpty() && !stateMediator.shouldGoToTheCorner()) {
                 setFirtsPosition(context, map);
                 return FindGround.getInstance();
             }
@@ -58,15 +53,15 @@ public class Initialize extends AerialState {
     @Override
     public Action responseState(Context context, Map map, StateMediator mediator) throws IndexOutOfBoundsComboAction {
         // if is the first execution
-        if (actionCombo == null) {
-            actionCombo = new ComboEchos();
-            ((ComboEchos)actionCombo).defineComboEchos(context.getHeading());
+        if (context.getComboAction() == null) {
+            context.setComboAction(new ComboEchos());
+            ((ComboEchos)context.getComboAction()).defineComboEchos(context.getHeading());
         }
 
         // return the action of the combo
-        Action act = actionCombo.get(0);
-        lastAction = act;
-        actionCombo.remove(0);
+        Action act = context.getComboAction().get(0);
+        context.setLastAction(act);
+        context.getComboAction().remove(0);
         return act;
     }
 

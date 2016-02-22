@@ -25,6 +25,7 @@ public class ComboFlyEcho extends Combo {
      * perpendiculars to heading.
      * @param dir direction of the head
      */
+    @Override
     public void defineActions(Direction dir) {
         actions.add(new Fly());
         actions.add(new Echo(dir));

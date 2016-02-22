@@ -3,6 +3,7 @@ package fr.unice.polytech.qgl.qab.actions.combo.aerial;
 import fr.unice.polytech.qgl.qab.actions.combo.Combo;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Scan;
+import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 import java.util.ArrayList;
 
@@ -20,6 +21,7 @@ public class ComboFlyScan extends Combo {
     /**
      * Set the actions (fly and scan)
      */
+    @Override
     public void defineActions() {
         actions.add(new Fly());
         actions.add(new Scan());
