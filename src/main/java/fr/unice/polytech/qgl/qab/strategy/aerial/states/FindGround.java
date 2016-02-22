@@ -77,14 +77,14 @@ public class FindGround extends AerialState {
      * @param map of the simulation
      * @return direction
      */
-    private Direction choiceDirectionEcho(Context context, Map map) {
+    private static Direction choiceDirectionEcho(Context context, Map map) {
         if (context.getHeading().isVertical()) {
             if (map.getLastPosition().getX() > map.getWidth()/2)
                 return Direction.WEST;
             else
                 return Direction.EAST;
         } else {
-            if (map.getLastPosition().getY() < map.getHeight()/2)
+            if (map.getLastPosition().getY() > map.getHeight()/2)
                 return Direction.SOUTH;
             else
                 return Direction.NORTH;

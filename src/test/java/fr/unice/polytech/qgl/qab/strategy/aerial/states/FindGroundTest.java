@@ -46,7 +46,69 @@ public class FindGroundTest {
     }
 
     @Test
-    public void testResponseState() throws NegativeBudgetException, IndexOutOfBoundsComboAction {
+    public void testChoiceASideVertical() throws NegativeBudgetException, IndexOutOfBoundsComboAction {
+        context.setHeading(Direction.NORTH);
+        context.setFirstHead(Direction.NORTH);
+
+        Map map = new Map();
+        map.setLastPosition(new Position(80, 80));
+        map.initializeWidthMap(100, true);
+        map.initializeHeightMap(100, true);
+
+        Action act = findGround.responseState(context, map, StateMediator.getInstance());
+        assertEquals(act.getClass(), Fly.class);
+
+        AerialState aerialState = findGround.getState(context, map, StateMediator.getInstance());
+        assertEquals(aerialState.getClass(), FindGround.class);
+
+        act = findGround.responseState(context, map, StateMediator.getInstance());
+        assertEquals(act.getClass(), Echo.class);
+        assertEquals(Direction.WEST, act.getDirection());
+    }
+
+    @Test
+    public void testChoiceASideHorizontalSouth() throws NegativeBudgetException, IndexOutOfBoundsComboAction {
+        Map map = setContextMap(Direction.EAST, new Position(80, 80));
+
+        Action act = findGround.responseState(context, map, StateMediator.getInstance());
+        assertEquals(act.getClass(), Fly.class);
+
+        AerialState aerialState = findGround.getState(context, map, StateMediator.getInstance());
+        assertEquals(aerialState.getClass(), FindGround.class);
+
+        act = findGround.responseState(context, map, StateMediator.getInstance());
+        assertEquals(act.getClass(), Echo.class);
+        assertEquals(Direction.SOUTH, act.getDirection());
+    }
+
+    @Test
+    public void testChoiceASideHorizontalNorth() throws NegativeBudgetException, IndexOutOfBoundsComboAction {
+        Map map = setContextMap(Direction.EAST, new Position(30, 30));
+
+        Action act = findGround.responseState(context, map, StateMediator.getInstance());
+        assertEquals(act.getClass(), Fly.class);
+
+        AerialState aerialState = findGround.getState(context, map, StateMediator.getInstance());
+        assertEquals(aerialState.getClass(), FindGround.class);
+
+        act = findGround.responseState(context, map, StateMediator.getInstance());
+        assertEquals(act.getClass(), Echo.class);
+        assertEquals(Direction.NORTH, act.getDirection());
+    }
+
+    private Map setContextMap(Direction east, Position position) {
+        context.setHeading(east);
+        context.setFirstHead(east);
+
+        Map map = new Map();
+        map.setLastPosition(position);
+        map.initializeWidthMap(100, true);
+        map.initializeHeightMap(100, true);
+        return map;
+    }
+
+    @Test
+    public void testResponseState() throws IndexOutOfBoundsComboAction {
         context.setHeading(Direction.NORTH);
         context.setFirstHead(Direction.NORTH);
 
