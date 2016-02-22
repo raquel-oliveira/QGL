@@ -1,13 +1,11 @@
 package fr.unice.polytech.qgl.qab.util;
 
-import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.map.tile.Creek;
 import fr.unice.polytech.qgl.qab.response.EchoResponse;
 import fr.unice.polytech.qgl.qab.response.ExploreResponse;
 import fr.unice.polytech.qgl.qab.response.GlimpseResponse;
 import fr.unice.polytech.qgl.qab.response.ScanResponse;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
-import fr.unice.polytech.qgl.qab.util.enums.Found;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,13 +59,17 @@ public class Discovery {
      * Get the direction of the last discovery
      * @return discovery direction
      */
-    public Direction getDirection() { return direction; }
+    public Direction getDirection() {
+        return direction;
+    }
 
     /**
      * Get creeks of the last scan discovery
      * @return creeks values
      */
-    public List<Creek> getCreeks() { return creeks; }
+    public List<Creek> getCreeks() {
+        return creeks;
+    }
 
     /**
      * Get the data of the glimpse response
@@ -105,13 +107,17 @@ public class Discovery {
      * Set Direction of the last discovery.
      * @param direction value of the direction
      */
-    public void setDirection(Direction direction) { this.direction = direction; }
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
 
     /**
      * Set creeks of the last discovery (scan response)
      * @param creeks values of the last discovery
      */
-    public void setCreeks(List<Creek> creeks) { this.creeks = creeks; }
+    public void setCreeks(List<Creek> creeks) {
+        this.creeks = creeks;
+    }
 
     /**
      * Set last glimpse response

@@ -51,6 +51,7 @@ public class ContextAnalyzerTest {
         assertEquals(false, contextAnalyzer.isOcean(context));
 
         glimpseResponse.setFourthTile(Biomes.OCEAN);
+        glimpseResponse.setAskedRange(4);
         biomes = new ArrayList<>();
         biomes.add(Biomes.OCEAN);
         glimpseResponse.setThirdTile(biomes);

@@ -6,12 +6,10 @@ import fr.unice.polytech.qgl.qab.actions.simple.ground.Glimpse;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
-import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -67,7 +65,8 @@ public class ChoiceASide extends GroundState {
             glimpses.add(new Glimpse(Direction.inverse(dirRandom), 4));
         }
 
-        if (glimpses.isEmpty()) return new Stop();
+        if (glimpses.isEmpty())
+            return new Stop();
 
         act = glimpses.remove(0);
         lastAction = act;

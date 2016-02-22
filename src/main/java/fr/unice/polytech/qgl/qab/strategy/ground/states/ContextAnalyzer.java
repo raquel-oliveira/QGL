@@ -22,11 +22,13 @@ public class ContextAnalyzer {
      * @return
      */
     public boolean isOcean(Context context) {
-        List<Biomes> thirdTile;
-        Biomes fourth;
+        List<Biomes> thirdTile = new ArrayList<>();
+        Biomes fourth = Biomes.ALPINE;
 
-        thirdTile = context.getLastDiscovery().getGlimpseResponse().getThirdTile();
-        fourth = context.getLastDiscovery().getGlimpseResponse().getFourthTile();
+        if (context.getLastDiscovery().getGlimpseResponse().hasResponse()) {
+            thirdTile = context.getLastDiscovery().getGlimpseResponse().getThirdTile();
+            fourth = context.getLastDiscovery().getGlimpseResponse().getFourthTile();
+        }
 
         return thirdTile.contains(Biomes.OCEAN) || fourth.equals(Biomes.OCEAN);
     }

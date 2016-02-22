@@ -64,17 +64,15 @@ public class Initialize extends AerialState {
         if (context.getLastDiscovery() != null && !mediator.shouldGoToTheCorner() && context.getLastDiscovery().getEchoResponse().getFound().isEquals(Found.GROUND))
             mediator.setGoToTheCorner(true);
 
-
         if (mediator.shouldGoToTheCorner() && context.getLastDiscovery().getEchoResponse().getRange() > mediator.getRangeToTheCorner()) {
             mediator.setRangeToTheCorner(context.getLastDiscovery().getEchoResponse().getRange());
             mediator.setDirectionToTheCorner(context.getLastDiscovery().getEchoResponse().getDirection());
-
         }
 
         return act;
     }
 
-    private void setFirtsPosition(Context context, Map map) throws PositionOutOfMapRange {
+    public void setFirtsPosition(Context context, Map map) throws PositionOutOfMapRange {
         if (context.getHeading().isVertical()) {
             if (context.getHeading().equals(Direction.NORTH))
                 map.setLastPosition(new Position(context.getLastDiscovery().getEchoResponse().getRange(), map.getHeight() - 1));

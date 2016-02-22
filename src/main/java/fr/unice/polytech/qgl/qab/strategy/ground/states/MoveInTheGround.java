@@ -1,7 +1,6 @@
 package fr.unice.polytech.qgl.qab.strategy.ground.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Glimpse;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.MoveTo;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
@@ -24,7 +23,6 @@ public class MoveInTheGround extends GroundState {
     private ContextAnalyzer contextAnalyzer;
     private List<Boolean> resources;
     private int indexTile;
-    private List<MoveTo> movemove;
 
     /**
      * MoveInTheGround's constructor
@@ -35,7 +33,6 @@ public class MoveInTheGround extends GroundState {
         contextAnalyzer = new ContextAnalyzer();
         resources = new ArrayList<>();
         indexTile = 0;
-        movemove = null;
     }
 
     /**
@@ -73,13 +70,11 @@ public class MoveInTheGround extends GroundState {
         // we can check if the response of the glimpse was good
         // if not, we can change of the direction, for now, this is random
         // but after we can use the scout to choice the bast side
-        if (lastAction instanceof Glimpse) {
-            if (contextAnalyzer.goodGlimpse(context)) {
-                act = new MoveTo(Direction.randomSideDirection(context.getHeading()));
-                indexTile = 0;
-                lastAction = null;
-                return act;
-            }
+        if (lastAction instanceof Glimpse && contextAnalyzer.goodGlimpse(context)) {
+            act = new MoveTo(Direction.randomSideDirection(context.getHeading()));
+            indexTile = 0;
+            lastAction = null;
+            return act;
         }
 
         // we can move in the squares that the glimpse saw
@@ -97,30 +92,5 @@ public class MoveInTheGround extends GroundState {
         indexTile = 0;
         lastAction = null;
         return act;
-    }
-
-    /**
-     * This method will set the direction that the explorers need to move.
-     * @param context datas about the context of the simulation
-     */
-    private void changeDirection(Context context, int move) {
-        if (movemove == null)
-            movemove = new ArrayList<>();
-        Direction dir;
-        if (context.getHeading().isHorizontal()) {
-            if (context.getHeading().equals(Direction.EAST))
-                dir = Direction.WEST;
-            else
-                dir = Direction.EAST;
-        } else {
-            if (context.getHeading().equals(Direction.NORTH))
-                dir = Direction.SOUTH;
-            else
-                dir = Direction.NORTH;
-        }
-        for (int i = 0; i < move; i++) {
-            movemove.add(new MoveTo(dir));
-        }
-        movemove.add(new MoveTo(Direction.randomSideDirection(context.getHeading())));
     }
 }
