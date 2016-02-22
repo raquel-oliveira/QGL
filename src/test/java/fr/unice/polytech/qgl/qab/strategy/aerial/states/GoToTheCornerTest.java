@@ -13,6 +13,7 @@ import fr.unice.polytech.qgl.qab.util.Discovery;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -85,14 +86,40 @@ public class GoToTheCornerTest {
 
         act = goToTheCorner.responseState(context, new Map(), state);
         assertEquals(act.getClass(), Echo.class);
+    }
 
-        echoResponse = new EchoResponse();
+    @Test
+    public void foundOutOfRange() throws IndexOutOfBoundsComboAction {
+        StateMediator state = StateMediator.getInstance();
+        state.setDirectionToTheCorner(Direction.WEST);
+        state.setRangeToTheCorner(15);
+
+        EchoResponse echoResponse = new EchoResponse();
         echoResponse.addData(Found.OUT_OF_RANGE, Direction.SOUTH, 40);
-        dis = new Discovery();
+        Discovery dis = new Discovery();
         dis.setEchoResponse(echoResponse);
         context.setLastDiscovery(dis);
 
-        act = goToTheCorner.responseState(context, new Map(), state);
+        Action act = goToTheCorner.responseState(context, new Map(), state);
+        assertEquals(act.getClass(), Heading.class);
+
+        AerialState aerialState = goToTheCorner.getState(context, new Map(), state);
+        assertEquals(Initialize.getInstance(), aerialState);
+    }
+
+    @Ignore
+    public void testWithoutSpace() throws IndexOutOfBoundsComboAction {
+        StateMediator state = StateMediator.getInstance();
+        state.setDirectionToTheCorner(Direction.WEST);
+        state.setRangeToTheCorner(1);
+
+        EchoResponse echoResponse = new EchoResponse();
+        echoResponse.addData(Found.GROUND, Direction.SOUTH, 40);
+        Discovery dis = new Discovery();
+        dis.setEchoResponse(echoResponse);
+        context.setLastDiscovery(dis);
+
+        Action act = goToTheCorner.responseState(context, new Map(), state);
         assertEquals(act.getClass(), Heading.class);
 
         AerialState aerialState = goToTheCorner.getState(context, new Map(), state);

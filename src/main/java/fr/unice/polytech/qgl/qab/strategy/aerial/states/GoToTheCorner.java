@@ -2,6 +2,7 @@ package fr.unice.polytech.qgl.qab.strategy.aerial.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboFlyEcho;
+import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Heading;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.map.Map;
@@ -55,17 +56,33 @@ public class GoToTheCorner extends AerialState {
 
         // if the actionCombo has a action
         if (actionCombo != null) {
+            if (lastAction instanceof Fly)
+                stateMediator.setRangeToTheCorner(stateMediator.getRangeToTheCorner() - 1);
+
             act = actionCombo.get(0);
             lastAction = act;
             actionCombo.remove(0);
 
             // if the echo found the out_of_range, return the action heading
-            if (context.getLastDiscovery().getEchoResponse().getFound().equals(Found.OUT_OF_RANGE) &&
-                    context.getLastDiscovery().getEchoResponse().getDirection().equals(context.getFirstHead()))
+            if (needLastTurn(context, stateMediator))
                 return getHeading(context, stateMediator);
         }
 
         return act;
+    }
+
+    /**
+     * Method that will check if it's necessary make the last turn
+     * This case happen if the plane found the out_of_range or if
+     * it arrive in the map's limit to make a heading
+     * @param context data context of the simulation
+     * @param stateMediator
+     * @return if it's necessary or not
+     */
+    private boolean needLastTurn(Context context, StateMediator stateMediator) {
+        return (context.getLastDiscovery().getEchoResponse().getFound().equals(Found.OUT_OF_RANGE) &&
+                context.getLastDiscovery().getEchoResponse().getDirection().equals(context.getFirstHead())) ||
+                    stateMediator.getRangeToGround() == 1;
     }
 
     /**
