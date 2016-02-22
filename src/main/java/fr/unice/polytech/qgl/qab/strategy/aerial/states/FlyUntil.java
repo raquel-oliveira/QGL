@@ -40,7 +40,7 @@ public class FlyUntil extends AerialState {
         Action act;
 
         if (actionCombo.isEmpty())
-            actionCombo.defineComboFlyUntil(stateMediator.getRangeToGround() + 1);
+            actionCombo.defineComboFlyUntil(stateMediator.getRangeToGround());
 
         act = actionCombo.get(0);
         actionCombo.remove(0);

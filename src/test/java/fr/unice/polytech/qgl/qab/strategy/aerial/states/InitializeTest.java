@@ -39,29 +39,50 @@ public class InitializeTest {
         context.setFirstHead(Direction.SOUTH);
     }
 
-    @Test
-    public void testFirtsEcho() throws NegativeBudgetException, IndexOutOfBoundsComboAction, PositionOutOfMapRange {
-        EchoResponse echoResponse = new EchoResponse();
-        echoResponse.addData(Found.OUT_OF_RANGE, Direction.SOUTH, 10);
-        discovery.setEchoResponse(echoResponse);
-        context.setLastDiscovery(discovery);
-        context.setFirstHead(Direction.SOUTH);
-
+    @Ignore
+    public void testInitializeWithoutFoundAGround() throws NegativeBudgetException, IndexOutOfBoundsComboAction, PositionOutOfMapRange {
         AerialState state = initialize.getState(context, map, stateMediator);
         assertEquals(Initialize.class, state.getClass());
 
         Action act = initialize.responseState(context, map, stateMediator);
         assertEquals(Echo.class, act.getClass());
 
+        EchoResponse echoResponse = new EchoResponse();
+        echoResponse.addData(Found.OUT_OF_RANGE, Direction.SOUTH, 10);
+        discovery.setEchoResponse(echoResponse);
+        context.setLastDiscovery(discovery);
+        context.setFirstHead(Direction.SOUTH);
+
         state = initialize.getState(context, map, stateMediator);
         assertEquals(Initialize.class, state.getClass());
 
         act = initialize.responseState(context, map, stateMediator);
         assertEquals(Echo.class, act.getClass());
+
+        echoResponse = new EchoResponse();
+        echoResponse.addData(Found.OUT_OF_RANGE, Direction.WEST, 10);
+        discovery.setEchoResponse(echoResponse);
+        context.setLastDiscovery(discovery);
+        context.setFirstHead(Direction.SOUTH);
+
+        state = initialize.getState(context, map, stateMediator);
+        assertEquals(Initialize.class, state.getClass());
+
+        echoResponse = new EchoResponse();
+        echoResponse.addData(Found.OUT_OF_RANGE, Direction.EAST, 10);
+        discovery.setEchoResponse(echoResponse);
+        context.setLastDiscovery(discovery);
+        context.setFirstHead(Direction.SOUTH);
+
+        act = initialize.responseState(context, map, stateMediator);
+        assertEquals(Echo.class, act.getClass());
+
+        state = initialize.getState(context, map, stateMediator);
+        assertEquals(FindGround.class, state.getClass());
     }
 
     @Ignore
-    public void testInitializeDimention() throws IndexOutOfBoundsComboAction, PositionOutOfMapRange {
+    public void testInitializeAfterFoundAGround() throws IndexOutOfBoundsComboAction, PositionOutOfMapRange {
         // first moment = just make a echo
         Action act = initialize.responseState(context, map, StateMediator.getInstance());
         assertEquals(Echo.class, act.getClass());

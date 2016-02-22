@@ -64,7 +64,7 @@ public class ResponseHandler {
         } else if (takeAction instanceof Scan) {
             tempContext = readDataFromScan(tempContext, jsonObj);
         } else if (takeAction instanceof Fly) {
-            tempContext.getLastDiscovery().setUp();
+            tempContext.getLastDiscovery().setUpEcho();
         } else if (takeAction instanceof Glimpse) {
             tempContext = readDataFromGlimpse(contextIsland, jsonObj);
         } else if (takeAction instanceof Explore) {

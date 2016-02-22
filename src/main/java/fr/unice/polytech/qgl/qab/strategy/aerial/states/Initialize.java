@@ -3,6 +3,7 @@ package fr.unice.polytech.qgl.qab.strategy.aerial.states;
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.combo.Combo;
 import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboEchos;
+import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboFlyEcho;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
@@ -77,7 +78,7 @@ public class Initialize extends AerialState {
      * @param context data's context of the simulation
      * @param mediator
      */
-    private void needGoToTheCorner(Context context, StateMediator mediator) {
+     private static void needGoToTheCorner(Context context, StateMediator mediator) {
         if (mediator.shouldGoToTheCorner() && mediator.getRangeToTheCorner() == 0)
             mediator.setRangeToTheCorner(context.getLastDiscovery().getEchoResponse().getRange());
 
@@ -97,7 +98,7 @@ public class Initialize extends AerialState {
      * @param map of the simulation
      * @throws PositionOutOfMapRange
      */
-    public void setFirtsPosition(Context context, Map map) throws PositionOutOfMapRange {
+     private static void setFirtsPosition(Context context, Map map) throws PositionOutOfMapRange {
         if (context.getHeading().isVertical()) {
             if (context.getHeading().equals(Direction.NORTH))
                 map.setLastPosition(new Position(context.getLastDiscovery().getEchoResponse().getRange(), map.getHeight() - 1));

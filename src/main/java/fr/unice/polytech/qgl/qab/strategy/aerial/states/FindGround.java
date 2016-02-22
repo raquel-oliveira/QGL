@@ -46,8 +46,10 @@ public class FindGround extends AerialState {
     @Override
     public Action responseState(Context context, Map map, StateMediator stateMediator) throws IndexOutOfBoundsComboAction {
         Action act;
+
+        // if the bot made a echo and found a ground, so it's necessary make a heading
         if (context.getLastDiscovery().getEchoResponse().getFound().equals(Found.GROUND) && lastAction instanceof Echo) {
-            Direction dir = (lastAction).getDirection();
+            Direction dir = lastAction.getDirection();
             act = new Heading(dir);
             context.setHeading(dir);
             stateMediator.setRangeToGround(context.getLastDiscovery().getEchoResponse().getRange());
@@ -55,11 +57,13 @@ public class FindGround extends AerialState {
             return act;
         }
 
+        // set the combo fly+echo to find the ground
         if (actionCombo == null || actionCombo.isEmpty()) {
             actionCombo = new ComboFlyEcho();
             actionCombo.defineActions(choiceDirectionEcho(context, map));
         }
 
+        // take the action of the combo
         act = actionCombo.get(0);
         lastAction = act;
         actionCombo.remove(0);

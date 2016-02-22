@@ -48,7 +48,7 @@ public class Discovery {
      * Method that set the values patterns in variables.
      * In some cases is necessary return to initial state.
      */
-    public void setUp() {
+    public void setUpEcho() {
         this.echoResponse = new EchoResponse();
     }
 
