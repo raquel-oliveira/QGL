@@ -1,10 +1,7 @@
 package fr.unice.polytech.qgl.qab.util;
 
 import fr.unice.polytech.qgl.qab.map.tile.Creek;
-import fr.unice.polytech.qgl.qab.response.EchoResponse;
-import fr.unice.polytech.qgl.qab.response.ExploreResponse;
-import fr.unice.polytech.qgl.qab.response.GlimpseResponse;
-import fr.unice.polytech.qgl.qab.response.ScanResponse;
+import fr.unice.polytech.qgl.qab.response.*;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 import java.util.ArrayList;
@@ -22,6 +19,7 @@ public class Discovery {
     private GlimpseResponse glimpseResponse;
     private ExploreResponse exploreResponse;
     private EchoResponse echoResponse;
+    private ExploitResponse exploitResponse;
 
     /**
      * Discovery's constructor
@@ -33,6 +31,7 @@ public class Discovery {
         exploreResponse = new ExploreResponse();
         echoResponse = new EchoResponse();
         scanResponse = new ScanResponse();
+        exploitResponse = new ExploitResponse();
     }
 
     /**
@@ -45,6 +44,9 @@ public class Discovery {
         glimpseResponse = new GlimpseResponse();
         exploreResponse = new ExploreResponse();
         echoResponse = new EchoResponse();
+        scanResponse = new ScanResponse();
+        exploitResponse = new ExploitResponse();
+
     }
 
     /**
@@ -85,6 +87,14 @@ public class Discovery {
      */
     public ExploreResponse getExploreResponse() {
         return exploreResponse;
+    }
+
+    /**
+     * Get the data of the exploit response
+     * @return data of the exploit response
+     */
+    public ExploitResponse getExploitResponse() {
+        return exploitResponse;
     }
 
     /**
@@ -141,6 +151,14 @@ public class Discovery {
      */
     public void setExploreResponse(ExploreResponse exploreResponse) {
         this.exploreResponse = exploreResponse;
+    }
+
+    /**
+     * Set last exploit response
+     * @param exploitResponse value of the explore response
+     */
+    public void setExploiteResponse(ExploitResponse exploitResponse) {
+        this.exploitResponse = exploitResponse;
     }
 
     /**
