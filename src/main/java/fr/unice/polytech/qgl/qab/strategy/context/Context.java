@@ -1,13 +1,12 @@
 package fr.unice.polytech.qgl.qab.strategy.context;
-
-import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.actions.combo.Combo;
-import fr.unice.polytech.qgl.qab.actions.simple.aerial.Heading;
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedType;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
+import fr.unice.polytech.qgl.qab.strategy.context.utils.Budget;
+import fr.unice.polytech.qgl.qab.strategy.context.utils.ContextAction;
+import fr.unice.polytech.qgl.qab.strategy.context.utils.ContractItem;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 import fr.unice.polytech.qgl.qab.util.Discovery;
@@ -35,21 +34,7 @@ public class Context {
     // last discovery
     private Discovery lastDiscovery;
 
-    private Combo comboAction;
-    private Combo comboReturnBack;
-    private Action simpleAction;
-    private Action lastAction;
-    private int contScan;
-    private int indexAction;
-
-
-    public Combo getComboReturnBack() {
-        return comboReturnBack;
-    }
-
-    public void setComboReturnBack(Combo comboReturnBack) {
-        this.comboReturnBack = comboReturnBack;
-    }
+    private ContextAction contextAction;
 
     /**
      * Context's constructor
@@ -66,12 +51,7 @@ public class Context {
 
         lastDiscovery = null;
 
-        comboAction = null;
-        simpleAction = null;
-        lastAction = null;
-        contScan = 0;
-        indexAction = 0;
-        comboReturnBack = null;
+        contextAction = new ContextAction();
     }
 
     /**
@@ -157,52 +137,8 @@ public class Context {
      *
      * @return
      */
-    public Combo getComboAction() {
-        return comboAction;
-    }
-
-    public Action getSimpleAction() {
-        return simpleAction;
-    }
-
-    public Action getLastAction() {
-        return lastAction;
-    }
-
-    public int getContScan() {
-        return contScan;
-    }
-
-    public int getIndexAction() {
-        return indexAction;
-    }
-
-    public void setIndexAction(int indexAction) {
-        this.indexAction = indexAction;
-    }
-
-    public void incrementIndexAction() {
-        this.indexAction += 1;
-    }
-
-    public void setContScan(int contScan) {
-        this.contScan = contScan;
-    }
-
-    public void setLastAction(Action lastAction) {
-        this.lastAction = lastAction;
-    }
-
-    public void setSimpleAction(Action simpleAction) {
-        this.simpleAction = simpleAction;
-    }
-
-    /**
-     *
-     * @param comboAction
-     */
-    public void setComboAction(Combo comboAction) {
-        this.comboAction = comboAction;
+    public ContextAction action() {
+        return contextAction;
     }
 
     /**

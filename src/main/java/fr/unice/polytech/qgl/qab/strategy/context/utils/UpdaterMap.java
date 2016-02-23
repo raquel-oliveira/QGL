@@ -1,7 +1,8 @@
-package fr.unice.polytech.qgl.qab.strategy.context;
+package fr.unice.polytech.qgl.qab.strategy.context.utils;
 
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.map.tile.Position;
+import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 /**

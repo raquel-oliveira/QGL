@@ -1,4 +1,4 @@
-package fr.unice.polytech.qgl.qab.strategy.context;
+package fr.unice.polytech.qgl.qab.strategy.context.utils;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Echo;
@@ -13,6 +13,7 @@ import fr.unice.polytech.qgl.qab.response.EchoResponse;
 import fr.unice.polytech.qgl.qab.response.ExploreResponse;
 import fr.unice.polytech.qgl.qab.response.GlimpseResponse;
 import fr.unice.polytech.qgl.qab.response.ScanResponse;
+import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.util.Discovery;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 import org.json.JSONArray;
