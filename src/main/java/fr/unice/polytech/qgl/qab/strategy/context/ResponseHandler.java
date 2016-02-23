@@ -4,15 +4,13 @@ import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Scan;
+import fr.unice.polytech.qgl.qab.actions.simple.ground.Exploit;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Explore;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Glimpse;
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.map.tile.Creek;
-import fr.unice.polytech.qgl.qab.response.EchoResponse;
-import fr.unice.polytech.qgl.qab.response.ExploreResponse;
-import fr.unice.polytech.qgl.qab.response.GlimpseResponse;
-import fr.unice.polytech.qgl.qab.response.ScanResponse;
+import fr.unice.polytech.qgl.qab.response.*;
 import fr.unice.polytech.qgl.qab.util.Discovery;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 import org.json.JSONArray;
@@ -37,6 +35,7 @@ public class ResponseHandler {
     private static final String BIOMES = "biomes";
     private static final String CREEKS = "creeks";
 
+
     /**
      * ResponseHandler's constructor
      */
@@ -60,16 +59,18 @@ public class ResponseHandler {
         tempContext.setBudget(contextIsland.getBudget() - jsonObj.getInt("cost"));
 
         if (takeAction instanceof Echo) {
-            tempContext = readDataFromEcho(tempContext, jsonObj, takeAction);
+            tempContext = readDataFromEcho(contextIsland, jsonObj, takeAction);
             tempContext.getLastDiscovery().setDirection((takeAction).getDirection());
         } else if (takeAction instanceof Scan) {
-            tempContext = readDataFromScan(tempContext, jsonObj);
+            tempContext = readDataFromScan(contextIsland, jsonObj);
         } else if (takeAction instanceof Fly) {
             tempContext.getLastDiscovery().setUp();
         } else if (takeAction instanceof Glimpse) {
             tempContext = readDataFromGlimpse(contextIsland, jsonObj);
         } else if (takeAction instanceof Explore) {
             tempContext = readDataFromExplore(contextIsland, jsonObj);
+        } else if (takeAction instanceof Exploit){
+            tempContext = readDataFromExploit(contextIsland, jsonObj, takeAction);
         }
         return tempContext;
     }
@@ -211,5 +212,19 @@ public class ResponseHandler {
         contextIsland.setLastDiscovery(discovery);
 
         return contextIsland;
+    }
+
+
+    private Context readDataFromExploit(Context context, JSONObject jsonObj, Action takeAction){
+        ExploitResponse exploit = new ExploitResponse();
+        if(jsonObj.getJSONObject(EXTRAS).has("amount")){
+            int amount = Integer.parseInt(jsonObj.getJSONObject(EXTRAS).getString("amount"));
+            exploit.addData(((Exploit)takeAction).getResource(),amount);
+        }
+
+        discovery.setExploiteResponse(exploit);
+        context.setLastDiscovery(discovery);
+        return context;
+
     }
 }

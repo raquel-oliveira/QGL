@@ -12,12 +12,12 @@ import java.util.List;
 
 /**
  * @version 07/02/16.
- * Class reponsible by analyze the context and return specific informations.
+ * Class responsible by analyze the context and return specific informations.
  */
 public class ContextAnalyzer {
 
     /**
-     * Check if the explorers are in the ocean (or next)
+     * Check if the explorers are in the ocean (or next to)
      * @param context
      * @return
      */
@@ -40,6 +40,7 @@ public class ContextAnalyzer {
      * @return list of resources founded
      */
     public List<PrimaryType> resourceAnalyzer(Context context) {
+        //TODO: change to primary and resource resource;  look amount of collectedResources. Use instanceof
         List<ContractItem> contract = context.getContracts();
         List<PrimaryType> resources = new ArrayList<>();
 
@@ -74,7 +75,7 @@ public class ContextAnalyzer {
         int indexTile = 0;
         boolean findGoodBiome = false;
 
-        // two firts tiles
+        // two first tiles
         for (HashMap<Biomes, Double> tile: initialTiles) {
             for (Biomes key : tile.keySet()) {
                 for (ContractItem item: contract) {

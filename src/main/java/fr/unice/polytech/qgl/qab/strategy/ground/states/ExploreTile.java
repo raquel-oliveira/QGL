@@ -25,6 +25,7 @@ public class ExploreTile extends GroundState {
     private static ExploreTile instance;
     private ContextAnalyzer contextAnalyzer;
     private List<PrimaryType> resourcesAnalyzer;
+    //private java.util.Map<Resource, Integer> resourcesAnalyzer;
 
     /**
      * ExploreTile's contructor
@@ -70,8 +71,9 @@ public class ExploreTile extends GroundState {
 
         if (resourcesAnalyzer != null && !resourcesAnalyzer.isEmpty()) {
             Resource res = new PrimaryResource(resourcesAnalyzer.get(0));
-            resourcesAnalyzer.remove(0);
             act = new Exploit(res);
+            //context.addCollectedResources(resourcesAnalyzer.get(0),);
+            resourcesAnalyzer.remove(0);
             lastAction = act;
             return act;
         }

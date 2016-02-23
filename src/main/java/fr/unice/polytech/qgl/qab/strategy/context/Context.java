@@ -1,6 +1,7 @@
 package fr.unice.polytech.qgl.qab.strategy.context;
 
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
+import fr.unice.polytech.qgl.qab.resources.Resource;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedType;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
@@ -12,7 +13,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @version 16/12/15.
@@ -24,6 +27,7 @@ public class Context {
     private boolean status;
     private Budget budget;
     private List<ContractItem> contracts;
+    private Map<Resource, Integer> collectedResources;
 
     // direction of the head in the begin
     private Direction firstHead;
@@ -41,6 +45,7 @@ public class Context {
         status = true;
         budget = new Budget(0);
         contracts = new ArrayList<>();
+        collectedResources = new HashMap<>(); //todo: what is de diference to put nothing in <> or put <Resources, Integer>?
 
         firstHead = null;
         heading = null;
@@ -125,6 +130,28 @@ public class Context {
      */
     public List<ContractItem> getContracts() {
         return contracts;
+    }
+
+    /**
+     * Return the collected Resources that were tooked after exploit a tile
+     * @return HashMap - resources collected and the respective amounts.
+     */
+    public  Map<Resource, Integer> getCollectedResources(){
+        return collectedResources;
+    }
+
+    /**
+     * Method to add a collect resource after action exploit.
+     * @param resource
+     * @param amount
+     */
+    public void addCollectedResources(Resource resource, int amount){
+        if(collectedResources.containsKey(resource)){
+            collectedResources.put(resource, collectedResources.get(resource)+amount); //update amount of this resources
+        }
+        else{
+            collectedResources.put(resource, amount);
+        }
     }
 
     /**
