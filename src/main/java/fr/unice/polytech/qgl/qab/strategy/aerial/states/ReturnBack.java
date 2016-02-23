@@ -26,15 +26,15 @@ public class ReturnBack extends AerialState {
     @Override
     public AerialState getState(Context context, Map map, StateMediator stateMediator) {
         // action echo
-        if (context.getLastAction() instanceof Echo) {
+        if (context.action().getLastAction() instanceof Echo) {
             if (context.getLastDiscovery().getEchoResponse().getFound().equals(Found.GROUND)) {
                 if (context.getLastDiscovery().getEchoResponse().getRange() >= 1) {
-                    context.setComboAction(null);
+                    context.action().setComboAction(null);
                     stateMediator.setRangeToGround(context.getLastDiscovery().getEchoResponse().getRange() + 1);
                     return FlyUntil.getInstance();
                 } else {
-                    context.setLastAction(null);
-                    context.setComboAction(null);
+                    context.action().setLastAction(null);
+                    context.action().setComboAction(null);
                     return ScanTheGround.getInstance();
                 }
             } else {
@@ -49,19 +49,19 @@ public class ReturnBack extends AerialState {
     public Action responseState(Context context, Map map, StateMediator stateMediator) throws IndexOutOfBoundsComboAction {
         Action act = null;
 
-        if (context.getComboReturnBack() == null) {
-            context.setComboReturnBack(new ComboReturn());
-            context.getComboReturnBack().defineActions(context.getHeading(), context.getFirstHead());
+        if (context.action().getComboReturnBack() == null) {
+            context.action().setComboReturnBack(new ComboReturn());
+            context.action().getComboReturnBack().defineActions(context.getHeading(), context.getFirstHead());
         }
 
-        act = context.getComboReturnBack().get(context.getIndexAction());
-        context.setLastAction(act);
-        if (context.getLastAction() instanceof Heading)
+        act = context.action().getComboReturnBack().get(context.action().getIndexAction());
+        context.action().setLastAction(act);
+        if (context.action().getLastAction() instanceof Heading)
             context.setHeading(act.getDirection());
-        context.incrementIndexAction();
+        context.action().incrementIndexAction();
 
-        if (context.getIndexAction() == 6)
-            context.setIndexAction(0);
+        if (context.action().getIndexAction() == 6)
+            context.action().setIndexAction(0);
 
 
         return act;

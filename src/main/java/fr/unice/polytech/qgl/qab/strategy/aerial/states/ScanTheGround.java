@@ -26,12 +26,12 @@ public class ScanTheGround extends AerialState {
             return Finish.getInstance();
 
         if (returnBack(context)) {
-            context.setLastAction(null);
+            context.action().setLastAction(null);
             return ReturnBack.getInstance();
         }
 
         if (needFlyUntil(context, stateMediator)) {
-            context.setComboAction(null);
+            context.action().setComboAction(null);
             return FlyUntil.getInstance();
         }
 
@@ -43,35 +43,35 @@ public class ScanTheGround extends AerialState {
         Action act;
 
         // we check if the plane is out of the ground (after scan), so make a echo
-        if (context.getLastAction() instanceof Scan) {
+        if (context.action().getLastAction() instanceof Scan) {
             act = getEcho(context);
             if (act != null)
                 return act;
         }
 
         // if action com is null or empty, we set the combo fly + scan
-        if (context.getComboAction() == null || context.getComboAction().isEmpty()) {
-            context.setComboAction(new ComboFlyScan());
-            context.getComboAction().defineActions();
+        if (context.action().getComboAction() == null || context.action().getComboAction().isEmpty()) {
+            context.action().setComboAction(new ComboFlyScan());
+            context.action().getComboAction().defineActions();
             if (!context.getLastDiscovery().getScanResponse().foundOcean()) {
-                if (context.getContScan() != SCAN_RATIO) {
-                    context.getComboAction().remove(1);
+                if (context.action().getContScan() != SCAN_RATIO) {
+                    context.action().getComboAction().remove(1);
                 } else {
-                    context.setContScan(0);
+                    context.action().setContScan(0);
                 }
-                context.setContScan(context.getContScan() + 1);
+                context.action().setContScan(context.action().getContScan() + 1);
             }
         }
 
-        act = context.getComboAction().get(0);
-        context.setLastAction(act);
-        context.getComboAction().remove(0);
+        act = context.action().getComboAction().get(0);
+        context.action().setLastAction(act);
+        context.action().getComboAction().remove(0);
 
         return act;
     }
 
     private boolean needFlyUntil(Context context, StateMediator sm) {
-        if (context.getLastAction() instanceof Echo && context.getLastDiscovery().getScanResponse().outOfGround()) {
+        if (context.action().getLastAction() instanceof Echo && context.getLastDiscovery().getScanResponse().outOfGround()) {
             sm.setRangeToGround(context.getLastDiscovery().getEchoResponse().getRange() + 1);
             return true;
         }
@@ -82,14 +82,14 @@ public class ScanTheGround extends AerialState {
         Action act;
         if (context.getLastDiscovery().getScanResponse().outOfGround()) {
             act = new Echo(context.getHeading());
-            context.setLastAction(act);
+            context.action().setLastAction(act);
             return act;
         }
         return null;
     }
 
     private boolean returnBack(Context context) {
-        if (context.getLastAction() instanceof Echo &&
+        if (context.action().getLastAction() instanceof Echo &&
                 context.getLastDiscovery().getScanResponse().outOfGround() &&
                 context.getLastDiscovery().getCreeks().isEmpty() &&
                 context.getLastDiscovery().getEchoResponse().getFound().equals(Found.OUT_OF_RANGE)) {

@@ -7,7 +7,7 @@ import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.strategy.aerial.AerialStrategy;
 import fr.unice.polytech.qgl.qab.strategy.aerial.IAerialStrategy;
-import fr.unice.polytech.qgl.qab.strategy.context.ResponseHandler;
+import fr.unice.polytech.qgl.qab.strategy.context.utils.ResponseHandler;
 import fr.unice.polytech.qgl.qab.strategy.ground.GroundStrategy;
 import fr.unice.polytech.qgl.qab.strategy.ground.IGroundStrategy;
 import fr.unice.polytech.qgl.qab.util.enums.Phase;

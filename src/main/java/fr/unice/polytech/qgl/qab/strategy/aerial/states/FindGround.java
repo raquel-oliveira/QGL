@@ -21,8 +21,8 @@ public class FindGround extends AerialState {
 
     @Override
     public AerialState getState(Context context, Map map, StateMediator stateMediator) {
-        if (context.getSimpleAction() instanceof Heading) {
-            context.setComboAction(null);
+        if (context.action().getSimpleAction() instanceof Heading) {
+            context.action().setComboAction(null);
             return FlyUntil.getInstance();
         }
 
@@ -34,25 +34,25 @@ public class FindGround extends AerialState {
         Action act;
 
         // if the bot made a echo and found a ground, so it's necessary make a heading
-        if (context.getLastDiscovery().getEchoResponse().getFound().equals(Found.GROUND) && context.getSimpleAction() instanceof Echo) {
-            Direction dir = context.getSimpleAction().getDirection();
+        if (context.getLastDiscovery().getEchoResponse().getFound().equals(Found.GROUND) && context.action().getSimpleAction() instanceof Echo) {
+            Direction dir = context.action().getSimpleAction().getDirection();
             act = new Heading(dir);
             context.setHeading(dir);
             stateMediator.setRangeToGround(context.getLastDiscovery().getEchoResponse().getRange());
-            context.setSimpleAction(act);
+            context.action().setSimpleAction(act);
             return act;
         }
 
         // set the combo fly + echo to find the ground
-        if (context.getComboAction()  == null || context.getComboAction() .isEmpty()) {
-            context.setComboAction(new ComboFlyEcho());
-            context.getComboAction() .defineActions(choiceDirectionEcho(context, map));
+        if (context.action().getComboAction()  == null || context.action().getComboAction() .isEmpty()) {
+            context.action().setComboAction(new ComboFlyEcho());
+            context.action().getComboAction() .defineActions(choiceDirectionEcho(context, map));
         }
 
         // take the action of the combo
-        act = context.getComboAction() .get(0);
-        context.setSimpleAction(act);
-        context.getComboAction() .remove(0);
+        act = context.action().getComboAction() .get(0);
+        context.action().setSimpleAction(act);
+        context.action().getComboAction() .remove(0);
 
         return act;
     }

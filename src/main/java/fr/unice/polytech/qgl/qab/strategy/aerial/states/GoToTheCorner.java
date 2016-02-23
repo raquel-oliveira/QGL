@@ -23,7 +23,7 @@ public class GoToTheCorner extends AerialState {
     public AerialState getState(Context context, Map map, StateMediator stateMediator) {
         if (foundFreeZone(context)) {
             stateMediator.setGoToTheCorner(false);
-            context.setComboAction(null);
+            context.action().setComboAction(null);
             return Initialize.getInstance();
         } else
             return GoToTheCorner.getInstance();
@@ -34,24 +34,24 @@ public class GoToTheCorner extends AerialState {
         Action act = null;
 
         // make the first and last heading
-        if (context.getSimpleAction() == null)
+        if (context.action().getSimpleAction() == null)
             return getHeading(context, stateMediator);
 
 
         // after the first heading make the fly until the corner
-        if (context.getComboAction() == null || context.getComboAction().isEmpty()) {
-            context.setComboAction(new ComboFlyEcho());
-            context.getComboAction().defineActions(context.getFirstHead());
+        if (context.action().getComboAction() == null || context.action().getComboAction().isEmpty()) {
+            context.action().setComboAction(new ComboFlyEcho());
+            context.action().getComboAction().defineActions(context.getFirstHead());
         }
 
         // if the actionCombo has a action
-        if (context.getComboAction() != null) {
-            if (context.getLastAction() instanceof Fly)
+        if (context.action().getComboAction() != null) {
+            if (context.action().getLastAction() instanceof Fly)
                 stateMediator.setRangeToTheCorner(stateMediator.getRangeToTheCorner() - 1);
 
-            act = context.getComboAction().get(0);
-            context.setLastAction(act);
-            context.getComboAction().remove(0);
+            act = context.action().getComboAction().get(0);
+            context.action().setLastAction(act);
+            context.action().getComboAction().remove(0);
 
             // if the echo found the out_of_range, return the action heading
             if (needLastTurn(context, stateMediator))
@@ -82,14 +82,14 @@ public class GoToTheCorner extends AerialState {
      * @return heading action
      */
     private Action getHeading(Context context, StateMediator stateMediator) {
-        if (context.getComboAction() == null) {
-            context.setSimpleAction(new Heading(stateMediator.getDirectionToTheCorner()));
-            context.setLastAction(context.getSimpleAction());
-            return context.getSimpleAction();
+        if (context.action().getComboAction() == null) {
+            context.action().setSimpleAction(new Heading(stateMediator.getDirectionToTheCorner()));
+            context.action().setLastAction(context.action().getSimpleAction());
+            return context.action().getSimpleAction();
         } else {
-            context.setSimpleAction(new Heading(context.getFirstHead()));
-            context.setLastAction(context.getSimpleAction());
-            return context.getSimpleAction();
+            context.action().setSimpleAction(new Heading(context.getFirstHead()));
+            context.action().setLastAction(context.action().getSimpleAction());
+            return context.action().getSimpleAction();
         }
     }
 
@@ -102,6 +102,6 @@ public class GoToTheCorner extends AerialState {
     private boolean foundFreeZone(Context context) {
         return context.getLastDiscovery().getEchoResponse().getFound().equals(Found.OUT_OF_RANGE) &&
                 context.getLastDiscovery().getEchoResponse().getDirection().equals(context.getFirstHead()) &&
-                context.getLastAction() instanceof Heading;
+                context.action().getLastAction() instanceof Heading;
     }
 }

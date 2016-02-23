@@ -1,7 +1,6 @@
 package fr.unice.polytech.qgl.qab.strategy.aerial.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.actions.combo.Combo;
 import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboEchos;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
@@ -9,7 +8,7 @@ import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.map.tile.Position;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import fr.unice.polytech.qgl.qab.strategy.context.UpdaterMap;
+import fr.unice.polytech.qgl.qab.strategy.context.utils.UpdaterMap;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 
@@ -31,7 +30,7 @@ public class Initialize extends AerialState {
 
     @Override
     public AerialState getState(Context context, Map map, StateMediator stateMediator) throws PositionOutOfMapRange {
-        if (context.getComboAction() != null) {
+        if (context.action().getComboAction() != null) {
             // if it's necessary go to the corner
             needGoToTheCorner(context, stateMediator);
 
@@ -40,13 +39,13 @@ public class Initialize extends AerialState {
                 updaterMap.initializeDimensions(context, map);
 
             // after made the 3 acho and see if it's necessary go to the corner
-            if (context.getComboAction().isEmpty() && stateMediator.shouldGoToTheCorner()) {
-                context.setComboAction(null);
+            if (context.action().getComboAction().isEmpty() && stateMediator.shouldGoToTheCorner()) {
+                context.action().setComboAction(null);
                 return GoToTheCorner.getInstance();
-            } else if (context.getComboAction().isEmpty() && !stateMediator.shouldGoToTheCorner()) {
+            } else if (context.action().getComboAction().isEmpty() && !stateMediator.shouldGoToTheCorner()) {
                 setFirtsPosition(context, map);
-                context.setComboAction(null);
-                context.setSimpleAction(new Fly());
+                context.action().setComboAction(null);
+                context.action().setSimpleAction(new Fly());
                 return FindGround.getInstance();
             }
         }
@@ -56,15 +55,15 @@ public class Initialize extends AerialState {
     @Override
     public Action responseState(Context context, Map map, StateMediator mediator) throws IndexOutOfBoundsComboAction {
         // if is the first execution
-        if (context.getComboAction() == null) {
-            context.setComboAction(new ComboEchos());
-            ((ComboEchos)context.getComboAction()).defineComboEchos(context.getHeading());
+        if (context.action().getComboAction() == null) {
+            context.action().setComboAction(new ComboEchos());
+            ((ComboEchos)context.action().getComboAction()).defineComboEchos(context.getHeading());
         }
 
         // return the action of the combo
-        Action act = context.getComboAction().get(0);
-        context.setLastAction(act);
-        context.getComboAction().remove(0);
+        Action act = context.action().getComboAction().get(0);
+        context.action().setLastAction(act);
+        context.action().getComboAction().remove(0);
         return act;
     }
 

@@ -4,7 +4,7 @@ import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.response.GlimpseResponse;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import fr.unice.polytech.qgl.qab.strategy.context.ContractItem;
+import fr.unice.polytech.qgl.qab.strategy.context.utils.ContractItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
