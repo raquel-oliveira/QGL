@@ -34,6 +34,7 @@ public class ResponseHandler {
     private static final String RANGE = "range";
     private static final String BIOMES = "biomes";
     private static final String CREEKS = "creeks";
+    private static final String AMOUNT = "amount";
 
 
     /**
@@ -201,7 +202,7 @@ public class ResponseHandler {
             for (int i = 0; i < resources.length(); i++) {
                 List<String> res = new ArrayList<>();
                 JSONObject obj = resources.getJSONObject(i);
-                res.add(obj.getString("amount"));
+                res.add(obj.getString(AMOUNT));
                 res.add(obj.getString("resource"));
                 res.add(obj.getString("cond"));
                 explore.addResource(res);
@@ -217,8 +218,8 @@ public class ResponseHandler {
 
     private Context readDataFromExploit(Context context, JSONObject jsonObj, Action takeAction){
         ExploitResponse exploit = new ExploitResponse();
-        if(jsonObj.getJSONObject(EXTRAS).has("amount")){
-            int amount = Integer.parseInt(jsonObj.getJSONObject(EXTRAS).getString("amount"));
+        if(jsonObj.getJSONObject(EXTRAS).has(AMOUNT)){
+            int amount = jsonObj.getJSONObject(EXTRAS).getInt(AMOUNT);
             exploit.addData(((Exploit)takeAction).getResource(),amount);
         }
 
