@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * @version 8/12/16
  *
- * Class responsible for handling the answers after make an action
+ * Class responsible for handling the answers after make an current
  */
 public class ResponseHandler {
 
@@ -49,7 +49,7 @@ public class ResponseHandler {
      * Method that read the response data gave a string json and update the context.
      * @param data string json with the response
      * @param takeAction the action taken for a given response
-     * @param contextIsland context data of the current simulation
+     * @param contextIsland context data of the action simulation
      * @return context updated
      * @throws NegativeBudgetException
      */
