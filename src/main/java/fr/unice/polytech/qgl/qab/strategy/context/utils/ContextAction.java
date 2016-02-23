@@ -20,7 +20,7 @@ public class ContextAction {
     private int contScan;
     private int indexAction;
 
-    private List<Boolean> resourcesGlimpse;
+    private List<Boolean> goodTiles;
     private int indexTile;
     private List<PrimaryType> resourcesAnalyzer;
 
@@ -31,7 +31,7 @@ public class ContextAction {
         contScan = 0;
         indexAction = 0;
         comboReturnBack = null;
-        resourcesGlimpse = new ArrayList<>();
+        goodTiles = new ArrayList<>();
         indexTile = 0;
         resourcesAnalyzer = null;
     }
@@ -92,8 +92,8 @@ public class ContextAction {
         return indexAction;
     }
 
-    public List<Boolean> getResourcesGlimpse() {
-        return resourcesGlimpse;
+    public List<Boolean> getGoodTiles() {
+        return goodTiles;
     }
 
     public int getIndexTile() {
@@ -147,8 +147,8 @@ public class ContextAction {
         this.comboAction = comboAction;
     }
 
-    public void setResourcesGlimpse(List<Boolean> resourcesGlimpse) {
-        this.resourcesGlimpse = resourcesGlimpse;
+    public void setGoodTiles(List<Boolean> goodTiles) {
+        this.goodTiles = goodTiles;
     }
 
     public void setIndexTile(int indexTile) {

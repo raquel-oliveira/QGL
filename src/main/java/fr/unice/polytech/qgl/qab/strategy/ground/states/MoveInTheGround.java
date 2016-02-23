@@ -35,15 +35,22 @@ public class MoveInTheGround extends GroundState {
 
     @Override
     public GroundState getState(Context context, Map map) throws PositionOutOfMapRange {
-        context.current().setResourcesGlimpse(contextAnalyzer.biomeAnalyzer(context));
-        if (context.current().getLastAction() != null && contextAnalyzer.isOcean(context))
+        // analize the glimpse response and get the resources
+        context.current().setGoodTiles(contextAnalyzer.biomeAnalyzer(context));
+
+        // if the explorers are in the ocean
+        if (context.current().getLastAction() != null && contextAnalyzer.isOcean(context)) {
             return ChoiceASide.getInstance();
-        else if (!context.current().getResourcesGlimpse().isEmpty()
-                    && context.current().getResourcesGlimpse().get(context.current().getIndexTile())) {
+        }
+        // if we have the good tiles and the current tile it's good, explore it
+        else if (findTileToExplore(context)) {
+            updateContext(context);
             return ExploreTile.getInstance();
         }
-        else
+        // if any situations before happen, keep move
+        else {
             return MoveInTheGround.getInstance();
+        }
     }
 
     @Override
@@ -68,8 +75,8 @@ public class MoveInTheGround extends GroundState {
         }
 
         // we can move in the squares that the glimpse saw
-        for (int i = context.current().getIndexTile() + 1; i < context.current().getResourcesGlimpse().size(); i++) {
-            if (context.current().getResourcesGlimpse().get(i)) {
+        for (int i = context.current().getIndexTile() + 1; i < context.current().getGoodTiles().size(); i++) {
+            if (context.current().getGoodTiles().get(i)) {
                 act = new MoveTo(context.getHeading());
                 context.current().setLastAction(act);
                 context.current().setIndexTile(context.current().getIndexTile() + 1);
@@ -82,5 +89,23 @@ public class MoveInTheGround extends GroundState {
         context.current().setIndexTile(0);
         context.current().setLastAction(null);
         return act;
+    }
+
+    /**
+     * This method just check if the current tile it's good to explore (and exploit)
+     * @param context
+     * @return if the tile it's good to explore
+     */
+    private boolean findTileToExplore(Context context) {
+        return !context.current().getGoodTiles().isEmpty()
+                && context.current().getGoodTiles().get(context.current().getIndexTile());
+    }
+
+    /**
+     * Method to updata the context
+     * @param context
+     */
+    private void updateContext(Context context) {
+        context.current().setLastAction(null);
     }
 }

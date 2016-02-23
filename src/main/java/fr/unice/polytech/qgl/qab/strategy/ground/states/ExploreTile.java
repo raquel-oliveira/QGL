@@ -30,8 +30,6 @@ public class ExploreTile extends GroundState {
      * ExploreTile's contructor
      */
     private ExploreTile() {
-        super();
-        this.lastAction = null;
         contextAnalyzer = new ContextAnalyzer();
         resourcesAnalyzer = null;
     }
@@ -50,7 +48,7 @@ public class ExploreTile extends GroundState {
     public GroundState getState(Context context, Map map) throws PositionOutOfMapRange {
         if (resourcesAnalyzer != null && resourcesAnalyzer.isEmpty()) {
             resourcesAnalyzer = null;
-            lastAction = null;
+            updateContext(context);
             return MoveInTheGround.getInstance();
         } else
             return ExploreTile.getInstance();
@@ -59,24 +57,33 @@ public class ExploreTile extends GroundState {
     @Override
     public Action responseState(Context context, Map map) throws IndexOutOfBoundsComboAction {
         Action act;
-        if (lastAction == null) {
+
+        if (context.current().getLastAction() == null) {
             act = new Explore();
-            lastAction = act;
+            context.current().setLastAction(act);
             return act;
         }
 
-        if (lastAction instanceof Explore)
+        if (context.current().getLastAction() instanceof Explore)
             resourcesAnalyzer = contextAnalyzer.resourceAnalyzer(context);
 
         if (resourcesAnalyzer != null && !resourcesAnalyzer.isEmpty()) {
             Resource res = new PrimaryResource(resourcesAnalyzer.get(0));
             resourcesAnalyzer.remove(0);
             act = new Exploit(res);
-            lastAction = act;
+            context.current().setLastAction(act);
             return act;
         }
 
         //context.setHeading(Direction.randomSideDirection(context.getHeading()));
         return new MoveTo(context.getHeading());
+    }
+
+    /**
+     * Method to updata the context
+     * @param context
+     */
+    private void updateContext(Context context) {
+        context.current().setLastAction(null);
     }
 }
