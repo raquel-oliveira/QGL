@@ -20,7 +20,7 @@ public class FlyTest {
 
     @Test
     public void testValidJson() {
-        JSONObject jsonObj = new JSONObject("{ \"action\": \"fly\"}");
+        JSONObject jsonObj = new JSONObject("{ \"current\": \"fly\"}");
         assertTrue(fly.isValid(jsonObj));
     }
 
@@ -32,7 +32,7 @@ public class FlyTest {
 
     @Test
     public void formatResponseTest() {
-        String response = "{ \"action\": \"fly\" }";
+        String response = "{ \"current\": \"fly\" }";
         assertTrue(fly.formatResponse().equals(response));
     }
 }

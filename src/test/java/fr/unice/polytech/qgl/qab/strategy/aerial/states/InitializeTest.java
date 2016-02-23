@@ -29,7 +29,7 @@ public class InitializeTest {
 
     @Before
     public void defineContext() throws NegativeBudgetException {
-        initialize = Initialize.getInstance();
+        initialize = Initialize.getInstance(context);
         discovery = new Discovery();
         context = new Context();
         stateMediator = StateMediator.getInstance();
@@ -103,12 +103,12 @@ public class InitializeTest {
         context.setLastDiscovery(discovery);
 
         AerialState state = initialize.getState(context, map, StateMediator.getInstance());
-        assertEquals(Initialize.getInstance(), state);
+        assertEquals(Initialize.getInstance(context), state);
         act = initialize.responseState(context, map, StateMediator.getInstance());
         assertEquals(Echo.class, act.getClass());
 
         state = initialize.getState(context, map, StateMediator.getInstance());
-        assertEquals(Initialize.getInstance(), state);
+        assertEquals(Initialize.getInstance(context), state);
 
         act = initialize.responseState(context, map, StateMediator.getInstance());
         assertEquals(Echo.class, act.getClass());
@@ -119,7 +119,7 @@ public class InitializeTest {
         context.setLastDiscovery(discovery);
 
         state = initialize.getState(context, map, StateMediator.getInstance());
-        assertEquals(Initialize.getInstance(), state);
+        assertEquals(Initialize.getInstance(context), state);
 
         act = initialize.responseState(context, map, StateMediator.getInstance());
         assertEquals(Echo.class, act.getClass());

@@ -74,7 +74,7 @@ public class ScanTheGroundTest {
         AerialState state = scanTheGround.getState(context, new Map(), StateMediator.getInstance());
         assertEquals(ScanTheGround.getInstance(), state);
 
-        // the firts action will be a fly
+        // the firts current will be a fly
         Action act = scanTheGround.responseState(context, new Map(), StateMediator.getInstance());
         assertEquals(Fly.class, act.getClass());
         state = scanTheGround.getState(context, new Map(), StateMediator.getInstance());
@@ -135,7 +135,7 @@ public class ScanTheGroundTest {
         AerialState state = scanTheGround.getState(context, new Map(), StateMediator.getInstance());
         assertEquals(ScanTheGround.getInstance(), state);
 
-        // the firts action will be a fly
+        // the firts current will be a fly
         Action act = scanTheGround.responseState(context, new Map(), StateMediator.getInstance());
         assertEquals(Fly.class, act.getClass());
         state = scanTheGround.getState(context, new Map(), StateMediator.getInstance());

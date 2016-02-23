@@ -10,14 +10,8 @@ import fr.unice.polytech.qgl.qab.strategy.context.Context;
  * @version 11.12.2015.
  */
 public abstract class AerialState {
-    Action lastAction;
-
-    AerialState() {
-        lastAction = null;
-    }
-
     /**
-     *Get the state current
+     * Get the state current
      * @param context
      * @param map
      * @param stateMediator

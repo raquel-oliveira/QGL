@@ -26,12 +26,12 @@ public class ScanTheGround extends AerialState {
             return Finish.getInstance();
 
         if (returnBack(context)) {
-            context.action().setLastAction(null);
+            updateContext(context);
             return ReturnBack.getInstance();
         }
 
         if (needFlyUntil(context, stateMediator)) {
-            context.action().setComboAction(null);
+            updateContext(context);
             return FlyUntil.getInstance();
         }
 
@@ -43,35 +43,35 @@ public class ScanTheGround extends AerialState {
         Action act;
 
         // we check if the plane is out of the ground (after scan), so make a echo
-        if (context.action().getLastAction() instanceof Scan) {
+        if (context.current().getLastAction() instanceof Scan) {
             act = getEcho(context);
             if (act != null)
                 return act;
         }
 
-        // if action com is null or empty, we set the combo fly + scan
-        if (context.action().getComboAction() == null || context.action().getComboAction().isEmpty()) {
-            context.action().setComboAction(new ComboFlyScan());
-            context.action().getComboAction().defineActions();
+        // if action combo is null or empty, we set the combo fly + scan
+        if (context.current().getComboAction() == null || context.current().getComboAction().isEmpty()) {
+            context.current().setComboAction(new ComboFlyScan());
+            context.current().getComboAction().defineActions();
             if (!context.getLastDiscovery().getScanResponse().foundOcean()) {
-                if (context.action().getContScan() != SCAN_RATIO) {
-                    context.action().getComboAction().remove(1);
+                if (context.current().getContScan() != SCAN_RATIO) {
+                    context.current().getComboAction().remove(1);
                 } else {
-                    context.action().setContScan(0);
+                    context.current().setContScan(0);
                 }
-                context.action().setContScan(context.action().getContScan() + 1);
+                context.current().setContScan(context.current().getContScan() + 1);
             }
         }
 
-        act = context.action().getComboAction().get(0);
-        context.action().setLastAction(act);
-        context.action().getComboAction().remove(0);
+        act = context.current().getComboAction().get(0);
+        context.current().setLastAction(act);
+        context.current().getComboAction().remove(0);
 
         return act;
     }
 
     private boolean needFlyUntil(Context context, StateMediator sm) {
-        if (context.action().getLastAction() instanceof Echo && context.getLastDiscovery().getScanResponse().outOfGround()) {
+        if (context.current().getLastAction() instanceof Echo && context.getLastDiscovery().getScanResponse().outOfGround()) {
             sm.setRangeToGround(context.getLastDiscovery().getEchoResponse().getRange() + 1);
             return true;
         }
@@ -82,14 +82,14 @@ public class ScanTheGround extends AerialState {
         Action act;
         if (context.getLastDiscovery().getScanResponse().outOfGround()) {
             act = new Echo(context.getHeading());
-            context.action().setLastAction(act);
+            context.current().setLastAction(act);
             return act;
         }
         return null;
     }
 
     private boolean returnBack(Context context) {
-        if (context.action().getLastAction() instanceof Echo &&
+        if (context.current().getLastAction() instanceof Echo &&
                 context.getLastDiscovery().getScanResponse().outOfGround() &&
                 context.getLastDiscovery().getCreeks().isEmpty() &&
                 context.getLastDiscovery().getEchoResponse().getFound().equals(Found.OUT_OF_RANGE)) {
@@ -98,5 +98,15 @@ public class ScanTheGround extends AerialState {
                 return true;
         }
         return false;
+    }
+
+
+    /**
+     * Method to updata the context
+     * @param context
+     */
+    private void updateContext(Context context) {
+        context.current().setComboAction(null);
+        context.current().setLastAction(null);
     }
 }

@@ -1,17 +1,12 @@
 package fr.unice.polytech.qgl.qab.strategy.aerial.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.actions.combo.Combo;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Echo;
-import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Heading;
-import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboFlyUntil;
 import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboReturn;
-import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 
 /**
@@ -26,15 +21,14 @@ public class ReturnBack extends AerialState {
     @Override
     public AerialState getState(Context context, Map map, StateMediator stateMediator) {
         // action echo
-        if (context.action().getLastAction() instanceof Echo) {
+        if (context.current().getLastAction() instanceof Echo) {
             if (context.getLastDiscovery().getEchoResponse().getFound().equals(Found.GROUND)) {
                 if (context.getLastDiscovery().getEchoResponse().getRange() >= 1) {
-                    context.action().setComboAction(null);
+                    updateContext(context);
                     stateMediator.setRangeToGround(context.getLastDiscovery().getEchoResponse().getRange() + 1);
                     return FlyUntil.getInstance();
                 } else {
-                    context.action().setLastAction(null);
-                    context.action().setComboAction(null);
+                    updateContext(context);
                     return ScanTheGround.getInstance();
                 }
             } else {
@@ -47,23 +41,32 @@ public class ReturnBack extends AerialState {
 
     @Override
     public Action responseState(Context context, Map map, StateMediator stateMediator) throws IndexOutOfBoundsComboAction {
-        Action act = null;
+        Action act;
 
-        if (context.action().getComboReturnBack() == null) {
-            context.action().setComboReturnBack(new ComboReturn());
-            context.action().getComboReturnBack().defineActions(context.getHeading(), context.getFirstHead());
+        if (context.current().getComboReturnBack() == null) {
+            context.current().setComboReturnBack(new ComboReturn());
+            context.current().getComboReturnBack().defineActions(context.getHeading(), context.getFirstHead());
         }
 
-        act = context.action().getComboReturnBack().get(context.action().getIndexAction());
-        context.action().setLastAction(act);
-        if (context.action().getLastAction() instanceof Heading)
+        act = context.current().getComboReturnBack().get(context.current().getIndexAction());
+        context.current().setLastAction(act);
+        if (context.current().getLastAction() instanceof Heading)
             context.setHeading(act.getDirection());
-        context.action().incrementIndexAction();
+        context.current().incrementIndexAction();
 
-        if (context.action().getIndexAction() == 6)
-            context.action().setIndexAction(0);
+        if (context.current().getIndexAction() == 6)
+            context.current().setIndexAction(0);
 
 
         return act;
+    }
+
+    /**
+     * Method to updata the context
+     * @param context
+     */
+    private void updateContext(Context context) {
+        context.current().setComboAction(null);
+        context.current().setLastAction(null);
     }
 }

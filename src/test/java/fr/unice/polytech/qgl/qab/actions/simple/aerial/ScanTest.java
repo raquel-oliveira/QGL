@@ -19,7 +19,7 @@ public class ScanTest {
 
     @Test
     public void testValidJson() {
-        JSONObject jsonObj = new JSONObject("{ \"action\": \"scan\"}");
+        JSONObject jsonObj = new JSONObject("{ \"current\": \"scan\"}");
         assertTrue(scan.isValid(jsonObj));
     }
 
@@ -31,7 +31,7 @@ public class ScanTest {
 
     @Test
     public void formatResponseTest() {
-        String response = "{ \"action\": \"scan\" }";
+        String response = "{ \"current\": \"scan\" }";
         assertTrue(scan.formatResponse().equals(response));
     }
 }

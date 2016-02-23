@@ -20,7 +20,7 @@ public class StopTest {
 
     @Test
     public void testValidJson() {
-        JSONObject jsonObj = new JSONObject("{ \"action\": \"stop\"}");
+        JSONObject jsonObj = new JSONObject("{ \"current\": \"stop\"}");
         assertTrue(stop.isValid(jsonObj));
     }
 
@@ -32,7 +32,7 @@ public class StopTest {
 
     @Test
     public void formatResponseTest() {
-        String response = "{ \"action\": \"stop\" }";
+        String response = "{ \"current\": \"stop\" }";
         assertTrue(stop.formatResponse().equals(response));
     }
 }

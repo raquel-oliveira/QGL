@@ -21,7 +21,7 @@ public class MoveToTest {
 
     @Test
     public void testValidJson() {
-        JSONObject jsonObj = new JSONObject("{ \"action\": \"move_to\", \"parameters\": { \"direction\": \"" + Direction.EAST + "\" } }");
+        JSONObject jsonObj = new JSONObject("{ \"current\": \"move_to\", \"parameters\": { \"direction\": \"" + Direction.EAST + "\" } }");
         assertTrue(move.isValid(jsonObj));
     }
 
@@ -29,15 +29,15 @@ public class MoveToTest {
     public void testNotValidActionJson() {
         JSONObject jsonObj = new JSONObject("{ \"aon\": \"move_to\", \"parameters\": { \"direction\": \"" + Direction.EAST + "\" } }");
         assertFalse(move.isValid(jsonObj));
-        jsonObj = new JSONObject("{ \"action\": \"mov\", \"parameters\": { \"direction\": \"" + Direction.EAST + "\" } }");
+        jsonObj = new JSONObject("{ \"current\": \"mov\", \"parameters\": { \"direction\": \"" + Direction.EAST + "\" } }");
         assertFalse(move.isValid(jsonObj));
-        jsonObj = new JSONObject("{ \"action\": \"move_to\", \"parameters\": { \"dir\": \"" + Direction.EAST + "\" } }");
+        jsonObj = new JSONObject("{ \"current\": \"move_to\", \"parameters\": { \"dir\": \"" + Direction.EAST + "\" } }");
         assertFalse(move.isValid(jsonObj));
     }
 
     @Test
     public void formatResponseTest() {
-        String response = "{ \"action\": \"move_to\", \"parameters\": { \"direction\": \"" + Direction.EAST + "\" } }";
+        String response = "{ \"current\": \"move_to\", \"parameters\": { \"direction\": \"" + Direction.EAST + "\" } }";
         assertTrue(response.equals(move.formatResponse()));
     }
 }

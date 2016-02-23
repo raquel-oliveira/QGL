@@ -22,7 +22,7 @@ public class GlimpseTest {
 
     @Test
     public void testValidJson() {
-        JSONObject jsonObj = new JSONObject("{ \"action\": \"glimpse\", \"parameters\": { \"direction\": \"N\", \"range\": 2 } }");
+        JSONObject jsonObj = new JSONObject("{ \"current\": \"glimpse\", \"parameters\": { \"direction\": \"N\", \"range\": 2 } }");
         assertTrue(glimpse.isValid(jsonObj));
     }
 
@@ -30,13 +30,13 @@ public class GlimpseTest {
     public void testNotValidActionJson() {
         JSONObject jsonObj = new JSONObject("{ \"act\": \"glimpse\", \"parameters\": { \"direction\": \"N\", \"range\": 2 } }");
         assertFalse(glimpse.isValid(jsonObj));
-        jsonObj = new JSONObject("{ \"action\": \"glim\", \"parameters\": { \"direction\": \"N\", \"range\": 2 } }");
+        jsonObj = new JSONObject("{ \"current\": \"glim\", \"parameters\": { \"direction\": \"N\", \"range\": 2 } }");
         assertFalse(glimpse.isValid(jsonObj));
     }
 
     @Test
     public void formatResponseTest() {
-        String response = "{ \"action\": \"glimpse\", \"parameters\": { \"direction\": \"N\", \"range\": 2 } }";
+        String response = "{ \"current\": \"glimpse\", \"parameters\": { \"direction\": \"N\", \"range\": 2 } }";
         assertTrue(response.equals(glimpse.formatResponse()));
     }
 

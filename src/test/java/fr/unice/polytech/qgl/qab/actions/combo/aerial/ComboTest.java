@@ -52,14 +52,14 @@ public class ComboTest {
     @Test(expected = IndexOutOfBoundsComboAction.class)
     public void testBadIndex() throws IndexOutOfBoundsComboAction {
         ComboEchos comboEchos = new ComboEchos();
-        comboEchos.defineComboEchos(Direction.EAST);
+        comboEchos.defineActions(Direction.EAST);
         comboEchos.get(-5);
     }
 
     @Test(expected = NullPointerException.class)
     public void testNullPointerException() throws IndexOutOfBoundsComboAction {
         ComboEchos comboEchos = new ComboEchos();
-        comboEchos.defineComboEchos(Direction.EAST);
+        comboEchos.defineActions(Direction.EAST);
         combo.get(5);
     }
 }

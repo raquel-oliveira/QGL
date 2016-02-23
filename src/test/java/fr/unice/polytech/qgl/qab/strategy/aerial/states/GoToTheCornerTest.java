@@ -104,7 +104,7 @@ public class GoToTheCornerTest {
         assertEquals(act.getClass(), Heading.class);
 
         AerialState aerialState = goToTheCorner.getState(context, new Map(), state);
-        assertEquals(Initialize.getInstance(), aerialState);
+        assertEquals(Initialize.getInstance(context), aerialState);
     }
 
     @Ignore
@@ -123,6 +123,6 @@ public class GoToTheCornerTest {
         assertEquals(act.getClass(), Heading.class);
 
         AerialState aerialState = goToTheCorner.getState(context, new Map(), state);
-        assertEquals(Initialize.getInstance(), aerialState);
+        assertEquals(Initialize.getInstance(context), aerialState);
     }
 }

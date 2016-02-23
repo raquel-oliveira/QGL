@@ -36,18 +36,18 @@ public class ScoutTest {
 
     @Test
     public void testValidJson() {
-        JSONObject jsonObj = new JSONObject("{ \"action\": \"scout\", \"parameters\": { \"direction\": \"E\" }}");
+        JSONObject jsonObj = new JSONObject("{ \"current\": \"scout\", \"parameters\": { \"direction\": \"E\" }}");
         assertTrue(scout.isValid(jsonObj));
     }
     @Test
     public void testValidJnjhson() {
-        JSONObject jsonObj = new JSONObject("{ \"action\": \"scout\", \"parameters\": { \"direction\": \""+dir.toString()+"\" }}");
+        JSONObject jsonObj = new JSONObject("{ \"current\": \"scout\", \"parameters\": { \"direction\": \""+dir.toString()+"\" }}");
         assertTrue(scout.isValid(jsonObj));
     }
 
     @Test
     public void testInvalideDirection() {
-        JSONObject jsonObj = new JSONObject("{ \"action\": \"scout\", \"parameters\": { \"direction\": \"A\" }}");
+        JSONObject jsonObj = new JSONObject("{ \"current\": \"scout\", \"parameters\": { \"direction\": \"A\" }}");
         assertFalse(scout.isValid(jsonObj));
     }
 
@@ -59,13 +59,13 @@ public class ScoutTest {
 
     @Test
     public void testNotValidActionJson() {
-        JSONObject jsonObj = new JSONObject("{\"action\": \"notscout\", \"parameters\": { \"direction\": \"E\" }}");
+        JSONObject jsonObj = new JSONObject("{\"current\": \"notscout\", \"parameters\": { \"direction\": \"E\" }}");
         assertFalse(scout.isValid(jsonObj));
     }
 
     @Test
     public void noParametersTest() {
-        String response = "{ \"action\": \"scout\"}";
+        String response = "{ \"current\": \"scout\"}";
         JSONObject jsonObj = new JSONObject(response);
         assertFalse(scout.isValid(jsonObj));
         assertFalse(scout.formatResponse().equals(response));
@@ -73,7 +73,7 @@ public class ScoutTest {
 
     @Test
     public void noDirectionParameterTest() {
-        String response = "{ \"action\": \"scout\", \"parameters\": { \"bla\": \"E\" }}";
+        String response = "{ \"current\": \"scout\", \"parameters\": { \"bla\": \"E\" }}";
         JSONObject jsonObj = new JSONObject(response);
         assertFalse(scout.isValid(jsonObj));
         assertFalse(scout.formatResponse().equals(response));
@@ -81,7 +81,7 @@ public class ScoutTest {
 
     @Test
     public void formatRequestTest() {
-        String response = "{ \"action\": \"scout\", \"parameters\": { \"direction\": \"" + dir.toString() + "\" } }";
+        String response = "{ \"current\": \"scout\", \"parameters\": { \"direction\": \"" + dir.toString() + "\" } }";
         JSONObject jsonObj = new JSONObject(response);
         assertTrue(scout.isValid(jsonObj));
         assertTrue(scout.formatResponse().equals(response));

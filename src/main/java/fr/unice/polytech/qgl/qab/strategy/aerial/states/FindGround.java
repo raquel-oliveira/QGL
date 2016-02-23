@@ -21,8 +21,8 @@ public class FindGround extends AerialState {
 
     @Override
     public AerialState getState(Context context, Map map, StateMediator stateMediator) {
-        if (context.action().getSimpleAction() instanceof Heading) {
-            context.action().setComboAction(null);
+        if (context.current().getLastAction() instanceof Heading) {
+            updateContext(context);
             return FlyUntil.getInstance();
         }
 
@@ -34,25 +34,25 @@ public class FindGround extends AerialState {
         Action act;
 
         // if the bot made a echo and found a ground, so it's necessary make a heading
-        if (context.getLastDiscovery().getEchoResponse().getFound().equals(Found.GROUND) && context.action().getSimpleAction() instanceof Echo) {
-            Direction dir = context.action().getSimpleAction().getDirection();
+        if (context.getLastDiscovery().getEchoResponse().getFound().equals(Found.GROUND) && context.current().getLastAction() instanceof Echo) {
+            Direction dir = context.current().getLastAction().getDirection();
             act = new Heading(dir);
             context.setHeading(dir);
             stateMediator.setRangeToGround(context.getLastDiscovery().getEchoResponse().getRange());
-            context.action().setSimpleAction(act);
+            context.current().setLastAction(act);
             return act;
         }
 
         // set the combo fly + echo to find the ground
-        if (context.action().getComboAction()  == null || context.action().getComboAction() .isEmpty()) {
-            context.action().setComboAction(new ComboFlyEcho());
-            context.action().getComboAction() .defineActions(choiceDirectionEcho(context, map));
+        if (context.current().getComboAction() == null || context.current().getComboAction() .isEmpty()) {
+            context.current().setComboAction(new ComboFlyEcho());
+            context.current().getComboAction() .defineActions(choiceDirectionEcho(context, map));
         }
 
         // take the action of the combo
-        act = context.action().getComboAction() .get(0);
-        context.action().setSimpleAction(act);
-        context.action().getComboAction() .remove(0);
+        act = context.current().getComboAction().get(0);
+        context.current().setLastAction(act);
+        context.current().getComboAction().remove(0);
 
         return act;
     }
@@ -75,5 +75,15 @@ public class FindGround extends AerialState {
             else
                 return Direction.NORTH;
         }
+    }
+
+
+    /**
+     * Method to updata the context
+     * @param context
+     */
+    private void updateContext(Context context) {
+        context.current().setComboAction(null);
+        context.current().setLastAction(null);
     }
 }
