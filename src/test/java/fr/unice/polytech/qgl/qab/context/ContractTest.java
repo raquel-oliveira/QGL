@@ -14,7 +14,7 @@ import fr.unice.polytech.qgl.qab.strategy.context.ContractItem;
 
 public class ContractTest {
 	ContractItem c;
-	
+
 	@Test
 	public void testAmount() throws NegativeBudgetException{
 		Resource r = new PrimaryResource(PrimaryType.WOOD);
@@ -29,7 +29,7 @@ public class ContractTest {
 		c.collect(300);
 		assertEquals(300,c.accumulated());
 	}
-	
+
 	@Test
 	public void Testresource() throws NegativeBudgetException{
 		Resource r = new PrimaryResource(PrimaryType.WOOD);

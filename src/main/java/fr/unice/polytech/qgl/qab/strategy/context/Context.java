@@ -25,6 +25,7 @@ public class Context {
     private Budget budget;
     private List<ContractItem> contracts;
     private Map<String, Integer> collectedResources;
+    private Boolean completeContract;
 
     // direction of the head in the begin
     private Direction firstHead;
@@ -43,7 +44,7 @@ public class Context {
         budget = new Budget(0);
         contracts = new ArrayList<>();
         collectedResources = new HashMap<>();
-
+        completeContract = false;
         firstHead = null;
         heading = null;
 
@@ -234,5 +235,13 @@ public class Context {
             }
         }
         return amount;
+    }
+
+    public boolean contractsAreComplete(){
+        completeContract = true;
+        for(int i = 0; i < contracts.size(); i++){
+            if (!contracts.get(i).isComplete(collectedResources)){return completeContract = false;}
+        }
+        return completeContract;
     }
 }

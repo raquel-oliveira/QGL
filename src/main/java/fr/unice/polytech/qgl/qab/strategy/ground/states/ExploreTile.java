@@ -2,6 +2,7 @@ package fr.unice.polytech.qgl.qab.strategy.ground.states;
 
 
 import fr.unice.polytech.qgl.qab.actions.Action;
+import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Exploit;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Explore;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.MoveTo;
@@ -12,6 +13,7 @@ import fr.unice.polytech.qgl.qab.resources.Resource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
+import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,7 +27,6 @@ import java.util.List;
  */
 public class ExploreTile extends GroundState {
     private static final Logger LOGGER = LogManager.getLogger(ExploreTile.class);
-
     private static ExploreTile instance;
     private ContextAnalyzer contextAnalyzer;
     private List<PrimaryType> resourcesAnalyzer;
@@ -64,6 +65,13 @@ public class ExploreTile extends GroundState {
     @Override
     public Action responseState(Context context, Map map) throws IndexOutOfBoundsComboAction {
         Action act;
+
+        if(context.contractsAreComplete()){
+            act = new Stop();
+            lastAction = act;
+            return act;
+        }
+
         if (lastAction == null) {
             act = new Explore();
             lastAction = act;
