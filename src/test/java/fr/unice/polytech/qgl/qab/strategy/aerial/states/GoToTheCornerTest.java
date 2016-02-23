@@ -42,7 +42,7 @@ public class GoToTheCornerTest {
 
     @Test
     public void testInstance() {
-        GoToTheCorner go = GoToTheCorner.getInstance().getInstance();
+        GoToTheCorner go = GoToTheCorner.getInstance();
         assertEquals(goToTheCorner, go);
     }
 

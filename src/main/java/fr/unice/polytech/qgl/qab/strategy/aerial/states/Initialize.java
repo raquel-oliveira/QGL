@@ -3,6 +3,7 @@ package fr.unice.polytech.qgl.qab.strategy.aerial.states;
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.combo.Combo;
 import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboEchos;
+import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
@@ -44,6 +45,8 @@ public class Initialize extends AerialState {
                 return GoToTheCorner.getInstance();
             } else if (context.getComboAction().isEmpty() && !stateMediator.shouldGoToTheCorner()) {
                 setFirtsPosition(context, map);
+                context.setComboAction(null);
+                context.setSimpleAction(new Fly());
                 return FindGround.getInstance();
             }
         }

@@ -2,7 +2,6 @@ package fr.unice.polytech.qgl.qab.strategy.aerial.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Echo;
-import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Heading;
 import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboFlyEcho;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
@@ -15,30 +14,17 @@ import fr.unice.polytech.qgl.qab.util.enums.Found;
  * @version 11.12.2015.
  */
 public class FindGround extends AerialState {
-    private static FindGround instance;
 
-    private ComboFlyEcho actionCombo;
-
-    private FindGround() {
-        super();
-        actionCombo = null;
-        this.lastAction = new Fly();
-    }
-
-    /**
-     * get the instance of FindGround
-     * @return
-     */
     public static FindGround getInstance() {
-        if (instance == null)
-            instance = new FindGround();
-        return instance;
+        return new FindGround();
     }
 
     @Override
     public AerialState getState(Context context, Map map, StateMediator stateMediator) {
-        if (lastAction instanceof Heading)
+        if (context.getSimpleAction() instanceof Heading) {
+            context.setComboAction(null);
             return FlyUntil.getInstance();
+        }
 
         return FindGround.getInstance();
     }
@@ -48,25 +34,25 @@ public class FindGround extends AerialState {
         Action act;
 
         // if the bot made a echo and found a ground, so it's necessary make a heading
-        if (context.getLastDiscovery().getEchoResponse().getFound().equals(Found.GROUND) && lastAction instanceof Echo) {
-            Direction dir = lastAction.getDirection();
+        if (context.getLastDiscovery().getEchoResponse().getFound().equals(Found.GROUND) && context.getSimpleAction() instanceof Echo) {
+            Direction dir = context.getSimpleAction().getDirection();
             act = new Heading(dir);
             context.setHeading(dir);
             stateMediator.setRangeToGround(context.getLastDiscovery().getEchoResponse().getRange());
-            lastAction = act;
+            context.setSimpleAction(act);
             return act;
         }
 
         // set the combo fly + echo to find the ground
-        if (actionCombo == null || actionCombo.isEmpty()) {
-            actionCombo = new ComboFlyEcho();
-            actionCombo.defineActions(choiceDirectionEcho(context, map));
+        if (context.getComboAction()  == null || context.getComboAction() .isEmpty()) {
+            context.setComboAction(new ComboFlyEcho());
+            context.getComboAction() .defineActions(choiceDirectionEcho(context, map));
         }
 
         // take the action of the combo
-        act = actionCombo.get(0);
-        lastAction = act;
-        actionCombo.remove(0);
+        act = context.getComboAction() .get(0);
+        context.setSimpleAction(act);
+        context.getComboAction() .remove(0);
 
         return act;
     }

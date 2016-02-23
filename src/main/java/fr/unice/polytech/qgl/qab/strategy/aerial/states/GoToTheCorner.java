@@ -15,10 +15,6 @@ import fr.unice.polytech.qgl.qab.util.enums.Found;
  */
 public class GoToTheCorner extends AerialState {
 
-    private GoToTheCorner() {
-        super();
-    }
-
     public static GoToTheCorner getInstance() {
         return new GoToTheCorner();
     }

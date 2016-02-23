@@ -53,14 +53,11 @@ public abstract class Combo {
         return actions.remove(index);
     }
 
-    /**
-     * Method to remove all intens of actions
-     */
-    public void removeAll() {
-        actions.clear();
-    }
-
     public void defineActions(Direction dir) {};
 
+    public void defineActions(int range) {};
+
     public void defineActions() {};
+
+    public void defineActions(Direction head, Direction moveTo) {};
 }

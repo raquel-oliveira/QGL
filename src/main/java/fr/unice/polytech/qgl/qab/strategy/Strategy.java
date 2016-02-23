@@ -33,11 +33,11 @@ public class Strategy implements IStrategy {
     private ResponseHandler responseHandler;
 
     public Strategy() throws NegativeBudgetException {
+        context = new Context();
         aerialStrategy = new AerialStrategy();
         groundStrategy = new GroundStrategy();
         phase = Phase.AERIAL;
         currentAction = null;
-        context = new Context();
         responseHandler = new ResponseHandler();
     }
 

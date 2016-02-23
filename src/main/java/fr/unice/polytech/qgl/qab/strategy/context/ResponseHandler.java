@@ -60,9 +60,9 @@ public class ResponseHandler {
         tempContext.setBudget(contextIsland.getBudget() - jsonObj.getInt("cost"));
 
         if (takeAction instanceof Echo) {
-            tempContext = readDataFromEcho(tempContext, jsonObj, takeAction);
+            tempContext = readDataFromEcho(contextIsland, jsonObj, takeAction);
         } else if (takeAction instanceof Scan) {
-            tempContext = readDataFromScan(tempContext, jsonObj);
+            tempContext = readDataFromScan(contextIsland, jsonObj);
         } else if (takeAction instanceof Fly) {
             tempContext.getLastDiscovery().setUpEcho();
         } else if (takeAction instanceof Glimpse) {

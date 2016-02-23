@@ -36,11 +36,20 @@ public class Context {
     private Discovery lastDiscovery;
 
     private Combo comboAction;
-
+    private Combo comboReturnBack;
     private Action simpleAction;
-
     private Action lastAction;
+    private int contScan;
+    private int indexAction;
 
+
+    public Combo getComboReturnBack() {
+        return comboReturnBack;
+    }
+
+    public void setComboReturnBack(Combo comboReturnBack) {
+        this.comboReturnBack = comboReturnBack;
+    }
 
     /**
      * Context's constructor
@@ -60,6 +69,9 @@ public class Context {
         comboAction = null;
         simpleAction = null;
         lastAction = null;
+        contScan = 0;
+        indexAction = 0;
+        comboReturnBack = null;
     }
 
     /**
@@ -155,6 +167,26 @@ public class Context {
 
     public Action getLastAction() {
         return lastAction;
+    }
+
+    public int getContScan() {
+        return contScan;
+    }
+
+    public int getIndexAction() {
+        return indexAction;
+    }
+
+    public void setIndexAction(int indexAction) {
+        this.indexAction = indexAction;
+    }
+
+    public void incrementIndexAction() {
+        this.indexAction += 1;
+    }
+
+    public void setContScan(int contScan) {
+        this.contScan = contScan;
     }
 
     public void setLastAction(Action lastAction) {
