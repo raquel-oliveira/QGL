@@ -12,6 +12,8 @@ import fr.unice.polytech.qgl.qab.resources.Resource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
@@ -22,6 +24,8 @@ import java.util.List;
  * In this state we can make the explore and exploit of the tile.
  */
 public class ExploreTile extends GroundState {
+    private static final Logger LOGGER = LogManager.getLogger(ExploreTile.class);
+
     private static ExploreTile instance;
     private ContextAnalyzer contextAnalyzer;
     private List<PrimaryType> resourcesAnalyzer;
@@ -70,15 +74,27 @@ public class ExploreTile extends GroundState {
             resourcesAnalyzer = contextAnalyzer.resourceAnalyzer(context);
 
         if (resourcesAnalyzer != null && !resourcesAnalyzer.isEmpty()) {
+            java.util.Map<String, Integer> collectedResource = context.getCollectedResources();
             PrimaryResource res = new PrimaryResource(resourcesAnalyzer.get(0));
-            act = new Exploit(res);
-            //context.addCollectedResources(resourcesAnalyzer.get(0),);
-            resourcesAnalyzer.remove(0);
-            lastAction = act;
-            return act;
+            String resource = res.getName();
+            if(!collectedResource.containsKey(resource)){
+                act = new Exploit(res);
+                resourcesAnalyzer.remove(0);
+                lastAction = act;
+                return act;
+            }
+            else if(collectedResource.get(resource) < context.getAcumulatedAmount(res)) {
+                act = new Exploit(res);
+                resourcesAnalyzer.remove(0);
+                lastAction = act;
+                return act;
+            }
+            else{
+                resourcesAnalyzer.remove(0);
+            }
         }
-
         //context.setHeading(Direction.randomSideDirection(context.getHeading()));
         return new MoveTo(context.getHeading());
+
     }
 }

@@ -63,4 +63,5 @@ public class ContractItem {
         this.accumulated = temporaryAmount;
     }
 
+
 }
