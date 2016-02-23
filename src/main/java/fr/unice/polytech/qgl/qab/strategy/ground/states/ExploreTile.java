@@ -70,7 +70,7 @@ public class ExploreTile extends GroundState {
             resourcesAnalyzer = contextAnalyzer.resourceAnalyzer(context);
 
         if (resourcesAnalyzer != null && !resourcesAnalyzer.isEmpty()) {
-            Resource res = new PrimaryResource(resourcesAnalyzer.get(0));
+            PrimaryResource res = new PrimaryResource(resourcesAnalyzer.get(0));
             act = new Exploit(res);
             //context.addCollectedResources(resourcesAnalyzer.get(0),);
             resourcesAnalyzer.remove(0);
