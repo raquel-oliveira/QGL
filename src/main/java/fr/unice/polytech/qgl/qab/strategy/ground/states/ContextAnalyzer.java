@@ -1,6 +1,9 @@
 package fr.unice.polytech.qgl.qab.strategy.ground.states;
 
 import fr.unice.polytech.qgl.qab.map.tile.Biomes;
+import fr.unice.polytech.qgl.qab.resources.Resource;
+import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
+import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.response.GlimpseResponse;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
@@ -40,13 +43,22 @@ public class ContextAnalyzer {
      * @return list of resources founded
      */
     public List<PrimaryType> resourceAnalyzer(Context context) {
-        //TODO: change to primary and resource resource;  look amount of collectedResources. Use instanceof
         List<ContractItem> contract = context.getContracts();
         List<PrimaryType> resources = new ArrayList<>();
 
         for (ContractItem item: contract) {
-            if (context.getLastDiscovery().getExploreResponse().contains(item.resource())) {
-                resources.add(PrimaryType.valueOf(item.resource().getName()));
+            if(item.resource() instanceof PrimaryResource){
+                if (context.getLastDiscovery().getExploreResponse().contains(((PrimaryResource) item.resource()).getResource())){
+                    resources.add(PrimaryType.valueOf(item.resource().getName()));
+                }
+            }
+            if(item.resource() instanceof ManufacturedResource){
+                for (PrimaryType itemRecipe: ((ManufacturedResource) item.resource()).getRecipe()){
+                    if(context.getLastDiscovery().getExploreResponse().contains(itemRecipe)){
+                        resources.add(itemRecipe);
+                    }
+
+                }
             }
         }
         return resources;

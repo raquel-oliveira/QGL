@@ -45,7 +45,7 @@ public class Context {
         status = true;
         budget = new Budget(0);
         contracts = new ArrayList<>();
-        collectedResources = new HashMap<>(); //todo: what is de diference to put nothing in <> or put <Resources, Integer>?
+        collectedResources = new HashMap<>();
 
         firstHead = null;
         heading = null;
