@@ -34,7 +34,7 @@ public class Strategy implements IStrategy {
 
     public Strategy() throws NegativeBudgetException {
         context = new Context();
-        aerialStrategy = new AerialStrategy();
+        aerialStrategy = new AerialStrategy(context);
         groundStrategy = new GroundStrategy();
         phase = Phase.AERIAL;
         currentAction = null;
@@ -46,12 +46,15 @@ public class Strategy implements IStrategy {
         Action act;
         if (phase.isEquals(Phase.AERIAL)) {
             act = aerialStrategy.makeDecision(context);
-            if (act instanceof Land)
+            if (act instanceof Land) {
                 phase = Phase.GROUND;
+                context.updateToGround();
+            }
         } else {
             act = groundStrategy.makeDecision(context);
             if (act instanceof Land)
                 phase = Phase.GROUND;
+                context.updateToAerial();
         }
         currentAction = act;
         return act.formatResponse();

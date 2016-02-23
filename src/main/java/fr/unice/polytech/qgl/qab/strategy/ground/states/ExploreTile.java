@@ -49,8 +49,8 @@ public class ExploreTile extends GroundState {
     @Override
     public GroundState getState(Context context, Map map) throws PositionOutOfMapRange {
         if (resourcesAnalyzer != null && resourcesAnalyzer.isEmpty()) {
-            lastAction = null;
             resourcesAnalyzer = null;
+            lastAction = null;
             return MoveInTheGround.getInstance();
         } else
             return ExploreTile.getInstance();
