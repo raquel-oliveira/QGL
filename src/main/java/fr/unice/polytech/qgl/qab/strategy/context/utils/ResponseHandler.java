@@ -6,13 +6,12 @@ import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Scan;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Explore;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Glimpse;
+import fr.unice.polytech.qgl.qab.actions.simple.ground.Scout;
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.map.tile.Creek;
-import fr.unice.polytech.qgl.qab.response.EchoResponse;
-import fr.unice.polytech.qgl.qab.response.ExploreResponse;
-import fr.unice.polytech.qgl.qab.response.GlimpseResponse;
-import fr.unice.polytech.qgl.qab.response.ScanResponse;
+import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
+import fr.unice.polytech.qgl.qab.response.*;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.util.Discovery;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
@@ -70,6 +69,8 @@ public class ResponseHandler {
             tempContext = readDataFromGlimpse(contextIsland, jsonObj);
         } else if (takeAction instanceof Explore) {
             tempContext = readDataFromExplore(contextIsland, jsonObj);
+        } else if (takeAction instanceof Scout) {
+            tempContext = readDataFromScout(contextIsland, jsonObj);
         }
         return tempContext;
     }
@@ -208,6 +209,38 @@ public class ResponseHandler {
         }
 
         discovery.setExploreResponse(explore);
+        contextIsland.setLastDiscovery(discovery);
+
+        return contextIsland;
+    }
+
+    /**
+     * Method tha read response from scout
+     * @param contextIsland context data of the current simulation
+     * @param jsonObj json with the response
+     * @return context updated
+     */
+    private Context readDataFromScout(Context contextIsland, JSONObject jsonObj) {
+        ScoutResponse scout = new ScoutResponse();
+        int altitude = 0;
+        List<PrimaryType> res = new ArrayList<>();
+
+        if (jsonObj.getJSONObject(EXTRAS).has("altitude")) {
+            altitude = jsonObj.getJSONObject(EXTRAS).getInt("altitude");
+        }
+
+        if (jsonObj.getJSONObject(EXTRAS).has("resources")) {
+            JSONArray resources = jsonObj.getJSONObject(EXTRAS).getJSONArray("resources");
+            res = new ArrayList<>();
+            for (int i = 0; i < resources.length(); i++) {
+                res.add(PrimaryType.valueOf(resources.getString(i)));
+            }
+        }
+
+        scout.setAltitude(altitude);
+        scout.setResources(res);
+
+        discovery.setScoutResponse(scout);
         contextIsland.setLastDiscovery(discovery);
 
         return contextIsland;
