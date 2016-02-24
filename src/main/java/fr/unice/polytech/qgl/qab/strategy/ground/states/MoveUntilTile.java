@@ -1,40 +1,44 @@
 package fr.unice.polytech.qgl.qab.strategy.ground.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.actions.simple.ground.Exploit;
+import fr.unice.polytech.qgl.qab.actions.combo.ground.ComboMoveTo;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
-import fr.unice.polytech.qgl.qab.resources.Resource;
-import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 
 /**
- * @version 23/02/16.
+ * @version 24/02/16.
  */
-public class ExploitTile extends GroundState {
+public class MoveUntilTile extends GroundState {
 
     /**
      * Method to get the instance of the ExploreTile class
      * @return instance of ExploreTile
      */
-    public static ExploitTile getInstance() {
-        return new ExploitTile();
+    public static MoveUntilTile getInstance() {
+        return new MoveUntilTile();
     }
 
     @Override
     public GroundState getState(Context context, Map map) throws PositionOutOfMapRange {
-        if (context.current().getResourcesToExploit().isEmpty())
-            return GlimpseTheGround.getInstance();
-        else
-            return ExploitTile.getInstance();
+        if (context.current().getComboAction().isEmpty()) {
+            return ExploreTile.getInstance();
+        } else {
+            return MoveUntilTile.getInstance();
+        }
     }
 
     @Override
     public Action responseState(Context context, Map map) throws IndexOutOfBoundsComboAction {
-        Resource res = new PrimaryResource(context.current().getResourcesToExploit().get(0));
-        context.current().getResourcesToExploit().remove(0);
-        Action act = new Exploit(res);
+        Action act;
+
+        if (context.current().getComboAction() == null) {
+            context.current().setComboAction(new ComboMoveTo());
+            context.current().getComboAction().defineActions(context.getHeading(), context.current().moveUntil());
+        }
+
+        act = context.current().getComboAction().remove(0);
         context.current().setLastAction(act);
         return act;
     }
