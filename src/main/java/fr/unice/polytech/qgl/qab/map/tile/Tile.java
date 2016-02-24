@@ -1,5 +1,8 @@
 package fr.unice.polytech.qgl.qab.map.tile;
 
+
+import java.util.ArrayList;
+
 /**
  * @version 8/12/16
  *
@@ -9,6 +12,7 @@ public class Tile {
     private TileType type;
     private Creek creek;
     private boolean wasVisited;
+    private ArrayList<Square> squares;
 
     /**
      * Tile's constructor
@@ -16,8 +20,10 @@ public class Tile {
     public Tile() {
         this.type = TileType.UNDEFINED;
         creek = new Creek();
+        squares = new ArrayList<>();
         wasVisited = false;
     }
+
 
     /**
      * Tile's contructor with parametre
@@ -64,4 +70,16 @@ public class Tile {
      * @param visit
      */
     public void setVisit(boolean visit) { wasVisited = visit; }
+
+    /**
+     * Get the list of square
+     * @return list of square
+     */
+    public ArrayList<Square> getSquares() {
+        return squares;
+    }
+
+    public void setSquares(ArrayList<Square> squares){
+        this.squares = squares;
+    }
 }
