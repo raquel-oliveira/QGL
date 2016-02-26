@@ -23,7 +23,7 @@ public class LandTest {
 
     @Test
     public void testValidJson() {
-        JSONObject jsonObj = new JSONObject("{ \"current\": \"land\", \"parameters\": { \"creek\": \""+ID+"\", \"people\": "+PEOPLE+" }}");
+        JSONObject jsonObj = new JSONObject("{ \"action\": \"land\", \"parameters\": { \"creek\": \""+ID+"\", \"people\": "+PEOPLE+" }}");
         assertTrue(land.isValid(jsonObj));
     }
 
@@ -35,7 +35,7 @@ public class LandTest {
 
     @Test
     public void formatResponseTest() {
-        String response = "{ \"current\": \"land\", \"parameters\": { \"creek\": \""+ID+"\", \"people\": "+PEOPLE+" }}";
+        String response = "{ \"action\": \"land\", \"parameters\": { \"creek\": \""+ID+"\", \"people\": "+PEOPLE+" }}";
         assertTrue(land.formatResponse().equals(response));
     }
 }

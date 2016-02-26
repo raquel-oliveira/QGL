@@ -3,6 +3,8 @@ package fr.unice.polytech.qgl.qab.strategy.context.utils;
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.combo.Combo;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
+import fr.unice.polytech.qgl.qab.response.ScoutResponse;
+import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +24,9 @@ public class ContextAction {
 
     private List<Boolean> goodTiles;
     private int indexTile;
-    private List<PrimaryType> resourcesAnalyzer;
+    private List<PrimaryType> resourcesToExploit;
+    private int rangeMoveUntil;
+    private Direction directionWithoutOCEAN;
 
     public ContextAction() {
         comboAction = null;
@@ -33,7 +37,17 @@ public class ContextAction {
         comboReturnBack = null;
         goodTiles = new ArrayList<>();
         indexTile = 0;
-        resourcesAnalyzer = null;
+        resourcesToExploit = new ArrayList<>();
+        rangeMoveUntil = 0;
+        directionWithoutOCEAN = null;
+    }
+
+    public Direction getDirectionWithoutOCEAN() {
+        return directionWithoutOCEAN;
+    }
+
+    public void setDirectionWithoutOCEAN(Direction direction) {
+        this.directionWithoutOCEAN = direction;
     }
 
     /**
@@ -155,11 +169,24 @@ public class ContextAction {
         this.indexTile = indexTile;
     }
 
-    public List<PrimaryType> getResourcesAnalyzer() {
-        return resourcesAnalyzer;
+    public List<PrimaryType> getResourcesToExploit() {
+        return resourcesToExploit;
     }
 
-    public void setResourcesAnalyzer(List<PrimaryType> resourcesAnalyzer) {
-        this.resourcesAnalyzer = resourcesAnalyzer;
+    public void setResourcesToExploit(List<PrimaryType> resourcesToExploit) {
+        this.resourcesToExploit = resourcesToExploit;
+    }
+
+    public int moveUntil() {
+        return rangeMoveUntil;
+    }
+
+    public void moveUntil(int rangeMoveUntil) {
+        this.rangeMoveUntil = rangeMoveUntil;
+    }
+
+
+    public void incrementIndexTile() {
+        this.indexTile = (indexAction + 1) % 4;
     }
 }

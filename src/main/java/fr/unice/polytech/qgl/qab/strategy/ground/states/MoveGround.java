@@ -36,6 +36,7 @@ public class MoveGround extends GroundState {
         if (context.current().getComboAction().isEmpty()) {
             updateContext(context);
             context.current().setIndexTile(0);
+            context.current().setLastAction(null);
             return GlimpseTheGround.getInstance();
             //return ChoiceASide.getInstance();
         } else {
@@ -49,7 +50,7 @@ public class MoveGround extends GroundState {
 
         if (context.current().getComboAction() == null) {
             context.current().setComboAction(new ComboMoveTo());
-            context.setHeading(Direction.randomSideDirection(context.getHeading()));
+            context.setHeading((context.getHeading()));
             context.current().getComboAction().defineActions(context.getHeading(), 2);
         }
 

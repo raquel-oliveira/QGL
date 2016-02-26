@@ -20,13 +20,13 @@ public class ExploreTest {
 
     @Test
     public void testValidJson() {
-        JSONObject jsonObj = new JSONObject("{ \"current\": \"explore\" }");
+        JSONObject jsonObj = new JSONObject("{ \"action\": \"explore\" }");
         assertTrue(explore.isValid(jsonObj));
     }
 
     @Test
     public void testNotValidActionJson() {
-        JSONObject jsonObj = new JSONObject("{ \"current\": \"exploration\" }");
+        JSONObject jsonObj = new JSONObject("{ \"action\": \"exploration\" }");
         assertFalse(explore.isValid(jsonObj));
         jsonObj = new JSONObject("{ \"act\": \"explore\" }");
         assertFalse(explore.isValid(jsonObj));
@@ -34,7 +34,7 @@ public class ExploreTest {
 
     @Test
     public void formatResponseTest() {
-        String response = "{ \"current\": \"explore\" }";
+        String response = "{ \"action\": \"explore\" }";
         assertTrue(response.equals(explore.formatResponse()));
     }
 }

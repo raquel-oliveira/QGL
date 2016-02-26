@@ -2,6 +2,7 @@ package fr.unice.polytech.qgl.qab.strategy.ground.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.combo.ground.ComboMoveTo;
+import fr.unice.polytech.qgl.qab.actions.simple.ground.Exploit;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
@@ -23,7 +24,7 @@ public class MoveUntilTile extends GroundState {
     @Override
     public GroundState getState(Context context, Map map) throws PositionOutOfMapRange {
         if (context.current().getComboAction().isEmpty()) {
-            return ExploreTile.getInstance();
+            return ExploitTile.getInstance();
         } else {
             return MoveUntilTile.getInstance();
         }

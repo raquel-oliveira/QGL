@@ -70,7 +70,7 @@ public class ResponseHandler {
         } else if (takeAction instanceof Explore) {
             tempContext = readDataFromExplore(contextIsland, jsonObj);
         } else if (takeAction instanceof Scout) {
-            tempContext = readDataFromScout(contextIsland, jsonObj);
+            tempContext = readDataFromScout(contextIsland, jsonObj, takeAction);
         }
         return tempContext;
     }
@@ -220,7 +220,7 @@ public class ResponseHandler {
      * @param jsonObj json with the response
      * @return context updated
      */
-    private Context readDataFromScout(Context contextIsland, JSONObject jsonObj) {
+    private Context readDataFromScout(Context contextIsland, JSONObject jsonObj, Action action) {
         ScoutResponse scout = new ScoutResponse();
         int altitude = 0;
         List<PrimaryType> res = new ArrayList<>();
@@ -237,6 +237,7 @@ public class ResponseHandler {
             }
         }
 
+        scout.setDirection(action.getDirection());
         scout.setAltitude(altitude);
         scout.setResources(res);
 

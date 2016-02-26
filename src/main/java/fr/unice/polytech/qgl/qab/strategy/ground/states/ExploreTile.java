@@ -2,6 +2,7 @@ package fr.unice.polytech.qgl.qab.strategy.ground.states;
 
 
 import fr.unice.polytech.qgl.qab.actions.Action;
+import fr.unice.polytech.qgl.qab.actions.simple.ground.Exploit;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Explore;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
@@ -36,9 +37,10 @@ public class ExploreTile extends GroundState {
         context.current().setResourcesToExploit(contextAnalyzer.resourceAnalyzer(context));
 
         if (context.current().getResourcesToExploit().isEmpty()) {
+            context.current().setLastAction(null);
             return GlimpseTheGround.getInstance();
         } else {
-            return ExploreTile.getInstance();
+            return ExploitTile.getInstance();
         }
     }
 

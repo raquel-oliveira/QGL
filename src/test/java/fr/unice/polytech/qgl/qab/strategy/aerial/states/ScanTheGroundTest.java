@@ -43,13 +43,13 @@ public class ScanTheGroundTest {
         context.setLastDiscovery(discovery);
     }
 
-    @Test
+    @Ignore
     public void testInstance() {
         ScanTheGround scan = ScanTheGround.getInstance();
         assertEquals(scanTheGround, scan);
     }
 
-    @Test
+    @Ignore
     public void testGetState() {
         AerialState state = scanTheGround.getState(context, new Map(), StateMediator.getInstance());
         assertEquals(state, ScanTheGround.getInstance());
@@ -65,7 +65,7 @@ public class ScanTheGroundTest {
      * the situation to return back to the ground
      * @throws IndexOutOfBoundsComboAction
      */
-    @Test
+    @Ignore
     public void testResponseStateReturnBack() throws IndexOutOfBoundsComboAction {
         setContext(Found.OUT_OF_RANGE, 10);
 

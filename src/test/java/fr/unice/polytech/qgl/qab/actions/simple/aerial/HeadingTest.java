@@ -36,18 +36,18 @@ public class HeadingTest {
 
     @Test
     public void testValidJson() {
-        JSONObject jsonObj = new JSONObject("{ \"current\": \"heading\", \"parameters\": { \"direction\": \"E\" }}");
+        JSONObject jsonObj = new JSONObject("{ \"action\": \"heading\", \"parameters\": { \"direction\": \"E\" }}");
         assertTrue(heading.isValid(jsonObj));
     }
   @Test
   public void testValidJnjhson() {
-      JSONObject jsonObj = new JSONObject("{ \"current\": \"heading\", \"parameters\": { \"direction\": \""+dir.toString()+"\" }}");
+      JSONObject jsonObj = new JSONObject("{ \"action\": \"heading\", \"parameters\": { \"direction\": \""+dir.toString()+"\" }}");
       assertTrue(heading.isValid(jsonObj));
   }
 
     @Test
     public void testInvalideDirection() {
-        JSONObject jsonObj = new JSONObject("{ \"current\": \"heading\", \"parameters\": { \"direction\": \"A\" }}");
+        JSONObject jsonObj = new JSONObject("{ \"action\": \"heading\", \"parameters\": { \"direction\": \"A\" }}");
         assertFalse(heading.isValid(jsonObj));
     }
 
@@ -59,13 +59,13 @@ public class HeadingTest {
 
     @Test
     public void testNotValidActionJson() {
-        JSONObject jsonObj = new JSONObject("{\"current\": \"notHeading\", \"parameters\": { \"direction\": \"E\" }}");
+        JSONObject jsonObj = new JSONObject("{\"action\": \"notHeading\", \"parameters\": { \"direction\": \"E\" }}");
         assertFalse(heading.isValid(jsonObj));
     }
 
     @Test
     public void noParametersTest() {
-        String response = "{ \"current\": \"heading\"}";
+        String response = "{ \"action\": \"heading\"}";
         JSONObject jsonObj = new JSONObject(response);
         assertFalse(heading.isValid(jsonObj));
         assertFalse(heading.formatResponse().equals(response));
@@ -73,7 +73,7 @@ public class HeadingTest {
 
     @Test
     public void noDirectionParameterTest() {
-        String response = "{ \"current\": \"heading\", \"parameters\": { \"bla\": \"E\" }}";
+        String response = "{ \"action\": \"heading\", \"parameters\": { \"bla\": \"E\" }}";
         JSONObject jsonObj = new JSONObject(response);
         assertFalse(heading.isValid(jsonObj));
         assertFalse(heading.formatResponse().equals(response));
@@ -81,7 +81,7 @@ public class HeadingTest {
 
     @Test
     public void formatRequestTest() {
-        String response = "{ \"current\": \"heading\", \"parameters\": { \"direction\": \"" + dir.toString() + "\" } }";
+        String response = "{ \"action\": \"heading\", \"parameters\": { \"direction\": \"" + dir.toString() + "\" } }";
         JSONObject jsonObj = new JSONObject(response);
         assertTrue((heading.isValid(jsonObj)));
         assertTrue((heading.formatResponse().equals(response)));

@@ -3,7 +3,6 @@ package fr.unice.polytech.qgl.qab.strategy.ground.states;
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Glimpse;
-import fr.unice.polytech.qgl.qab.actions.simple.ground.MoveTo;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
@@ -72,7 +71,7 @@ public class ChoiceASideTest {
         context.setLastDiscovery(discovery);
 
         state = choiceASide.getState(context, new Map());
-        assertEquals(MoveInTheGround.class, state.getClass());
+        assertEquals(GlimpseTheGround.class, state.getClass());
 
         act = choiceASide.responseState(context, new Map());
         assertEquals(Stop.class, act.getClass());

@@ -60,4 +60,6 @@ public abstract class Combo {
     public void defineActions() {};
 
     public void defineActions(Direction head, Direction moveTo) {};
+
+    public void defineActions(Direction direction, int range) {};
 }

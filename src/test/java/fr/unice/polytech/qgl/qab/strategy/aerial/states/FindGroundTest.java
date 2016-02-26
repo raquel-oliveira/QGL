@@ -36,13 +36,13 @@ public class FindGroundTest {
     @Test
     public void testInstance() {
         FindGround find = FindGround.getInstance();
-        assertEquals(findGround, find);
+        assertEquals(FindGround.class, find.getClass());
     }
 
     @Test
     public void testGetState() throws NegativeBudgetException {
         AerialState state = findGround.getState(new Context(), new Map(), StateMediator.getInstance());
-        assertEquals(state, findGround);
+        assertEquals(FindGround.class, state.getClass());
     }
 
     @Test

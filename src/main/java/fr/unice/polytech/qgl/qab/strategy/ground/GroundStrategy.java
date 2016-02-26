@@ -32,8 +32,9 @@ public class GroundStrategy implements IGroundStrategy {
             return contextAnalyzer(context);
         }
 
-        state =  state.getState(context, map);
+        state = state.getState(context, map);
         return state.responseState(context, map);
+
     }
 
     /**

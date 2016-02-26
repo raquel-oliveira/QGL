@@ -35,18 +35,27 @@ public class ChoiceASide extends GroundState {
 
     @Override
     public GroundState getState(Context context, Map map) throws PositionOutOfMapRange {
+        tileInGround(context);
+
         if (!goodTile(context).isEmpty()) {
             context.current().setResourcesToExploit(goodTile(context));
             context.current().moveUntil(1);
             context.setHeading(context.current().getLastAction().getDirection());
+            updateContext(context);
             return MoveUntilTile.getInstance();
         } else if (context.current().getComboAction().isEmpty()) {
             updateContext(context);
-            if (context.getLastDiscovery().getScoutResponse().getResources().contains(PrimaryType.FISH))
-                context.setHeading(Direction.inverse(context.current().getLastAction().getDirection()));
+            context.setHeading(context.current().getDirectionWithoutOCEAN());
             return MoveGround.getInstance();
         } else {
             return ChoiceASide.getInstance();
+        }
+    }
+
+    private void tileInGround(Context context) {
+        Direction d = context.current().getLastAction().getDirection();
+        if (!context.getLastDiscovery().getScoutResponse().found("FISH")) {
+            context.current().setDirectionWithoutOCEAN(d);
         }
     }
 
@@ -65,7 +74,7 @@ public class ChoiceASide extends GroundState {
     }
 
     private List<PrimaryType> goodTile(Context context) {
-        return contextAnalyzer.resourceAnalyzer(context);
+        return contextAnalyzer.analyzerScout(context);
     }
 
 
@@ -75,5 +84,6 @@ public class ChoiceASide extends GroundState {
      */
     private void updateContext(Context context) {
         context.current().setComboAction(null);
+        context.current().setLastAction(null);
     }
 }

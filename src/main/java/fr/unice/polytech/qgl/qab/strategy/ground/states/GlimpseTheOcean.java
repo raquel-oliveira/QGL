@@ -7,66 +7,53 @@ import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
+import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 /**
- * @version 07/02/16.
- *
- * State responsable by move the explorer in the ground.
- * In this state we can make the move_to and glimpse.
+ * @version 24/02/16.
  */
-public class GlimpseTheGround extends GroundState {
-    private ContextAnalyzer contextAnalyzer;
+public class GlimpseTheOcean extends GroundState {
 
     /**
      * GlimpseTheGround's constructor
      */
-    private GlimpseTheGround() {
-        contextAnalyzer = new ContextAnalyzer();
+    private GlimpseTheOcean() {
     }
 
     /**
      * Method to get the instance of the GlimpseTheGround class
      * @return instance of the GlimpseTheGround class
      */
-    public static GlimpseTheGround getInstance() {
-        return new GlimpseTheGround();
+    public static GlimpseTheOcean getInstance() {
+        return new GlimpseTheOcean();
     }
 
     @Override
     public GroundState getState(Context context, Map map) throws PositionOutOfMapRange {
 
-        // analize the glimpse response and get the resources
-        if (context.current().getLastAction() instanceof Glimpse) {
-            context.current().setGoodTiles(contextAnalyzer.biomeAnalyzer(context));
-
-            // check if the response of the glimpse was good or not
-            if (contextAnalyzer.isOcean(context) || !contextAnalyzer.goodGlimpse(context))
-                return ChoiceASide.getInstance();
+        // if the glimpse is finished, return
+        if (context.current().getIndexTile() == 0) {
+            context.setHeading(Direction.inverse(context.getHeading()));
+            context.current().moveUntil(4);
+            return MoveUntilTile.getInstance();
         }
-
-        if (isGoodToExplore(context)) {
+        // if the glimpse if not finished yet, make explore
+        else if (isGoodToExplore(context)) {
             return ExploreTile.getInstance();
-        } else {
-            return GlimpseTheGround.getInstance();
         }
+
+        // if any situations before happen, keep move
+        return GlimpseTheOcean.getInstance();
     }
 
     @Override
     public Action responseState(Context context, Map map) throws IndexOutOfBoundsComboAction {
         Action act;
 
-        if (context.current().getIndexTile() == 0) {
-            act = new Glimpse(context.getHeading(), 4);
-            context.current().setLastAction(act);
-
-            context.current().incrementIndexTile();
-            return act;
-        }
-
         act = new MoveTo(context.getHeading());
         context.current().setLastAction(act);
-
         context.current().incrementIndexTile();
+
         return act;
     }
 
@@ -77,6 +64,14 @@ public class GlimpseTheGround extends GroundState {
      */
     private boolean isGoodToExplore(Context context) {
         return !context.current().getGoodTiles().isEmpty()
-                && context.current().getGoodTiles().get(context.current().getIndexTile() - 1);
+                && context.current().getGoodTiles().get(context.current().getIndexTile());
+    }
+
+    /**
+     * Method to updata the context
+     * @param context
+     */
+    private void updateContext(Context context) {
+        context.current().setComboAction(null);
     }
 }

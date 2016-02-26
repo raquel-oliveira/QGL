@@ -51,6 +51,18 @@ public class ContextAnalyzer {
         return resources;
     }
 
+    public List<PrimaryType> analyzerScout(Context context) {
+        List<ContractItem> contract = context.getContracts();
+        List<PrimaryType> resources = new ArrayList<>();
+
+        for (ContractItem item: contract) {
+            if (context.getLastDiscovery().getScoutResponse().found(item.resource().getName())) {
+                resources.add(PrimaryType.valueOf(item.resource().getName()));
+            }
+        }
+        return resources;
+    }
+
     /**
      * This method will check the resources in the contract and take the
      * biomes that are more likely to have them. After, it will see in each

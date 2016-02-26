@@ -136,4 +136,8 @@ public class Discovery {
     public void setScoutResponse(ScoutResponse scoutResponse) {
         this.scoutResponse = scoutResponse;
     }
+
+    public ScoutResponse getScoutResponse() {
+        return scoutResponse;
+    }
 }
