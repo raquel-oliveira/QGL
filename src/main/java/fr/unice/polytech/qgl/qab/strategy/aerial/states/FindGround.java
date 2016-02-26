@@ -7,6 +7,7 @@ import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboFlyEcho;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
+import fr.unice.polytech.qgl.qab.strategy.context.utils.UpdaterMap;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 
@@ -14,6 +15,13 @@ import fr.unice.polytech.qgl.qab.util.enums.Found;
  * @version 11.12.2015.
  */
 public class FindGround extends AerialState {
+
+    private UpdaterMap updaterMap;
+
+    public FindGround() {
+        this.updaterMap = new UpdaterMap();
+    }
+
 
     public static FindGround getInstance() {
         return new FindGround();
@@ -53,6 +61,7 @@ public class FindGround extends AerialState {
         act = context.current().getComboAction().get(0);
         context.current().setLastAction(act);
         context.current().getComboAction().remove(0);
+        updaterMap.updateLastPositionFly(context, map);
 
         return act;
     }

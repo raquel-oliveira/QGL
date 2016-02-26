@@ -49,7 +49,7 @@ public class Initialize extends AerialState {
                 updateContext(context);
                 return GoToTheCorner.getInstance();
             } else if (context.current().getComboAction().isEmpty() && !stateMediator.shouldGoToTheCorner()) {
-                setFirtsPosition(context, map);
+                updaterMap.setFirtsPosition(context, map);
                 updateContext(context);
                 return FindGround.getInstance();
             }
@@ -92,27 +92,6 @@ public class Initialize extends AerialState {
             mediator.setRangeToTheCorner(context.getLastDiscovery().getEchoResponse().getRange());
             mediator.setDirectionToTheCorner(context.getLastDiscovery().getEchoResponse().getDirection());
         }
-    }
-
-    /**
-     * Set the first position in the map
-     * @param context data context of the simulation
-     * @param map of the simulation
-     * @throws PositionOutOfMapRange
-     */
-     private static void setFirtsPosition(Context context, Map map) throws PositionOutOfMapRange {
-        if (context.getHeading().isVertical()) {
-            if (context.getHeading().equals(Direction.NORTH))
-                map.setLastPosition(new Position(context.getLastDiscovery().getEchoResponse().getRange(), map.getHeight() - 1));
-            else
-                map.setLastPosition(new Position(context.getLastDiscovery().getEchoResponse().getRange(), 0));
-        } else  {
-            if (context.getHeading().equals(Direction.EAST))
-                map.setLastPosition(new Position(0, context.getLastDiscovery().getEchoResponse().getRange()));
-            else
-                map.setLastPosition(new Position(map.getWidth() - 1, context.getLastDiscovery().getEchoResponse().getRange()));
-        }
-        map.initializeTileOcean(map.getLastPosition());
     }
 
     /**

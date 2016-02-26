@@ -14,18 +14,16 @@ import fr.unice.polytech.qgl.qab.strategy.context.Context;
  * @version 9.12.2015
  */
 public class AerialStrategy implements IAerialStrategy {
-    private Map map;
     private AerialState state;
     private StateMediator stateMediator;
 
     public AerialStrategy(Context context) {
-        map = new Map();
         state = Initialize.getInstance(context);
         stateMediator = StateMediator.getInstance();
     }
 
     @Override
-    public Action makeDecision(Context context) throws IndexOutOfBoundsComboAction, PositionOutOfMapRange {
+    public Action makeDecision(Context context, Map map) throws IndexOutOfBoundsComboAction, PositionOutOfMapRange {
         if (contextAnalyzer(context) != null) {
             return contextAnalyzer(context);
         }

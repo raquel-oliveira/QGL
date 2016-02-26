@@ -1,10 +1,12 @@
 package fr.unice.polytech.qgl.qab.strategy;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
+import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.simple.common.Land;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
+import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.aerial.AerialStrategy;
 import fr.unice.polytech.qgl.qab.strategy.aerial.IAerialStrategy;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.ResponseHandler;
@@ -31,6 +33,8 @@ public class Strategy implements IStrategy {
     private Action currentAction;
     // object to read the response
     private ResponseHandler responseHandler;
+    // map
+    private Map map;
 
     public Strategy() throws NegativeBudgetException {
         context = new Context();
@@ -39,13 +43,14 @@ public class Strategy implements IStrategy {
         phase = Phase.AERIAL;
         currentAction = null;
         responseHandler = new ResponseHandler();
+        map = new Map();
     }
 
     @Override
     public String makeDecision() throws PositionOutOfMapRange, IndexOutOfBoundsComboAction {
         Action act;
         if (phase.isEquals(Phase.AERIAL)) {
-            act = aerialStrategy.makeDecision(context);
+            act = aerialStrategy.makeDecision(context, map);
             if (act instanceof Land) {
                 phase = Phase.GROUND;
                 context.updateToGround();
