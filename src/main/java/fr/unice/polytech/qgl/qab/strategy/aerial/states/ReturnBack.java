@@ -7,12 +7,20 @@ import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboReturn;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
+import fr.unice.polytech.qgl.qab.strategy.context.utils.UpdaterMap;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 
 /**
  * @version 12.12.2015.
  */
 public class ReturnBack extends AerialState {
+
+    //private Combo actionCombo;
+    private UpdaterMap updaterMap;
+
+    private ReturnBack() {
+        updaterMap = new UpdaterMap();
+    }
 
     public static ReturnBack getInstance() {
         return new ReturnBack();
@@ -51,12 +59,12 @@ public class ReturnBack extends AerialState {
         act = context.current().getComboReturnBack().get(context.current().getIndexAction());
         context.current().setLastAction(act);
         if (context.current().getLastAction() instanceof Heading)
-            context.setHeading(act.getDirection());
+            updaterMap.updateLastPositionHeading(context, map);
+
         context.current().incrementIndexAction();
 
         if (context.current().getIndexAction() == 6)
             context.current().setIndexAction(0);
-
 
         return act;
     }

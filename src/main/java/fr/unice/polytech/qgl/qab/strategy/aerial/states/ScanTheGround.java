@@ -3,10 +3,12 @@ package fr.unice.polytech.qgl.qab.strategy.aerial.states;
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboFlyScan;
+import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Scan;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
+import fr.unice.polytech.qgl.qab.strategy.context.utils.UpdaterMap;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 
 /**
@@ -15,6 +17,13 @@ import fr.unice.polytech.qgl.qab.util.enums.Found;
 public class ScanTheGround extends AerialState {
 
     private static final int SCAN_RATIO = 2;
+
+    //private Combo actionCombo;
+    private UpdaterMap updaterMap;
+
+    private ScanTheGround() {
+        updaterMap = new UpdaterMap();
+    }
 
     public static ScanTheGround getInstance() {
         return new ScanTheGround();
@@ -53,6 +62,7 @@ public class ScanTheGround extends AerialState {
         if (context.current().getComboAction() == null || context.current().getComboAction().isEmpty()) {
             context.current().setComboAction(new ComboFlyScan());
             context.current().getComboAction().defineActions();
+
             if (!context.getLastDiscovery().getScanResponse().foundOcean()) {
                 if (context.current().getContScan() != SCAN_RATIO) {
                     context.current().getComboAction().remove(1);
@@ -66,6 +76,8 @@ public class ScanTheGround extends AerialState {
         act = context.current().getComboAction().get(0);
         context.current().setLastAction(act);
         context.current().getComboAction().remove(0);
+        if (act instanceof Fly)
+            updaterMap.updateLastPositionFly(context, map);
 
         return act;
     }

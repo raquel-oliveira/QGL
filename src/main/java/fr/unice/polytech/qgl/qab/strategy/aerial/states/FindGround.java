@@ -33,7 +33,6 @@ public class FindGround extends AerialState {
             updateContext(context);
             return FlyUntil.getInstance();
         }
-
         return FindGround.getInstance();
     }
 
@@ -45,9 +44,9 @@ public class FindGround extends AerialState {
         if (context.getLastDiscovery().getEchoResponse().getFound().equals(Found.GROUND) && context.current().getLastAction() instanceof Echo) {
             Direction dir = context.current().getLastAction().getDirection();
             act = new Heading(dir);
-            context.setHeading(dir);
             stateMediator.setRangeToGround(context.getLastDiscovery().getEchoResponse().getRange());
             context.current().setLastAction(act);
+            updaterMap.updateLastPositionHeading(context, map);
             return act;
         }
 

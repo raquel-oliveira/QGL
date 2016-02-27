@@ -7,12 +7,20 @@ import fr.unice.polytech.qgl.qab.actions.simple.aerial.Heading;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
+import fr.unice.polytech.qgl.qab.strategy.context.utils.UpdaterMap;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 
 /**
  * @version 17/12/15.
  */
 public class GoToTheCorner extends AerialState {
+
+    //private Combo actionCombo;
+    private UpdaterMap updaterMap;
+
+    private GoToTheCorner() {
+        updaterMap = new UpdaterMap();
+    }
 
     /**
      * Method to return a instance of Initialize
@@ -24,6 +32,7 @@ public class GoToTheCorner extends AerialState {
 
     @Override
     public AerialState getState(Context context, Map map, StateMediator stateMediator) {
+        // if the plane found a space to initialize the dimention
         if (foundFreeZone(context)) {
             stateMediator.setGoToTheCorner(false);
             updateContext(context);
@@ -38,7 +47,7 @@ public class GoToTheCorner extends AerialState {
 
         // make the first and last heading
         if (context.current().getSimpleAction() == null)
-            return getHeading(context, stateMediator);
+            return getHeading(context, stateMediator, map);
 
 
         // after the first heading make the fly until the corner
@@ -58,9 +67,8 @@ public class GoToTheCorner extends AerialState {
 
             // if the echo found the out_of_range, return the action heading
             if (needLastTurn(context, stateMediator))
-                return getHeading(context, stateMediator);
+                return getHeading(context, stateMediator, map);
         }
-
         return act;
     }
 
@@ -84,16 +92,14 @@ public class GoToTheCorner extends AerialState {
      * @param stateMediator
      * @return heading action
      */
-    private Action getHeading(Context context, StateMediator stateMediator) {
-        if (context.current().getComboAction() == null) {
+    private Action getHeading(Context context, StateMediator stateMediator, Map map) {
+        if (context.current().getComboAction() == null)
             context.current().setSimpleAction(new Heading(stateMediator.getDirectionToTheCorner()));
-            context.current().setLastAction(context.current().getSimpleAction());
-            return context.current().getSimpleAction();
-        } else {
+        else
             context.current().setSimpleAction(new Heading(context.getFirstHead()));
-            context.current().setLastAction(context.current().getSimpleAction());
-            return context.current().getSimpleAction();
-        }
+
+        context.current().setLastAction(context.current().getSimpleAction());
+        return context.current().getSimpleAction();
     }
 
     /**
