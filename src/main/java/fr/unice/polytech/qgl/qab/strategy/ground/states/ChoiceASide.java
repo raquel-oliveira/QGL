@@ -1,6 +1,7 @@
 package fr.unice.polytech.qgl.qab.strategy.ground.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
+import fr.unice.polytech.qgl.qab.actions.combo.ground.ComboGlimpse;
 import fr.unice.polytech.qgl.qab.actions.combo.ground.ComboScout;
 import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Exploit;
@@ -37,19 +38,17 @@ public class ChoiceASide extends GroundState {
     public GroundState getState(Context context, Map map) throws PositionOutOfMapRange {
         tileInGround(context);
 
-        if (!goodTile(context).isEmpty()) {
-            context.current().setResourcesToExploit(goodTile(context));
-            context.current().moveUntil(1);
+        if (!goodTile(context).isEmpty() ||
+                (context.current().getComboAction() != null &&
+                        context.current().getComboAction().isEmpty())) {
             context.setHeading(context.current().getLastAction().getDirection());
+            context.current().setIndexTile(0);
             updateContext(context);
-            return MoveUntilTile.getInstance();
-        } else if (context.current().getComboAction().isEmpty()) {
-            updateContext(context);
-            context.setHeading(context.current().getDirectionWithoutOCEAN());
-            return MoveGround.getInstance();
-        } else {
+            return GlimpseTheGround.getInstance();
+        } else if (contextAnalyzer.isOcean(context)) {
             return ChoiceASide.getInstance();
         }
+        return ChoiceASide.getInstance();
     }
 
     private void tileInGround(Context context) {
@@ -64,9 +63,12 @@ public class ChoiceASide extends GroundState {
         Action act;
 
         if (context.current().getComboAction() == null) {
-            context.current().setComboAction(new ComboScout());
+            context.current().setComboAction(new ComboGlimpse());
             context.current().getComboAction().defineActions(context.getHeading());
         }
+
+        if (context.current().getComboAction().isEmpty())
+            return new Stop();
 
         act = context.current().getComboAction().remove(0);
         context.current().setLastAction(act);

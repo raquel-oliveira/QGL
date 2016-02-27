@@ -16,7 +16,7 @@ public class ComboScout extends Combo {
     }
 
     /**
-     * Gave a number of range, this method add in the list of action a set of move_to
+     * Gave a number of range, this method add in the list of action a set of scout
      * @param direction move_to direction
      */
     public void defineActions(Direction direction) {
