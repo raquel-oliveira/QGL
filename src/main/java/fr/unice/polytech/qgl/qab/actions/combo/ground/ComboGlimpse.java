@@ -21,9 +21,9 @@ public class ComboGlimpse extends Combo {
      * @param direction glimpse direction
      */
     public void defineActions(Direction direction) {
-        actions.add(new Glimpse(Direction.inverse(direction), 4));
         Direction dirRandom = Direction.randomSideDirection(direction);
         actions.add(new Glimpse(dirRandom, 4));
         actions.add(new Glimpse(Direction.inverse(dirRandom), 4));
+        actions.add(new Glimpse(Direction.inverse(direction), 4));
     }
 }
