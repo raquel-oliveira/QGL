@@ -1,7 +1,10 @@
 package fr.unice.polytech.qgl.qab.map.tile;
 
 
+import fr.unice.polytech.qgl.qab.map.tile.square.Square;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @version 8/12/16
@@ -12,7 +15,8 @@ public class Tile {
     private TileType type;
     private Creek creek;
     private boolean wasVisited;
-    private ArrayList<Square> squares;
+    private List<Square> squares;
+    private List<Biomes> biomesPredominant;
 
     /**
      * Tile's constructor
@@ -22,6 +26,7 @@ public class Tile {
         creek = new Creek();
         squares = new ArrayList<>();
         wasVisited = false;
+        biomesPredominant = new ArrayList<>();
     }
 
 
@@ -75,11 +80,15 @@ public class Tile {
      * Get the list of square
      * @return list of square
      */
-    public ArrayList<Square> getSquares() {
+    public List<Square> getSquares() {
         return squares;
     }
 
-    public void setSquares(ArrayList<Square> squares){
+    /**
+     * Set a list of square
+     * @param squares new list
+     */
+    public void setSquares(List<Square> squares){
         this.squares = squares;
     }
 }
