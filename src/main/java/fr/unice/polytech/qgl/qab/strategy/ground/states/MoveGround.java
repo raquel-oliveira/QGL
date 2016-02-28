@@ -38,7 +38,6 @@ public class MoveGround extends GroundState {
             context.current().setIndexTile(0);
             context.current().setLastAction(null);
             return GlimpseTheGround.getInstance();
-            //return ChoiceASide.getInstance();
         } else {
             return MoveGround.getInstance();
         }

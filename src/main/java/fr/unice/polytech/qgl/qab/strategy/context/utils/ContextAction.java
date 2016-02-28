@@ -187,6 +187,6 @@ public class ContextAction {
 
 
     public void incrementIndexTile() {
-        this.indexTile = (indexAction + 1) % 4;
+        this.indexTile = (indexTile + 1) % 4;
     }
 }

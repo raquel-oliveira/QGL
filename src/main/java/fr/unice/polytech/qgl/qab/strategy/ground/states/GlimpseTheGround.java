@@ -40,7 +40,7 @@ public class GlimpseTheGround extends GroundState {
             context.current().setGoodTiles(contextAnalyzer.biomeAnalyzer(context));
 
             // check if the response of the glimpse was good or not
-            if (contextAnalyzer.isOcean(context) || !contextAnalyzer.goodGlimpse(context))
+            if (contextAnalyzer.isOcean(context)) //  || !contextAnalyzer.goodGlimpse(context)
                 return ChoiceASide.getInstance();
         }
 
@@ -77,6 +77,7 @@ public class GlimpseTheGround extends GroundState {
      */
     private boolean isGoodToExplore(Context context) {
         return !context.current().getGoodTiles().isEmpty()
+                && context.current().getIndexTile() > 0
                 && context.current().getGoodTiles().get(context.current().getIndexTile() - 1);
     }
 }
