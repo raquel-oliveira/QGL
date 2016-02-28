@@ -90,7 +90,7 @@ public class FindGround extends AerialState {
      * Method to updata the context
      * @param context
      */
-    private void updateContext(Context context) {
+    private static void updateContext(Context context) {
         context.current().setComboAction(null);
         context.current().setLastAction(null);
     }

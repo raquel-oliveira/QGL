@@ -2,7 +2,6 @@ package fr.unice.polytech.qgl.qab.strategy.aerial.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboFlyUntil;
-import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
@@ -14,7 +13,6 @@ import fr.unice.polytech.qgl.qab.strategy.context.utils.UpdaterMap;
  */
 public class FlyUntil extends AerialState {
 
-    //private Combo actionCombo;
     private UpdaterMap updaterMap;
 
     private FlyUntil() {
@@ -57,7 +55,7 @@ public class FlyUntil extends AerialState {
      * Method to updata the context
      * @param context
      */
-    private void updateContext(Context context) {
+    private static void updateContext(Context context) {
         context.current().setComboAction(null);
         context.current().setLastAction(null);
     }

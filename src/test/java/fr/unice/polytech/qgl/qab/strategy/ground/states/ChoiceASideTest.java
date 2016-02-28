@@ -35,14 +35,11 @@ public class ChoiceASideTest {
         assertEquals(choiceASide.getClass(), choice.getClass());
     }
 
-    @Ignore
+    @Test
     public void testActions() throws NegativeBudgetException, PositionOutOfMapRange, IndexOutOfBoundsComboAction {
         Context context = new Context();
         context.setFirstHead(Direction.NORTH);
         context.setHeading(Direction.NORTH);
-
-        GroundState state = choiceASide.getState(context, new Map());
-        assertEquals(state, choiceASide);
 
         Action act = choiceASide.responseState(context, new Map());
         assertEquals(Glimpse.class, act.getClass());
@@ -54,14 +51,14 @@ public class ChoiceASideTest {
         discovery.setGlimpseResponse(glimpseResponse);
         context.setLastDiscovery(discovery);
 
-        state = choiceASide.getState(context, new Map());
-        assertEquals(state, choiceASide);
+        GroundState state = choiceASide.getState(context, new Map());
+        assertEquals(state.getClass(), choiceASide.getClass());
 
         act = choiceASide.responseState(context, new Map());
         assertEquals(Glimpse.class, act.getClass());
 
         state = choiceASide.getState(context, new Map());
-        assertEquals(state, choiceASide);
+        assertEquals(state.getClass(), choiceASide.getClass());
 
         act = choiceASide.responseState(context, new Map());
         assertEquals(Glimpse.class, act.getClass());
@@ -72,9 +69,9 @@ public class ChoiceASideTest {
         context.setLastDiscovery(discovery);
 
         state = choiceASide.getState(context, new Map());
-        assertEquals(GlimpseTheGround.class, state.getClass());
+        assertEquals(MoveGround.class, state.getClass());
 
         act = choiceASide.responseState(context, new Map());
-        assertEquals(Stop.class, act.getClass());
+        assertEquals(Glimpse.class, act.getClass());
     }
 }

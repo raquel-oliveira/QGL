@@ -84,7 +84,7 @@ public class ScanTheGround extends AerialState {
      * With this, we can make alternate scan
      * @param context
      */
-    private void removeScan(Context context) {
+    private static void removeScan(Context context) {
         if (!context.getLastDiscovery().getScanResponse().foundOcean()) {
             if (context.current().getContScan() != SCAN_RATIO) {
                 context.current().getComboAction().remove(1);

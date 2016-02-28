@@ -88,7 +88,7 @@ public class ResponseHandler {
         int range = 0;
 
         if (jsonObj.getJSONObject(EXTRAS).has(FOUND))
-            found = Found.fromString(jsonObj.getJSONObject(EXTRAS).getString(FOUND));
+            found = Found.valueOf(jsonObj.getJSONObject(EXTRAS).getString(FOUND));
         if (jsonObj.getJSONObject(EXTRAS).has(RANGE))
             range = jsonObj.getJSONObject(EXTRAS).getInt(RANGE);
 

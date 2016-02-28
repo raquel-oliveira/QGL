@@ -2,19 +2,12 @@ package fr.unice.polytech.qgl.qab.strategy.ground.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.combo.ground.ComboGlimpse;
-import fr.unice.polytech.qgl.qab.actions.combo.ground.ComboScout;
 import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
-import fr.unice.polytech.qgl.qab.actions.simple.ground.Exploit;
-import fr.unice.polytech.qgl.qab.actions.simple.ground.Glimpse;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
-import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @version 20/02/16.
@@ -86,6 +79,11 @@ public class ChoiceASide extends GroundState {
         return act;
     }
 
+    /**
+     * Return true if the glimpse found something good to the contract
+     * @param context data context
+     * @return
+     */
     private boolean goodTile(Context context) {
         return contextAnalyzer.goodGlimpse(context);
     }
@@ -95,7 +93,7 @@ public class ChoiceASide extends GroundState {
      * Method to updata the context
      * @param context
      */
-    private void updateContext(Context context) {
+    private static void updateContext(Context context) {
         context.current().setComboAction(null);
         context.current().setLastAction(null);
     }

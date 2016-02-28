@@ -79,7 +79,7 @@ public class GlimpseTheGround extends GroundState {
      * @param context
      * @return if the tile it's good to explore
      */
-    private boolean isGoodToExplore(Context context) {
+    private static boolean isGoodToExplore(Context context) {
         return !context.current().getGoodTiles().isEmpty()
                 && context.current().getIndexTile() > 0
                 && context.current().getGoodTiles().get(context.current().getIndexTile() - 1);

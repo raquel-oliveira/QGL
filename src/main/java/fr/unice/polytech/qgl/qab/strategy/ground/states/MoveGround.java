@@ -50,7 +50,7 @@ public class MoveGround extends GroundState {
         if (context.current().getComboAction() == null) {
             context.current().setComboAction(new ComboMoveTo());
             context.setHeading((context.getHeading()));
-            context.current().getComboAction().defineActions(context.getHeading(), 4);
+            context.current().getComboAction().defineActions(context.getHeading(), 2);
         }
 
         act = context.current().getComboAction().remove(0);

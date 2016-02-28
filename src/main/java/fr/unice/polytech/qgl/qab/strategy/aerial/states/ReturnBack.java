@@ -14,7 +14,7 @@ import fr.unice.polytech.qgl.qab.util.enums.Found;
  * @version 12.12.2015.
  */
 public class ReturnBack extends AerialState {
- 
+
     private UpdaterMap updaterMap;
 
     private ReturnBack() {
@@ -72,7 +72,7 @@ public class ReturnBack extends AerialState {
      * Method to updata the context
      * @param context
      */
-    private void updateContext(Context context) {
+    private static void updateContext(Context context) {
         context.current().setComboAction(null);
         context.current().setLastAction(null);
     }
