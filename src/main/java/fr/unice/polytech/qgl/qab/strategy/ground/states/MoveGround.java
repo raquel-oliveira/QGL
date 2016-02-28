@@ -2,15 +2,10 @@ package fr.unice.polytech.qgl.qab.strategy.ground.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.combo.ground.ComboMoveTo;
-import fr.unice.polytech.qgl.qab.actions.combo.ground.ComboScout;
-import fr.unice.polytech.qgl.qab.actions.simple.ground.Glimpse;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import fr.unice.polytech.qgl.qab.util.enums.Direction;
-
-import java.util.List;
 
 /**
  * @version 20/02/16.
@@ -49,7 +44,7 @@ public class MoveGround extends GroundState {
 
         if (context.current().getComboAction() == null) {
             context.current().setComboAction(new ComboMoveTo());
-            context.setHeading((context.getHeading()));
+            context.setHeading(context.getHeading());
             context.current().getComboAction().defineActions(context.getHeading(), 2);
         }
 
@@ -62,7 +57,7 @@ public class MoveGround extends GroundState {
      * Method to updata the context
      * @param context
      */
-    private void updateContext(Context context) {
+    private static void updateContext(Context context) {
         context.current().setLastAction(null);
         context.current().setComboAction(null);
     }

@@ -29,6 +29,7 @@ import java.util.List;
  */
 public class ResponseHandler {
 
+    public static final String RESOURCES = "resources";
     private Discovery discovery;
 
     private static final String EXTRAS = "extras";
@@ -151,7 +152,7 @@ public class ResponseHandler {
 
         JSONArray jsonArray;
 
-        List<HashMap<Biomes, Double>> initial_tiles = new ArrayList<>();
+        List<HashMap<Biomes, Double>> initialTiles = new ArrayList<>();
         List<Biomes> third = new ArrayList<>();
         Biomes fourth = null;
 
@@ -166,7 +167,7 @@ public class ResponseHandler {
                     double percentage = item.getDouble(1);
                     tile.put(Biomes.valueOf(bio), percentage);
                 }
-                initial_tiles.add(tile);
+                initialTiles.add(tile);
             }
 
             JSONArray jarray = jsonArray.getJSONArray(2);
@@ -177,7 +178,7 @@ public class ResponseHandler {
             fourth = Biomes.valueOf(jsonArray.getJSONArray(3).getString(0));
         }
 
-        glimpseResponse.setInitialTiles(initial_tiles);
+        glimpseResponse.setInitialTiles(initialTiles);
         glimpseResponse.setThirdTile(third);
         glimpseResponse.setFourthTile(fourth);
 
@@ -196,8 +197,8 @@ public class ResponseHandler {
     private Context readDataFromExplore(Context contextIsland, JSONObject jsonObj) {
         ExploreResponse explore = new ExploreResponse();
 
-        if(jsonObj.getJSONObject(EXTRAS).has("resources")) {
-            JSONArray resources = jsonObj.getJSONObject(EXTRAS).getJSONArray("resources");
+        if(jsonObj.getJSONObject(EXTRAS).has(RESOURCES)) {
+            JSONArray resources = jsonObj.getJSONObject(EXTRAS).getJSONArray(RESOURCES);
             for (int i = 0; i < resources.length(); i++) {
                 List<String> res = new ArrayList<>();
                 JSONObject obj = resources.getJSONObject(i);
@@ -222,15 +223,10 @@ public class ResponseHandler {
      */
     private Context readDataFromScout(Context contextIsland, JSONObject jsonObj, Action action) {
         ScoutResponse scout = new ScoutResponse();
-        int altitude = 0;
         List<PrimaryType> res = new ArrayList<>();
 
-        if (jsonObj.getJSONObject(EXTRAS).has("altitude")) {
-            altitude = jsonObj.getJSONObject(EXTRAS).getInt("altitude");
-        }
-
-        if (jsonObj.getJSONObject(EXTRAS).has("resources")) {
-            JSONArray resources = jsonObj.getJSONObject(EXTRAS).getJSONArray("resources");
+        if (jsonObj.getJSONObject(EXTRAS).has(RESOURCES)) {
+            JSONArray resources = jsonObj.getJSONObject(EXTRAS).getJSONArray(RESOURCES);
             res = new ArrayList<>();
             for (int i = 0; i < resources.length(); i++) {
                 res.add(PrimaryType.valueOf(resources.getString(i)));
@@ -238,7 +234,6 @@ public class ResponseHandler {
         }
 
         scout.setDirection(action.getDirection());
-        scout.setAltitude(altitude);
         scout.setResources(res);
 
         discovery.setScoutResponse(scout);

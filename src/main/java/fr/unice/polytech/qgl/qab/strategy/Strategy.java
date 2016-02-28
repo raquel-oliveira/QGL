@@ -1,7 +1,6 @@
 package fr.unice.polytech.qgl.qab.strategy;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.simple.common.Land;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
@@ -57,9 +56,10 @@ public class Strategy implements IStrategy {
             }
         } else {
             act = groundStrategy.makeDecision(context);
-            if (act instanceof Land)
+            if (act instanceof Land) {
                 phase = Phase.GROUND;
                 context.updateToAerial();
+            }
         }
         currentAction = act;
         return act.formatResponse();
