@@ -1,33 +1,22 @@
 package fr.unice.polytech.qgl.qab.strategy.ground.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
+import fr.unice.polytech.qgl.qab.actions.combo.ground.ComboGlimpse;
 import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
-import fr.unice.polytech.qgl.qab.actions.simple.ground.Glimpse;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @version 20/02/16.
  */
 public class ChoiceASide extends GroundState {
-    private static ChoiceASide instance;
-    List<Glimpse> glimpses;
     private ContextAnalyzer contextAnalyzer;
 
-    /**
-     * MoveInTheGround's constructor
-     */
-    private ChoiceASide() {
-        super();
-        this.lastAction = null;
-        glimpses = null;
-        contextAnalyzer = new ContextAnalyzer();
+    public ChoiceASide() {
+        this.contextAnalyzer = new ContextAnalyzer();
     }
 
     /**
@@ -35,41 +24,77 @@ public class ChoiceASide extends GroundState {
      * @return instance of the ChoiceASide class
      */
     public static ChoiceASide getInstance() {
-        if (instance == null)
-            instance = new ChoiceASide();
-        return instance;
+        return new ChoiceASide();
     }
 
     @Override
     public GroundState getState(Context context, Map map) throws PositionOutOfMapRange {
-        if (glimpses != null) {
-            if (contextAnalyzer.isOcean(context)) {
-                return ChoiceASide.getInstance();
-            } else {
-                context.setHeading(lastAction.getDirection());
-                return MoveInTheGround.getInstance();
-            }
+        goodDirection(context);
+
+        if (context.current().getComboAction() != null && context.current().getComboAction().isEmpty()) {
+            if (context.current().getDirectionWithoutOCEAN() != null)
+                context.setHeading(context.current().getDirectionWithoutOCEAN());
+            else
+                context.setHeading(context.current().getLastAction().getDirection());
+            updateContext(context);
+            return MoveGround.getInstance();
         }
+
+        if (contextAnalyzer.isOcean(context))
+            return ChoiceASide.getInstance();
+
+        if (goodTile(context)) {
+            context.setHeading(context.current().getLastAction().getDirection());
+            context.current().setIndexTile(0);
+            updateContext(context);
+            return GlimpseTheGround.getInstance();
+        }
+
         return ChoiceASide.getInstance();
+    }
+
+    private void goodDirection(Context context) {
+        Direction dir = null;
+        if (!contextAnalyzer.isOcean(context) &&
+                context.current().getLastAction().getDirection() != context.getHeading()) {
+            dir = context.current().getLastAction().getDirection();
+        }
+        context.current().setDirectionWithoutOCEAN(dir);
     }
 
     @Override
     public Action responseState(Context context, Map map) throws IndexOutOfBoundsComboAction {
         Action act;
 
-        if (glimpses == null) {
-            glimpses = new ArrayList<>();
-            glimpses.add(new Glimpse(Direction.inverse(context.getHeading()), 4));
-            Direction dirRandom = Direction.randomSideDirection(context.getHeading());
-            glimpses.add(new Glimpse(dirRandom, 4));
-            glimpses.add(new Glimpse(Direction.inverse(dirRandom), 4));
+        if (context.current().getComboAction() == null) {
+            context.current().setComboAction(new ComboGlimpse());
+            context.current().getComboAction().defineActions(context.getHeading());
         }
 
-        if (glimpses.isEmpty())
+        if (context.current().getComboAction().isEmpty())
             return new Stop();
 
-        act = glimpses.remove(0);
-        lastAction = act;
+        act = context.current().getComboAction().remove(0);
+        context.current().setLastAction(act);
         return act;
+    }
+
+    /**
+     * Return true if the glimpse found something good to the contract
+     * @param context data context
+     * @return
+     */
+    private boolean goodTile(Context context) {
+        return contextAnalyzer.goodGlimpse(context);
+    }
+
+
+    /**
+     * Method to updata the context
+     * @param context
+     */
+    private static void updateContext(Context context) {
+        context.current().setComboAction(null);
+        context.current().setLastAction(null);
     }
 }

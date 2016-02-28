@@ -1,10 +1,7 @@
 package fr.unice.polytech.qgl.qab.util;
 
 import fr.unice.polytech.qgl.qab.map.tile.Creek;
-import fr.unice.polytech.qgl.qab.response.EchoResponse;
-import fr.unice.polytech.qgl.qab.response.ExploreResponse;
-import fr.unice.polytech.qgl.qab.response.GlimpseResponse;
-import fr.unice.polytech.qgl.qab.response.ScanResponse;
+import fr.unice.polytech.qgl.qab.response.*;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 import java.util.ArrayList;
@@ -16,23 +13,23 @@ import java.util.List;
  * Class that represents the information discovered by the actions of the bot.
  */
 public class Discovery {
-    private Direction direction;
     private List<Creek> creeks;
     private ScanResponse scanResponse;
     private GlimpseResponse glimpseResponse;
     private ExploreResponse exploreResponse;
     private EchoResponse echoResponse;
+    private ScoutResponse scoutResponse;
 
     /**
      * Discovery's constructor
      */
     public Discovery() {
-        this.direction = null;
         creeks = new ArrayList<>();
         glimpseResponse = new GlimpseResponse();
         exploreResponse = new ExploreResponse();
         echoResponse = new EchoResponse();
         scanResponse = new ScanResponse();
+        scoutResponse = new ScoutResponse();
     }
 
     /**
@@ -40,27 +37,20 @@ public class Discovery {
      * @param direction indicate the direction of the discobery
      */
     public Discovery(Direction direction) {
-        this.direction = direction;
         creeks = new ArrayList<>();
         glimpseResponse = new GlimpseResponse();
         exploreResponse = new ExploreResponse();
         echoResponse = new EchoResponse();
+        scanResponse = new ScanResponse();
+        scoutResponse = new ScoutResponse();
     }
 
     /**
      * Method that set the values patterns in variables.
      * In some cases is necessary return to initial state.
      */
-    public void setUp() {
-        this.direction = null;
-    }
-
-    /**
-     * Get the direction of the last discovery
-     * @return discovery direction
-     */
-    public Direction getDirection() {
-        return direction;
+    public void setUpEcho() {
+        this.echoResponse = new EchoResponse();
     }
 
     /**
@@ -104,14 +94,6 @@ public class Discovery {
     }
 
     /**
-     * Set Direction of the last discovery.
-     * @param direction value of the direction
-     */
-    public void setDirection(Direction direction) {
-        this.direction = direction;
-    }
-
-    /**
      * Set creeks of the last discovery (scan response)
      * @param creeks values of the last discovery
      */
@@ -149,5 +131,13 @@ public class Discovery {
      */
     public void setScanResponse(ScanResponse scanResponse) {
         this.scanResponse = scanResponse;
+    }
+
+    public void setScoutResponse(ScoutResponse scoutResponse) {
+        this.scoutResponse = scoutResponse;
+    }
+
+    public ScoutResponse getScoutResponse() {
+        return scoutResponse;
     }
 }

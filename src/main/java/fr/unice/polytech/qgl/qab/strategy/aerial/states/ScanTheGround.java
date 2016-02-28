@@ -1,51 +1,50 @@
 package fr.unice.polytech.qgl.qab.strategy.aerial.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.actions.combo.Combo;
-import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboFlyUntil;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Echo;
-import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboFlyScan;
+import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Scan;
-import fr.unice.polytech.qgl.qab.actions.simple.common.Land;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
+import fr.unice.polytech.qgl.qab.strategy.context.utils.UpdaterMap;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 
 /**
  * @version 12/12/15.
  */
 public class ScanTheGround extends AerialState {
-    private static ScanTheGround instance;
-
-    private Combo actionCombo;
-    private int contScan;
-    private ComboFlyUntil comboFlyUntil;
 
     private static final int SCAN_RATIO = 2;
 
+    private UpdaterMap updaterMap;
+
     private ScanTheGround() {
-        super();
-        this.lastAction = new Fly();
-        actionCombo = null;
-        contScan = 0;
-        comboFlyUntil = null;
+        updaterMap = new UpdaterMap();
     }
 
     public static ScanTheGround getInstance() {
-        if (instance == null)
-            instance = new ScanTheGround();
-        return instance;
+        return new ScanTheGround();
     }
 
     @Override
     public AerialState getState(Context context, Map map, StateMediator stateMediator) {
-        if (lastAction instanceof Land)
+        // if any creek was found
+        if (!context.getLastDiscovery().getCreeks().isEmpty())
             return Finish.getInstance();
 
-        if (returnBack(context))
+        // if is necessary return back to the ground
+        if (returnBack(context)) {
+            updateContext(context);
             return ReturnBack.getInstance();
+        }
+
+        // if is necessary fly until the ground
+        if (needFlyUntil(context, stateMediator)) {
+            updateContext(context);
+            return FlyUntil.getInstance();
+        }
 
         return ScanTheGround.getInstance();
     }
@@ -54,77 +53,85 @@ public class ScanTheGround extends AerialState {
     public Action responseState(Context context, Map map, StateMediator stateMediator) throws IndexOutOfBoundsComboAction {
         Action act;
 
-        if (!context.getLastDiscovery().getCreeks().isEmpty())
-            return getLand(context);
-
-        if (lastAction instanceof Scan) {
+        // we check if the plane is out of the ground (after scan), so make a echo
+        if (context.current().getLastAction() instanceof Scan) {
             act = getEcho(context);
             if (act != null)
                 return act;
-        } else if (lastAction instanceof Echo) {
-            setFlyUntil(context);
         }
 
-        if (comboFlyUntil != null && !comboFlyUntil.isEmpty())
-            return getFly(context);
+        // if action combo is null or empty, we set the combo fly + scan
+        if (context.current().getComboAction() == null || context.current().getComboAction().isEmpty()) {
+            context.current().setComboAction(new ComboFlyScan());
+            context.current().getComboAction().defineActions();
 
-        if (actionCombo == null || actionCombo.isEmpty()) {
-            actionCombo = new ComboFlyScan();
-            ((ComboFlyScan)actionCombo).defineActions();
-            if (!context.getLastDiscovery().getScanResponse().foundOcean()) {
-                if (contScan != SCAN_RATIO) {
-                    actionCombo.remove(1);
-                } else contScan = 0;
-                contScan++;
-            }
+            removeScan(context);
         }
 
-        act = actionCombo.get(0);
-        lastAction = act;
-        actionCombo.remove(0);
+        act = context.current().getComboAction().get(0);
+        context.current().setLastAction(act);
+        context.current().getComboAction().remove(0);
+
+        // update the position in the map if the plane fly
+        if (act instanceof Fly)
+            updaterMap.updateLastPositionFly(context, map);
 
         return act;
     }
 
-    private void setFlyUntil(Context context) {
-        if (context.getLastDiscovery().getScanResponse().outOfGround()) {
-            comboFlyUntil = new ComboFlyUntil();
-            comboFlyUntil.defineComboFlyUntil(context.getLastDiscovery().getEchoResponse().getRange() + 1);
+    /**
+     * Method to check if we can remove the scan.
+     * With this, we can make alternate scan
+     * @param context
+     */
+    private static void removeScan(Context context) {
+        if (!context.getLastDiscovery().getScanResponse().foundOcean()) {
+            if (context.current().getContScan() != SCAN_RATIO) {
+                context.current().getComboAction().remove(1);
+            } else {
+                context.current().setContScan(0);
+            }
+            context.current().setContScan(context.current().getContScan() + 1);
         }
     }
 
-    private Action getEcho(Context context) {
+    /**
+     * Check if it's necessary make fly until
+     * @param context data context of the simulation
+     * @param sm state madiator
+     * @return
+     */
+    private static boolean needFlyUntil(Context context, StateMediator sm) {
+        if (context.current().getLastAction() instanceof Echo && context.getLastDiscovery().getScanResponse().outOfGround()) {
+            sm.setRangeToGround(context.getLastDiscovery().getEchoResponse().getRange() + 1);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Return a echo action of the action list
+     * @param context data context of the simulation
+     * @return
+     */
+    private static Action getEcho(Context context) {
         Action act;
         if (context.getLastDiscovery().getScanResponse().outOfGround()) {
             act = new Echo(context.getHeading());
-            lastAction = act;
+            context.current().setLastAction(act);
             return act;
         }
         return null;
     }
 
-    private Action getFly(Context context) throws IndexOutOfBoundsComboAction {
-        Action act;
-        act = comboFlyUntil.get(0);
-        lastAction = act;
-        comboFlyUntil.remove(0);
-        if (comboFlyUntil.isEmpty()) {
-            actionCombo = null;
-            context.getLastDiscovery().getScanResponse().setUpBiomes();
-        }
-        return act;
-    }
-
-    private Action getLand(Context context) {
-        Action act;
-        act = new Land(context.getLastDiscovery().getCreeks().get(0).getIdCreek(), 1);
-        lastAction = act;
-        return act;
-    }
-
-
-    private boolean returnBack(Context context) {
-        if (lastAction instanceof Echo && context.getLastDiscovery().getScanResponse().outOfGround() &&
+    /**
+     * Check if it's necessario make a return back
+     * @param context data context of the simulation
+     * @return
+     */
+    private static boolean returnBack(Context context) {
+        if (context.current().getLastAction() instanceof Echo &&
+                context.getLastDiscovery().getScanResponse().outOfGround() &&
                 context.getLastDiscovery().getCreeks().isEmpty() &&
                 context.getLastDiscovery().getEchoResponse().getFound().equals(Found.OUT_OF_RANGE)) {
 
@@ -132,5 +139,15 @@ public class ScanTheGround extends AerialState {
                 return true;
         }
         return false;
+    }
+
+
+    /**
+     * Method to updata the context
+     * @param context
+     */
+    private static void updateContext(Context context) {
+        context.current().setComboAction(null);
+        context.current().setLastAction(null);
     }
 }

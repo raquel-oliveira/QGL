@@ -1,4 +1,6 @@
-package fr.unice.polytech.qgl.qab.map.tile;
+package fr.unice.polytech.qgl.qab.map.tile.square;
+
+import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 
 /**
  * Created by huang on 24/02/16.
@@ -7,7 +9,7 @@ package fr.unice.polytech.qgl.qab.map.tile;
  */
 public class Square {
     private Biomes biome;
-
+    private boolean wasVisited;
 
     /**
      * Square's constructor
@@ -31,5 +33,4 @@ public class Square {
     public void setBiome(Biomes biome){
         this.biome = biome;
     }
-
 }

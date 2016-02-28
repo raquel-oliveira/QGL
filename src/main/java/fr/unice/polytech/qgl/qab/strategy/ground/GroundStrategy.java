@@ -5,7 +5,7 @@ import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
-import fr.unice.polytech.qgl.qab.strategy.ground.states.MoveInTheGround;
+import fr.unice.polytech.qgl.qab.strategy.ground.states.GlimpseTheGround;
 import fr.unice.polytech.qgl.qab.strategy.ground.states.GroundState;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 
@@ -22,7 +22,7 @@ public class GroundStrategy implements IGroundStrategy {
      * GroundStrategy's constructor.
      */
     public GroundStrategy() {
-        state = MoveInTheGround.getInstance();
+        state = GlimpseTheGround.getInstance();
         map = new Map();
     }
 
@@ -32,8 +32,9 @@ public class GroundStrategy implements IGroundStrategy {
             return contextAnalyzer(context);
         }
 
-        state =  state.getState(context, map);
+        state = state.getState(context, map);
         return state.responseState(context, map);
+
     }
 
     /**

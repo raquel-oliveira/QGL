@@ -1,10 +1,13 @@
 package fr.unice.polytech.qgl.qab.strategy.context;
-
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedType;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
+import fr.unice.polytech.qgl.qab.strategy.aerial.states.AerialState;
+import fr.unice.polytech.qgl.qab.strategy.context.utils.Budget;
+import fr.unice.polytech.qgl.qab.strategy.context.utils.ContextAction;
+import fr.unice.polytech.qgl.qab.strategy.context.utils.ContractItem;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 import fr.unice.polytech.qgl.qab.util.Discovery;
@@ -29,8 +32,13 @@ public class Context {
     private Direction firstHead;
     // direction of the current head
     private Direction heading;
-
+    // last discovery
     private Discovery lastDiscovery;
+    // context current to states use
+    private ContextAction contextActionCurrent;
+    // old version
+    private ContextAction contextActionAerial;
+    private ContextAction contextActionGround;
 
     /**
      * Context's constructor
@@ -44,8 +52,11 @@ public class Context {
 
         firstHead = null;
         heading = null;
-
         lastDiscovery = null;
+
+        contextActionCurrent = new ContextAction();
+        contextActionAerial = new ContextAction();
+        contextActionGround = new ContextAction();
     }
 
     /**
@@ -128,6 +139,14 @@ public class Context {
     }
 
     /**
+     * Method to return the context current
+     * @return context current
+     */
+    public ContextAction current() {
+        return contextActionCurrent;
+    }
+
+    /**
      * Set the status value
      * @param s status value
      */
@@ -188,5 +207,17 @@ public class Context {
      */
     public void setLastDiscovery(Discovery lastDiscovery) {
         this.lastDiscovery = lastDiscovery;
+    }
+
+    public void updateToAerial() {
+        ContextAction tmpContext = this.contextActionCurrent;
+        this.contextActionCurrent = contextActionAerial;
+        contextActionGround = tmpContext;
+    }
+
+    public void updateToGround() {
+        ContextAction tmpContext = this.contextActionCurrent;
+        this.contextActionCurrent = contextActionGround;
+        contextActionGround = tmpContext;
     }
 }

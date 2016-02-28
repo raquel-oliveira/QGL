@@ -21,7 +21,7 @@ public class ComboEchosTest {
 
     @Test
     public void defineComboEchosHorizontalEast() throws IndexOutOfBoundsComboAction {
-        combo.defineComboEchos(Direction.EAST);
+        combo.defineActions(Direction.EAST);
         assertEquals(combo.get(0).getClass(), Echo.class);
         assertEquals((combo.get(0)).getDirection(), Direction.EAST);
         assertEquals((combo.get(1)).getDirection(), Direction.SOUTH);
@@ -30,7 +30,7 @@ public class ComboEchosTest {
 
     @Test
     public void defineComboEchosHorizontalWest() throws IndexOutOfBoundsComboAction {
-        combo.defineComboEchos(Direction.WEST);
+        combo.defineActions(Direction.WEST);
         assertEquals(combo.get(0).getClass(), Echo.class);
         assertEquals((combo.get(0)).getDirection(), Direction.WEST);
         assertEquals((combo.get(1)).getDirection(), Direction.SOUTH);
@@ -39,7 +39,7 @@ public class ComboEchosTest {
 
     @Test
     public void defineComboEchosVerticalNorth() throws IndexOutOfBoundsComboAction {
-        combo.defineComboEchos(Direction.NORTH);
+        combo.defineActions(Direction.NORTH);
         assertEquals(combo.get(0).getClass(), Echo.class);
         assertEquals((combo.get(0)).getDirection(), Direction.NORTH);
         assertEquals((combo.get(1)).getDirection(), Direction.EAST);
@@ -48,7 +48,7 @@ public class ComboEchosTest {
 
     @Test
     public void defineComboEchosVerticalSouth() throws IndexOutOfBoundsComboAction {
-        combo.defineComboEchos(Direction.SOUTH);
+        combo.defineActions(Direction.SOUTH);
         assertEquals(combo.get(0).getClass(), Echo.class);
         assertEquals((combo.get(0)).getDirection(), Direction.SOUTH);
         assertEquals((combo.get(1)).getDirection(), Direction.EAST);

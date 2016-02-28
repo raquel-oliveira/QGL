@@ -20,7 +20,7 @@ public class ComboFlyUntilTest {
 
     @Test
     public void testDefineComboFlyUntil() throws IndexOutOfBoundsComboAction {
-        combo.defineComboFlyUntil(3);
+        combo.defineActions(3);
 
         assertEquals(Fly.class, ((Fly)combo.get(0)).getClass());
         assertEquals(Fly.class, ((Fly)combo.get(1)).getClass());
@@ -29,7 +29,7 @@ public class ComboFlyUntilTest {
 
     @Test(expected = IndexOutOfBoundsComboAction.class)
     public void testGetBadIndex() throws IndexOutOfBoundsComboAction {
-        combo.defineComboFlyUntil(3);
+        combo.defineActions(3);
         assertEquals(Fly.class, ((Fly)combo.get(4)).getClass());
     }
 }

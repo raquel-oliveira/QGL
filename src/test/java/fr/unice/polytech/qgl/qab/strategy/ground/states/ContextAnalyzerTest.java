@@ -2,13 +2,10 @@ package fr.unice.polytech.qgl.qab.strategy.ground.states;
 
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.map.tile.Biomes;
-import fr.unice.polytech.qgl.qab.resources.Resource;
-import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.response.ExploreResponse;
 import fr.unice.polytech.qgl.qab.response.GlimpseResponse;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import fr.unice.polytech.qgl.qab.strategy.context.ContractItem;
 import fr.unice.polytech.qgl.qab.util.Discovery;
 import org.junit.Before;
 import org.junit.Test;

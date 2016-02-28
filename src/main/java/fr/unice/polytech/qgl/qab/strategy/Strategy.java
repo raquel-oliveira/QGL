@@ -5,9 +5,10 @@ import fr.unice.polytech.qgl.qab.actions.simple.common.Land;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
+import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.aerial.AerialStrategy;
 import fr.unice.polytech.qgl.qab.strategy.aerial.IAerialStrategy;
-import fr.unice.polytech.qgl.qab.strategy.context.ResponseHandler;
+import fr.unice.polytech.qgl.qab.strategy.context.utils.ResponseHandler;
 import fr.unice.polytech.qgl.qab.strategy.ground.GroundStrategy;
 import fr.unice.polytech.qgl.qab.strategy.ground.IGroundStrategy;
 import fr.unice.polytech.qgl.qab.util.enums.Phase;
@@ -31,27 +32,34 @@ public class Strategy implements IStrategy {
     private Action currentAction;
     // object to read the response
     private ResponseHandler responseHandler;
+    // map
+    private Map map;
 
     public Strategy() throws NegativeBudgetException {
-        aerialStrategy = new AerialStrategy();
+        context = new Context();
+        aerialStrategy = new AerialStrategy(context);
         groundStrategy = new GroundStrategy();
         phase = Phase.AERIAL;
         currentAction = null;
-        context = new Context();
         responseHandler = new ResponseHandler();
+        map = new Map();
     }
 
     @Override
     public String makeDecision() throws PositionOutOfMapRange, IndexOutOfBoundsComboAction {
         Action act;
         if (phase.isEquals(Phase.AERIAL)) {
-            act = aerialStrategy.makeDecision(context);
-            if (act instanceof Land)
+            act = aerialStrategy.makeDecision(context, map);
+            if (act instanceof Land) {
                 phase = Phase.GROUND;
+                context.updateToGround();
+            }
         } else {
             act = groundStrategy.makeDecision(context);
-            if (act instanceof Land)
+            if (act instanceof Land) {
                 phase = Phase.GROUND;
+                context.updateToAerial();
+            }
         }
         currentAction = act;
         return act.formatResponse();
