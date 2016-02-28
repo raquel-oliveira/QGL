@@ -18,7 +18,6 @@ public class ScanTheGround extends AerialState {
 
     private static final int SCAN_RATIO = 2;
 
-    //private Combo actionCombo;
     private UpdaterMap updaterMap;
 
     private ScanTheGround() {
@@ -31,14 +30,17 @@ public class ScanTheGround extends AerialState {
 
     @Override
     public AerialState getState(Context context, Map map, StateMediator stateMediator) {
+        // if any creek was found
         if (!context.getLastDiscovery().getCreeks().isEmpty())
             return Finish.getInstance();
 
+        // if is necessary return back to the ground
         if (returnBack(context)) {
             updateContext(context);
             return ReturnBack.getInstance();
         }
 
+        // if is necessary fly until the ground
         if (needFlyUntil(context, stateMediator)) {
             updateContext(context);
             return FlyUntil.getInstance();
@@ -63,26 +65,43 @@ public class ScanTheGround extends AerialState {
             context.current().setComboAction(new ComboFlyScan());
             context.current().getComboAction().defineActions();
 
-            if (!context.getLastDiscovery().getScanResponse().foundOcean()) {
-                if (context.current().getContScan() != SCAN_RATIO) {
-                    context.current().getComboAction().remove(1);
-                } else {
-                    context.current().setContScan(0);
-                }
-                context.current().setContScan(context.current().getContScan() + 1);
-            }
+            removeScan(context);
         }
 
         act = context.current().getComboAction().get(0);
         context.current().setLastAction(act);
         context.current().getComboAction().remove(0);
+
+        // update the position in the map if the plane fly
         if (act instanceof Fly)
             updaterMap.updateLastPositionFly(context, map);
 
         return act;
     }
 
-    private boolean needFlyUntil(Context context, StateMediator sm) {
+    /**
+     * Method to check if we can remove the scan.
+     * With this, we can make alternate scan
+     * @param context
+     */
+    private void removeScan(Context context) {
+        if (!context.getLastDiscovery().getScanResponse().foundOcean()) {
+            if (context.current().getContScan() != SCAN_RATIO) {
+                context.current().getComboAction().remove(1);
+            } else {
+                context.current().setContScan(0);
+            }
+            context.current().setContScan(context.current().getContScan() + 1);
+        }
+    }
+
+    /**
+     * Check if it's necessary make fly until
+     * @param context data context of the simulation
+     * @param sm state madiator
+     * @return
+     */
+    private static boolean needFlyUntil(Context context, StateMediator sm) {
         if (context.current().getLastAction() instanceof Echo && context.getLastDiscovery().getScanResponse().outOfGround()) {
             sm.setRangeToGround(context.getLastDiscovery().getEchoResponse().getRange() + 1);
             return true;
@@ -90,7 +109,12 @@ public class ScanTheGround extends AerialState {
         return false;
     }
 
-    private Action getEcho(Context context) {
+    /**
+     * Return a echo action of the action list
+     * @param context data context of the simulation
+     * @return
+     */
+    private static Action getEcho(Context context) {
         Action act;
         if (context.getLastDiscovery().getScanResponse().outOfGround()) {
             act = new Echo(context.getHeading());
@@ -100,7 +124,12 @@ public class ScanTheGround extends AerialState {
         return null;
     }
 
-    private boolean returnBack(Context context) {
+    /**
+     * Check if it's necessario make a return back
+     * @param context data context of the simulation
+     * @return
+     */
+    private static boolean returnBack(Context context) {
         if (context.current().getLastAction() instanceof Echo &&
                 context.getLastDiscovery().getScanResponse().outOfGround() &&
                 context.getLastDiscovery().getCreeks().isEmpty() &&
@@ -117,7 +146,7 @@ public class ScanTheGround extends AerialState {
      * Method to updata the context
      * @param context
      */
-    private void updateContext(Context context) {
+    private static void updateContext(Context context) {
         context.current().setComboAction(null);
         context.current().setLastAction(null);
     }
