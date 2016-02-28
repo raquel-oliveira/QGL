@@ -36,7 +36,7 @@ public class GoToTheCorner extends AerialState {
         if (foundFreeZone(context)) {
             stateMediator.setGoToTheCorner(false);
             updateContext(context);
-            return Initialize.getInstance(context);
+            return Initialize.getInstance();
         } else
             return GoToTheCorner.getInstance();
     }

@@ -1,16 +1,12 @@
 package fr.unice.polytech.qgl.qab.strategy.aerial.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.actions.combo.Combo;
 import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboEchos;
-import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
-import fr.unice.polytech.qgl.qab.map.tile.Position;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.UpdaterMap;
-import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 
 /**
@@ -18,20 +14,18 @@ import fr.unice.polytech.qgl.qab.util.enums.Found;
  */
 public class Initialize extends AerialState {
 
-    //private Combo actionCombo;
     private UpdaterMap updaterMap;
 
-    private Initialize(Context context) {
+    private Initialize() {
         updaterMap = new UpdaterMap();
     }
 
     /**
      * Method to return a instance of Initialize
-     * @param context data context of simulation
      * @return a initialize instance
      */
-    public static Initialize getInstance(Context context) {
-        return new Initialize(context);
+    public static Initialize getInstance() {
+        return new Initialize();
     }
 
     @Override
@@ -54,7 +48,7 @@ public class Initialize extends AerialState {
                 return FindGround.getInstance();
             }
         }
-        return Initialize.getInstance(context);
+        return Initialize.getInstance();
     }
 
     @Override
@@ -98,7 +92,7 @@ public class Initialize extends AerialState {
      * Method to updata the context
      * @param context
      */
-    private void updateContext(Context context) {
+    private static void updateContext(Context context) {
         context.current().setComboAction(null);
         context.current().setLastAction(null);
     }

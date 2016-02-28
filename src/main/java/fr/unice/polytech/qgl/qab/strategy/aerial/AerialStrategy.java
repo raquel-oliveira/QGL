@@ -18,7 +18,7 @@ public class AerialStrategy implements IAerialStrategy {
     private StateMediator stateMediator;
 
     public AerialStrategy(Context context) {
-        state = Initialize.getInstance(context);
+        state = Initialize.getInstance();
         stateMediator = StateMediator.getInstance();
     }
 

@@ -29,7 +29,7 @@ public class InitializeTest {
 
     @Before
     public void defineContext() throws NegativeBudgetException {
-        initialize = Initialize.getInstance(context);
+        initialize = Initialize.getInstance();
         discovery = new Discovery();
         context = new Context();
         stateMediator = StateMediator.getInstance();
@@ -39,7 +39,7 @@ public class InitializeTest {
         context.setFirstHead(Direction.SOUTH);
     }
 
-    @Ignore
+    @Test
     public void testInitializeWithoutFoundAGround() throws NegativeBudgetException, IndexOutOfBoundsComboAction, PositionOutOfMapRange {
         AerialState state = initialize.getState(context, map, stateMediator);
         assertEquals(Initialize.class, state.getClass());
@@ -81,7 +81,7 @@ public class InitializeTest {
         assertEquals(FindGround.class, state.getClass());
     }
 
-    @Ignore
+    @Test
     public void testInitializeAfterFoundAGround() throws IndexOutOfBoundsComboAction, PositionOutOfMapRange {
         // first moment = just make a echo
         Action act = initialize.responseState(context, map, StateMediator.getInstance());
@@ -93,38 +93,33 @@ public class InitializeTest {
         discovery.setEchoResponse(echoResponse);
         context.setLastDiscovery(discovery);
 
+        AerialState state = initialize.getState(context, map, StateMediator.getInstance());
+        assertEquals(Initialize.class, state.getClass());
         act = initialize.responseState(context, map, StateMediator.getInstance());
         assertEquals(Echo.class, act.getClass());
 
+        // found a out_of_range as response
         stateMediator.setGoToTheCorner(false);
         echoResponse = new EchoResponse();
         echoResponse.addData(Found.OUT_OF_RANGE, Direction.WEST, 10);
         discovery.setEchoResponse(echoResponse);
         context.setLastDiscovery(discovery);
 
-        AerialState state = initialize.getState(context, map, StateMediator.getInstance());
-        assertEquals(Initialize.getInstance(context), state);
-        act = initialize.responseState(context, map, StateMediator.getInstance());
-        assertEquals(Echo.class, act.getClass());
-
         state = initialize.getState(context, map, StateMediator.getInstance());
-        assertEquals(Initialize.getInstance(context), state);
-
+        assertEquals(Initialize.class, state.getClass());
         act = initialize.responseState(context, map, StateMediator.getInstance());
         assertEquals(Echo.class, act.getClass());
 
+        // found a out_of_range as response
         echoResponse = new EchoResponse();
         echoResponse.addData(Found.OUT_OF_RANGE, Direction.SOUTH, 4);
         discovery.setEchoResponse(echoResponse);
         context.setLastDiscovery(discovery);
 
         state = initialize.getState(context, map, StateMediator.getInstance());
-        assertEquals(Initialize.getInstance(context), state);
+        assertEquals(FindGround.class, state.getClass());
 
-        act = initialize.responseState(context, map, StateMediator.getInstance());
-        assertEquals(Echo.class, act.getClass());
-
-        assertEquals(2, map.getHeight());
-        assertEquals(2, map.getWidth());
+        assertEquals(5, map.getHeight());
+        assertEquals(21, map.getWidth());
     }
 }
