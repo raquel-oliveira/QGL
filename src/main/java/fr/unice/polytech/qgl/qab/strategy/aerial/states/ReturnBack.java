@@ -14,8 +14,7 @@ import fr.unice.polytech.qgl.qab.util.enums.Found;
  * @version 12.12.2015.
  */
 public class ReturnBack extends AerialState {
-
-    //private Combo actionCombo;
+ 
     private UpdaterMap updaterMap;
 
     private ReturnBack() {

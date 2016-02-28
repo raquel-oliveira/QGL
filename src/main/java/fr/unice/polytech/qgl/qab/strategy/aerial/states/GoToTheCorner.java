@@ -7,20 +7,12 @@ import fr.unice.polytech.qgl.qab.actions.simple.aerial.Heading;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import fr.unice.polytech.qgl.qab.strategy.context.utils.UpdaterMap;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 
 /**
  * @version 17/12/15.
  */
 public class GoToTheCorner extends AerialState {
-
-    //private Combo actionCombo;
-    private UpdaterMap updaterMap;
-
-    private GoToTheCorner() {
-        updaterMap = new UpdaterMap();
-    }
 
     /**
      * Method to return a instance of Initialize
@@ -47,7 +39,7 @@ public class GoToTheCorner extends AerialState {
 
         // make the first and last heading
         if (context.current().getSimpleAction() == null)
-            return getHeading(context, stateMediator, map);
+            return getHeading(context, stateMediator);
 
 
         // after the first heading make the fly until the corner
@@ -67,7 +59,7 @@ public class GoToTheCorner extends AerialState {
 
             // if the echo found the out_of_range, return the action heading
             if (needLastTurn(context, stateMediator))
-                return getHeading(context, stateMediator, map);
+                return getHeading(context, stateMediator);
         }
         return act;
     }
@@ -80,7 +72,7 @@ public class GoToTheCorner extends AerialState {
      * @param stateMediator
      * @return if it's necessary or not
      */
-    private boolean needLastTurn(Context context, StateMediator stateMediator) {
+    private static boolean needLastTurn(Context context, StateMediator stateMediator) {
         return (context.getLastDiscovery().getEchoResponse().getFound().equals(Found.OUT_OF_RANGE) &&
                 context.getLastDiscovery().getEchoResponse().getDirection().equals(context.getFirstHead())) ||
                     stateMediator.getRangeToGround() == 1;
@@ -92,7 +84,7 @@ public class GoToTheCorner extends AerialState {
      * @param stateMediator
      * @return heading action
      */
-    private Action getHeading(Context context, StateMediator stateMediator, Map map) {
+    private static Action getHeading(Context context, StateMediator stateMediator) {
         if (context.current().getComboAction() == null)
             context.current().setSimpleAction(new Heading(stateMediator.getDirectionToTheCorner()));
         else
@@ -108,7 +100,7 @@ public class GoToTheCorner extends AerialState {
      * @param context data context of the simulation
      * @return if the zone is free to turn and take the dimention
      */
-    private boolean foundFreeZone(Context context) {
+    private static boolean foundFreeZone(Context context) {
         return context.getLastDiscovery().getEchoResponse().getFound().equals(Found.OUT_OF_RANGE) &&
                 context.getLastDiscovery().getEchoResponse().getDirection().equals(context.getFirstHead()) &&
                 context.current().getLastAction() instanceof Heading;
@@ -118,7 +110,7 @@ public class GoToTheCorner extends AerialState {
      * Method to updata the context
      * @param context
      */
-    private void updateContext(Context context) {
+    private static void updateContext(Context context) {
         context.current().setComboAction(null);
         context.current().setLastAction(null);
     }
