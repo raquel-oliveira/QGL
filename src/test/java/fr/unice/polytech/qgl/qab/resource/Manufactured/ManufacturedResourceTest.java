@@ -5,6 +5,7 @@ import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedType;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.EnumMap;
@@ -47,8 +48,8 @@ public class ManufacturedResourceTest {
 
         int amountRecipe = 10;
         Map<PrimaryType,Integer> mapDefault = new HashMap<>();
-        mapDefault.put(PrimaryType.QUARTZ, 5 * amountRecipe);
-        mapDefault.put(PrimaryType.WOOD, 10 * amountRecipe);
+        mapDefault.put(PrimaryType.QUARTZ, 10 * amountRecipe);
+        mapDefault.put(PrimaryType.WOOD, 5 * amountRecipe);
 
         assertEquals(mapDefault, map);
 
