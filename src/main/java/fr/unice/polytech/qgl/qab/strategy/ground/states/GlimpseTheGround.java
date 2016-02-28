@@ -40,8 +40,12 @@ public class GlimpseTheGround extends GroundState {
             context.current().setGoodTiles(contextAnalyzer.biomeAnalyzer(context));
 
             // check if the response of the glimpse was good or not
-            if (contextAnalyzer.isOcean(context)) //  || !contextAnalyzer.goodGlimpse(context)
+            if (contextAnalyzer.isOcean(context))
                 return ChoiceASide.getInstance();
+
+            if (!contextAnalyzer.goodGlimpse(context)) {
+                return MoveGround.getInstance();
+            }
         }
 
         if (isGoodToExplore(context)) {

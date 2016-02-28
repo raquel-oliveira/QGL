@@ -43,7 +43,7 @@ public class FlyUntil extends AerialState {
 
         // if action is empty, set the combo fly
         if (context.current().getComboAction().isEmpty())
-            context.current().getComboAction().defineActions(stateMediator.getRangeToGround());
+            context.current().getComboAction().defineActions(stateMediator.getRangeToGround() + 1);
 
         act = context.current().getComboAction().get(0);
         context.current().getComboAction().remove(0);

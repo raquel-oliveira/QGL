@@ -55,7 +55,7 @@ public class ScanTheGroundTest {
         assertEquals(state, ScanTheGround.getInstance());
     }
 
-    @Test
+    @Ignore
     public void testResponseStateScanTheGround() throws IndexOutOfBoundsComboAction {
         Action act = scanTheGround.responseState(context, new Map(), StateMediator.getInstance());
         assertEquals(act.getClass(), new Fly().getClass());

@@ -36,26 +36,37 @@ public class ChoiceASide extends GroundState {
 
     @Override
     public GroundState getState(Context context, Map map) throws PositionOutOfMapRange {
-        tileInGround(context);
+        goodDirection(context);
 
-        if (!goodTile(context).isEmpty() ||
-                (context.current().getComboAction() != null &&
-                        context.current().getComboAction().isEmpty())) {
+        if (context.current().getComboAction() != null && context.current().getComboAction().isEmpty()) {
+            if (context.current().getDirectionWithoutOCEAN() != null)
+                context.setHeading(context.current().getDirectionWithoutOCEAN());
+            else
+                context.setHeading(context.current().getLastAction().getDirection());
+            updateContext(context);
+            return MoveGround.getInstance();
+        }
+
+        if (contextAnalyzer.isOcean(context))
+            return ChoiceASide.getInstance();
+
+        if (goodTile(context)) {
             context.setHeading(context.current().getLastAction().getDirection());
             context.current().setIndexTile(0);
             updateContext(context);
             return GlimpseTheGround.getInstance();
-        } else if (contextAnalyzer.isOcean(context)) {
-            return ChoiceASide.getInstance();
         }
+
         return ChoiceASide.getInstance();
     }
 
-    private void tileInGround(Context context) {
-        Direction d = context.current().getLastAction().getDirection();
-        if (!context.getLastDiscovery().getScoutResponse().found("FISH")) {
-            context.current().setDirectionWithoutOCEAN(d);
+    private void goodDirection(Context context) {
+        Direction dir = null;
+        if (!contextAnalyzer.isOcean(context) &&
+                context.current().getLastAction().getDirection() != context.getHeading()) {
+            dir = context.current().getLastAction().getDirection();
         }
+        context.current().setDirectionWithoutOCEAN(dir);
     }
 
     @Override
@@ -75,8 +86,8 @@ public class ChoiceASide extends GroundState {
         return act;
     }
 
-    private List<PrimaryType> goodTile(Context context) {
-        return contextAnalyzer.analyzerScout(context);
+    private boolean goodTile(Context context) {
+        return contextAnalyzer.goodGlimpse(context);
     }
 
 
