@@ -1,7 +1,7 @@
 package fr.unice.polytech.qgl.qab.map;
 
 import fr.unice.polytech.qgl.qab.map.tile.Biomes;
-import fr.unice.polytech.qgl.qab.map.tile.Square;
+import fr.unice.polytech.qgl.qab.map.tile.square.Square;
 import org.junit.Before;
 import org.junit.Test;
 
