@@ -35,6 +35,10 @@ public class Tile {
      * @param type of the tile
      */
     public Tile(TileType type) {
+        creek = new Creek();
+        squares = new ArrayList<>();
+        wasVisited = false;
+        biomesPredominant = new ArrayList<>();
         this.type = type;
     }
 
@@ -92,7 +96,11 @@ public class Tile {
         this.squares = squares;
     }
 
-    public void setBiomesPredominant(List<Biomes> biomesPredominant) {
-        this.biomesPredominant = biomesPredominant;
+    public void setBiomesPredominant(List<Biomes> biomes) {
+        this.biomesPredominant = biomes;
+    }
+
+    public List<Biomes> getBiomesPredominant() {
+        return this.biomesPredominant;
     }
 }

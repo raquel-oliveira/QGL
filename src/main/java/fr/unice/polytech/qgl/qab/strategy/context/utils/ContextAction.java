@@ -27,6 +27,7 @@ public class ContextAction {
     private List<PrimaryType> resourcesToExploit;
     private int rangeMoveUntil;
     private Direction directionWithoutOCEAN;
+    private boolean stop;
 
     public ContextAction() {
         comboAction = null;
@@ -40,8 +41,12 @@ public class ContextAction {
         resourcesToExploit = new ArrayList<>();
         rangeMoveUntil = 0;
         directionWithoutOCEAN = null;
+        stop = false;
     }
 
+    public void setStop(boolean b) {
+        this.stop = b;
+    }
     public Direction getDirectionWithoutOCEAN() {
         return directionWithoutOCEAN;
     }
@@ -188,5 +193,9 @@ public class ContextAction {
 
     public void incrementIndexTile() {
         this.indexTile = (indexTile + 1) % 4;
+    }
+
+    public boolean getStop() {
+        return stop;
     }
 }

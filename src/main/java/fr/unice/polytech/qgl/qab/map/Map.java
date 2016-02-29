@@ -5,9 +5,12 @@ import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.map.tile.Position;
 import fr.unice.polytech.qgl.qab.map.tile.Tile;
 import fr.unice.polytech.qgl.qab.map.tile.TileType;
+import fr.unice.polytech.qgl.qab.resources.Resource;
+import fr.unice.polytech.qgl.qab.strategy.context.Context;
+import fr.unice.polytech.qgl.qab.strategy.context.utils.ContractItem;
+import jdk.management.resource.ResourceType;
 
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * @version 8.12.2016
@@ -132,5 +135,45 @@ public class Map {
      */
     public boolean isEmpty() {
         return tiles.isEmpty();
+    }
+
+    public List<Position> getGoodPositions(Context context) {
+        List<Position> goodPositions = new ArrayList<>();
+
+        for(java.util.Map.Entry<Position, Tile> entry : tiles.entrySet()) {
+            Position key = entry.getKey();
+            Tile value = entry.getValue();
+            for (ContractItem item: context.getContracts()) {
+                Set<Biomes> listTmp = new HashSet<>();
+                listTmp.addAll(item.resource().getBiome());
+                listTmp.retainAll(value.getBiomesPredominant());
+
+                if (!listTmp.isEmpty()) {
+                    goodPositions.add(key);
+                }
+            }
+        }
+        return goodPositions;
+    }
+
+    public Position positionClose(List<Position> goodPositions) {
+        Position good = null;
+        double distance = -1;
+        for (Position p: goodPositions) {
+            double distX = Math.abs(p.getX() - lastPosition.getX());
+            double distY = Math.abs(p.getY() - lastPosition.getY());
+            double pow = Math.pow(distX, 2) + Math.pow(distY, 2);
+            double distFinal = Math.sqrt(pow);
+            if (distance == -1) {
+                distance = distFinal;
+                good = p;
+            }
+            else if (distFinal < distance) {
+                distance = distFinal;
+                good = p;
+            }
+        }
+
+        return good;
     }
 }
