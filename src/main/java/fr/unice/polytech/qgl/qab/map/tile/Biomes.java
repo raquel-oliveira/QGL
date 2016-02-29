@@ -8,33 +8,27 @@ import fr.unice.polytech.qgl.qab.util.enums.TypeBiome;
  * Enum that represent the bimes' types
  */
 public enum Biomes {
-    OCEAN("OCEAN"),
-    LAKE("LAKE"),
-    BEACH("BEACH"),
-    GRASSLAND("GRASSLAND"),
+    OCEAN,
+    LAKE,
+    BEACH,
+    GRASSLAND,
 
-    MANGROVE("MANGROVE"),
-    TROPICAL_RAIN_FOREST("TROPICAL_RAIN_FOREST"),
-    TROPICAL_SEASONAL_FOREST("TROPICAL_SEASONAL_FOREST"),
+    MANGROVE,
+    TROPICAL_RAIN_FOREST,
+    TROPICAL_SEASONAL_FOREST,
 
-    TEMPERATE_DECIDUOUS_FOREST("TEMPERATE_DECIDUOUS_FOREST"),
-    TEMPERATE_RAIN_FOREST("TEMPERATE_RAIN_FOREST"),
-    TEMPERATE_DESERT("TEMPERATE_DESERT"),
+    TEMPERATE_DECIDUOUS_FOREST,
+    TEMPERATE_RAIN_FOREST,
+    TEMPERATE_DESERT,
 
-    TAIGA("TAIGA"),
-    SNOW("SNOW"),
-    TUNDRA("TUNDRA"),
-    ALPINE("ALPINE"),
-    GLACIER("GLACIER"),
+    TAIGA,
+    SNOW,
+    TUNDRA,
+    ALPINE,
+    GLACIER,
 
-    SHRUBLAND("SHRUBLAND"),
-    SUB_TROPICAL_DESERT("SUB_TROPICAL_DESERT");
-
-    private String name = "";
-
-    Biomes(String name) {
-        this.name = name;
-    }
+    SHRUBLAND,
+    SUB_TROPICAL_DESERT;
 
     /**
      * true if this biome is common
@@ -78,15 +72,6 @@ public enum Biomes {
      */
     public boolean isSubTropical(){
         return this == SHRUBLAND || this == SUB_TROPICAL_DESERT;
-    }
-
-    @Override
-    public String toString() {
-        return name;
-    }
-
-    public boolean isEquals(Biomes biomes) {
-        return biomes.toString().equalsIgnoreCase(name);
     }
 
     /**

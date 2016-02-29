@@ -48,7 +48,7 @@ public class Strategy implements IStrategy {
     @Override
     public String makeDecision() throws PositionOutOfMapRange, IndexOutOfBoundsComboAction {
         Action act;
-        if (phase.isEquals(Phase.AERIAL)) {
+        if (phase.equals(Phase.AERIAL)) {
             act = aerialStrategy.makeDecision(context, map);
             if (act instanceof Land) {
                 phase = Phase.GROUND;

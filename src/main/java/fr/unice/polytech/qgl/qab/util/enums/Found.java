@@ -5,36 +5,7 @@ package fr.unice.polytech.qgl.qab.util.enums;
  * @version 4.9
  */
 public enum Found {
-    GROUND("GROUND"),
-    OUT_OF_RANGE("OUT_OF_RANGE"),
-    UNDEFINED("UNDEFINED");
-
-    private String name = "";
-
-    /**
-     * Enum's constructor
-     * @param name value
-     */
-    Found(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return name;
-    }
-
-    public boolean isEquals(Found found) {
-        return found.toString().equalsIgnoreCase(name);
-    }
-
-    public static Found fromString(String found){
-        if (found != null){
-            for (Found f : Found.values()){
-                if (f.toString().equalsIgnoreCase(found))
-                    return f;
-            }
-        }
-        return null;
-    }
+    GROUND,
+    OUT_OF_RANGE,
+    UNDEFINED;
 }
