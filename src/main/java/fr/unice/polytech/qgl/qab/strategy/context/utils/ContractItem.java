@@ -17,7 +17,6 @@ import java.util.Map;
 public class ContractItem {
     private Resource resource;
     private int amount;
-    private int accumulated; //TODO: Delete this
     private boolean completeContract;
 
 
@@ -32,7 +31,6 @@ public class ContractItem {
             throw new NegativeBudgetException("The value to initial amount to the resource can not be negative.");
         this.resource = resource;
         this.amount = amount;
-        this.accumulated = 0; //TODO: delete this
         completeContract = false;
     }
 
@@ -42,28 +40,6 @@ public class ContractItem {
      */
     public int amount() {
         return this.amount;
-    }
-
-    //TODO: delete this method
-    /**
-     * Get the value accumulated
-     * @return value accumulated
-     */
-    public int accumulated() {
-        return this.accumulated;
-    }
-
-    //TODO: delete this method
-    /**
-     * Update the value accumulated after collect some resource
-     * @param amount
-     * @throws NegativeBudgetException
-     */
-    public void collect(int amount) throws NegativeBudgetException {
-        int temporaryAmount = this.accumulated() + amount;
-        if(temporaryAmount < 0)
-            throw new NegativeBudgetException("The value collected can no be negative.");
-        this.accumulated = temporaryAmount;
     }
 
     /**

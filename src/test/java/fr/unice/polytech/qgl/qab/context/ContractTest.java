@@ -23,14 +23,6 @@ public class ContractTest {
 	}
 
 	@Test
-	public void testAccumulated() throws NegativeBudgetException{
-		Resource r = new ManufacturedResource(ManufacturedType.GLASS);
-		c = new ContractItem(r,200);
-		c.collect(300);
-		assertEquals(300,c.accumulated());
-	}
-
-	@Test
 	public void Testresource() throws NegativeBudgetException{
 		Resource r = new PrimaryResource(PrimaryType.WOOD);
 		c = new ContractItem(r,600);
