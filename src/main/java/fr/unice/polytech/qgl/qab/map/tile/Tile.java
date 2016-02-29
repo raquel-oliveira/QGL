@@ -91,4 +91,8 @@ public class Tile {
     public void setSquares(List<Square> squares){
         this.squares = squares;
     }
+
+    public void setBiomesPredominant(List<Biomes> biomesPredominant) {
+        this.biomesPredominant = biomesPredominant;
+    }
 }

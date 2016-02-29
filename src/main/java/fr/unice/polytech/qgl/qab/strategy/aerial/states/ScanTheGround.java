@@ -26,6 +26,9 @@ public class ScanTheGround extends AerialState {
 
     @Override
     public AerialState getState(Context context, Map map, StateMediator stateMediator) {
+
+        updateMapData(context, map);
+
         // if any creek was found
         if (!context.getLastDiscovery().getCreeks().isEmpty())
             return new Finish();
@@ -68,11 +71,16 @@ public class ScanTheGround extends AerialState {
         context.current().setLastAction(act);
         context.current().getComboAction().remove(0);
 
-        // update the position in the map if the plane fly
-        if (act instanceof Fly)
-            updaterMap.updateLastPositionFly(context, map);
-
         return act;
+    }
+
+    private void updateMapData(Context context, Map map) {
+        // update the position in the map if the plane fly
+        if (context.current().getLastAction() instanceof Fly) {
+            updaterMap.updateLastPositionFly(context, map);
+        } else {
+            updaterMap.setBiomeTile(context, map);
+        }
     }
 
     /**

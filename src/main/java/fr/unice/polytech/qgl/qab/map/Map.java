@@ -1,11 +1,13 @@
 package fr.unice.polytech.qgl.qab.map;
 
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
+import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.map.tile.Position;
 import fr.unice.polytech.qgl.qab.map.tile.Tile;
 import fr.unice.polytech.qgl.qab.map.tile.TileType;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @version 8.12.2016
@@ -59,41 +61,28 @@ public class Map {
     }
 
     /**
-     * If I need initialize a tile but i dont know if is ground or ocean
-     * @param position
-     * @throws PositionOutOfMapRange
-     */
-    public void initializeTileUndefined(Position position) throws PositionOutOfMapRange {
-        if (position.getX() >= width || position.getY() >= height)
-            throw new PositionOutOfMapRange(ERROR_MSG);
-        lastPosition = position;
-        tiles.put(position, new Tile(TileType.UNDEFINED));
-    }
-
-    /**
-     * If I need initialize a tile as ground
-     * @param position
-     * @throws PositionOutOfMapRange
-     */
-    public void initializeTileGround(Position position) throws PositionOutOfMapRange {
-        if (position.getX() >= width || position.getY() >= height)
-            throw new PositionOutOfMapRange(ERROR_MSG);
-        lastPosition = position;
-        tiles.put(position, new Tile(TileType.GROUND));
-    }
-
-    /**
      * If I need initialize a tile as ocean
      * @param position
      * @throws PositionOutOfMapRange
      */
-    public void initializeTileOcean(Position position) throws PositionOutOfMapRange {
+    public void initializeTile(Position position, TileType type) throws PositionOutOfMapRange {
         if (position.getX() >= width || position.getY() >= height)
             throw new PositionOutOfMapRange(ERROR_MSG);
         if (position.getX() < 0 || position.getY() < 0)
             throw new PositionOutOfMapRange("It's not possible values negatives to the positions!");
         lastPosition = position;
-        tiles.put(position, new Tile(TileType.OCEAN));
+        tiles.put(position, new Tile(type));
+    }
+
+    public void addBiome(Position position, List<Biomes> biomes) {
+        Tile newTile = new Tile();
+        newTile.setBiomesPredominant(biomes);
+        newTile.setVisit(true);
+        if (biomes.contains(Biomes.OCEAN) && biomes.size() == 1)
+            newTile.setType(TileType.OCEAN);
+        else
+            newTile.setType(TileType.GROUND);
+        tiles.put(position, newTile);
     }
 
     /**
