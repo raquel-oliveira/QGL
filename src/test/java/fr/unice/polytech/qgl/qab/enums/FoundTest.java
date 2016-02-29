@@ -43,36 +43,36 @@ public class FoundTest {
     @Test
     public void testEqualsGround() throws Exception {
         found = Found.GROUND;
-        assertTrue(found.isEquals(Found.GROUND));
+        assertTrue(found.equals(Found.GROUND));
     }
 
     @Test
     public void testEqualsOutOfRange() throws Exception {
         found = Found.OUT_OF_RANGE;
-        assertTrue(found.isEquals(Found.OUT_OF_RANGE));
+        assertTrue(found.equals(Found.OUT_OF_RANGE));
     }
 
     @Test
     public void testFromStringGround() throws Exception {
-        found = Found.fromString("ground");
-        assertTrue(found.isEquals(Found.GROUND));
+        found = Found.valueOf("ground");
+        assertTrue(found.equals(Found.GROUND));
     }
 
     @Test
     public void testFromStringOutOfRange() throws Exception {
-        found = Found.fromString("out_of_range");
-        assertTrue(found.isEquals(Found.OUT_OF_RANGE));
+        found = Found.valueOf("out_of_range");
+        assertTrue(found.equals(Found.OUT_OF_RANGE));
     }
 
     @Test
     public void testFromStringNotExists() {
-        found = Found.fromString("error");
+        found = Found.valueOf("error");
         assertEquals(null, found);
     }
 
     @Test
     public void testFromStringNothing() {
-        found = Found.fromString("");
+        found = Found.valueOf("");
         assertEquals(null, found);
     }
 
