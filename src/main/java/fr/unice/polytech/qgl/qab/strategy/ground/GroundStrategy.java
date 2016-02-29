@@ -22,7 +22,7 @@ public class GroundStrategy implements IGroundStrategy {
      * GroundStrategy's constructor.
      */
     public GroundStrategy() {
-        state = GlimpseTheGround.getInstance();
+        state = new GlimpseTheGround();
         map = new Map();
     }
 

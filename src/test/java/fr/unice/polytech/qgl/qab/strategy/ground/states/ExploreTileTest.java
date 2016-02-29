@@ -27,12 +27,12 @@ public class ExploreTileTest {
 
     @Before
     public void defineContext() {
-        exploreTile = ExploreTile.getInstance();
+        exploreTile = new ExploreTile();
     }
 
     @Test
     public void testInstance() {
-        ExploreTile explore = ExploreTile.getInstance();
+        ExploreTile explore = new ExploreTile();
         assertEquals(exploreTile.getClass(), explore.getClass());
     }
 

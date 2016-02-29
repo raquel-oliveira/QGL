@@ -26,12 +26,12 @@ public class ChoiceASideTest {
 
     @Before
     public void defineContext() {
-        choiceASide = ChoiceASide.getInstance();
+        choiceASide = new ChoiceASide();
     }
 
     @Test
     public void testInstance() {
-        ChoiceASide choice = ChoiceASide.getInstance();
+        ChoiceASide choice = new ChoiceASide();
         assertEquals(choiceASide.getClass(), choice.getClass());
     }
 
