@@ -250,7 +250,7 @@ public class BiomesTest {
     public void testIsEqual() {
         biome = Biomes.ALPINE;
         biome2 = Biomes.ALPINE;
-        assertTrue(biome.isEquals(biome2));
+        assertTrue(biome.equals(biome2));
     }
 
     @Test
