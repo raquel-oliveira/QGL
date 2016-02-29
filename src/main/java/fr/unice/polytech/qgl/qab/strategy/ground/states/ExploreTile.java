@@ -54,6 +54,12 @@ public class ExploreTile extends GroundState {
     public Action responseState(Context context, Map map) {
         Action act;
 
+        if(context.contractsAreComplete()){
+            act = new Stop();
+            lastAction = act;
+            return act;
+        }
+
         act = new Explore();
         context.current().setLastAction(act);
         return act;
