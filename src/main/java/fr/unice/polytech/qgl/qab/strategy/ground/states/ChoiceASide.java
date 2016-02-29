@@ -19,14 +19,6 @@ public class ChoiceASide extends GroundState {
         this.contextAnalyzer = new ContextAnalyzer();
     }
 
-    /**
-     * Method to get the instance of the ChoiceASide class
-     * @return instance of the ChoiceASide class
-     */
-    public static ChoiceASide getInstance() {
-        return new ChoiceASide();
-    }
-
     @Override
     public GroundState getState(Context context, Map map) throws PositionOutOfMapRange {
         goodDirection(context);
@@ -37,20 +29,20 @@ public class ChoiceASide extends GroundState {
             else
                 context.setHeading(context.current().getLastAction().getDirection());
             updateContext(context);
-            return MoveGround.getInstance();
+            return new MoveGround();
         }
 
         if (contextAnalyzer.isOcean(context))
-            return ChoiceASide.getInstance();
+            return new ChoiceASide();
 
         if (goodTile(context)) {
             context.setHeading(context.current().getLastAction().getDirection());
             context.current().setIndexTile(0);
             updateContext(context);
-            return GlimpseTheGround.getInstance();
+            return new GlimpseTheGround();
         }
 
-        return ChoiceASide.getInstance();
+        return new ChoiceASide();
     }
 
     private void goodDirection(Context context) {

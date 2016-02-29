@@ -15,21 +15,17 @@ public class FlyUntil extends AerialState {
 
     private UpdaterMap updaterMap;
 
-    private FlyUntil() {
+    public FlyUntil() {
         updaterMap = new UpdaterMap();
-    }
-
-    public static FlyUntil getInstance() {
-        return new FlyUntil();
     }
 
     @Override
     public AerialState getState(Context context, Map map, StateMediator stateMediator) {
         if (context.current().getComboAction().isEmpty()) {
             updateContext(context);
-            return ScanTheGround.getInstance();
+            return new ScanTheGround();
         }
-        return FlyUntil.getInstance();
+        return new FlyUntil();
     }
 
     @Override

@@ -12,29 +12,15 @@ import fr.unice.polytech.qgl.qab.strategy.context.Context;
  */
 public class MoveGround extends GroundState {
 
-    /**
-     * GlimpseTheGround's constructor
-     */
-    private MoveGround() {
-    }
-
-    /**
-     * Method to get the instance of the ChoiceASide class
-     * @return instance of the ChoiceASide class
-     */
-    public static MoveGround getInstance() {
-        return new MoveGround();
-    }
-
     @Override
     public GroundState getState(Context context, Map map) throws PositionOutOfMapRange {
         if (context.current().getComboAction().isEmpty()) {
             updateContext(context);
             context.current().setIndexTile(0);
             context.current().setLastAction(null);
-            return GlimpseTheGround.getInstance();
+            return new GlimpseTheGround();
         } else {
-            return MoveGround.getInstance();
+            return new MoveGround();
         }
     }
 

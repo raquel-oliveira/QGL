@@ -37,12 +37,12 @@ public class GoToTheCornerTest {
         dis.setEchoResponse(echoResponse);
         context.setLastDiscovery(dis);
 
-        goToTheCorner = GoToTheCorner.getInstance();
+        goToTheCorner = new GoToTheCorner();
     }
 
     @Test
     public void testInstance() {
-        GoToTheCorner go = GoToTheCorner.getInstance();
+        GoToTheCorner go = new GoToTheCorner();
         assertEquals(goToTheCorner.getClass(), go.getClass());
     }
 

@@ -39,7 +39,7 @@ public class ScanTheGroundTest {
 
     @Before
     public void defineContext() throws NegativeBudgetException {
-        scanTheGround = ScanTheGround.getInstance();
+        scanTheGround = new ScanTheGround();
         Discovery discovery = new Discovery();
         context = new Context();
         context.setLastDiscovery(discovery);
@@ -47,7 +47,7 @@ public class ScanTheGroundTest {
 
     @Test
     public void testInstance() {
-        ScanTheGround scan = ScanTheGround.getInstance();
+        ScanTheGround scan = new ScanTheGround();
         assertEquals(scanTheGround.getClass(), scan.getClass());
 
         // now, we have two differents instances
@@ -131,7 +131,7 @@ public class ScanTheGroundTest {
         context.setLastDiscovery(discovery);
 
         AerialState state = scanTheGround.getState(context, new Map(), StateMediator.getInstance());
-        assertEquals(state, Finish.getInstance());
+        assertEquals(state, new Finish());
     }
 
     /**

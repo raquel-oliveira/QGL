@@ -28,12 +28,12 @@ public class ReturnBackTest {
 
     @Before
     public void defineContext() {
-        returnBack = ReturnBack.getInstance();
+        returnBack = new ReturnBack();
     }
 
     @Test
     public void testInstance() {
-        ReturnBack back = ReturnBack.getInstance();
+        ReturnBack back = new ReturnBack();
         assertEquals(returnBack.getClass(), back.getClass());
     }
 

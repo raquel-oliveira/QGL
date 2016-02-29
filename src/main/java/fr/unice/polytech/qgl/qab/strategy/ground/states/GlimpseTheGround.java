@@ -20,16 +20,8 @@ public class GlimpseTheGround extends GroundState {
     /**
      * GlimpseTheGround's constructor
      */
-    private GlimpseTheGround() {
+    public GlimpseTheGround() {
         contextAnalyzer = new ContextAnalyzer();
-    }
-
-    /**
-     * Method to get the instance of the GlimpseTheGround class
-     * @return instance of the GlimpseTheGround class
-     */
-    public static GlimpseTheGround getInstance() {
-        return new GlimpseTheGround();
     }
 
     @Override
@@ -41,17 +33,17 @@ public class GlimpseTheGround extends GroundState {
 
             // check if the response of the glimpse was good or not
             if (contextAnalyzer.isOcean(context))
-                return ChoiceASide.getInstance();
+                return new ChoiceASide();
 
             if (!contextAnalyzer.goodGlimpse(context)) {
-                return MoveGround.getInstance();
+                return new MoveGround();
             }
         }
 
         if (isGoodToExplore(context)) {
-            return ExploreTile.getInstance();
+            return new ExploreTile();
         } else {
-            return GlimpseTheGround.getInstance();
+            return new GlimpseTheGround();
         }
     }
 

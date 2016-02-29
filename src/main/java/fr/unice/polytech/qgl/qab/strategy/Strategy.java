@@ -37,7 +37,7 @@ public class Strategy implements IStrategy {
 
     public Strategy() throws NegativeBudgetException {
         context = new Context();
-        aerialStrategy = new AerialStrategy(context);
+        aerialStrategy = new AerialStrategy();
         groundStrategy = new GroundStrategy();
         phase = Phase.AERIAL;
         currentAction = null;

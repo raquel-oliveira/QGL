@@ -22,7 +22,7 @@ public class GroundStrategy implements IGroundStrategy {
      * GroundStrategy's constructor.
      */
     public GroundStrategy() {
-        state = GlimpseTheGround.getInstance();
+        state = new GlimpseTheGround();
         map = new Map();
     }
 
@@ -43,7 +43,7 @@ public class GroundStrategy implements IGroundStrategy {
      * @return stop if the budget is less than 100 and null if the simulation can continue
      */
     private Action contextAnalyzer(Context context) {
-        if (context.getBudget() < 100) {
+        if (context.getBudget() < 400) {
             return new Stop();
         }
         return null;

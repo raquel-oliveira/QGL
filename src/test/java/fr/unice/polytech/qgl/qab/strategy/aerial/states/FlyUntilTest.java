@@ -23,12 +23,12 @@ public class FlyUntilTest {
 
     @Before
     public void defineContext() {
-        flyUntil = FlyUntil.getInstance();
+        flyUntil = new FlyUntil();
     }
 
     @Test
     public void testInstance() {
-        FlyUntil end = FlyUntil.getInstance();
+        FlyUntil end = new FlyUntil();
         assertEquals(FlyUntil.class, end.getClass());
     }
 

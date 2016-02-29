@@ -31,12 +31,12 @@ public class GlimpseTheGroundTest {
 
     @Before
     public void defineContext() {
-        moveInTheGround = GlimpseTheGround.getInstance();
+        moveInTheGround = new GlimpseTheGround();
     }
 
     @Test
     public void testInstance() {
-        GlimpseTheGround move = GlimpseTheGround.getInstance();
+        GlimpseTheGround move = new GlimpseTheGround();
         assertEquals(moveInTheGround.getClass(), move.getClass());
     }
 
