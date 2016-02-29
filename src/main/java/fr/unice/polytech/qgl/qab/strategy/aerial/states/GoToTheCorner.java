@@ -14,23 +14,15 @@ import fr.unice.polytech.qgl.qab.util.enums.Found;
  */
 public class GoToTheCorner extends AerialState {
 
-    /**
-     * Method to return a instance of Initialize
-     * @return a instance of initialize
-     */
-    public static GoToTheCorner getInstance() {
-        return new GoToTheCorner();
-    }
-
     @Override
     public AerialState getState(Context context, Map map, StateMediator stateMediator) {
         // if the plane found a space to initialize the dimention
         if (foundFreeZone(context)) {
             stateMediator.setGoToTheCorner(false);
             updateContext(context);
-            return Initialize.getInstance();
+            return new Initialize();
         } else
-            return GoToTheCorner.getInstance();
+            return new GoToTheCorner();
     }
 
     @Override

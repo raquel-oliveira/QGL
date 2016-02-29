@@ -11,11 +11,6 @@ import fr.unice.polytech.qgl.qab.strategy.context.Context;
  * @version 23/02/16.
  */
 public class StopSimulation extends AerialState {
-
-    public static StopSimulation getInstance() {
-        return new StopSimulation();
-    }
-
     @Override
     public AerialState getState(Context context, Map map, StateMediator stateMediator) throws PositionOutOfMapRange {
         return new StopSimulation();

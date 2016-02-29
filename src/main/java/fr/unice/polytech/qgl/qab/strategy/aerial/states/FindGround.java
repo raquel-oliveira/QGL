@@ -15,25 +15,19 @@ import fr.unice.polytech.qgl.qab.util.enums.Found;
  * @version 11.12.2015.
  */
 public class FindGround extends AerialState {
-
     private UpdaterMap updaterMap;
 
     public FindGround() {
         this.updaterMap = new UpdaterMap();
     }
 
-
-    public static FindGround getInstance() {
-        return new FindGround();
-    }
-
     @Override
     public AerialState getState(Context context, Map map, StateMediator stateMediator) {
         if (context.current().getLastAction() instanceof Heading) {
             updateContext(context);
-            return FlyUntil.getInstance();
+            return new FlyUntil();
         }
-        return FindGround.getInstance();
+        return new FindGround();
     }
 
     @Override

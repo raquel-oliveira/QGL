@@ -20,33 +20,29 @@ public class ScanTheGround extends AerialState {
 
     private UpdaterMap updaterMap;
 
-    private ScanTheGround() {
+    public ScanTheGround() {
         updaterMap = new UpdaterMap();
-    }
-
-    public static ScanTheGround getInstance() {
-        return new ScanTheGround();
     }
 
     @Override
     public AerialState getState(Context context, Map map, StateMediator stateMediator) {
         // if any creek was found
         if (!context.getLastDiscovery().getCreeks().isEmpty())
-            return Finish.getInstance();
+            return new Finish();
 
         // if is necessary return back to the ground
         if (returnBack(context)) {
             updateContext(context);
-            return ReturnBack.getInstance();
+            return new ReturnBack();
         }
 
         // if is necessary fly until the ground
         if (needFlyUntil(context, stateMediator)) {
             updateContext(context);
-            return FlyUntil.getInstance();
+            return new FlyUntil();
         }
 
-        return ScanTheGround.getInstance();
+        return new ScanTheGround();
     }
 
     @Override

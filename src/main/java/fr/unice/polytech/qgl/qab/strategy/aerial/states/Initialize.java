@@ -13,19 +13,10 @@ import fr.unice.polytech.qgl.qab.util.enums.Found;
  * @version 10.12.2015
  */
 public class Initialize extends AerialState {
-
     private UpdaterMap updaterMap;
 
-    private Initialize() {
+    public Initialize() {
         updaterMap = new UpdaterMap();
-    }
-
-    /**
-     * Method to return a instance of Initialize
-     * @return a initialize instance
-     */
-    public static Initialize getInstance() {
-        return new Initialize();
     }
 
     @Override
@@ -41,14 +32,14 @@ public class Initialize extends AerialState {
             // after made the 3 acho and see if it's necessary go to the corner
             if (context.current().getComboAction().isEmpty() && stateMediator.shouldGoToTheCorner()) {
                 updateContext(context);
-                return GoToTheCorner.getInstance();
+                return new GoToTheCorner();
             } else if (context.current().getComboAction().isEmpty() && !stateMediator.shouldGoToTheCorner()) {
                 updaterMap.setFirtsPosition(context, map);
                 updateContext(context);
-                return FindGround.getInstance();
+                return new FindGround();
             }
         }
-        return Initialize.getInstance();
+        return new Initialize();
     }
 
     @Override

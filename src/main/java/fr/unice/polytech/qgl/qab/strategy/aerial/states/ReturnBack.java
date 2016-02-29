@@ -17,12 +17,8 @@ public class ReturnBack extends AerialState {
 
     private UpdaterMap updaterMap;
 
-    private ReturnBack() {
+    public ReturnBack() {
         updaterMap = new UpdaterMap();
-    }
-
-    public static ReturnBack getInstance() {
-        return new ReturnBack();
     }
 
     @Override
@@ -33,17 +29,17 @@ public class ReturnBack extends AerialState {
                 if (context.getLastDiscovery().getEchoResponse().getRange() >= 1) {
                     updateContext(context);
                     stateMediator.setRangeToGround(context.getLastDiscovery().getEchoResponse().getRange() + 1);
-                    return FlyUntil.getInstance();
+                    return new FlyUntil();
                 } else {
                     updateContext(context);
-                    return ScanTheGround.getInstance();
+                    return new ScanTheGround();
                 }
             } else {
-                return StopSimulation.getInstance();
+                return new StopSimulation();
             }
         }
 
-        return ReturnBack.getInstance();
+        return new ReturnBack();
     }
 
     @Override
