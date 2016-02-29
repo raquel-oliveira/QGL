@@ -20,16 +20,8 @@ public class ExploreTile extends GroundState {
     /**
      * ExploreTile's contructor
      */
-    private ExploreTile() {
+    public ExploreTile() {
         contextAnalyzer = new ContextAnalyzer();
-    }
-
-    /**
-     * Method to get the instance of the ExploreTile class
-     * @return instance of ExploreTile
-     */
-    public static ExploreTile getInstance() {
-        return new ExploreTile();
     }
 
     @Override
@@ -38,9 +30,9 @@ public class ExploreTile extends GroundState {
 
         if (context.current().getResourcesToExploit().isEmpty()) {
             context.current().setLastAction(null);
-            return GlimpseTheGround.getInstance();
+            return new GlimpseTheGround();
         } else {
-            return ExploitTile.getInstance();
+            return new ExploitTile();
         }
     }
 
