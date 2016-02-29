@@ -7,7 +7,7 @@ import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.response.GlimpseResponse;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import fr.unice.polytech.qgl.qab.strategy.context.ContractItem;
+import fr.unice.polytech.qgl.qab.strategy.context.utils.ContractItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,10 +64,22 @@ public class ContextAnalyzer {
         return resources;
     }
 
+    public List<PrimaryType> analyzerScout(Context context) {
+        List<ContractItem> contract = context.getContracts();
+        List<PrimaryType> resources = new ArrayList<>();
+
+        for (ContractItem item: contract) {
+            if (context.getLastDiscovery().getScoutResponse().found(item.resource().getName())) {
+                resources.add(PrimaryType.valueOf(item.resource().getName()));
+            }
+        }
+        return resources;
+    }
+
     /**
-     * This method will check the resources in the contract and take what are the
-     * biomes that are likely to have these resources. After will see in each
-     * tile that the glimpse returned, and will check if there are some these
+     * This method will check the resources in the contract and take the
+     * biomes that are more likely to have them. After, it will see in each
+     * tile what the glimpse returned, and will check if there are some of these
      * biomes in any tile, after will return a list of boolean values indicating
      * if some tile have the biomes.
      * @param context datas about the context of the simulation

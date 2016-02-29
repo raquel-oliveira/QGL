@@ -36,7 +36,7 @@ public class ComboReturnTest {
     }
 
     public void testActionInCombo(Direction d1, Direction d2) throws IndexOutOfBoundsComboAction {
-        combo.defineHeading(d1, d2);
+        combo.defineActions(d1, d2);
         assertEquals(combo.get(0).getClass(), Heading.class);
         assertEquals(combo.get(1).getClass(), Heading.class);
 
@@ -50,73 +50,73 @@ public class ComboReturnTest {
 
     @Test
     public void testActionDirectionWestNorth() throws IndexOutOfBoundsComboAction {
-        combo.defineHeading(Direction.WEST, Direction.NORTH);
-        assertEquals(((Heading)combo.get(0)).getDirection(), Direction.NORTH);
-        assertEquals(((Heading)combo.get(1)).getDirection(), Direction.EAST);
-        assertEquals(((Heading)combo.get(3)).getDirection(), Direction.NORTH);
-        assertEquals(((Heading)combo.get(4)).getDirection(), Direction.WEST);
+        combo.defineActions(Direction.WEST, Direction.NORTH);
+        assertEquals(combo.get(0).getDirection(), Direction.NORTH);
+        assertEquals(combo.get(1).getDirection(), Direction.EAST);
+        assertEquals(combo.get(3).getDirection(), Direction.NORTH);
+        assertEquals(combo.get(4).getDirection(), Direction.WEST);
     }
 
     @Test
     public void testActionDirectionWestSouth() throws IndexOutOfBoundsComboAction {
-        combo.defineHeading(Direction.WEST, Direction.SOUTH);
-        assertEquals(((Heading)combo.get(0)).getDirection(), Direction.SOUTH);
-        assertEquals(((Heading)combo.get(1)).getDirection(), Direction.EAST);
-        assertEquals(((Heading)combo.get(3)).getDirection(), Direction.SOUTH);
-        assertEquals(((Heading)combo.get(4)).getDirection(), Direction.WEST);
+        combo.defineActions(Direction.WEST, Direction.SOUTH);
+        assertEquals(combo.get(0).getDirection(), Direction.SOUTH);
+        assertEquals(combo.get(1).getDirection(), Direction.EAST);
+        assertEquals(combo.get(3).getDirection(), Direction.SOUTH);
+        assertEquals(combo.get(4).getDirection(), Direction.WEST);
     }
 
     @Test
     public void testActionDirectionEastNorth() throws IndexOutOfBoundsComboAction {
-        combo.defineHeading(Direction.EAST, Direction.NORTH);
-        assertEquals(((Heading)combo.get(0)).getDirection(), Direction.NORTH);
-        assertEquals(((Heading)combo.get(1)).getDirection(), Direction.WEST);
-        assertEquals(((Heading)combo.get(3)).getDirection(), Direction.NORTH);
-        assertEquals(((Heading)combo.get(4)).getDirection(), Direction.EAST);
+        combo.defineActions(Direction.EAST, Direction.NORTH);
+        assertEquals(combo.get(0).getDirection(), Direction.NORTH);
+        assertEquals(combo.get(1).getDirection(), Direction.WEST);
+        assertEquals(combo.get(3).getDirection(), Direction.NORTH);
+        assertEquals(combo.get(4).getDirection(), Direction.EAST);
     }
 
     @Test
     public void testActionDirectionEastSouth() throws IndexOutOfBoundsComboAction {
-        combo.defineHeading(Direction.EAST, Direction.SOUTH);
-        assertEquals(((Heading)combo.get(0)).getDirection(), Direction.SOUTH);
-        assertEquals(((Heading)combo.get(1)).getDirection(), Direction.WEST);
-        assertEquals(((Heading)combo.get(3)).getDirection(), Direction.SOUTH);
-        assertEquals(((Heading)combo.get(4)).getDirection(), Direction.EAST);
+        combo.defineActions(Direction.EAST, Direction.SOUTH);
+        assertEquals(combo.get(0).getDirection(), Direction.SOUTH);
+        assertEquals(combo.get(1).getDirection(), Direction.WEST);
+        assertEquals(combo.get(3).getDirection(), Direction.SOUTH);
+        assertEquals(combo.get(4).getDirection(), Direction.EAST);
     }
 
     @Test
     public void testActionDirectionSouthEast() throws IndexOutOfBoundsComboAction {
-        combo.defineHeading(Direction.SOUTH, Direction.EAST);
-        assertEquals(((Heading)combo.get(0)).getDirection(), Direction.EAST);
-        assertEquals(((Heading)combo.get(1)).getDirection(), Direction.NORTH);
-        assertEquals(((Heading)combo.get(3)).getDirection(), Direction.EAST);
-        assertEquals(((Heading)combo.get(4)).getDirection(), Direction.SOUTH);
+        combo.defineActions(Direction.SOUTH, Direction.EAST);
+        assertEquals(combo.get(0).getDirection(), Direction.EAST);
+        assertEquals(combo.get(1).getDirection(), Direction.NORTH);
+        assertEquals(combo.get(3).getDirection(), Direction.EAST);
+        assertEquals(combo.get(4).getDirection(), Direction.SOUTH);
     }
 
     @Test
     public void testActionDirectionSouthWest() throws IndexOutOfBoundsComboAction {
-        combo.defineHeading(Direction.SOUTH, Direction.WEST);
-        assertEquals(((Heading)combo.get(0)).getDirection(), Direction.WEST);
-        assertEquals(((Heading)combo.get(1)).getDirection(), Direction.NORTH);
-        assertEquals(((Heading)combo.get(3)).getDirection(), Direction.WEST);
-        assertEquals(((Heading)combo.get(4)).getDirection(), Direction.SOUTH);
+        combo.defineActions(Direction.SOUTH, Direction.WEST);
+        assertEquals(combo.get(0).getDirection(), Direction.WEST);
+        assertEquals(combo.get(1).getDirection(), Direction.NORTH);
+        assertEquals(combo.get(3).getDirection(), Direction.WEST);
+        assertEquals(combo.get(4).getDirection(), Direction.SOUTH);
     }
 
     @Test
     public void testActionDirectionNorthEast() throws IndexOutOfBoundsComboAction {
-        combo.defineHeading(Direction.NORTH, Direction.EAST);
-        assertEquals(((Heading)combo.get(0)).getDirection(), Direction.EAST);
-        assertEquals(((Heading)combo.get(1)).getDirection(), Direction.SOUTH);
-        assertEquals(((Heading)combo.get(3)).getDirection(), Direction.EAST);
-        assertEquals(((Heading)combo.get(4)).getDirection(), Direction.NORTH);
+        combo.defineActions(Direction.NORTH, Direction.EAST);
+        assertEquals(combo.get(0).getDirection(), Direction.EAST);
+        assertEquals(combo.get(1).getDirection(), Direction.SOUTH);
+        assertEquals(combo.get(3).getDirection(), Direction.EAST);
+        assertEquals(combo.get(4).getDirection(), Direction.NORTH);
     }
 
     @Test
     public void testActionDirectionNorthWest() throws IndexOutOfBoundsComboAction {
-        combo.defineHeading(Direction.NORTH, Direction.WEST);
-        assertEquals(((Heading)combo.get(0)).getDirection(), Direction.WEST);
-        assertEquals(((Heading)combo.get(1)).getDirection(), Direction.SOUTH);
-        assertEquals(((Heading)combo.get(3)).getDirection(), Direction.WEST);
-        assertEquals(((Heading)combo.get(4)).getDirection(), Direction.NORTH);
+        combo.defineActions(Direction.NORTH, Direction.WEST);
+        assertEquals(combo.get(0).getDirection(), Direction.WEST);
+        assertEquals(combo.get(1).getDirection(), Direction.SOUTH);
+        assertEquals(combo.get(3).getDirection(), Direction.WEST);
+        assertEquals(combo.get(4).getDirection(), Direction.NORTH);
     }
 }

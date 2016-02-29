@@ -27,7 +27,7 @@ public class ComboEchos extends Combo {
      *
      * @param head direction of the head
      */
-    public void defineComboEchos(Direction head) {
+    public void defineActions(Direction head) {
         if (head.isHorizontal()) {
             if (head.compareTo(Direction.EAST) == 0) {
                 actions.add(new Echo(Direction.EAST));

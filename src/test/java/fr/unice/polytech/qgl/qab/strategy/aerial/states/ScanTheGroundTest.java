@@ -4,12 +4,12 @@ import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Scan;
-import fr.unice.polytech.qgl.qab.actions.simple.common.Land;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.map.tile.Creek;
+import fr.unice.polytech.qgl.qab.map.tile.Position;
 import fr.unice.polytech.qgl.qab.response.EchoResponse;
 import fr.unice.polytech.qgl.qab.response.ScanResponse;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
 
 /**
  * @version 22/12/15.
@@ -47,19 +48,25 @@ public class ScanTheGroundTest {
     @Test
     public void testInstance() {
         ScanTheGround scan = ScanTheGround.getInstance();
-        assertEquals(scanTheGround, scan);
+        assertEquals(scanTheGround.getClass(), scan.getClass());
+
+        // now, we have two differents instances
+        assertTrue(scanTheGround != scan);
     }
 
     @Test
     public void testGetState() {
         AerialState state = scanTheGround.getState(context, new Map(), StateMediator.getInstance());
-        assertEquals(state, ScanTheGround.getInstance());
+        assertEquals(state.getClass(), ScanTheGround.class);
     }
 
     @Test
     public void testResponseStateScanTheGround() throws IndexOutOfBoundsComboAction {
-        Action act = scanTheGround.responseState(context, new Map(), StateMediator.getInstance());
-        assertEquals(act.getClass(), new Fly().getClass());
+        context.setHeading(Direction.EAST);
+        Map map = new Map();
+        map.setLastPosition(new Position(0, 0));
+        Action act = scanTheGround.responseState(context, map, StateMediator.getInstance());
+        assertEquals(act.getClass(), Fly.class);
     }
 
     /**
@@ -71,27 +78,30 @@ public class ScanTheGroundTest {
         setContext(Found.OUT_OF_RANGE, 10);
 
         context.setLastDiscovery(discovery);
+        context.setHeading(Direction.EAST);
+        Map map = new Map();
+        map.setLastPosition(new Position(0, 0));
 
-        AerialState state = scanTheGround.getState(context, new Map(), StateMediator.getInstance());
-        assertEquals(ScanTheGround.getInstance(), state);
+        AerialState state = scanTheGround.getState(context, map, StateMediator.getInstance());
+        assertEquals(ScanTheGround.class, state.getClass());
 
-        // the firts action will be a fly
-        Action act = scanTheGround.responseState(context, new Map(), StateMediator.getInstance());
+        // the firts current will be a fly
+        Action act = scanTheGround.responseState(context, map, StateMediator.getInstance());
         assertEquals(Fly.class, act.getClass());
-        state = scanTheGround.getState(context, new Map(), StateMediator.getInstance());
-        assertEquals(ScanTheGround.getInstance(), state);
+        state = scanTheGround.getState(context, map, StateMediator.getInstance());
+        assertEquals(ScanTheGround.class, state.getClass());
 
         // after the fly we have the scan
-        act = scanTheGround.responseState(context, new Map(), StateMediator.getInstance());
+        act = scanTheGround.responseState(context, map, StateMediator.getInstance());
         assertEquals(Scan.class, act.getClass());
-        state = scanTheGround.getState(context, new Map(), StateMediator.getInstance());
-        assertEquals(ScanTheGround.getInstance(), state);
+        state = scanTheGround.getState(context, map, StateMediator.getInstance());
+        assertEquals(ScanTheGround.class, state.getClass());
 
         // after the scan, when we found the ocean, we make a echo
-        act = scanTheGround.responseState(context, new Map(), StateMediator.getInstance());
+        act = scanTheGround.responseState(context, map, StateMediator.getInstance());
         assertEquals(Echo.class, act.getClass());
-        state = scanTheGround.getState(context, new Map(), StateMediator.getInstance());
-        assertEquals(ReturnBack.getInstance(), state);
+        state = scanTheGround.getState(context, map, StateMediator.getInstance());
+        assertEquals(ReturnBack.class, state.getClass());
     }
 
     private void setContext(Found found, int range) {
@@ -120,9 +130,6 @@ public class ScanTheGroundTest {
         discovery.setCreeks(creeks);
         context.setLastDiscovery(discovery);
 
-        Action act = scanTheGround.responseState(context, new Map(), StateMediator.getInstance());
-        assertEquals(act.getClass(), new Land("adaet-124fqdfaae-avaer", 1).getClass());
-
         AerialState state = scanTheGround.getState(context, new Map(), StateMediator.getInstance());
         assertEquals(state, Finish.getInstance());
     }
@@ -135,54 +142,30 @@ public class ScanTheGroundTest {
         setContext(Found.GROUND, 2);
 
         context.setLastDiscovery(discovery);
+        context.setLastDiscovery(discovery);
+        context.setHeading(Direction.EAST);
+        Map map = new Map();
+        map.setLastPosition(new Position(0, 0));
 
-        AerialState state = scanTheGround.getState(context, new Map(), StateMediator.getInstance());
-        assertEquals(ScanTheGround.getInstance(), state);
+        AerialState state = scanTheGround.getState(context, map, StateMediator.getInstance());
+        assertEquals(ScanTheGround.class, state.getClass());
 
-        // the firts action will be a fly
-        Action act = scanTheGround.responseState(context, new Map(), StateMediator.getInstance());
+        // the firts current will be a fly
+        Action act = scanTheGround.responseState(context, map, StateMediator.getInstance());
         assertEquals(Fly.class, act.getClass());
-        state = scanTheGround.getState(context, new Map(), StateMediator.getInstance());
-        assertEquals(ScanTheGround.getInstance(), state);
+        state = scanTheGround.getState(context, map, StateMediator.getInstance());
+        assertEquals(ScanTheGround.class, state.getClass());
 
         // after the fly we have the scan
-        act = scanTheGround.responseState(context, new Map(), StateMediator.getInstance());
-        assertEquals(Fly.class, act.getClass());
-        state = scanTheGround.getState(context, new Map(), StateMediator.getInstance());
-        assertEquals(ScanTheGround.getInstance(), state);
-
-        // after the scan, when we found the ocean, we make a echo
-        act = scanTheGround.responseState(context, new Map(), StateMediator.getInstance());
-        assertEquals(Fly.class, act.getClass());
-        state = scanTheGround.getState(context, new Map(), StateMediator.getInstance());
-        assertEquals(ScanTheGround.getInstance(), state);
-
-        // after the scan, when we found the ocean, we make a echo
-        act = scanTheGround.responseState(context, new Map(), StateMediator.getInstance());
-        assertEquals(Fly.class, act.getClass());
-
-        // after the scan, when we found the ocean, we make a echo
-        act = scanTheGround.responseState(context, new Map(), StateMediator.getInstance());
-        assertEquals(Fly.class, act.getClass());
-
-        // after the scan, when we found the ocean, we make a echo
-        act = scanTheGround.responseState(context, new Map(), StateMediator.getInstance());
+        act = scanTheGround.responseState(context, map, StateMediator.getInstance());
         assertEquals(Scan.class, act.getClass());
+        state = scanTheGround.getState(context, map, StateMediator.getInstance());
+        assertEquals(ScanTheGround.class, state.getClass());
 
         // after the scan, when we found the ocean, we make a echo
-        act = scanTheGround.responseState(context, new Map(), StateMediator.getInstance());
-        assertEquals(Fly.class, act.getClass());
-
-        // after the scan, when we found the ocean, we make a echo
-        act = scanTheGround.responseState(context, new Map(), StateMediator.getInstance());
-        assertEquals(Fly.class, act.getClass());
-
-        // after the scan, when we found the ocean, we make a echo
-        act = scanTheGround.responseState(context, new Map(), StateMediator.getInstance());
-        assertEquals(Scan.class, act.getClass());
-
-        // after the scan, when we found the ocean, we make a echo
-        act = scanTheGround.responseState(context, new Map(), StateMediator.getInstance());
-        assertEquals(Fly.class, act.getClass());
+        act = scanTheGround.responseState(context, map, StateMediator.getInstance());
+        assertEquals(Echo.class, act.getClass());
+        state = scanTheGround.getState(context, map, StateMediator.getInstance());
+        assertEquals(FlyUntil.class, state.getClass());
     }
 }

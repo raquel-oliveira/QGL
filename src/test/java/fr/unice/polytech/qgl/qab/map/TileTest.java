@@ -1,10 +1,13 @@
 package fr.unice.polytech.qgl.qab.map;
 
 import fr.unice.polytech.qgl.qab.map.tile.Creek;
+import fr.unice.polytech.qgl.qab.map.tile.square.Square;
 import fr.unice.polytech.qgl.qab.map.tile.Tile;
 import fr.unice.polytech.qgl.qab.map.tile.TileType;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -75,6 +78,22 @@ public class TileTest {
 
         when(t.wasVisited()).thenReturn(false);
         assertEquals(true, t.wasVisited());
+    }
+
+    @Test
+    public void testSetSquare(){
+        Square s1 = new Square();
+        Square s2 = new Square();
+        Square s3 = new Square();
+        ArrayList<Square> squares = new ArrayList<>();
+        squares.add(s1);
+        squares.add(s2);
+        squares.add(s3);
+
+        tile.setSquares(squares);
+        assertEquals(s1,tile.getSquares().get(0));
+        assertEquals(s2,tile.getSquares().get(1));
+        assertEquals(s3,tile.getSquares().get(2));
     }
 }
 

@@ -1,7 +1,9 @@
-package fr.unice.polytech.qgl.qab.strategy.context;
+package fr.unice.polytech.qgl.qab.strategy.context.utils;
 
+import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.map.tile.Position;
+import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 /**
@@ -81,5 +83,39 @@ public class UpdaterMap {
                 map.setLastPosition(new Position(position.getX(), position.getY() + 1));
             }
         }
+    }
+
+    /**
+     * after each heading, it's necessary update the position of the plane
+     * @param context data context of simulation
+     * @param map object map
+     */
+    public void updateLastPositionHeading(Context context, Map map) {
+        Position position = map.getLastPosition();
+
+        updateLastPositionFly(context, map);
+        context.setHeading(context.current().getLastAction().getDirection());
+        updateLastPositionFly(context, map);
+    }
+
+    /**
+     * Set the first position in the map
+     * @param context data context of the simulation
+     * @param map of the simulation
+     * @throws PositionOutOfMapRange
+     */
+    public void setFirtsPosition(Context context, Map map) throws PositionOutOfMapRange {
+        if (context.getHeading().isVertical()) {
+            if (context.getHeading().equals(Direction.NORTH))
+                map.setLastPosition(new Position(context.getLastDiscovery().getEchoResponse().getRange(), map.getHeight() - 1));
+            else
+                map.setLastPosition(new Position(context.getLastDiscovery().getEchoResponse().getRange(), 0));
+        } else  {
+            if (context.getHeading().equals(Direction.EAST))
+                map.setLastPosition(new Position(0, context.getLastDiscovery().getEchoResponse().getRange()));
+            else
+                map.setLastPosition(new Position(map.getWidth() - 1, context.getLastDiscovery().getEchoResponse().getRange()));
+        }
+        map.initializeTileOcean(map.getLastPosition());
     }
 }

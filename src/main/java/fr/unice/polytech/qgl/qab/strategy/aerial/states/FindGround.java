@@ -2,12 +2,12 @@ package fr.unice.polytech.qgl.qab.strategy.aerial.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Echo;
-import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Heading;
 import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboFlyEcho;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
+import fr.unice.polytech.qgl.qab.strategy.context.utils.UpdaterMap;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 
@@ -15,54 +15,52 @@ import fr.unice.polytech.qgl.qab.util.enums.Found;
  * @version 11.12.2015.
  */
 public class FindGround extends AerialState {
-    private static FindGround instance;
 
-    private ComboFlyEcho actionCombo;
+    private UpdaterMap updaterMap;
 
-    private FindGround() {
-        super();
-        actionCombo = null;
-        this.lastAction = new Fly();
+    public FindGround() {
+        this.updaterMap = new UpdaterMap();
     }
 
-    /**
-     * get the instance of FindGround
-     * @return
-     */
+
     public static FindGround getInstance() {
-        if (instance == null)
-            instance = new FindGround();
-        return instance;
+        return new FindGround();
     }
 
     @Override
     public AerialState getState(Context context, Map map, StateMediator stateMediator) {
-        if (lastAction instanceof Heading)
+        if (context.current().getLastAction() instanceof Heading) {
+            updateContext(context);
             return FlyUntil.getInstance();
-
+        }
         return FindGround.getInstance();
     }
 
     @Override
     public Action responseState(Context context, Map map, StateMediator stateMediator) throws IndexOutOfBoundsComboAction {
         Action act;
-        if (context.getLastDiscovery().getEchoResponse().getFound().equals(Found.GROUND) && lastAction instanceof Echo) {
-            Direction dir = (lastAction).getDirection();
+
+        // if the bot made a echo and found a ground, so it's necessary make a heading
+        if (context.getLastDiscovery().getEchoResponse().getFound().equals(Found.GROUND) && context.current().getLastAction() instanceof Echo) {
+            Direction dir = context.current().getLastAction().getDirection();
             act = new Heading(dir);
-            context.setHeading(dir);
             stateMediator.setRangeToGround(context.getLastDiscovery().getEchoResponse().getRange());
-            lastAction = act;
+            context.current().setLastAction(act);
+            updaterMap.updateLastPositionHeading(context, map);
             return act;
         }
 
-        if (actionCombo == null || actionCombo.isEmpty()) {
-            actionCombo = new ComboFlyEcho();
-            actionCombo.defineActions(choiceDirectionEcho(context, map));
+        // set the combo fly + echo to find the ground
+        if (context.current().getComboAction() == null || context.current().getComboAction() .isEmpty()) {
+            context.current().setComboAction(new ComboFlyEcho());
+            context.current().getComboAction() .defineActions(choiceDirectionEcho(context, map));
         }
 
-        act = actionCombo.get(0);
-        lastAction = act;
-        actionCombo.remove(0);
+        // take the action of the combo
+        act = context.current().getComboAction().get(0);
+        context.current().setLastAction(act);
+        context.current().getComboAction().remove(0);
+        updaterMap.updateLastPositionFly(context, map);
 
         return act;
     }
@@ -73,17 +71,27 @@ public class FindGround extends AerialState {
      * @param map of the simulation
      * @return direction
      */
-    private Direction choiceDirectionEcho(Context context, Map map) {
+    private static Direction choiceDirectionEcho(Context context, Map map) {
         if (context.getHeading().isVertical()) {
             if (map.getLastPosition().getX() > map.getWidth()/2)
                 return Direction.WEST;
             else
                 return Direction.EAST;
         } else {
-            if (map.getLastPosition().getY() < map.getHeight()/2)
+            if (map.getLastPosition().getY() > map.getHeight()/2)
                 return Direction.SOUTH;
             else
                 return Direction.NORTH;
         }
+    }
+
+
+    /**
+     * Method to updata the context
+     * @param context
+     */
+    private static void updateContext(Context context) {
+        context.current().setComboAction(null);
+        context.current().setLastAction(null);
     }
 }

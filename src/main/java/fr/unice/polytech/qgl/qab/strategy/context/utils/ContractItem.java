@@ -1,4 +1,4 @@
-package fr.unice.polytech.qgl.qab.strategy.context;
+package fr.unice.polytech.qgl.qab.strategy.context.utils;
 
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.resources.Resource;
@@ -66,7 +66,6 @@ public class ContractItem {
         this.accumulated = temporaryAmount;
     }
 
-
     /**
      * Get the resource
      * @return resource
@@ -92,3 +91,4 @@ public class ContractItem {
 
 
 }
+

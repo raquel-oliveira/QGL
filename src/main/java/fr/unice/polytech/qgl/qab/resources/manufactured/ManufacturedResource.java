@@ -85,8 +85,8 @@ public class ManufacturedResource implements Resource {
 
         switch (resource){
             case GLASS:
-                recipe.put(PrimaryType.QUARTZ, 5 * amountRecipe);
-                recipe.put(PrimaryType.WOOD, 10 * amountRecipe);
+                recipe.put(PrimaryType.QUARTZ, 10 * amountRecipe);
+                recipe.put(PrimaryType.WOOD, 5 * amountRecipe);
                 break;
 
             case INGOT:

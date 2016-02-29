@@ -75,9 +75,12 @@ Comments in the code, more tests, phase aerial spending less and improvement in 
 Add more tests (88,8% Overall coverage), reduce Technical Debt, improvement the plane fly and improvement in earthly phase.
 
 ### Week 08
+Add more tests. Implementation of scout. Refactoration of code. Improvement in the map to better localization.
+
+### Week 09
 
 Make minimum exploits necessaries accounting for the resources in the contract(the primary resources of contract and the primary resources needed to create a manufactured contract). After the contracts are completed it return immediately.
 
-### Week 09
+### Week 10
 
 Short list of the **features** available in the bot delivered for the championship that happened at the end of week 09.

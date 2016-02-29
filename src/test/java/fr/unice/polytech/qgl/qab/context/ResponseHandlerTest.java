@@ -5,7 +5,6 @@ package fr.unice.polytech.qgl.qab.context;
  */
 import static org.junit.Assert.*;
 
-import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Scan;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Explore;
@@ -13,14 +12,10 @@ import fr.unice.polytech.qgl.qab.actions.simple.ground.Glimpse;
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import fr.unice.polytech.qgl.qab.strategy.context.ResponseHandler;
+import fr.unice.polytech.qgl.qab.strategy.context.utils.ResponseHandler;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
-import fr.unice.polytech.qgl.qab.util.enums.Found;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-
-import java.util.HashMap;
 
 public class ResponseHandlerTest {
     ResponseHandler r;

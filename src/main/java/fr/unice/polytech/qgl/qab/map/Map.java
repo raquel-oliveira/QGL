@@ -21,8 +21,9 @@ public class Map {
     private Position lastPosition;
     // check if I have the final height and width
     private boolean definedHeight, definedWidth;
-    // If the plane is in Ground, I don't need return to the Ground
-    private boolean returnToGround;
+
+    // constante message
+    private static final String ERROR_MSG = "Value out of map range!";
 
     /**
      * Map's constructor
@@ -31,7 +32,6 @@ public class Map {
         tiles = new HashMap<>();
         height = -1;
         width = -1;
-        returnToGround = false;
     }
 
     /**
@@ -65,7 +65,7 @@ public class Map {
      */
     public void initializeTileUndefined(Position position) throws PositionOutOfMapRange {
         if (position.getX() >= width || position.getY() >= height)
-            throw new PositionOutOfMapRange("Value out of map range!");
+            throw new PositionOutOfMapRange(ERROR_MSG);
         lastPosition = position;
         tiles.put(position, new Tile(TileType.UNDEFINED));
     }
@@ -77,7 +77,7 @@ public class Map {
      */
     public void initializeTileGround(Position position) throws PositionOutOfMapRange {
         if (position.getX() >= width || position.getY() >= height)
-            throw new PositionOutOfMapRange("Value out of map range!");
+            throw new PositionOutOfMapRange(ERROR_MSG);
         lastPosition = position;
         tiles.put(position, new Tile(TileType.GROUND));
     }
@@ -89,7 +89,7 @@ public class Map {
      */
     public void initializeTileOcean(Position position) throws PositionOutOfMapRange {
         if (position.getX() >= width || position.getY() >= height)
-            throw new PositionOutOfMapRange("Value out of map range!");
+            throw new PositionOutOfMapRange(ERROR_MSG);
         if (position.getX() < 0 || position.getY() < 0)
             throw new PositionOutOfMapRange("It's not possible values negatives to the positions!");
         lastPosition = position;

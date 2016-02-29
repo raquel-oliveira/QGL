@@ -1,7 +1,7 @@
 package fr.unice.polytech.qgl.qab.strategy.aerial.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
+import fr.unice.polytech.qgl.qab.actions.simple.common.Land;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 
@@ -24,6 +24,9 @@ public class Finish extends AerialState {
 
     @Override
     public Action responseState(Context context, Map map, StateMediator stateMediator) {
-        return new Stop();
+        Action act;
+        act = new Land(context.getLastDiscovery().getCreeks().get(0).getIdCreek(), 1);
+        context.current().setLastAction(act);
+        return act;
     }
 }

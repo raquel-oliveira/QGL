@@ -16,7 +16,7 @@ public class ComboReturn extends Combo {
         this.actions = new ArrayList<>();
     }
 
-    public void defineHeading(Direction head, Direction moveTo) {
+    public void defineActions(Direction head, Direction moveTo) {
         if (head.isHorizontal()) {
             turnHorizontal(head, moveTo);
         }

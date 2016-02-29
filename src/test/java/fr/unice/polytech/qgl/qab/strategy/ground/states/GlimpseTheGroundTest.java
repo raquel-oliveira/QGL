@@ -1,7 +1,6 @@
 package fr.unice.polytech.qgl.qab.strategy.ground.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Glimpse;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.MoveTo;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
@@ -27,43 +26,46 @@ import static org.junit.Assert.assertEquals;
  * @version 30/01/16.
  * TODO: review this test
  */
-public class MoveInTheGroundTest {
-    MoveInTheGround moveInTheGround;
+public class GlimpseTheGroundTest {
+    GlimpseTheGround moveInTheGround;
 
     @Before
     public void defineContext() {
-        moveInTheGround = MoveInTheGround.getInstance();
+        moveInTheGround = GlimpseTheGround.getInstance();
     }
 
     @Test
     public void testInstance() {
-        MoveInTheGround move = MoveInTheGround.getInstance();
-        assertEquals(moveInTheGround, move);
+        GlimpseTheGround move = GlimpseTheGround.getInstance();
+        assertEquals(moveInTheGround.getClass(), move.getClass());
     }
 
     @Test
-    public void testGetState() throws NegativeBudgetException, PositionOutOfMapRange {
+    public void testGetState() throws NegativeBudgetException, PositionOutOfMapRange, IndexOutOfBoundsComboAction {
         Context context = new Context();
         Discovery discovery = new Discovery();
         discovery.setGlimpseResponse(new GlimpseResponse());
         context.setLastDiscovery(discovery);
 
         GroundState state = moveInTheGround.getState(context, new Map());
-        assertEquals(state, moveInTheGround);
+        assertEquals(state.getClass(), moveInTheGround.getClass());
+        Action act = moveInTheGround.responseState(context, new Map());
+        assertEquals(Glimpse.class, act.getClass());
 
-        context.addContract("FISH", 10);
+        context.addContract("WOOD", 10);
         GlimpseResponse gr = new GlimpseResponse();
         HashMap<Biomes, Double> b = new HashMap<>();
-        b.put(Biomes.OCEAN, 50.0);
+        b.put(Biomes.MANGROVE, 50.0);
         List<HashMap<Biomes, Double>> initial = new ArrayList<>();
         initial.add(b);
         initial.add(b);
         gr.setInitialTiles(initial);
         discovery.setGlimpseResponse(gr);
         context.setLastDiscovery(discovery);
+        context.current().setLastAction(new Glimpse(Direction.SOUTH, 4));
 
         state = moveInTheGround.getState(context, new Map());
-        assertEquals(state, ExploreTile.getInstance());
+        assertEquals(state.getClass(), ExploreTile.class);
     }
 
     @Test
@@ -96,13 +98,10 @@ public class MoveInTheGroundTest {
         context.setLastDiscovery(discovery);
 
         Action act = moveInTheGround.responseState(context, new Map());
-        assertEquals(act.getClass(), new MoveTo(context.getHeading()).getClass());
+        assertEquals(act.getClass(), Glimpse.class);
 
         act = moveInTheGround.responseState(context, new Map());
-        assertEquals(act.getClass(), new Glimpse(context.getHeading(), 4).getClass());
-
-        act = moveInTheGround.responseState(context, new Map());
-        assertEquals(act.getClass(), new MoveTo(context.getHeading()).getClass());
+        assertEquals(act.getClass(), MoveTo.class);
 
         GlimpseResponse gr = new GlimpseResponse();
         HashMap<Biomes, Double> b = new HashMap<>();
@@ -115,9 +114,9 @@ public class MoveInTheGroundTest {
         context.setLastDiscovery(discovery);
 
         GroundState state = moveInTheGround.getState(context, new Map());
-        assertEquals(state, MoveInTheGround.getInstance());
+        assertEquals(state.getClass(), GlimpseTheGround.class);
 
         act = moveInTheGround.responseState(context, new Map());
-        assertEquals(act.getClass(), new Glimpse(context.getHeading(), 4).getClass());
+        assertEquals(MoveTo.class, act.getClass());
     }
 }
