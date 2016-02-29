@@ -28,14 +28,14 @@ public class FindGroundTest {
 
     @Before
     public void defineContext() throws NegativeBudgetException {
-        findGround = FindGround.getInstance();
+        findGround = new FindGround();
         context = new Context();
         context.setLastDiscovery(new Discovery());
     }
 
     @Test
     public void testInstance() {
-        FindGround find = FindGround.getInstance();
+        FindGround find = new FindGround();
         assertEquals(FindGround.class, find.getClass());
     }
 

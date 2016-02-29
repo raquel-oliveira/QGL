@@ -23,12 +23,12 @@ public class FinishTest {
 
     @Before
     public void defineContext() {
-        finish = Finish.getInstance();
+        finish = new Finish();
     }
 
     @Test
     public void testInstance() {
-        Finish end = Finish.getInstance();
+        Finish end = new Finish();
         assertEquals(finish, end);
     }
 

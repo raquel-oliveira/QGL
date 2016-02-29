@@ -29,7 +29,7 @@ public class InitializeTest {
 
     @Before
     public void defineContext() throws NegativeBudgetException {
-        initialize = Initialize.getInstance();
+        initialize = new Initialize();
         discovery = new Discovery();
         context = new Context();
         stateMediator = StateMediator.getInstance();
