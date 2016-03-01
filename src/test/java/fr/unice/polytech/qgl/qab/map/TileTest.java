@@ -39,12 +39,6 @@ public class TileTest {
     }
 
     @Test
-    public void testSetCreek() {
-        tile.setCreek(new Creek());
-        assertEquals(Creek.class, tile.getCreek().getClass());
-    }
-
-    @Test
     public void testVisit() {
         tile.setVisit(true);
         assertTrue(tile.wasVisited());
@@ -65,7 +59,7 @@ public class TileTest {
     @Test(expected = AssertionError.class)
     public void testBadReturnCreek() {
         Tile t = mock(Tile.class);
-        t.setCreek(new Creek());
+        t.setCreek(new ArrayList<Creek>());
 
         when(t.getCreek()).thenReturn(null);
         assertEquals(true, t.getCreek());

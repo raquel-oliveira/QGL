@@ -1,10 +1,7 @@
 package fr.unice.polytech.qgl.qab.map;
 
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
-import fr.unice.polytech.qgl.qab.map.tile.Biomes;
-import fr.unice.polytech.qgl.qab.map.tile.Position;
-import fr.unice.polytech.qgl.qab.map.tile.Tile;
-import fr.unice.polytech.qgl.qab.map.tile.TileType;
+import fr.unice.polytech.qgl.qab.map.tile.*;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.ContractItem;
 
@@ -22,8 +19,10 @@ public class Map {
 
     // save the last plane position
     private Position lastPosition;
+    private Position lastPositionGround;
     // check if I have the final height and width
     private boolean definedHeight, definedWidth;
+    private Position creekLand;
 
     // constante message
     private static final String ERROR_MSG = "Value out of map range!";
@@ -35,6 +34,14 @@ public class Map {
         tiles = new HashMap<>();
         height = -1;
         width = -1;
+        creekLand = null;
+    }
+    public Position getCreekLand() {
+        return creekLand;
+    }
+
+    public void setCreekLand(Position creekLand) {
+        this.creekLand = creekLand;
     }
 
     /**
@@ -75,10 +82,10 @@ public class Map {
         tiles.put(position, new Tile(type));
     }
 
-    public void addBiome(Position position, List<Biomes> biomes) {
+    public void addBiome(Position position, List<Biomes> biomes, List<Creek> creeks) {
         Tile newTile = new Tile();
         newTile.setBiomesPredominant(biomes);
-        //newTile.setVisit(true);
+        newTile.setCreek(creeks);
         if (biomes.contains(Biomes.OCEAN) && biomes.size() == 1)
             newTile.setType(TileType.OCEAN);
         else
@@ -119,12 +126,20 @@ public class Map {
         return lastPosition;
     }
 
+    public Position getLastPositionGround() {
+        return lastPositionGround;
+    }
+
     /**
      * Set the last position visited
      * @param position mas position visited
      */
     public void setLastPosition(Position position) {
         lastPosition = position;
+    }
+
+    public void setLastPositionGround(Position lastPositionGround) {
+        this.lastPositionGround = lastPositionGround;
     }
 
     /**
@@ -156,14 +171,11 @@ public class Map {
         return goodPositions;
     }
 
-    public Position positionClose(List<Position> goodPositions) {
+    public Position positionClose(List<Position> goodPositions, Position current) {
         Position good = null;
         double distance = -1;
         for (Position p: goodPositions) {
-            double distX = Math.abs(p.getX() - lastPosition.getX());
-            double distY = Math.abs(p.getY() - lastPosition.getY());
-            double pow = Math.pow(distX, 2) + Math.pow(distY, 2);
-            double distFinal = Math.sqrt(pow);
+            double distFinal = getDistFinal(current, p);
             if (distance == -1) {
                 distance = distFinal;
                 good = p;
@@ -176,9 +188,54 @@ public class Map {
         return good;
     }
 
+    private double getDistFinal(Position current, Position p) {
+        double distX = getDistX(current, p);
+        double distY = getDistY(current, p);
+        double pow = Math.pow(distX, 2) + Math.pow(distY, 2);
+        return Math.sqrt(pow);
+    }
+
+    private double getDistY(Position current, Position p) {
+        return (double) Math.abs(p.getY() - current.getY());
+    }
+
+    private double getDistX(Position current, Position p) {
+        return (double) Math.abs(p.getX() - current.getX());
+    }
+
     public void setTileVisited(Position position) {
         Tile tmp = tiles.get(position);
         tmp.setVisit(true);
         tiles.put(position, tmp);
+    }
+
+    public void getBestCreek(Context context) {
+        // positions that have interesting biomes for the contract
+        List<Position> goodPositions = getGoodPositions(context);
+        double dist = 0;
+        // pass by the tiles in the map
+        for(java.util.Map.Entry<Position, Tile> entry : tiles.entrySet()) {
+            Position position = entry.getKey();
+            Tile tile = entry.getValue();
+            // check if there are creek in this tile
+            if (!tile.getCreek().isEmpty()) {
+                // I give the position of this tile and the position more close
+                //
+                double tmp = getDistFinal(position, positionClose(goodPositions, position));
+                if (dist == 0) {
+                    dist = tmp;
+                    creekLand = position;
+                }
+                else if (tmp < dist) {
+                    dist = tmp;
+                    creekLand = position;
+                }
+            }
+        }
+        lastPositionGround = creekLand;
+    }
+
+    public Tile getTile(Position p) {
+        return tiles.get(p);
     }
 }

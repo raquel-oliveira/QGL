@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class Tile {
     private TileType type;
-    private Creek creek;
+    private List<Creek> creek;
     private boolean wasVisited;
     private List<Square> squares;
     private List<Biomes> biomesPredominant;
@@ -23,7 +23,7 @@ public class Tile {
      */
     public Tile() {
         this.type = TileType.UNDEFINED;
-        creek = new Creek();
+        creek = new ArrayList<>();
         squares = new ArrayList<>();
         wasVisited = false;
         biomesPredominant = new ArrayList<>();
@@ -35,7 +35,7 @@ public class Tile {
      * @param type of the tile
      */
     public Tile(TileType type) {
-        creek = new Creek();
+        creek = new ArrayList<>();
         squares = new ArrayList<>();
         wasVisited = false;
         biomesPredominant = new ArrayList<>();
@@ -58,13 +58,13 @@ public class Tile {
      * Set the creek in the tile
      * @param creek to add in the tile
      */
-    public void setCreek(Creek creek) { this.creek = creek; }
+    public void setCreek(List<Creek> creek) { this.creek = creek; }
 
     /**
      * Get the creeks in the tile
      * @return creek in the tile
      */
-    public Creek getCreek() { return creek; }
+    public List<Creek> getCreek() { return creek; }
 
     /**
      * Check if the tile was visited

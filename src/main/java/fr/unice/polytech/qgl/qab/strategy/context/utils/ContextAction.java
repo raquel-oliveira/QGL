@@ -2,6 +2,7 @@ package fr.unice.polytech.qgl.qab.strategy.context.utils;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.combo.Combo;
+import fr.unice.polytech.qgl.qab.map.tile.Position;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.response.ScoutResponse;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
@@ -54,7 +55,6 @@ public class ContextAction {
     public void setDirectionWithoutOCEAN(Direction direction) {
         this.directionWithoutOCEAN = direction;
     }
-
     /**
      * Method to return the combo action to return back.
      * @return combo action to return back

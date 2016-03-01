@@ -11,6 +11,8 @@ import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.UpdaterMap;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 
+import java.util.ArrayList;
+
 /**
  * @version 12/12/15.
  */
@@ -26,12 +28,7 @@ public class ScanTheGround extends AerialState {
 
     @Override
     public AerialState getState(Context context, Map map, StateMediator stateMediator) {
-
         updateMapData(context, map);
-
-        // if any creek was found
-        if (!context.getLastDiscovery().getCreeks().isEmpty())
-            return new Finish();
 
         // if is necessary return back to the ground
         if (returnBack(context)) {
@@ -78,8 +75,9 @@ public class ScanTheGround extends AerialState {
         // update the position in the map if the plane fly
         if (context.current().getLastAction() instanceof Fly) {
             updaterMap.updateLastPositionFly(context, map);
-        } else {
+        } else if (context.current().getLastAction() instanceof Scan) {
             updaterMap.setBiomeTile(context, map);
+            context.getLastDiscovery().setCreeks(new ArrayList<>());
         }
     }
 
@@ -136,7 +134,6 @@ public class ScanTheGround extends AerialState {
     private static boolean returnBack(Context context) {
         if (context.current().getLastAction() instanceof Echo &&
                 context.getLastDiscovery().getScanResponse().outOfGround() &&
-                context.getLastDiscovery().getCreeks().isEmpty() &&
                 context.getLastDiscovery().getEchoResponse().getFound().equals(Found.OUT_OF_RANGE)) {
 
                 context.getLastDiscovery().getScanResponse().setUpBiomes();

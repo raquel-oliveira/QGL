@@ -30,33 +30,32 @@ public class FindTile extends GroundState {
 
     @Override
     public Action responseState(Context context, Map map) throws IndexOutOfBoundsComboAction {
+        // take the position with interesting biomes for the contract
         List<Position> goodPositions = map.getGoodPositions(context);
-        Position position = map.positionClose(goodPositions);
+        Position position = map.positionClose(goodPositions, map.getLastPositionGround());
 
         if (position == null)
             return new Stop();
 
         map.setTileVisited(position);
-        Direction d1 = null, d2 = null;
-        if (position != null) {
-            if (position.getX() > map.getLastPosition().getX())
-                d1 = Direction.EAST;
-            else
-                d1 = Direction.WEST;
+        Direction d1, d2;
 
-            if (position.getY() > map.getLastPosition().getX())
-                d2 = Direction.SOUTH;
-            else
-                d2 = Direction.NORTH;
-        }
+        if (position.getX() > map.getLastPositionGround().getX())
+            d1 = Direction.EAST;
+        else
+            d1 = Direction.WEST;
+        if (position.getY() > map.getLastPositionGround().getX())
+            d2 = Direction.SOUTH;
+        else
+            d2 = Direction.NORTH;
 
         if (context.current().getComboAction() == null) {
             context.current().setComboAction(new ComboMoveTo());
-            context.current().getComboAction().defineActions(d1, calcDistX(position, map.getLastPosition()) * 3);
+            context.current().getComboAction().defineActions(d1, calcDistX(position, map.getLastPositionGround()) * 3);
 
             if (context.current().getComboAction().isEmpty()) {
                 context.current().setStop(true);
-                if (map.getLastPosition().getX()/2 > map.getWidth())
+                if (map.getLastPositionGround().getX() > map.getWidth()/2)
                     return new MoveTo(Direction.WEST);
                 else
                     return new MoveTo(Direction.EAST);
@@ -71,7 +70,7 @@ public class FindTile extends GroundState {
 
         if (context.current().getStop()) {
             context.current().setComboAction(new ComboMoveTo());
-            context.current().getComboAction().defineActions(d2, calcDistY(position, map.getLastPosition()) * 3);
+            context.current().getComboAction().defineActions(d2, calcDistY(position, map.getLastPositionGround()) * 3);
         }
 
         return act;

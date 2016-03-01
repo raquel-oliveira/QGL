@@ -121,6 +121,6 @@ public class UpdaterMap {
     }
 
     public void setBiomeTile(Context context, Map map) {
-        map.addBiome(map.getLastPosition(), context.getLastDiscovery().getScanResponse().getBiomes());
+        map.addBiome(map.getLastPosition(), context.getLastDiscovery().getScanResponse().getBiomes(), context.getLastDiscovery().getCreeks());
     }
 }

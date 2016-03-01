@@ -63,7 +63,7 @@ public class MapTest {
 
     @Test
     public void testChangeTypeTileToGround() throws PositionOutOfMapRange {
-        m.initializeTile(position, TileType.GROUND);
+        m.initializeTile(position, TileType.UNDEFINED);
         assertEquals(TileType.UNDEFINED, m.getTileType(position));
 
         m.initializeTile(position, TileType.GROUND);

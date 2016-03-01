@@ -5,6 +5,8 @@ import fr.unice.polytech.qgl.qab.map.tile.Tile;
 import fr.unice.polytech.qgl.qab.map.tile.TileType;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -67,14 +69,7 @@ public class TileTest {
 
     @Test(expected = NullPointerException.class)
     public void testUseBadInstance() {
-        t.setCreek(new Creek());
-        assertEquals(Creek.class, t.getCreek().getClass());
-    }
-
-    @Test
-    public void testSetCreek() {
-        t = new Tile();
-        t.setCreek(new Creek());
+        t.setCreek(new ArrayList<Creek>());
         assertEquals(Creek.class, t.getCreek().getClass());
     }
 }

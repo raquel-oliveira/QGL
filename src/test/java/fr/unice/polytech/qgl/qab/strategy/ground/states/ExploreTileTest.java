@@ -39,7 +39,7 @@ public class ExploreTileTest {
     @Test
     public void testActions() throws NegativeBudgetException, PositionOutOfMapRange, IndexOutOfBoundsComboAction {
         GroundState state = exploreTile.getState(new Context(), new Map());
-        assertEquals(GlimpseTheGround.class, state.getClass());
+        assertEquals(ScoutTile.class, state.getClass());
 
         List<PrimaryType> resourcesToExploit = new ArrayList<>();
         resourcesToExploit.add(PrimaryType.FISH);
