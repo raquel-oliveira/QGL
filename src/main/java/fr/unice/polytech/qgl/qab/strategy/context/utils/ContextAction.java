@@ -196,6 +196,6 @@ public class ContextAction {
     }
 
     public boolean getStop() {
-        return stop;
+        return this.stop;
     }
 }

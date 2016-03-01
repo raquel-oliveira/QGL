@@ -5,10 +5,8 @@ import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.map.tile.Position;
 import fr.unice.polytech.qgl.qab.map.tile.Tile;
 import fr.unice.polytech.qgl.qab.map.tile.TileType;
-import fr.unice.polytech.qgl.qab.resources.Resource;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.ContractItem;
-import jdk.management.resource.ResourceType;
 
 import java.util.*;
 
@@ -80,7 +78,7 @@ public class Map {
     public void addBiome(Position position, List<Biomes> biomes) {
         Tile newTile = new Tile();
         newTile.setBiomesPredominant(biomes);
-        newTile.setVisit(true);
+        //newTile.setVisit(true);
         if (biomes.contains(Biomes.OCEAN) && biomes.size() == 1)
             newTile.setType(TileType.OCEAN);
         else
@@ -143,13 +141,15 @@ public class Map {
         for(java.util.Map.Entry<Position, Tile> entry : tiles.entrySet()) {
             Position key = entry.getKey();
             Tile value = entry.getValue();
-            for (ContractItem item: context.getContracts()) {
-                Set<Biomes> listTmp = new HashSet<>();
-                listTmp.addAll(item.resource().getBiome());
-                listTmp.retainAll(value.getBiomesPredominant());
+            if (!value.wasVisited()) {
+                for (ContractItem item : context.getContracts()) {
+                    Set<Biomes> listTmp = new HashSet<>();
+                    listTmp.addAll(item.resource().getBiome());
+                    listTmp.retainAll(value.getBiomesPredominant());
 
-                if (!listTmp.isEmpty()) {
-                    goodPositions.add(key);
+                    if (!listTmp.isEmpty()) {
+                        goodPositions.add(key);
+                    }
                 }
             }
         }
@@ -173,7 +173,12 @@ public class Map {
                 good = p;
             }
         }
-
         return good;
+    }
+
+    public void setTileVisited(Position position) {
+        Tile tmp = tiles.get(position);
+        tmp.setVisit(true);
+        tiles.put(position, tmp);
     }
 }

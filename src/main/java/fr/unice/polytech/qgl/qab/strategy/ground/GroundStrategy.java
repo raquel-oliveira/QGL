@@ -5,10 +5,9 @@ import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
-import fr.unice.polytech.qgl.qab.strategy.ground.states.GlimpseTheGround;
 import fr.unice.polytech.qgl.qab.strategy.ground.states.GroundState;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import fr.unice.polytech.qgl.qab.strategy.ground.states.Initialize;
+import fr.unice.polytech.qgl.qab.strategy.ground.states.FindTile;
 
 /**
  * @version 09/12/15.
@@ -21,7 +20,7 @@ public class GroundStrategy implements IGroundStrategy {
      * GroundStrategy's constructor.
      */
     public GroundStrategy() {
-        state = new Initialize();
+        state = new FindTile();
     }
 
     @Override

@@ -29,8 +29,7 @@ public class ExploreTile extends GroundState {
         context.current().setResourcesToExploit(contextAnalyzer.resourceAnalyzer(context));
 
         if (context.current().getResourcesToExploit().isEmpty()) {
-            context.current().setLastAction(null);
-            return new GlimpseTheGround();
+            return new ScoutTile();
         } else {
             return new ExploitTile();
         }
