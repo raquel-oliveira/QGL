@@ -112,33 +112,5 @@ public class ManufacturedResource implements Resource {
         return recipe;
     }
 
-    public List<PrimaryType> getRecipe(){
-        switch (resource){
-            case GLASS:
-                simpleRecipe.add(PrimaryType.QUARTZ);
-                simpleRecipe.add(PrimaryType.WOOD);
-                break;
-
-            case INGOT:
-                simpleRecipe.add(PrimaryType.WOOD);
-                break;
-
-            case LEATHER:
-                simpleRecipe.add(PrimaryType.FUR);
-                break;
-
-            case PLANK:;
-                simpleRecipe.add(PrimaryType.WOOD);
-                break;
-
-            case RUM:
-                simpleRecipe.add(PrimaryType.SUGAR_CANE);
-                simpleRecipe.add(PrimaryType.FRUITS);
-                break;
-
-            default:
-                break;
-        }
-        return simpleRecipe;
-    }
+   
 }

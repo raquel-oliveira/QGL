@@ -53,7 +53,7 @@ public class ContextAnalyzer {
                 }
             }
             if(item.resource() instanceof ManufacturedResource){
-                for (PrimaryType itemRecipe: ((ManufacturedResource) item.resource()).getRecipe()){
+                for (PrimaryType itemRecipe: ((ManufacturedResource) item.resource()).getRecipe(0).keySet()){
                     if(context.getLastDiscovery().getExploreResponse().contains(itemRecipe)){
                         resources.add(itemRecipe);
                     }

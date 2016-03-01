@@ -247,7 +247,7 @@ public class Context {
                 }
             }
             else if(contracts.get(i).resource() instanceof ManufacturedResource){
-                if(((ManufacturedResource) contracts.get(i).resource()).getRecipe().contains(resource)){
+                if(((ManufacturedResource) contracts.get(i).resource()).getRecipe(0).containsKey(resource)){
                     amount += ((ManufacturedResource) contracts.get(i).resource()).getRecipe(contracts.get(i).amount()).get(resource);
                 }
             }
