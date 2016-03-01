@@ -2,11 +2,17 @@ package fr.unice.polytech.qgl.qab.strategy.ground.states;
 
 
 import fr.unice.polytech.qgl.qab.actions.Action;
+import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Exploit;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Explore;
+import fr.unice.polytech.qgl.qab.actions.simple.ground.MoveTo;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
+import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
+import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
+
+import java.util.List;
 
 /**
  * @version 07/02/16.
@@ -26,7 +32,7 @@ public class ExploreTile extends GroundState {
 
     @Override
     public GroundState getState(Context context, Map map) throws PositionOutOfMapRange {
-        context.current().setResourcesToExploit(contextAnalyzer.resourceAnalyzer(context));
+        context.current().setResourcesToExploit(contextAnalyzer.resourceAnalyzer(context), context);
 
         if (context.current().getResourcesToExploit().isEmpty()) {
             context.current().setLastAction(null);
@@ -39,6 +45,12 @@ public class ExploreTile extends GroundState {
     @Override
     public Action responseState(Context context, Map map) {
         Action act;
+
+        if(context.contractsAreComplete()){
+            act = new Stop();
+            lastAction = act;
+            return act;
+        }
 
         act = new Explore();
         context.current().setLastAction(act);

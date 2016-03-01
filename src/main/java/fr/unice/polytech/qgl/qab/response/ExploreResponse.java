@@ -1,7 +1,6 @@
 package fr.unice.polytech.qgl.qab.response;
 
-import fr.unice.polytech.qgl.qab.resources.Resource;
-import fr.unice.polytech.qgl.qab.util.enums.Found;
+import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +33,9 @@ public class ExploreResponse {
      * @param resource which will be searched
      * @return true if founded, false if not
      */
-    public boolean contains(Resource resource) {
+    public boolean contains(PrimaryType resource) {
         for (int i = 0; i < resources.size(); i++) {
-            if (resources.get(i).get(1).equals(resource.getName()))
+            if (resources.get(i).get(1).equals(resource.name()))
                 return true;
         }
         return false;

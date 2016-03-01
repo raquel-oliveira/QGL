@@ -18,6 +18,7 @@ public class Discovery {
     private GlimpseResponse glimpseResponse;
     private ExploreResponse exploreResponse;
     private EchoResponse echoResponse;
+    private ExploitResponse exploitResponse;
     private ScoutResponse scoutResponse;
 
     /**
@@ -29,19 +30,7 @@ public class Discovery {
         exploreResponse = new ExploreResponse();
         echoResponse = new EchoResponse();
         scanResponse = new ScanResponse();
-        scoutResponse = new ScoutResponse();
-    }
-
-    /**
-     * Discobery's constructor
-     * @param direction indicate the direction of the discobery
-     */
-    public Discovery(Direction direction) {
-        creeks = new ArrayList<>();
-        glimpseResponse = new GlimpseResponse();
-        exploreResponse = new ExploreResponse();
-        echoResponse = new EchoResponse();
-        scanResponse = new ScanResponse();
+        exploitResponse = new ExploitResponse();
         scoutResponse = new ScoutResponse();
     }
 
@@ -75,6 +64,14 @@ public class Discovery {
      */
     public ExploreResponse getExploreResponse() {
         return exploreResponse;
+    }
+
+    /**
+     * Get the data of the exploit response
+     * @return data of the exploit response
+     */
+    public ExploitResponse getExploitResponse() {
+        return exploitResponse;
     }
 
     /**
@@ -123,6 +120,14 @@ public class Discovery {
      */
     public void setExploreResponse(ExploreResponse exploreResponse) {
         this.exploreResponse = exploreResponse;
+    }
+
+    /**
+     * Set last exploit response
+     * @param exploitResponse value of the explore response
+     */
+    public void setExploiteResponse(ExploitResponse exploitResponse) {
+        this.exploitResponse = exploitResponse;
     }
 
     /**

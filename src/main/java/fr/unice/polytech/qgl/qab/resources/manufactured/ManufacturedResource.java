@@ -5,10 +5,7 @@ import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.resources.Resource;
 
-import java.util.EnumMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @version 01/02/16.
@@ -18,6 +15,7 @@ import java.util.Set;
 public class ManufacturedResource implements Resource {
     private ManufacturedType resource;
     private EnumMap<PrimaryType, Integer> recipe = new EnumMap<PrimaryType, Integer>(PrimaryType.class);
+    private List<PrimaryType> simpleRecipe = new ArrayList<>();
     private Set<Biomes> biomes = new HashSet<>();
 
     /**
@@ -113,4 +111,6 @@ public class ManufacturedResource implements Resource {
         }
         return recipe;
     }
+
+   
 }

@@ -4,14 +4,15 @@ import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Scan;
+import fr.unice.polytech.qgl.qab.actions.simple.ground.Exploit;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Explore;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Glimpse;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Scout;
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.map.tile.Creek;
-import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.response.*;
+import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.util.Discovery;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
@@ -37,6 +38,8 @@ public class ResponseHandler {
     private static final String RANGE = "range";
     private static final String BIOMES = "biomes";
     private static final String CREEKS = "creeks";
+    private static final String AMOUNT = "amount";
+
 
     /**
      * ResponseHandler's constructor
@@ -70,6 +73,8 @@ public class ResponseHandler {
             tempContext = readDataFromGlimpse(contextIsland, jsonObj);
         } else if (takeAction instanceof Explore) {
             tempContext = readDataFromExplore(contextIsland, jsonObj);
+        } else if (takeAction instanceof Exploit){
+            tempContext = readDataFromExploit(contextIsland, jsonObj, takeAction);
         } else if (takeAction instanceof Scout) {
             tempContext = readDataFromScout(contextIsland, jsonObj, takeAction);
         }
@@ -202,7 +207,7 @@ public class ResponseHandler {
             for (int i = 0; i < resources.length(); i++) {
                 List<String> res = new ArrayList<>();
                 JSONObject obj = resources.getJSONObject(i);
-                res.add(obj.getString("amount"));
+                res.add(obj.getString(AMOUNT));
                 res.add(obj.getString("resource"));
                 res.add(obj.getString("cond"));
                 explore.addResource(res);
@@ -213,6 +218,19 @@ public class ResponseHandler {
         contextIsland.setLastDiscovery(discovery);
 
         return contextIsland;
+    }
+
+    private Context readDataFromExploit(Context context, JSONObject jsonObj, Action takeAction){
+        ExploitResponse exploit = new ExploitResponse();
+        if(jsonObj.getJSONObject(EXTRAS).has(AMOUNT)){
+            int amount = jsonObj.getJSONObject(EXTRAS).getInt(AMOUNT);
+            exploit.addData(((Exploit)takeAction).getResource(),amount);
+            context.addCollectedResources(exploit.getResource(), exploit.getAmount());
+        }
+
+        discovery.setExploiteResponse(exploit);
+        context.setLastDiscovery(discovery);
+        return context;
     }
 
     /**

@@ -79,4 +79,8 @@ Add more tests. Implementation of scout. Refactoration of code. Improvement in t
 
 ### Week 09
 
-Short list of the **features** available in the bot delivered for the championship that happened at the end of week 08.
+Make minimum exploits necessaries accounting for the resources in the contract(the primary resources of contract and the primary resources needed to create a manufactured contract). After the contracts are completed it return immediately.
+
+### Week 10
+
+Short list of the **features** available in the bot delivered for the championship that happened at the end of week 09.

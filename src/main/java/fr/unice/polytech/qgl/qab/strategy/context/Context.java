@@ -1,5 +1,6 @@
 package fr.unice.polytech.qgl.qab.strategy.context;
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
+import fr.unice.polytech.qgl.qab.resources.Resource;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedType;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
@@ -14,8 +15,7 @@ import fr.unice.polytech.qgl.qab.util.Discovery;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @version 16/12/15.
@@ -27,6 +27,8 @@ public class Context {
     private boolean status;
     private Budget budget;
     private List<ContractItem> contracts;
+    private Map<String, Integer> collectedResources;
+    private Boolean completeContract;
 
     // direction of the head in the begin
     private Direction firstHead;
@@ -49,7 +51,8 @@ public class Context {
         status = true;
         budget = new Budget(0);
         contracts = new ArrayList<>();
-
+        collectedResources = new HashMap<>();
+        completeContract = false;
         firstHead = null;
         heading = null;
         lastDiscovery = null;
@@ -139,7 +142,28 @@ public class Context {
     }
 
     /**
-     * Method to return the context current
+     * Return the collected Resources that were tooked after exploit a tile
+     * @return HashMap - resources collected and the respective amounts.
+     */
+    public  Map<String, Integer> getCollectedResources(){
+        return collectedResources;
+    }
+
+    /**
+     * Method to add a collect resource after action exploit.
+     * @param resource
+     * @param amount
+     */
+    public void addCollectedResources(Resource resource, int amount) {
+        if (collectedResources.containsKey(resource.getName())) {
+            collectedResources.put(resource.getName(), collectedResources.get(resource.getName()) + amount);
+        } else {
+            collectedResources.put(resource.getName(), amount);
+        }
+    }
+
+    /**
+     *  Method to return the context current
      * @return context current
      */
     public ContextAction current() {
@@ -208,6 +232,37 @@ public class Context {
     public void setLastDiscovery(Discovery lastDiscovery) {
         this.lastDiscovery = lastDiscovery;
     }
+
+    /**
+     * Get number of amount of a primaryResource needed to do the Resource
+     * @param resource
+     * @return
+     */
+    public int getAcumulatedAmount(Resource resource){
+        int amount = 0;
+        for (int i = 0; i < contracts.size(); i++){
+            if(contracts.get(i).resource() instanceof PrimaryResource){
+                if(contracts.get(i).resource().getName().equals(resource.getName())){
+                    amount += contracts.get(i).amount();
+                }
+            }
+            else if(contracts.get(i).resource() instanceof ManufacturedResource){
+                if(((ManufacturedResource) contracts.get(i).resource()).getRecipe(0).containsKey(resource)){
+                    amount += ((ManufacturedResource) contracts.get(i).resource()).getRecipe(contracts.get(i).amount()).get(resource);
+                }
+            }
+        }
+        return amount;
+    }
+
+    public boolean contractsAreComplete(){
+        completeContract = true;
+        for(int i = 0; i < contracts.size(); i++){
+            if (!contracts.get(i).isComplete(collectedResources)){return completeContract = false;}
+        }
+        return completeContract;
+    }
+
 
     public void updateToAerial() {
         ContextAction tmpContext = this.contextActionCurrent;

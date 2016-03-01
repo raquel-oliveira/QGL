@@ -2,8 +2,10 @@ package fr.unice.polytech.qgl.qab.strategy.context.utils;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.combo.Combo;
+import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.response.ScoutResponse;
+import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 import java.util.ArrayList;
@@ -173,8 +175,28 @@ public class ContextAction {
         return resourcesToExploit;
     }
 
-    public void setResourcesToExploit(List<PrimaryType> resourcesToExploit) {
-        this.resourcesToExploit = resourcesToExploit;
+    public void setResourcesToExploit(List<PrimaryType> resourcesToExploit, Context context) {
+        java.util.Map<String, Integer> collectedResource = context.getCollectedResources();
+        while(!resourcesToExploit.isEmpty()){
+            PrimaryResource res = new PrimaryResource(resourcesToExploit.get(0));
+            String resource = res.getName();
+            if(!collectedResource.containsKey(resource)){
+                this.resourcesToExploit.add(resourcesToExploit.get(0));
+                resourcesToExploit.remove(0);
+            }
+            else if(collectedResource.get(resource) < context.getAcumulatedAmount(res)) {
+                this.resourcesToExploit.add(resourcesToExploit.get(0));
+                resourcesToExploit.get(0);
+                resourcesToExploit.remove(0);
+            }
+            else{
+                resourcesToExploit.remove(0);
+            }
+        }
+
+
+
+        //this.resourcesToExploit = resourcesToExploit;
     }
 
     public int moveUntil() {

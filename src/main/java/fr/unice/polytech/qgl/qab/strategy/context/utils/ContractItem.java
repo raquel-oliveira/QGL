@@ -2,6 +2,12 @@ package fr.unice.polytech.qgl.qab.strategy.context.utils;
 
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.resources.Resource;
+import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
+import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
+import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @version 16/12/15.
@@ -11,7 +17,8 @@ import fr.unice.polytech.qgl.qab.resources.Resource;
 public class ContractItem {
     private Resource resource;
     private int amount;
-    private int accumulated;
+    private boolean completeContract;
+
 
     /**
      * ContractItem's constructor
@@ -24,7 +31,7 @@ public class ContractItem {
             throw new NegativeBudgetException("The value to initial amount to the resource can not be negative.");
         this.resource = resource;
         this.amount = amount;
-        this.accumulated = 0;
+        completeContract = false;
     }
 
     /**
@@ -36,14 +43,6 @@ public class ContractItem {
     }
 
     /**
-     * Get the value accumulated
-     * @return value accumulated
-     */
-    public int accumulated() {
-        return this.accumulated;
-    }
-
-    /**
      * Get the resource
      * @return resource
      */
@@ -51,16 +50,21 @@ public class ContractItem {
         return this.resource;
     }
 
-    /**
-     * Update the value accumulated after collect some resource
-     * @param amount
-     * @throws NegativeBudgetException
-     */
-    public void collect(int amount) throws NegativeBudgetException {
-        int temporaryAmount = this.accumulated() + amount;
-        if(temporaryAmount < 0)
-            throw new NegativeBudgetException("The value collected can no be negative.");
-        this.accumulated = temporaryAmount;
+    public Boolean isComplete(Map<String, Integer> collectedResources){
+       if( resource instanceof PrimaryResource){
+           if(collectedResources.containsKey(resource.getName())){
+               if(collectedResources.get(resource.getName()) >= amount){ completeContract = true;}
+           }
+           return completeContract;
+       }
+       else if( resource instanceof ManufacturedResource){
+           //Todo: Implement taking in count count after transform
+       }
+
+        return completeContract;
     }
 
+
+
 }
+
