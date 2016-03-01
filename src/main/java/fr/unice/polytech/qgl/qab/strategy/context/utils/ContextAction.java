@@ -29,6 +29,7 @@ public class ContextAction {
     private int rangeMoveUntil;
     private Direction directionWithoutOCEAN;
     private boolean stop;
+    private Position nextPosition;
 
     public ContextAction() {
         comboAction = null;
@@ -43,6 +44,15 @@ public class ContextAction {
         rangeMoveUntil = 0;
         directionWithoutOCEAN = null;
         stop = false;
+        nextPosition = null;
+    }
+
+    public Position getNextPosition() {
+        return nextPosition;
+    }
+
+    public void setNextPosition(Position nextPosition) {
+        this.nextPosition = nextPosition;
     }
 
     public void setStop(boolean b) {
