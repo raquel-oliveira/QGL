@@ -23,6 +23,7 @@ public class FindTile extends GroundState {
                 context.current().getComboAction().isEmpty() &&
                 context.current().getStop()) {
             context.current().setComboAction(null);
+            context.current().setStop(false);
             return new ScoutTile();
         }
         return new FindTile();

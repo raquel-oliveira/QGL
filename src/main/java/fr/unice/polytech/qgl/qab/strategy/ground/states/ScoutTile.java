@@ -8,7 +8,12 @@ import fr.unice.polytech.qgl.qab.actions.simple.ground.Scout;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
+import fr.unice.polytech.qgl.qab.map.tile.Biomes;
+import fr.unice.polytech.qgl.qab.map.tile.Position;
+import fr.unice.polytech.qgl.qab.map.tile.Tile;
+import fr.unice.polytech.qgl.qab.map.tile.TileType;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
+import fr.unice.polytech.qgl.qab.util.enums.TypeBiome;
 
 /**
  * @version 01/03/16.
@@ -26,27 +31,31 @@ public class ScoutTile extends GroundState {
                 &&  !contextAnalyzer.analyzerScout(context).isEmpty()) {
             return new ExploreTile();
         }
-        /*
-        TODO: Return to initilize.
+
+        // TODO: Return to initilize.
         if (context.current().getComboAction().isEmpty()) {
             context.current().setComboAction(null);
             return new FindTile();
         }
-        */
+
         return new ScoutTile();
     }
 
     @Override
     public Action responseState(Context context, Map map) throws IndexOutOfBoundsComboAction {
+        // Tile t = map.getTile(map.getLastPositionGround());
+        if (context.getLastDiscovery().getScoutResponse().found("FISH"))
+            return new Stop();
+
         if (context.current().getComboAction() == null) {
             context.current().setComboAction(new ComboScoutTile());
             context.current().getComboAction().defineActions();
         }
 
-        if (context.current().getComboAction().isEmpty()) {
+        /*if (context.current().getComboAction().isEmpty()) {
             context.current().setComboAction(null);
             return new Stop();
-        }
+        }*/
 
         if (context.current().getComboAction().isEmpty())
             return new MoveTo(context.getHeading());
