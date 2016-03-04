@@ -220,7 +220,6 @@ public class Map {
             // check if there are creek in this tile
             if (!tile.getCreek().isEmpty()) {
                 // I give the position of this tile and the position more close
-                //
                 double tmp = getDistFinal(position, positionClose(goodPositions, position));
                 if (dist == 0) {
                     dist = tmp;
