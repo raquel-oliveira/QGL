@@ -131,7 +131,7 @@ public class ScanTheGroundTest {
         context.setLastDiscovery(discovery);
 
         AerialState state = scanTheGround.getState(context, new Map(), StateMediator.getInstance());
-        assertEquals(state, new Finish());
+        assertEquals(state.getClass(), new Finish().getClass());
     }
 
     /**

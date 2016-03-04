@@ -52,29 +52,29 @@ public class TileTypeTest {
 
     @Test
     public void testFromStringOcean() {
-        type = TileType.valueOf("ocean");
+        type = TileType.valueOf("OCEAN");
         assertEquals(TileType.OCEAN, type);
     }
 
     @Test
     public void testFromStringGround() {
-        type = TileType.valueOf("ground");
+        type = TileType.valueOf("GROUND");
         assertTrue(type.equals(TileType.GROUND));
     }
 
     @Test
     public void testFromStringUndefined() {
-        type = TileType.valueOf("undefined");
+        type = TileType.valueOf("UNDEFINED");
         assertTrue(type.equals(TileType.UNDEFINED));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testEqualStringNull() {
         type = TileType.valueOf("error");
         assertTrue(type.equals(null));
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testFromStringNotExists() {
         type = TileType.valueOf("error");
         assertEquals(null, type);

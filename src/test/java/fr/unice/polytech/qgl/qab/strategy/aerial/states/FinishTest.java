@@ -29,13 +29,13 @@ public class FinishTest {
     @Test
     public void testInstance() {
         Finish end = new Finish();
-        assertEquals(finish, end);
+        assertEquals(finish.getClass(), end.getClass());
     }
 
     @Test
     public void testGetState() throws NegativeBudgetException {
         AerialState state = finish.getState(new Context(), new Map(), StateMediator.getInstance());
-        assertEquals(state, finish);
+        assertEquals(state.getClass(), finish.getClass());
     }
 
     @Test
