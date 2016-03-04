@@ -44,7 +44,7 @@ public class ExploreTileTest {
         List<PrimaryType> resourcesToExploit = new ArrayList<>();
         resourcesToExploit.add(PrimaryType.FISH);
         Context context = new Context();
-        context.current().setResourcesToExploit(resourcesToExploit);
+        context.current().setResourcesToExploit(resourcesToExploit, context);
 
         Action act = exploreTile.responseState(new Context(), new Map());
         assertEquals(Explore.class, act.getClass());

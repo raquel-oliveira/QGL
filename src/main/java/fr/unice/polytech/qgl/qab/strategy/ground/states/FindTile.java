@@ -4,6 +4,7 @@ import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.combo.ground.ComboMoveTo;
 import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.MoveTo;
+import fr.unice.polytech.qgl.qab.actions.simple.ground.Scout;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
@@ -11,19 +12,33 @@ import fr.unice.polytech.qgl.qab.map.tile.Position;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 /**
  * @version 29/02/16.
  */
 public class FindTile extends GroundState {
+    private static int cont = 0;
+    FileWriter writer ;
+
+    public FindTile() {
+        try {
+            writer = new FileWriter("src/main/resource/output/positionsLog.log");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public GroundState getState(Context context, Map map) throws PositionOutOfMapRange {
         if (context.current().getComboAction() != null &&
                 context.current().getComboAction().isEmpty() &&
-                context.current().getStop()) {
+                context.current().getStop() == 3) {
             context.current().setComboAction(null);
-            context.current().setStop(false);
+            context.current().setStop(0);
             return new ScoutTile();
         }
         return new FindTile();
@@ -32,57 +47,126 @@ public class FindTile extends GroundState {
     @Override
     public Action responseState(Context context, Map map) throws IndexOutOfBoundsComboAction {
         Direction d1, d2;
+        cont++;
 
-        if (context.current().getComboAction() == null) {
+        if (context.current().getStop() == 0) {
             // take the position with interesting biomes for the contract
             List<Position> goodPositions = map.getGoodPositions(context);
-            context.current().setNextPosition(map.positionClose(goodPositions, map.getLastPositionGround()));
+            if (cont == 1) {
+                for (Position p : goodPositions) {
+                    try {
+                        writer.write(p.getX() + ", " + p.getY());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                cont++;
+            }
+            try {
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (goodPositions == null || goodPositions.isEmpty())
+                return new Stop();
 
+            Position postClose = map.positionClose(goodPositions, map.getLastPositionGround());
+            context.current().setNextPosition(postClose);
+
+            // Didn't find more tiles
             if (context.current().getNextPosition() == null)
                 return new Stop();
 
+            // Set tile as visible
             map.setTileVisited(context.current().getNextPosition());
 
-            if (context.current().getNextPosition().getX() > map.getLastPositionGround().getX())
-                d1 = Direction.EAST;
-            else
-                d1 = Direction.WEST;
+            // direction to horizontal movement
+            d1 = setDirectionHorizontal(context, map);
 
+            // create action combo
             context.current().setComboAction(new ComboMoveTo());
+            // distance X between two points
             int distx = calcDistX(context.current().getNextPosition(), map.getLastPositionGround());
+            // update the coordenate X
             updatePositionX(distx, map, d1);
 
+            // distance between tow points * 3 (squares in a tile)
             context.current().getComboAction().defineActions(d1, distx * 3);
 
+            context.current().setStop(1);
+
+            // if the combo is empty, when the currente tile is has the biome of interest
             if (context.current().getComboAction().isEmpty()) {
-                context.current().setStop(true);
-                if (map.getLastPositionGround().getX() > map.getWidth()/2)
-                    return new MoveTo(Direction.WEST);
-                else
-                    return new MoveTo(Direction.EAST);
+                context.current().setStop(2);
+                // set flag as true, this flag define if the
+                /*if (map.getLastPositionGround().getX() > map.getWidth()/2) {
+                    updatePositionX(1, map, Direction.WEST);
+                    return new Scout(Direction.WEST);
+                } else {
+                    updatePositionX(1, map, Direction.EAST);
+                    return new Scout(Direction.EAST);
+                }*/
             }
         }
+        Action act;
 
-        Action act = context.current().getComboAction().get(0);
-        context.current().getComboAction().remove(0);
+        if (context.current().getNextPosition().getX() > 50 || context.current().getNextPosition().getY() > 50)
+            return new Stop();
 
-        if (context.current().getComboAction().isEmpty())
-            context.current().setStop(true);
+        if (context.current().getStop() == 1 && !context.current().getComboAction().isEmpty()) {
+            // get a action of the combo
+            act = context.current().getComboAction().get(0);
+            context.current().getComboAction().remove(0);
+            return act;
+        }
 
-        if (context.current().getStop()) {
-            if (context.current().getNextPosition().getY() > map.getLastPositionGround().getX())
-                d2 = Direction.SOUTH;
-            else
-                d2 = Direction.NORTH;
+        // if get stop is true
+        if (context.current().getComboAction().isEmpty() &&
+                ((context.current().getStop() == 1) || (context.current().getStop() == 2))) {
+            d2 = setDirectionVertical(context, map);
 
+            // set a new action combo
             context.current().setComboAction(new ComboMoveTo());
+            // distance Y between two points
             int distY = calcDistY(context.current().getNextPosition(), map.getLastPositionGround());
             updatePositionY(distY, map, d2);
 
-            context.current().getComboAction().defineActions(d2, distY * 3);
+            context.current().getComboAction().defineActions(d2, distY * 3); // remove -1
+            context.current().setStop(3);
         }
 
-        return act;
+        if (context.current().getStop() == 3 && !context.current().getComboAction().isEmpty()) {
+            // get a action of the combo
+            act = context.current().getComboAction().get(0);
+            context.current().getComboAction().remove(0);
+            return act;
+        }
+
+        if (map.getLastPositionGround().getX() > map.getWidth()/2) {
+            //updatePositionX(1, map, Direction.WEST);
+            return new Scout(Direction.WEST);
+        } else {
+            updatePositionX(1, map, Direction.WEST);
+            return new Scout(Direction.EAST);
+        }
+    }
+
+    private Direction setDirectionHorizontal(Context context, Map map) {
+        Direction d1;
+        if (context.current().getNextPosition().getX() > map.getLastPositionGround().getX())
+            d1 = Direction.EAST;
+        else
+            d1 = Direction.WEST;
+        return d1;
+    }
+
+    private Direction setDirectionVertical(Context context, Map map) {
+        Direction dir;
+        if (context.current().getNextPosition().getY() > map.getLastPositionGround().getX())
+            dir = Direction.SOUTH;
+        else
+            dir = Direction.NORTH;
+        return dir;
     }
 
     private int calcDistX(Position p, Position lastPosition) {

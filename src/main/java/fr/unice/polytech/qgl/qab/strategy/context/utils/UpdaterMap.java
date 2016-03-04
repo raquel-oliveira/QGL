@@ -1,11 +1,19 @@
 package fr.unice.polytech.qgl.qab.strategy.context.utils;
 
+import fr.unice.polytech.qgl.qab.Explorer;
+import fr.unice.polytech.qgl.qab.actions.simple.ground.Explore;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.map.tile.Position;
 import fr.unice.polytech.qgl.qab.map.tile.TileType;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.*;
+import java.util.logging.FileHandler;
+import java.util.logging.SimpleFormatter;
 
 /**
  * @version 11/12/15
@@ -13,6 +21,11 @@ import fr.unice.polytech.qgl.qab.util.enums.Direction;
  * Class responsible for update the data of the map
  */
 public class UpdaterMap {
+
+    PrintWriter writer;
+
+    public UpdaterMap() {
+    }
 
     /**
      * Method tha receive the context and the map, and update the dimension of the map.
@@ -92,8 +105,6 @@ public class UpdaterMap {
      * @param map object map
      */
     public void updateLastPositionHeading(Context context, Map map) {
-        Position position = map.getLastPosition();
-
         updateLastPositionFly(context, map);
         context.setHeading(context.current().getLastAction().getDirection());
         updateLastPositionFly(context, map);

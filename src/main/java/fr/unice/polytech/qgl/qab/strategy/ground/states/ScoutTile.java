@@ -34,7 +34,6 @@ public class ScoutTile extends GroundState {
 
         // TODO: Return to initilize.
         if (context.current().getComboAction().isEmpty()) {
-            context.current().setComboAction(null);
             return new FindTile();
         }
 
@@ -43,22 +42,18 @@ public class ScoutTile extends GroundState {
 
     @Override
     public Action responseState(Context context, Map map) throws IndexOutOfBoundsComboAction {
-        // Tile t = map.getTile(map.getLastPositionGround());
-        if (context.getLastDiscovery().getScoutResponse().found("FISH"))
-            return new Stop();
+        if (context.getLastDiscovery().getScoutResponse().found("FISH")) {
+     //       return new Stop();
+        }
 
         if (context.current().getComboAction() == null) {
             context.current().setComboAction(new ComboScoutTile());
             context.current().getComboAction().defineActions();
         }
 
-        /*if (context.current().getComboAction().isEmpty()) {
-            context.current().setComboAction(null);
-            return new Stop();
-        }*/
-
-        if (context.current().getComboAction().isEmpty())
-            return new MoveTo(context.getHeading());
+        if (context.current().getComboAction().isEmpty()) {
+            return new Scout(context.getHeading());
+        }
 
         Action action = context.current().getComboAction().get(0);
         context.current().getComboAction().remove(0);

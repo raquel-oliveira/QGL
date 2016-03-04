@@ -31,17 +31,4 @@ public class ContractTest {
         contract = new ContractItem(new ManufacturedResource(ManufacturedType.GLASS), -10);
     }
 
-    @Test
-    public void testCollect() throws NegativeBudgetException {
-        contract.collect(10);
-        assertEquals(10, contract.accumulated());
-
-        contract.collect(10);
-        assertEquals(20, contract.accumulated());
-    }
-
-    @Test (expected = NegativeBudgetException.class)
-    public void testBadCollect() throws NegativeBudgetException {
-        contract.collect(-10);
-    }
 }

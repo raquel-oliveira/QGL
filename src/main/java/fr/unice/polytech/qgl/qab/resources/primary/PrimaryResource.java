@@ -81,4 +81,6 @@ public class PrimaryResource implements Resource {
     public Set<Biomes> getBiome(){
         return biomes;
     }
+
+    public PrimaryType getResource(){return resource;}
 }

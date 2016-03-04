@@ -6,6 +6,8 @@ import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 
+import java.io.IOException;
+
 /**
  * @version 11.12.2015.
  */

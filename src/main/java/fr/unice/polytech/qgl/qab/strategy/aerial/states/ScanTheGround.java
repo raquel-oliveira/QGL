@@ -11,6 +11,7 @@ import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.UpdaterMap;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
