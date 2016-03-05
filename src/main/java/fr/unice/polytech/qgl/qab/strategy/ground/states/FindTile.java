@@ -21,15 +21,8 @@ import java.util.List;
  * @version 29/02/16.
  */
 public class FindTile extends GroundState {
-    private static int cont = 0;
-    FileWriter writer ;
 
     public FindTile() {
-        try {
-            writer = new FileWriter("src/main/resource/output/positionsLog.log");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -47,26 +40,11 @@ public class FindTile extends GroundState {
     @Override
     public Action responseState(Context context, Map map) throws IndexOutOfBoundsComboAction {
         Direction d1, d2;
-        cont++;
 
         if (context.current().getStop() == 0) {
             // take the position with interesting biomes for the contract
             List<Position> goodPositions = map.getGoodPositions(context);
-            if (cont == 1) {
-                for (Position p : goodPositions) {
-                    try {
-                        writer.write(p.getX() + ", " + p.getY());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                cont++;
-            }
-            try {
-                writer.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
             if (goodPositions == null || goodPositions.isEmpty())
                 return new Stop();
 
