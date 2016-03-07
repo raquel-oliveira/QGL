@@ -3,6 +3,7 @@ package fr.unice.polytech.qgl.qab.strategy.context.utils;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.map.tile.Position;
+import fr.unice.polytech.qgl.qab.map.tile.TileType;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
@@ -91,8 +92,6 @@ public class UpdaterMap {
      * @param map object map
      */
     public void updateLastPositionHeading(Context context, Map map) {
-        Position position = map.getLastPosition();
-
         updateLastPositionFly(context, map);
         context.setHeading(context.current().getLastAction().getDirection());
         updateLastPositionFly(context, map);
@@ -116,6 +115,10 @@ public class UpdaterMap {
             else
                 map.setLastPosition(new Position(map.getWidth() - 1, context.getLastDiscovery().getEchoResponse().getRange()));
         }
-        map.initializeTileOcean(map.getLastPosition());
+        map.initializeTile(map.getLastPosition(), TileType.OCEAN);
+    }
+
+    public void setBiomeTile(Context context, Map map) {
+        map.addBiome(map.getLastPosition(), context.getLastDiscovery().getScanResponse().getBiomes(), context.getLastDiscovery().getCreeks());
     }
 }

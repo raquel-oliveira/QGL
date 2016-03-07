@@ -2,9 +2,9 @@ package fr.unice.polytech.qgl.qab.strategy.context.utils;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.combo.Combo;
+import fr.unice.polytech.qgl.qab.map.tile.Position;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
-import fr.unice.polytech.qgl.qab.response.ScoutResponse;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
@@ -29,6 +29,8 @@ public class ContextAction {
     private List<PrimaryType> resourcesToExploit;
     private int rangeMoveUntil;
     private Direction directionWithoutOCEAN;
+    private int status;
+    private Position nextPosition;
 
     public ContextAction() {
         comboAction = null;
@@ -42,8 +44,21 @@ public class ContextAction {
         resourcesToExploit = new ArrayList<>();
         rangeMoveUntil = 0;
         directionWithoutOCEAN = null;
+        status = 0;
+        nextPosition = null;
     }
 
+    public Position getNextPosition() {
+        return nextPosition;
+    }
+
+    public void setNextPosition(Position nextPosition) {
+        this.nextPosition = nextPosition;
+    }
+
+    public void setStatus(int b) {
+        this.status = b;
+    }
     public Direction getDirectionWithoutOCEAN() {
         return directionWithoutOCEAN;
     }
@@ -51,7 +66,6 @@ public class ContextAction {
     public void setDirectionWithoutOCEAN(Direction direction) {
         this.directionWithoutOCEAN = direction;
     }
-
     /**
      * Method to return the combo action to return back.
      * @return combo action to return back
@@ -210,5 +224,9 @@ public class ContextAction {
 
     public void incrementIndexTile() {
         this.indexTile = (indexTile + 1) % 4;
+    }
+
+    public int getStatus() {
+        return this.status;
     }
 }

@@ -1,11 +1,10 @@
 package fr.unice.polytech.qgl.qab.map;
 
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
-import fr.unice.polytech.qgl.qab.map.tile.Position;
-import fr.unice.polytech.qgl.qab.map.tile.Tile;
-import fr.unice.polytech.qgl.qab.map.tile.TileType;
-
-import java.util.HashMap;
+import fr.unice.polytech.qgl.qab.map.tile.*;
+import fr.unice.polytech.qgl.qab.strategy.context.Context;
+import fr.unice.polytech.qgl.qab.strategy.context.utils.ContractItem;
+import java.util.*;
 
 /**
  * @version 8.12.2016
@@ -19,8 +18,10 @@ public class Map {
 
     // save the last plane position
     private Position lastPosition;
+    private Position lastPositionGround;
     // check if I have the final height and width
     private boolean definedHeight, definedWidth;
+    private Position creekLand;
 
     // constante message
     private static final String ERROR_MSG = "Value out of map range!";
@@ -32,6 +33,14 @@ public class Map {
         tiles = new HashMap<>();
         height = -1;
         width = -1;
+        creekLand = null;
+    }
+    public Position getCreekLand() {
+        return creekLand;
+    }
+
+    public void setCreekLand(Position creekLand) {
+        this.creekLand = creekLand;
     }
 
     /**
@@ -59,41 +68,28 @@ public class Map {
     }
 
     /**
-     * If I need initialize a tile but i dont know if is ground or ocean
-     * @param position
-     * @throws PositionOutOfMapRange
-     */
-    public void initializeTileUndefined(Position position) throws PositionOutOfMapRange {
-        if (position.getX() >= width || position.getY() >= height)
-            throw new PositionOutOfMapRange(ERROR_MSG);
-        lastPosition = position;
-        tiles.put(position, new Tile(TileType.UNDEFINED));
-    }
-
-    /**
-     * If I need initialize a tile as ground
-     * @param position
-     * @throws PositionOutOfMapRange
-     */
-    public void initializeTileGround(Position position) throws PositionOutOfMapRange {
-        if (position.getX() >= width || position.getY() >= height)
-            throw new PositionOutOfMapRange(ERROR_MSG);
-        lastPosition = position;
-        tiles.put(position, new Tile(TileType.GROUND));
-    }
-
-    /**
      * If I need initialize a tile as ocean
      * @param position
      * @throws PositionOutOfMapRange
      */
-    public void initializeTileOcean(Position position) throws PositionOutOfMapRange {
+    public void initializeTile(Position position, TileType type) throws PositionOutOfMapRange {
         if (position.getX() >= width || position.getY() >= height)
             throw new PositionOutOfMapRange(ERROR_MSG);
         if (position.getX() < 0 || position.getY() < 0)
             throw new PositionOutOfMapRange("It's not possible values negatives to the positions!");
         lastPosition = position;
-        tiles.put(position, new Tile(TileType.OCEAN));
+        tiles.put(position, new Tile(type));
+    }
+
+    public void addBiome(Position position, List<Biomes> biomes, List<Creek> creeks) {
+        Tile newTile = new Tile();
+        newTile.setBiomesPredominant(biomes);
+        newTile.setCreek(creeks);
+        if (biomes.contains(Biomes.OCEAN) && biomes.size() == 1)
+            newTile.setType(TileType.OCEAN);
+        else
+            newTile.setType(TileType.GROUND);
+        tiles.put(position, newTile);
     }
 
     /**
@@ -129,6 +125,10 @@ public class Map {
         return lastPosition;
     }
 
+    public Position getLastPositionGround() {
+        return lastPositionGround;
+    }
+
     /**
      * Set the last position visited
      * @param position mas position visited
@@ -137,11 +137,101 @@ public class Map {
         lastPosition = position;
     }
 
+    public void setLastPositionGround(Position lastPositionGround) {
+        this.lastPositionGround = lastPositionGround;
+    }
+
     /**
      * Check if the set of tiles is empty
      * @return
      */
     public boolean isEmpty() {
         return tiles.isEmpty();
+    }
+
+    public List<Position> getGoodPositions(Context context) {
+        List<Position> goodPositions = new ArrayList<>();
+        for(java.util.Map.Entry<Position, Tile> entry : tiles.entrySet()) {
+            Position key = entry.getKey();
+            Tile value = entry.getValue();
+            // check if tile was visited
+            if (!value.wasVisited()) {
+                for (ContractItem item : context.getContracts()) {
+                    Set<Biomes> listTmp = new HashSet<>();
+                    listTmp.addAll(item.resource().getBiome());
+                    listTmp.retainAll(value.getBiomesPredominant());
+
+                    if (!listTmp.isEmpty()) {
+                        goodPositions.add(key);
+                    }
+                }
+            }
+        }
+        return goodPositions;
+    }
+
+    /**
+     * Return the position more close of the current position
+     * @param positionList
+     * @param current
+     * @return
+     */
+    public Position positionClose(List<Position> positionList, Position current) {
+        Position good = null;
+        double distance = -1;
+        for (Position p: positionList) {
+            double distFinal = MapHandler.getDistance(current, p);
+            if (distance == -1f) {
+                distance = distFinal;
+                good = p;
+            } else if (distFinal < distance) {
+                distance = distFinal;
+                good = p;
+            }
+        }
+        return good;
+    }
+
+    /**
+     * Set a specifical tile as visited
+     * @param position
+     */
+    public void setTileVisited(Position position) {
+        Tile tmpTile = tiles.get(position);
+        tmpTile.setVisit(true);
+        tiles.put(position, tmpTile);
+    }
+
+    /**
+     * Get the best creek
+     * @param context
+     */
+    public void getBestCreek(Context context) {
+        // positions that have interesting biomes for the contract
+        List<Position> goodPositions = getGoodPositions(context);
+        double dist = 0;
+
+        for(java.util.Map.Entry<Position, Tile> entry : tiles.entrySet()) {
+            Position currentPosition = entry.getKey();
+            Tile tile = entry.getValue();
+            // check if there are creek in this tile
+            if (!tile.getCreek().isEmpty()) {
+                // I give the position of this tile and the position more close
+                double distance = MapHandler.getDistance(currentPosition, positionClose(goodPositions, currentPosition));
+                if (dist == 0.0) {
+                    dist = distance;
+                    creekLand = currentPosition;
+                }
+                else if (distance < dist) {
+                    dist = distance;
+                    creekLand = currentPosition;
+                }
+            }
+        }
+        lastPositionGround = creekLand;
+    }
+
+    public Tile getTile(Position p) {
+        return tiles.get(p);
     }
 }

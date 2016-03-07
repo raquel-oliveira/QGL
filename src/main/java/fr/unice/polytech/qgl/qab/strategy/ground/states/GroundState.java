@@ -12,14 +12,11 @@ import fr.unice.polytech.qgl.qab.strategy.context.Context;
  * Abstract class tha represents the ground state.
  */
 public abstract class GroundState {
-    // last action made by the bot
-    Action lastAction;
-
     /**
      * GroundState's contructor
      */
     public GroundState() {
-        lastAction = null;
+
     }
 
     /**

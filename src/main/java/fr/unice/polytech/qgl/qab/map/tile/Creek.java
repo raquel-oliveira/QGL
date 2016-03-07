@@ -27,5 +27,7 @@ public class Creek {
      * Return the id ot the creek
      * @return id of the creek
      */
-    public String getIdCreek() { return idCreek; }
+    public String getIdCreek() {
+        return idCreek;
+    }
 }

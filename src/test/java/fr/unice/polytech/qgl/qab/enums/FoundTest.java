@@ -64,13 +64,13 @@ public class FoundTest {
         assertTrue(found.equals(Found.OUT_OF_RANGE));
     }
 
-    @Test(expected =  IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testFromStringNotExists() {
         found = Found.valueOf("error");
         assertEquals(null, found);
     }
 
-    @Test(expected =  IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testFromStringNothing() {
         found = Found.valueOf("");
         assertEquals(null, found);

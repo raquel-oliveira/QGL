@@ -79,7 +79,8 @@ Add more tests. Implementation of scout. Refactoration of code. Improvement in t
 
 ### Week 09
 
-Make minimum exploits necessaries accounting for the resources in the contract(the primary resources of contract and the primary resources needed to create a manufactured contract). After the contracts are completed it return immediately.
+Make minimum exploits necessaries accounting for the resources in the contract (the primary resources of contract and the primary resources needed to create a manufactured contract). After the contracts are completed it return immediately.
+Improvement of map to locate better tile with good biomes. Refactory code: remove singleton pattern and override methods (used incorrectly).
 
 ### Week 10
 

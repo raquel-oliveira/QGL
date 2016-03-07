@@ -1,7 +1,6 @@
 package fr.unice.polytech.qgl.qab.strategy.ground.states;
 
 import fr.unice.polytech.qgl.qab.map.tile.Biomes;
-import fr.unice.polytech.qgl.qab.resources.Resource;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
@@ -47,17 +46,15 @@ public class ContextAnalyzer {
         List<PrimaryType> resources = new ArrayList<>();
 
         for (ContractItem item: contract) {
-            if(item.resource() instanceof PrimaryResource){
-                if (context.getLastDiscovery().getExploreResponse().contains(((PrimaryResource) item.resource()).getResource())){
-                    resources.add(PrimaryType.valueOf(item.resource().getName()));
-                }
+            if (item.resource() instanceof PrimaryResource &&
+                    context.getLastDiscovery().getExploreResponse().contains(((PrimaryResource) item.resource()).getResource())){
+                resources.add(PrimaryType.valueOf(item.resource().getName()));
             }
-            if(item.resource() instanceof ManufacturedResource){
-                for (PrimaryType itemRecipe: ((ManufacturedResource) item.resource()).getRecipe(0).keySet()){
-                    if(context.getLastDiscovery().getExploreResponse().contains(itemRecipe)){
+            else if (item.resource() instanceof ManufacturedResource) {
+                for (PrimaryType itemRecipe: ((ManufacturedResource) item.resource()).getRecipe(0).keySet()) {
+                    if(context.getLastDiscovery().getExploreResponse().contains(itemRecipe)) {
                         resources.add(itemRecipe);
                     }
-
                 }
             }
         }
@@ -141,12 +138,5 @@ public class ContextAnalyzer {
         goodTiles.add(indexTile, findGoodBiome);
 
         return goodTiles;
-    }
-
-    public boolean goodGlimpse(Context context) {
-        List<Boolean> responseGlimpse = biomeAnalyzer(context);
-        if (responseGlimpse.contains(true))
-            return true;
-        return false;
     }
 }

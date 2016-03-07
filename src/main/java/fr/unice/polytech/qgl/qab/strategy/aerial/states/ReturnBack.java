@@ -35,7 +35,7 @@ public class ReturnBack extends AerialState {
                     return new ScanTheGround();
                 }
             } else {
-                return new StopSimulation();
+                return new LandInGround();
             }
         }
 

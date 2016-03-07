@@ -25,6 +25,7 @@ public class ScoutResponse {
     public void setDirection(Direction direction) {
         this.direction = direction;
     }
+
     public List<PrimaryType> getResources() {
         return resources;
     }
