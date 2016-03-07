@@ -12,7 +12,7 @@ import static org.junit.Assert.assertTrue;
  * Created by huang on 07/03/16.
  */
 public class ComboScoutTest {
-    public ComboScout comboScout;
+    ComboScout comboScout;
 
     @Before
     public void defineComboScout(){
