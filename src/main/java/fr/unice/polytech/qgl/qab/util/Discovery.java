@@ -20,6 +20,7 @@ public class Discovery {
     private EchoResponse echoResponse;
     private ExploitResponse exploitResponse;
     private ScoutResponse scoutResponse;
+    private TransformResponse transformResponse;
 
     /**
      * Discovery's constructor
@@ -32,6 +33,7 @@ public class Discovery {
         scanResponse = new ScanResponse();
         exploitResponse = new ExploitResponse();
         scoutResponse = new ScoutResponse();
+        transformResponse = new TransformResponse();
     }
 
     /**
@@ -145,4 +147,16 @@ public class Discovery {
     public ScoutResponse getScoutResponse() {
         return scoutResponse;
     }
+
+    /**
+     * Get the data of the Transforme response
+     * @return data of the Transforme response
+     */
+    public TransformResponse getTransformResponse() { return transformResponse; }
+
+    /**
+     * Set Last transform response
+     * @param transformResponse value of the transforme response
+     */
+    public void setTransformResponse(TransformResponse transformResponse) { this.transformResponse = transformResponse; }
 }
