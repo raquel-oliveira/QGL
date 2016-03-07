@@ -133,7 +133,7 @@ public class ScanTheGroundTest {
 
         AerialState state = scanTheGround.getState(context, new Map(), StateMediator.getInstance());
 
-        assertEquals(state.getClass(), Land.class);
+        assertEquals(state.getClass(), ScanTheGround.class);
     }
 
     /**

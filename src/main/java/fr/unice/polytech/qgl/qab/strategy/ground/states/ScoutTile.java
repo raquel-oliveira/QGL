@@ -29,7 +29,6 @@ public class ScoutTile extends GroundState {
         if (context.current().getComboAction().isEmpty()) {
             return new FindTile();
         }
-
         return new ScoutTile();
     }
 

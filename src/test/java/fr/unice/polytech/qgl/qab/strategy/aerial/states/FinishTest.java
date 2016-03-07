@@ -30,7 +30,7 @@ public class FinishTest {
 
     @Test
     public void testInstance() {
-        Land end = new Land("", 0);
+        LandInGround end = new LandInGround();
         assertEquals(land.getClass(), end.getClass());
     }
 

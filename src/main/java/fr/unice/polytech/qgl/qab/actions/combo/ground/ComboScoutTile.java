@@ -19,6 +19,7 @@ public class ComboScoutTile extends Combo {
     /**
      * Gave a number of range, this method add in the list of action a set of scout
      */
+    @Override
     public void defineActions() {
         actions.add(new Scout(Direction.WEST));
         actions.add(new MoveTo(Direction.WEST));
