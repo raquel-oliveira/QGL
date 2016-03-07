@@ -5,7 +5,6 @@ import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedType;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
-import fr.unice.polytech.qgl.qab.strategy.aerial.states.AerialState;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.Budget;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.ContextAction;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.ContractItem;

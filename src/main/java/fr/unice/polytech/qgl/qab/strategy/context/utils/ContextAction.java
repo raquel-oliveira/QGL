@@ -4,7 +4,6 @@ import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.combo.Combo;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
-import fr.unice.polytech.qgl.qab.response.ScoutResponse;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
@@ -171,9 +170,7 @@ public class ContextAction {
         this.indexTile = indexTile;
     }
 
-    public List<PrimaryType> getResourcesToExploit() {
-        return resourcesToExploit;
-    }
+    public List<PrimaryType> getResourcesToExploit() { return resourcesToExploit; }
 
     public void setResourcesToExploit(List<PrimaryType> resourcesToExploit, Context context) {
         java.util.Map<String, Integer> collectedResource = context.getCollectedResources();
@@ -184,7 +181,7 @@ public class ContextAction {
                 this.resourcesToExploit.add(resourcesToExploit.get(0));
                 resourcesToExploit.remove(0);
             }
-            else if(collectedResource.get(resource) < context.getAcumulatedAmount(res)) {
+            else if(collectedResource.get(resource) < context.getAcumulatedAmountNecessary(res)) {
                 this.resourcesToExploit.add(resourcesToExploit.get(0));
                 resourcesToExploit.get(0);
                 resourcesToExploit.remove(0);
@@ -193,9 +190,6 @@ public class ContextAction {
                 resourcesToExploit.remove(0);
             }
         }
-
-
-
         //this.resourcesToExploit = resourcesToExploit;
     }
 
@@ -206,7 +200,6 @@ public class ContextAction {
     public void moveUntil(int rangeMoveUntil) {
         this.rangeMoveUntil = rangeMoveUntil;
     }
-
 
     public void incrementIndexTile() {
         this.indexTile = (indexTile + 1) % 4;

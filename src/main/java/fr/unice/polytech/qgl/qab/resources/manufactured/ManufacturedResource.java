@@ -15,7 +15,6 @@ import java.util.*;
 public class ManufacturedResource implements Resource {
     private ManufacturedType resource;
     private EnumMap<PrimaryType, Integer> recipe = new EnumMap<PrimaryType, Integer>(PrimaryType.class);
-    private List<PrimaryType> simpleRecipe = new ArrayList<>();
     private Set<Biomes> biomes = new HashSet<>();
 
     /**
