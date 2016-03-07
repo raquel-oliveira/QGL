@@ -295,7 +295,7 @@ public class Context {
 
     private void setResourcesToCreate(){
         for(int i = 0; i < contracts.size(); i++){
-            if ((contracts.get(i).resource()) instanceof ManufacturedResource && contracts.get(i).isComplete(collectedResources)){
+            if ((contracts.get(i).resource()) instanceof ManufacturedResource && !contracts.get(i).isComplete(collectedResources)){
                 resourcesToCreate.add((ManufacturedResource) contracts.get(i).resource());
             }
         }
