@@ -125,7 +125,7 @@ public class DirectionTest {
         assertEquals(null, direction);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void testToStringBeforeInitialize() {
         direction.toString();
     }

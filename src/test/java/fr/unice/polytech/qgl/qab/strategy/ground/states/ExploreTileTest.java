@@ -1,6 +1,7 @@
 package fr.unice.polytech.qgl.qab.strategy.ground.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
+import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Explore;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Glimpse;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.MoveTo;
@@ -47,6 +48,6 @@ public class ExploreTileTest {
         context.current().setResourcesToExploit(resourcesToExploit, context);
 
         Action act = exploreTile.responseState(new Context(), new Map());
-        assertEquals(Explore.class, act.getClass());
+        assertEquals(Stop.class, act.getClass());
     }
 }
