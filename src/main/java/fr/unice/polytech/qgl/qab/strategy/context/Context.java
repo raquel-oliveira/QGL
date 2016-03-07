@@ -28,6 +28,7 @@ public class Context {
     private Budget budget;
     private List<ContractItem> contracts;
     private Map<String, Integer> collectedResources;
+    private List<ManufacturedResource> resourcesToCreate;
     private Boolean completeContract;
 
     // direction of the head in the begin
@@ -56,6 +57,7 @@ public class Context {
         firstHead = null;
         heading = null;
         lastDiscovery = null;
+        collectedResources = null;
 
         contextActionCurrent = new ContextAction();
         contextActionAerial = new ContextAction();
@@ -163,6 +165,19 @@ public class Context {
     }
 
     /**
+     * Method to Remove a quantity of a resource. To use to update after transforme
+     * @param resource
+     * @param amount
+     */
+    public void decreaseAmountOfCollectedResources(Resource resource, int amount) {
+        if (collectedResources.containsKey(resource.getName())) {
+            collectedResources.put(resource.getName(), collectedResources.get(resource.getName()) - amount);
+        } else {
+           //todo: expection
+        }
+    }
+
+    /**
      *  Method to return the context current
      * @return context current
      */
@@ -234,11 +249,11 @@ public class Context {
     }
 
     /**
-     * Get number of amount of a primaryResource needed to do the Resource
+     * Get number of amount of a primaryResource needed to fill the contracts that need of 'resource'(primary + maufactured)
      * @param resource
      * @return
      */
-    public int getAcumulatedAmount(Resource resource){
+    public int getAcumulatedAmountNecessary(Resource resource){
         int amount = 0;
         for (int i = 0; i < contracts.size(); i++){
             if(contracts.get(i).resource() instanceof PrimaryResource){
@@ -255,14 +270,36 @@ public class Context {
         return amount;
     }
 
+    /**
+     * @return true if all the contracts are completed.
+     */
     public boolean contractsAreComplete(){
         completeContract = true;
         for(int i = 0; i < contracts.size(); i++){
-            if (!contracts.get(i).isComplete(collectedResources)){return completeContract = false;}
+            if (!contracts.get(i).isComplete(collectedResources)){
+                completeContract = false;
+                return completeContract;
+            }
         }
         return completeContract;
     }
 
+    /**
+     *
+     * @return List of resources in the contract that need to be transformed
+     */
+    public List<ManufacturedResource> getResourcesToCreate() {
+        setResourcesToCreate();
+        return resourcesToCreate;
+    }
+
+    private void setResourcesToCreate(){
+        for(int i = 0; i < contracts.size(); i++){
+            if ((contracts.get(i).resource()) instanceof ManufacturedResource && contracts.get(i).isComplete(collectedResources)){
+                resourcesToCreate.add((ManufacturedResource) contracts.get(i).resource());
+            }
+        }
+    }
 
     public void updateToAerial() {
         ContextAction tmpContext = this.contextActionCurrent;
