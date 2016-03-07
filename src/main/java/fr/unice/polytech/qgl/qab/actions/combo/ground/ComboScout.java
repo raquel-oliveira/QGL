@@ -1,7 +1,6 @@
 package fr.unice.polytech.qgl.qab.actions.combo.ground;
 
 import fr.unice.polytech.qgl.qab.actions.combo.Combo;
-import fr.unice.polytech.qgl.qab.actions.simple.ground.MoveTo;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Scout;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
@@ -23,6 +22,6 @@ public class ComboScout extends Combo {
         Direction dir = Direction.randomSideDirection(direction);
         actions.add(new Scout(dir));
         actions.add(new Scout(Direction.inverse(dir)));
-        actions.add(new Scout(Direction.inverse(direction)));
+        actions.add(new Scout(direction));
     }
 }
