@@ -51,20 +51,10 @@ public class ContractItem {
     }
 
     public Boolean isComplete(Map<String, Integer> collectedResources){
-       if( resource instanceof PrimaryResource){
-           if(collectedResources.containsKey(resource.getName())){
-               if(collectedResources.get(resource.getName()) >= amount){ completeContract = true;}
-           }
-           return completeContract;
+       if(collectedResources.containsKey(resource.getName())){
+           if(collectedResources.get(resource.getName()) >= amount){ completeContract = true;}
        }
-       else if( resource instanceof ManufacturedResource){
-           //Todo: Implement taking in count count after transform
-       }
-
         return completeContract;
     }
-
-
-
 }
 
