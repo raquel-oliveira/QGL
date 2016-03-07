@@ -4,7 +4,11 @@ import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.tile.*;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.ContractItem;
+import javafx.geometry.Pos;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 /**
@@ -152,10 +156,10 @@ public class Map {
 
     public List<Position> getGoodPositions(Context context) {
         List<Position> goodPositions = new ArrayList<>();
-
         for(java.util.Map.Entry<Position, Tile> entry : tiles.entrySet()) {
             Position key = entry.getKey();
             Tile value = entry.getValue();
+            // check if tile was visited
             if (!value.wasVisited()) {
                 for (ContractItem item : context.getContracts()) {
                     Set<Biomes> listTmp = new HashSet<>();
@@ -167,20 +171,28 @@ public class Map {
                     }
                 }
             }
+            else {
+                int a = 1 + 1;
+            }
         }
         return goodPositions;
     }
 
-    public Position positionClose(List<Position> goodPositions, Position current) {
+    /**
+     * Return the position more close of the current position
+     * @param positionList
+     * @param current
+     * @return
+     */
+    public Position positionClose(List<Position> positionList, Position current) {
         Position good = null;
         double distance = -1;
-        for (Position p: goodPositions) {
-            double distFinal = getDistFinal(current, p);
+        for (Position p: positionList) {
+            double distFinal = getDistance(current, p);
             if (distance == -1) {
                 distance = distFinal;
                 good = p;
-            }
-            else if (distFinal < distance) {
+            } else if (distFinal < distance) {
                 distance = distFinal;
                 good = p;
             }
@@ -188,11 +200,10 @@ public class Map {
         return good;
     }
 
-    private double getDistFinal(Position current, Position p) {
+    private double getDistance(Position current, Position p) {
         double distX = getDistX(current, p);
         double distY = getDistY(current, p);
-        double pow = Math.pow(distX, 2) + Math.pow(distY, 2);
-        return Math.sqrt(pow);
+        return (distX + distY);
     }
 
     private double getDistY(Position current, Position p) {
@@ -203,31 +214,39 @@ public class Map {
         return (double) Math.abs(p.getX() - current.getX());
     }
 
+    /**
+     * Set a specifical tile as visited
+     * @param position
+     */
     public void setTileVisited(Position position) {
-        Tile tmp = tiles.get(position);
-        tmp.setVisit(true);
-        tiles.put(position, tmp);
+        Tile tmp_tile = tiles.get(position);
+        tmp_tile.setVisit(true);
+        tiles.put(position, tmp_tile);
     }
 
+    /**
+     * Get the best creek
+     * @param context
+     */
     public void getBestCreek(Context context) {
         // positions that have interesting biomes for the contract
         List<Position> goodPositions = getGoodPositions(context);
         double dist = 0;
-        // pass by the tiles in the map
+
         for(java.util.Map.Entry<Position, Tile> entry : tiles.entrySet()) {
-            Position position = entry.getKey();
+            Position position_current = entry.getKey();
             Tile tile = entry.getValue();
             // check if there are creek in this tile
             if (!tile.getCreek().isEmpty()) {
                 // I give the position of this tile and the position more close
-                double tmp = getDistFinal(position, positionClose(goodPositions, position));
+                double distance = getDistance(position_current, positionClose(goodPositions, position_current));
                 if (dist == 0) {
-                    dist = tmp;
-                    creekLand = position;
+                    dist = distance;
+                    creekLand = position_current;
                 }
-                else if (tmp < dist) {
-                    dist = tmp;
-                    creekLand = position;
+                else if (distance < dist) {
+                    dist = distance;
+                    creekLand = position_current;
                 }
             }
         }

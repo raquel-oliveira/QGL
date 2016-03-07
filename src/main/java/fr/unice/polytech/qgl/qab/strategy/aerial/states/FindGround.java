@@ -2,6 +2,7 @@ package fr.unice.polytech.qgl.qab.strategy.aerial.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Echo;
+import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Heading;
 import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboFlyEcho;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
@@ -49,14 +50,15 @@ public class FindGround extends AerialState {
         // set the combo fly + echo to find the ground
         if (context.current().getComboAction() == null || context.current().getComboAction() .isEmpty()) {
             context.current().setComboAction(new ComboFlyEcho());
-            context.current().getComboAction() .defineActions(choiceDirectionEcho(context, map));
+            context.current().getComboAction().defineActions(choiceDirectionEcho(context, map));
         }
 
         // take the action of the combo
         act = context.current().getComboAction().get(0);
         context.current().setLastAction(act);
         context.current().getComboAction().remove(0);
-        updaterMap.updateLastPositionFly(context, map);
+        if (context.current().getLastAction() instanceof Fly)
+            updaterMap.updateLastPositionFly(context, map);
 
         return act;
     }

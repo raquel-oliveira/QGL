@@ -29,7 +29,7 @@ public class ContextAction {
     private List<PrimaryType> resourcesToExploit;
     private int rangeMoveUntil;
     private Direction directionWithoutOCEAN;
-    private int stop;
+    private int status;
     private Position nextPosition;
 
     public ContextAction() {
@@ -44,7 +44,7 @@ public class ContextAction {
         resourcesToExploit = new ArrayList<>();
         rangeMoveUntil = 0;
         directionWithoutOCEAN = null;
-        stop = 0;
+        status = 0;
         nextPosition = null;
     }
 
@@ -56,8 +56,8 @@ public class ContextAction {
         this.nextPosition = nextPosition;
     }
 
-    public void setStop(int b) {
-        this.stop = b;
+    public void setStatus(int b) {
+        this.status = b;
     }
     public Direction getDirectionWithoutOCEAN() {
         return directionWithoutOCEAN;
@@ -226,7 +226,7 @@ public class ContextAction {
         this.indexTile = (indexTile + 1) % 4;
     }
 
-    public int getStop() {
-        return this.stop;
+    public int getStatus() {
+        return this.status;
     }
 }

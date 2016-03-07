@@ -80,7 +80,7 @@ public class ManufacturedResource implements Resource {
      * @return
      */
     public Map<PrimaryType, Integer> getRecipe(int amountRecipe){
-        if (amountRecipe < 1)
+        if (amountRecipe < 0)
             throw new IllegalArgumentException("Not allow negative value");
 
         switch (resource){
