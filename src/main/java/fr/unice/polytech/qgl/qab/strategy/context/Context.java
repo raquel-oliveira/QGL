@@ -5,7 +5,6 @@ import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedType;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
-import fr.unice.polytech.qgl.qab.strategy.aerial.states.AerialState;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.Budget;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.ContextAction;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.ContractItem;
@@ -241,15 +240,12 @@ public class Context {
     public int getAcumulatedAmount(Resource resource){
         int amount = 0;
         for (int i = 0; i < contracts.size(); i++){
-            if(contracts.get(i).resource() instanceof PrimaryResource){
-                if(contracts.get(i).resource().getName().equals(resource.getName())){
+            if ((contracts.get(i).resource() instanceof PrimaryResource)
+                && contracts.get(i).resource().getName().equals(resource.getName())) {
                     amount += contracts.get(i).amount();
-                }
-            }
-            else if(contracts.get(i).resource() instanceof ManufacturedResource){
-                if(((ManufacturedResource) contracts.get(i).resource()).getRecipe(0).containsKey(resource)){
-                    amount += ((ManufacturedResource) contracts.get(i).resource()).getRecipe(contracts.get(i).amount()).get(resource);
-                }
+            } else if (contracts.get(i).resource() instanceof ManufacturedResource
+                && ((ManufacturedResource) contracts.get(i).resource()).getRecipe(0).containsKey(resource)){
+                amount += ((ManufacturedResource) contracts.get(i).resource()).getRecipe(contracts.get(i).amount()).get(resource);
             }
         }
         return amount;
@@ -257,8 +253,9 @@ public class Context {
 
     public boolean contractsAreComplete(){
         completeContract = true;
-        for(int i = 0; i < contracts.size(); i++){
-            if (!contracts.get(i).isComplete(collectedResources)){return completeContract = false;}
+        for (int i = 0; i < contracts.size(); i++) {
+            if (!contracts.get(i).isComplete(collectedResources))
+                return completeContract = false;
         }
         return completeContract;
     }

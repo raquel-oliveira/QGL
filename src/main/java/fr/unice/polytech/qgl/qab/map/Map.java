@@ -4,11 +4,6 @@ import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.tile.*;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.ContractItem;
-import javafx.geometry.Pos;
-
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 /**
@@ -171,9 +166,6 @@ public class Map {
                     }
                 }
             }
-            else {
-                int a = 1 + 1;
-            }
         }
         return goodPositions;
     }
@@ -188,8 +180,8 @@ public class Map {
         Position good = null;
         double distance = -1;
         for (Position p: positionList) {
-            double distFinal = getDistance(current, p);
-            if (distance == -1) {
+            double distFinal = MapHandler.getDistance(current, p);
+            if (distance == -1f) {
                 distance = distFinal;
                 good = p;
             } else if (distFinal < distance) {
@@ -200,28 +192,14 @@ public class Map {
         return good;
     }
 
-    private double getDistance(Position current, Position p) {
-        double distX = getDistX(current, p);
-        double distY = getDistY(current, p);
-        return (distX + distY);
-    }
-
-    private double getDistY(Position current, Position p) {
-        return (double) Math.abs(p.getY() - current.getY());
-    }
-
-    private double getDistX(Position current, Position p) {
-        return (double) Math.abs(p.getX() - current.getX());
-    }
-
     /**
      * Set a specifical tile as visited
      * @param position
      */
     public void setTileVisited(Position position) {
-        Tile tmp_tile = tiles.get(position);
-        tmp_tile.setVisit(true);
-        tiles.put(position, tmp_tile);
+        Tile tmpTile = tiles.get(position);
+        tmpTile.setVisit(true);
+        tiles.put(position, tmpTile);
     }
 
     /**
@@ -234,19 +212,19 @@ public class Map {
         double dist = 0;
 
         for(java.util.Map.Entry<Position, Tile> entry : tiles.entrySet()) {
-            Position position_current = entry.getKey();
+            Position currentPosition = entry.getKey();
             Tile tile = entry.getValue();
             // check if there are creek in this tile
             if (!tile.getCreek().isEmpty()) {
                 // I give the position of this tile and the position more close
-                double distance = getDistance(position_current, positionClose(goodPositions, position_current));
-                if (dist == 0) {
+                double distance = MapHandler.getDistance(currentPosition, positionClose(goodPositions, currentPosition));
+                if (dist == 0.0) {
                     dist = distance;
-                    creekLand = position_current;
+                    creekLand = currentPosition;
                 }
                 else if (distance < dist) {
                     dist = distance;
-                    creekLand = position_current;
+                    creekLand = currentPosition;
                 }
             }
         }

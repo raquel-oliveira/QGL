@@ -28,4 +28,18 @@ public class MapHandler {
     public static int calcDistY(Position p, Position lastPosition) {
         return Math.abs(p.getY() - lastPosition.getY());
     }
+
+    public static double getDistance(Position current, Position p) {
+        double distX = getDistX(current, p);
+        double distY = getDistY(current, p);
+        return distX + distY;
+    }
+
+    public static double getDistY(Position current, Position p) {
+        return (double) Math.abs(p.getY() - current.getY());
+    }
+
+    public static double getDistX(Position current, Position p) {
+        return (double) Math.abs(p.getX() - current.getX());
+    }
 }
