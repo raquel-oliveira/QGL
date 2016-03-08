@@ -76,7 +76,7 @@ public class FindGround extends AerialState {
             else
                 return Direction.EAST;
         } else {
-            if (map.getLastPosition().getY() > map.getHeight()/2)
+            if (map.getLastPosition().getY() < map.getHeight()/2)
                 return Direction.SOUTH;
             else
                 return Direction.NORTH;

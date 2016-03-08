@@ -1,4 +1,6 @@
 package fr.unice.polytech.qgl.qab.strategy.context;
+import fr.unice.polytech.qgl.qab.actions.Action;
+import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.resources.Resource;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
@@ -271,5 +273,15 @@ public class Context {
         ContextAction tmpContext = this.contextActionCurrent;
         this.contextActionCurrent = contextActionGround;
         contextActionGround = tmpContext;
+    }
+
+    /**
+     * Method that ckecks if the budget is less than 100
+     * @return stop if the budget is less than 100 and null if the simulation can continue
+     */
+    private boolean enoughBudget() {
+        if (getBudget() <= 500)
+            return false;
+        return true;
     }
 }

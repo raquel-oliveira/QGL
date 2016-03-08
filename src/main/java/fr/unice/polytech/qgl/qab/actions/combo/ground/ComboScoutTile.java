@@ -13,8 +13,8 @@ import java.util.ArrayList;
 public class ComboScoutTile extends Combo {
 
     public ComboScoutTile() {
-            this.actions = new ArrayList<>();
-        }
+        this.actions = new ArrayList<>();
+    }
 
     /**
      * Gave a number of range, this method add in the list of action a set of scout
