@@ -24,11 +24,7 @@ public class ContextAction {
     private int contScan;
     private int indexAction;
 
-    private List<Boolean> goodTiles;
-    private int indexTile;
     private List<PrimaryType> resourcesToExploit;
-    private int rangeMoveUntil;
-    private Direction directionWithoutOCEAN;
     private int status;
     private Position nextPosition;
 
@@ -39,11 +35,7 @@ public class ContextAction {
         contScan = 0;
         indexAction = 0;
         comboReturnBack = null;
-        goodTiles = new ArrayList<>();
-        indexTile = 0;
         resourcesToExploit = new ArrayList<>();
-        rangeMoveUntil = 0;
-        directionWithoutOCEAN = null;
         status = 0;
         nextPosition = null;
     }
@@ -59,13 +51,7 @@ public class ContextAction {
     public void setStatus(int b) {
         this.status = b;
     }
-    public Direction getDirectionWithoutOCEAN() {
-        return directionWithoutOCEAN;
-    }
 
-    public void setDirectionWithoutOCEAN(Direction direction) {
-        this.directionWithoutOCEAN = direction;
-    }
     /**
      * Method to return the combo action to return back.
      * @return combo action to return back
@@ -122,14 +108,6 @@ public class ContextAction {
         return indexAction;
     }
 
-    public List<Boolean> getGoodTiles() {
-        return goodTiles;
-    }
-
-    public int getIndexTile() {
-        return indexTile;
-    }
-
     /**
      * Set the index action
      * @param indexAction
@@ -177,14 +155,6 @@ public class ContextAction {
         this.comboAction = comboAction;
     }
 
-    public void setGoodTiles(List<Boolean> goodTiles) {
-        this.goodTiles = goodTiles;
-    }
-
-    public void setIndexTile(int indexTile) {
-        this.indexTile = indexTile;
-    }
-
     public List<PrimaryType> getResourcesToExploit() {
         return resourcesToExploit;
     }
@@ -207,23 +177,6 @@ public class ContextAction {
                 resourcesToExploit.remove(0);
             }
         }
-
-
-
-        //this.resourcesToExploit = resourcesToExploit;
-    }
-
-    public int moveUntil() {
-        return rangeMoveUntil;
-    }
-
-    public void moveUntil(int rangeMoveUntil) {
-        this.rangeMoveUntil = rangeMoveUntil;
-    }
-
-
-    public void incrementIndexTile() {
-        this.indexTile = (indexTile + 1) % 4;
     }
 
     public int getStatus() {

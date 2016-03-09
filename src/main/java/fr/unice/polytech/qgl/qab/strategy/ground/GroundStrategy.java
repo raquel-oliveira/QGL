@@ -39,7 +39,7 @@ public class GroundStrategy implements IGroundStrategy {
      * @param context datas about the simulation context
      * @return stop if the budget is less than 100 and null if the simulation can continue
      */
-    private Action contextAnalyzer(Context context) {
+    private static Action contextAnalyzer(Context context) {
         if (context.getBudget() < 400) {
             return new Stop();
         }
