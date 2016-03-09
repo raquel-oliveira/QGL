@@ -78,7 +78,7 @@ public class FindGroundTest {
 
         act = findGround.responseState(context, map, StateMediator.getInstance());
         assertEquals(act.getClass(), Echo.class);
-        assertEquals(Direction.SOUTH, act.getDirection());
+        assertEquals(Direction.NORTH, act.getDirection());
     }
 
     @Test
@@ -93,7 +93,7 @@ public class FindGroundTest {
 
         act = findGround.responseState(context, map, StateMediator.getInstance());
         assertEquals(act.getClass(), Echo.class);
-        assertEquals(Direction.NORTH, act.getDirection());
+        assertEquals(Direction.SOUTH, act.getDirection());
     }
 
     private Map setContextMap(Direction east, Position position) {
