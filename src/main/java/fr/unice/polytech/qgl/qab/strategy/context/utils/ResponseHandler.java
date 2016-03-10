@@ -275,14 +275,12 @@ public class ResponseHandler {
             //Add Data
             transform.addData(new ManufacturedResource(ManufacturedType.fromString(resource)), amount);
             //Add the transformed resource in collected resources
-            ManufacturedResource transformedResource = new ManufacturedResource(ManufacturedType.fromString(resource));
-            context.addCollectedResources(transformedResource, amount);
+            context.addCollectedResources(transform.getResource(), transform.getAmount());
             //Delete primary resources transformed (Update collected Resources)
             for(java.util.Map.Entry<PrimaryType, Integer> ingredientRecipe : ((ManufacturedResource) contracts.get(contracts.indexOf(resource)).resource()).getRecipe(amount).entrySet()) {
                 PrimaryResource primary = new PrimaryResource(ingredientRecipe.getKey());
                 context.decreaseAmountOfCollectedResources(primary, ingredientRecipe.getValue());
             }
-
         }
 
         discovery.setTransformResponse(transform);
