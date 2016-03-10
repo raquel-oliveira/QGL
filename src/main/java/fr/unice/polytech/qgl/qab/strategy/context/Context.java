@@ -172,7 +172,7 @@ public class Context {
         if (collectedResources.containsKey(resource.getName())) {
             collectedResources.put(resource.getName(), collectedResources.get(resource.getName()) - amount);
         } else {
-           //todo: expection
+           //todo: exception
         }
     }
 
@@ -226,6 +226,8 @@ public class Context {
     public void addContract(String resource, int amount) throws NegativeBudgetException {
         try {
             contracts.add(new ContractItem(new ManufacturedResource(ManufacturedType.valueOf(resource)), amount));
+            //update the resources manufatured in the list of resources to be create.
+            setResourcesToCreate();
         } catch (Exception ex) {
             contracts.add(new ContractItem(new PrimaryResource(PrimaryType.valueOf(resource)), amount));
         }
@@ -270,6 +272,43 @@ public class Context {
     }
 
     /**
+     * This method is to verify how much of amount can be used of the resource to create manufatured.
+     * @param manufatured to be create
+     * @param resource to be used to create manufatured
+     * @return quantity of resource to be used to create a manufactured.
+     * @return -1 this resource its not in the recipe of the first parameter.
+     */
+    public int getQtdToUse(ManufacturedResource manufatured, Resource resource){
+        //TODO: Change this method to do verification if the state transform its called because there is enought resource to do all contracts or because the game had to stop
+        //Check if resource is parte of manufatured recipe
+        if(!manufatured.getRecipe(0).containsKey(resource)){
+            //TODO: chage this to trow exception
+            return -1;
+        }
+
+        int amount = getAcumulatedAmountNecessary(resource);
+
+        for (int i = 0; i < contracts.size(); i++){
+            Resource res = contracts.get(i).resource();
+            if(res instanceof PrimaryResource){
+                if(res.getName().equals(resource.getName()) && contracts.get(i).isComplete(collectedResources)){
+                    //Not use amount of a primary resource already complete
+                    amount -= contracts.get(i).amount();
+                }
+            }
+            else if(res instanceof ManufacturedResource){
+                //If it was not made a transform yet to this res and its not the manufatured I want.
+                if (getResourcesToCreate().contains(res) && !manufatured.equals((ManufacturedResource)res)){
+                    //TODO: verify best strategy to use all the primary resource left to make manufatured resources
+                    amount -= ((ManufacturedResource) res).getRecipe(contracts.get(i).amount()).get(resource);
+
+                }
+            }
+        }
+        return amount;
+    }
+
+    /**
      * @return true if all the contracts are completed.
      */
     public boolean contractsAreComplete(){
@@ -288,7 +327,6 @@ public class Context {
      * @return List of resources in the contract that need to be transformed
      */
     public List<ManufacturedResource> getResourcesToCreate() {
-        setResourcesToCreate();
         return resourcesToCreate;
     }
 
