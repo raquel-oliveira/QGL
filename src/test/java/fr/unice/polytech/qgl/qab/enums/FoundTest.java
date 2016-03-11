@@ -54,23 +54,23 @@ public class FoundTest {
 
     @Test
     public void testFromStringGround() throws Exception {
-        found = Found.valueOf("ground");
+        found = Found.valueOf("GROUND");
         assertTrue(found.equals(Found.GROUND));
     }
 
     @Test
     public void testFromStringOutOfRange() throws Exception {
-        found = Found.valueOf("out_of_range");
+        found = Found.valueOf("OUT_OF_RANGE");
         assertTrue(found.equals(Found.OUT_OF_RANGE));
     }
 
-    @Test
+    @Test(expected =  IllegalArgumentException.class)
     public void testFromStringNotExists() {
         found = Found.valueOf("error");
         assertEquals(null, found);
     }
 
-    @Test
+    @Test(expected =  IllegalArgumentException.class)
     public void testFromStringNothing() {
         found = Found.valueOf("");
         assertEquals(null, found);
