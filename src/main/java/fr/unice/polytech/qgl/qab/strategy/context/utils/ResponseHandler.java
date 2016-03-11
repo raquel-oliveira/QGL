@@ -140,7 +140,7 @@ public class ResponseHandler {
 
         scanResponse.setBiomes(biomes);
         discovery.setScanResponse(scanResponse);
-        discovery.setCreeks(creeks);
+        discovery.getCreeks().addAll(creeks);
         context.setLastDiscovery(discovery);
 
         return context;

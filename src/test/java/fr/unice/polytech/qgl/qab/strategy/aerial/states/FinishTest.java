@@ -2,7 +2,9 @@ package fr.unice.polytech.qgl.qab.strategy.aerial.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.simple.common.Land;
+import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
+import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.map.tile.Creek;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
@@ -19,27 +21,27 @@ import static junit.framework.TestCase.assertEquals;
  * @version 22/12/15.
  */
 public class FinishTest {
-    Finish finish;
+    LandInGround land;
 
     @Before
     public void defineContext() {
-        finish = new Finish();
+        land = new LandInGround();
     }
 
     @Test
     public void testInstance() {
-        Finish end = new Finish();
-        assertEquals(finish.getClass(), end.getClass());
+        LandInGround end = new LandInGround();
+        assertEquals(land.getClass(), end.getClass());
     }
 
     @Test
-    public void testGetState() throws NegativeBudgetException {
-        AerialState state = finish.getState(new Context(), new Map(), StateMediator.getInstance());
-        assertEquals(state.getClass(), finish.getClass());
+    public void testGetState() throws NegativeBudgetException, PositionOutOfMapRange {
+        AerialState state = land.getState(new Context(), new Map(), StateMediator.getInstance());
+        assertEquals(state.getClass(), land.getClass());
     }
 
     @Test
-    public void testResponseState() throws NegativeBudgetException {
+    public void testResponseState() throws NegativeBudgetException, IndexOutOfBoundsComboAction {
         Discovery discovery = new Discovery();
         Context context = new Context();
         List<Creek> creeks = new ArrayList<>();
@@ -47,7 +49,7 @@ public class FinishTest {
         discovery.setCreeks(creeks);
         context.setLastDiscovery(discovery);
 
-        Action act = finish.responseState(context, new Map(), StateMediator.getInstance());
+        Action act = land.responseState(context, new Map(), StateMediator.getInstance());
         assertEquals(act.getClass(), Land.class);
     }
 }

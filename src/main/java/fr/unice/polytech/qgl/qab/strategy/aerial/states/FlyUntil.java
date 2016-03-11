@@ -7,6 +7,8 @@ import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.UpdaterMap;
 
+import java.io.IOException;
+
 /**
  * This AerialState represents the phase when the plane fly until it gets over the land.
  * @version 12/12/2015.

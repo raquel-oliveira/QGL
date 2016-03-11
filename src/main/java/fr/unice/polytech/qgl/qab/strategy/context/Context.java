@@ -256,16 +256,13 @@ public class Context {
      */
     public int getAcumulatedAmountNecessary(Resource resource){
         int amount = 0;
-        for (int i = 0; i < contracts.size(); i++){
-            if(contracts.get(i).resource() instanceof PrimaryResource){
-                if(contracts.get(i).resource().getName().equals(resource.getName())){
+        for (int i = 0; i < contracts.size(); i++) {
+            if ((contracts.get(i).resource() instanceof PrimaryResource)
+                && contracts.get(i).resource().getName().equals(resource.getName())) {
                     amount += contracts.get(i).amount();
-                }
-            }
-            else if(contracts.get(i).resource() instanceof ManufacturedResource){
-                if(((ManufacturedResource) contracts.get(i).resource()).getRecipe(0).containsKey(resource)){
-                    amount += ((ManufacturedResource) contracts.get(i).resource()).getRecipe(contracts.get(i).amount()).get(resource);
-                }
+            } else if (contracts.get(i).resource() instanceof ManufacturedResource
+                && ((ManufacturedResource) contracts.get(i).resource()).getRecipe(0).containsKey(resource)) {
+                amount += ((ManufacturedResource) contracts.get(i).resource()).getRecipe(contracts.get(i).amount()).get(resource);
             }
         }
         return amount;

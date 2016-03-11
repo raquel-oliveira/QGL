@@ -4,6 +4,7 @@ import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Scan;
+import fr.unice.polytech.qgl.qab.actions.simple.common.Land;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.map.Map;
@@ -131,7 +132,8 @@ public class ScanTheGroundTest {
         context.setLastDiscovery(discovery);
 
         AerialState state = scanTheGround.getState(context, new Map(), StateMediator.getInstance());
-        assertEquals(state.getClass(), new Finish().getClass());
+
+        assertEquals(state.getClass(), ScanTheGround.class);
     }
 
     /**

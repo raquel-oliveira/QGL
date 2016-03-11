@@ -4,9 +4,7 @@ import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.resources.Resource;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
-import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -53,6 +51,16 @@ public class ContractItem {
     public Boolean isComplete(Map<String, Integer> collectedResources){
        if(collectedResources.containsKey(resource.getName())){
            if(collectedResources.get(resource.getName()) >= amount){ completeContract = true;}
+       }
+       if (resource instanceof PrimaryResource) {
+           if (collectedResources.containsKey(resource.getName()) &&
+                   collectedResources.get(resource.getName()) >= amount) {
+                   completeContract = true;
+           }
+           return completeContract;
+       }
+       else if(resource instanceof ManufacturedResource){
+           //Todo: Implement taking in count count after transform
        }
         return completeContract;
     }
