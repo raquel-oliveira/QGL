@@ -84,8 +84,8 @@ Improvement of map to locate better tile with good biomes. Refactory code: remov
 
 ### Week 10
 
-Factory Pattern implemented, improvement of the tests.
+Factory Pattern implemented, improvement of the tests. Fix problem( gamplay issue) of wee09.
 
-### Week 10
+### Week 11
 
 Short list of the **features** available in the bot delivered for the championship that happened at the end of week 11.
