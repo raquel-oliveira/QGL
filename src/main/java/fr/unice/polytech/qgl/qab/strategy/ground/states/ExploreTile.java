@@ -7,8 +7,8 @@ import fr.unice.polytech.qgl.qab.actions.simple.ground.Explore;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-
-import java.util.List;
+import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateFactory;
+import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateType;
 
 /**
  * @version 07/02/16.
@@ -31,10 +31,9 @@ public class ExploreTile extends GroundState {
         context.current().setResourcesToExploit(contextAnalyzer.resourceAnalyzer(context), context);
 
         if (context.current().getResourcesToExploit().isEmpty()) {
-
-            return new ScoutTile();
+            return GroundStateFactory.buildState(GroundStateType.SCOUTTILE);
         } else {
-            return new ExploitTile();
+            return GroundStateFactory.buildState(GroundStateType.EXPLOITTILE);
         }
     }
 

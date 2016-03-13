@@ -53,13 +53,23 @@ public abstract class Combo {
         return actions.remove(index);
     }
 
-    public void defineActions(Direction dir) {};
+    public void defineActions(Direction dir) {
 
-    public void defineActions(int range) {};
+    }
 
-    public void defineActions() {};
+    public void defineActions(int range) {
 
-    public void defineActions(Direction head, Direction moveTo) {};
+    }
 
-    public void defineActions(Direction direction, int range) {};
+    public void defineActions() {
+
+    }
+
+    public void defineActions(Direction head, Direction moveTo) {
+
+    }
+
+    public void defineActions(Direction direction, int range) {
+
+    }
 }

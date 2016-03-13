@@ -2,6 +2,7 @@ package fr.unice.polytech.qgl.qab.strategy.ground.states;
 
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.map.tile.Biomes;
+import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedType;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.response.ExploreResponse;
 import fr.unice.polytech.qgl.qab.response.GlimpseResponse;
@@ -72,6 +73,17 @@ public class ContextAnalyzerTest {
         context.addContract(PrimaryType.FISH.toString(), 10);
 
         assertTrue(contextAnalyzer.resourceAnalyzer(context).contains(PrimaryType.FISH));
+
+        exploreResponse = new ExploreResponse();
+        list = new ArrayList<>();
+        list.add("");
+        list.add(PrimaryType.SUGAR_CANE.toString());
+        exploreResponse.addResource(list);
+
+        discovery.setExploreResponse(exploreResponse);
+        context.setLastDiscovery(discovery);
+        context.addContract(ManufacturedType.RUM.toString(), 10);
+        assertTrue(contextAnalyzer.resourceAnalyzer(context).contains(PrimaryType.SUGAR_CANE));
     }
 
     @Test

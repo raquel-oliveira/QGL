@@ -7,6 +7,8 @@ import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Scan;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.map.Map;
+import fr.unice.polytech.qgl.qab.strategy.aerial.states.factory.AerialStateFactory;
+import fr.unice.polytech.qgl.qab.strategy.aerial.states.factory.AerialStateType;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.UpdaterMap;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
@@ -20,9 +22,11 @@ import java.util.ArrayList;
 public class ScanTheGround extends AerialState {
 
     private static final int SCAN_RATIO = 2;
-
     private UpdaterMap updaterMap;
 
+    /**
+     * ScanTheGround's constructor
+     */
     public ScanTheGround() {
         updaterMap = new UpdaterMap();
     }
@@ -34,16 +38,16 @@ public class ScanTheGround extends AerialState {
         // if is necessary return back to the ground
         if (returnBack(context)) {
             updateContext(context);
-            return new ReturnBack();
+            return AerialStateFactory.buildState(AerialStateType.RETURNBACK);
         }
 
         // if is necessary fly until the ground
         if (needFlyUntil(context, stateMediator)) {
             updateContext(context);
-            return new FlyUntil();
+            return AerialStateFactory.buildState(AerialStateType.FLYUNTIL);
         }
 
-        return new ScanTheGround();
+        return AerialStateFactory.buildState(AerialStateType.SCANTHEGROUND);
     }
 
     @Override

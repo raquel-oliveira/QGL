@@ -224,7 +224,7 @@ public class ResponseHandler {
         ExploitResponse exploit = new ExploitResponse();
         if(jsonObj.getJSONObject(EXTRAS).has(AMOUNT)){
             int amount = jsonObj.getJSONObject(EXTRAS).getInt(AMOUNT);
-            exploit.addData(((Exploit)takeAction).getResource(),amount);
+            exploit.addData(((Exploit)takeAction).getResource(), amount);
             context.addCollectedResources(exploit.getResource(), exploit.getAmount());
         }
 

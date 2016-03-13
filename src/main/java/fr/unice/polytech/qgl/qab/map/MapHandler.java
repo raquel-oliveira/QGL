@@ -14,6 +14,8 @@ import java.util.List;
  */
 public class MapHandler {
     private Map map_tmp = new Map();
+    
+    private MapHandler() {}
 
     public static void updatePositionX(int x, Map map, Direction dir) {
         if (dir.equals(Direction.EAST))

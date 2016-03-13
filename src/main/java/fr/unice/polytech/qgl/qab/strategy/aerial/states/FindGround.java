@@ -7,6 +7,8 @@ import fr.unice.polytech.qgl.qab.actions.simple.aerial.Heading;
 import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboFlyEcho;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.map.Map;
+import fr.unice.polytech.qgl.qab.strategy.aerial.states.factory.AerialStateFactory;
+import fr.unice.polytech.qgl.qab.strategy.aerial.states.factory.AerialStateType;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.UpdaterMap;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
@@ -20,6 +22,9 @@ import java.io.IOException;
 public class FindGround extends AerialState {
     private UpdaterMap updaterMap;
 
+    /**
+     * FindGround's constructor.
+     */
     public FindGround() {
         this.updaterMap = new UpdaterMap();
     }
@@ -28,9 +33,9 @@ public class FindGround extends AerialState {
     public AerialState getState(Context context, Map map, StateMediator stateMediator) {
         if (context.current().getLastAction() instanceof Heading) {
             updateContext(context);
-            return new FlyUntil();
+            return AerialStateFactory.buildState(AerialStateType.FLYUNTIL);
         }
-        return new FindGround();
+        return AerialStateFactory.buildState(AerialStateType.FINDGROUND);
     }
 
     @Override

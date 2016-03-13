@@ -241,12 +241,12 @@ public class Context {
      */
     public int getAcumulatedAmount(Resource resource){
         int amount = 0;
-        for (int i = 0; i < contracts.size(); i++){
+        for (int i = 0; i < contracts.size(); i++) {
             if ((contracts.get(i).resource() instanceof PrimaryResource)
                 && contracts.get(i).resource().getName().equals(resource.getName())) {
                     amount += contracts.get(i).amount();
             } else if (contracts.get(i).resource() instanceof ManufacturedResource
-                && ((ManufacturedResource) contracts.get(i).resource()).getRecipe(0).containsKey(resource)){
+                && ((ManufacturedResource) contracts.get(i).resource()).getRecipe(0).containsKey(resource)) {
                 amount += ((ManufacturedResource) contracts.get(i).resource()).getRecipe(contracts.get(i).amount()).get(resource);
             }
         }
@@ -256,8 +256,10 @@ public class Context {
     public boolean contractsAreComplete(){
         completeContract = true;
         for (int i = 0; i < contracts.size(); i++) {
-            if (!contracts.get(i).isComplete(collectedResources))
-                return completeContract = false;
+            if (!contracts.get(i).isComplete(collectedResources)) {
+                completeContract = false;
+                return completeContract;
+            }
         }
         return completeContract;
     }

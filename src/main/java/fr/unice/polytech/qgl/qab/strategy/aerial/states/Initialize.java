@@ -5,11 +5,11 @@ import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboEchos;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
+import fr.unice.polytech.qgl.qab.strategy.aerial.states.factory.AerialStateFactory;
+import fr.unice.polytech.qgl.qab.strategy.aerial.states.factory.AerialStateType;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.UpdaterMap;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
-
-import java.io.IOException;
 
 /**
  * @version 10.12.2015
@@ -17,6 +17,9 @@ import java.io.IOException;
 public class Initialize extends AerialState {
     private UpdaterMap updaterMap;
 
+    /**
+     * Initialize's constructor.
+     */
     public Initialize() {
         updaterMap = new UpdaterMap();
     }
@@ -34,14 +37,14 @@ public class Initialize extends AerialState {
             // after made the 3 acho and see if it's necessary go to the corner
             if (context.current().getComboAction().isEmpty() && stateMediator.shouldGoToTheCorner()) {
                 updateContext(context);
-                return new GoToTheCorner();
+                return AerialStateFactory.buildState(AerialStateType.GOTOTHECORNER);
             } else if (context.current().getComboAction().isEmpty() && !stateMediator.shouldGoToTheCorner()) {
                 updaterMap.setFirtsPosition(context, map);
                 updateContext(context);
-                return new FindGround();
+                return AerialStateFactory.buildState(AerialStateType.FINDGROUND);
             }
         }
-        return new Initialize();
+        return AerialStateFactory.buildState(AerialStateType.INITIALIZE);
     }
 
     @Override

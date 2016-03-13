@@ -6,6 +6,8 @@ import fr.unice.polytech.qgl.qab.actions.simple.aerial.Heading;
 import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboReturn;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.map.Map;
+import fr.unice.polytech.qgl.qab.strategy.aerial.states.factory.AerialStateFactory;
+import fr.unice.polytech.qgl.qab.strategy.aerial.states.factory.AerialStateType;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.UpdaterMap;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
@@ -17,6 +19,9 @@ public class ReturnBack extends AerialState {
 
     private UpdaterMap updaterMap;
 
+    /**
+     * ReturnBack's constructor
+     */
     public ReturnBack() {
         updaterMap = new UpdaterMap();
     }
@@ -29,13 +34,13 @@ public class ReturnBack extends AerialState {
                 if (context.getLastDiscovery().getEchoResponse().getRange() >= 1) {
                     updateContext(context);
                     stateMediator.setRangeToGround(context.getLastDiscovery().getEchoResponse().getRange() + 1);
-                    return new FlyUntil();
+                    return AerialStateFactory.buildState(AerialStateType.FLYUNTIL);
                 } else {
                     updateContext(context);
-                    return new ScanTheGround();
+                    return AerialStateFactory.buildState(AerialStateType.SCANTHEGROUND);
                 }
             } else {
-                return new LandInGround();
+                return AerialStateFactory.buildState(AerialStateType.LANDINGROUND);
             }
         }
 
