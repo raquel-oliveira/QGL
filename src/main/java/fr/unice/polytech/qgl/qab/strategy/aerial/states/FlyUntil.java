@@ -4,6 +4,8 @@ import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboFlyUntil;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.map.Map;
+import fr.unice.polytech.qgl.qab.strategy.aerial.states.factory.AerialStateFactory;
+import fr.unice.polytech.qgl.qab.strategy.aerial.states.factory.AerialStateType;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.UpdaterMap;
 
@@ -17,6 +19,9 @@ public class FlyUntil extends AerialState {
 
     private UpdaterMap updaterMap;
 
+    /**
+     * FlyUntil's constructor
+     */
     public FlyUntil() {
         updaterMap = new UpdaterMap();
     }
@@ -25,9 +30,9 @@ public class FlyUntil extends AerialState {
     public AerialState getState(Context context, Map map, StateMediator stateMediator) {
         if (context.current().getComboAction().isEmpty()) {
             updateContext(context);
-            return new ScanTheGround();
+            return AerialStateFactory.buildState(AerialStateType.SCANTHEGROUND);
         }
-        return new FlyUntil();
+        return AerialStateFactory.buildState(AerialStateType.FLYUNTIL);
     }
 
     @Override

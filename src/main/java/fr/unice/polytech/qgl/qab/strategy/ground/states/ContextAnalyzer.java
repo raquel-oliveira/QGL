@@ -51,14 +51,18 @@ public class ContextAnalyzer {
                 resources.add(PrimaryType.valueOf(item.resource().getName()));
             }
             else if (item.resource() instanceof ManufacturedResource) {
-                for (PrimaryType itemRecipe: ((ManufacturedResource) item.resource()).getRecipe(0).keySet()) {
-                    if(context.getLastDiscovery().getExploreResponse().contains(itemRecipe)) {
-                        resources.add(itemRecipe);
-                    }
-                }
+                addResources(context, resources, item);
             }
         }
         return resources;
+    }
+
+    private static void addResources(Context context, List<PrimaryType> resources, ContractItem item) {
+        for (PrimaryType itemRecipe: ((ManufacturedResource) item.resource()).getRecipe(0).keySet()) {
+            if(context.getLastDiscovery().getExploreResponse().contains(itemRecipe)) {
+                resources.add(itemRecipe);
+            }
+        }
     }
 
     public List<PrimaryType> analyzerScout(Context context) {
@@ -99,12 +103,7 @@ public class ContextAnalyzer {
         // two first tiles
         for (HashMap<Biomes, Double> tile: initialTiles) {
             for (Biomes key : tile.keySet()) {
-                for (ContractItem item: contract) {
-                    if (item.resource().getBiome().contains(key)) {
-                        findGoodBiome = true;
-                        break;
-                    }
-                }
+                findGoodBiome = findGoodBiome(contract, key);
                 if (findGoodBiome)
                     break;
             }
@@ -115,28 +114,25 @@ public class ContextAnalyzer {
 
         List<Biomes> thirdTile = gr.getThirdTile();
         for (Biomes key : thirdTile) {
-            for (ContractItem item: contract) {
-                if (item.resource().getBiome().contains(key)) {
-                    findGoodBiome = true;
-                    break;
-                }
-            }
+            findGoodBiome = findGoodBiome(contract, key);
             if (findGoodBiome)
                 break;
         }
         goodTiles.add(indexTile, findGoodBiome);
-        findGoodBiome = false;
         indexTile++;
 
         Biomes fourth = gr.getFourthTile();
-        for (ContractItem item: contract) {
-            if (item.resource().getBiome().contains(fourth)) {
-                findGoodBiome = true;
-                break;
-            }
-        }
+        findGoodBiome = findGoodBiome(contract, fourth);
         goodTiles.add(indexTile, findGoodBiome);
 
         return goodTiles;
+    }
+
+    private static boolean findGoodBiome(List<ContractItem> contract, Biomes biome) {
+        for (ContractItem item: contract) {
+            if (item.resource().getBiome().contains(biome))
+                return true;
+        }
+        return false;
     }
 }

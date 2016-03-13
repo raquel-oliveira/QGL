@@ -5,6 +5,8 @@ import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
+import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateFactory;
+import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateType;
 import fr.unice.polytech.qgl.qab.strategy.ground.states.GroundState;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.ground.states.FindTile;
@@ -20,7 +22,7 @@ public class GroundStrategy implements IGroundStrategy {
      * GroundStrategy's constructor.
      */
     public GroundStrategy() {
-        state = new FindTile();
+        state = GroundStateFactory.buildState(GroundStateType.FINDTILE);
     }
 
     @Override
@@ -39,7 +41,7 @@ public class GroundStrategy implements IGroundStrategy {
      * @param context datas about the simulation context
      * @return stop if the budget is less than 100 and null if the simulation can continue
      */
-    private Action contextAnalyzer(Context context) {
+    private static Action contextAnalyzer(Context context) {
         if (context.getBudget() < 400) {
             return new Stop();
         }

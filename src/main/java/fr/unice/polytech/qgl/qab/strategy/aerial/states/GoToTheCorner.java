@@ -6,6 +6,8 @@ import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Heading;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.map.Map;
+import fr.unice.polytech.qgl.qab.strategy.aerial.states.factory.AerialStateFactory;
+import fr.unice.polytech.qgl.qab.strategy.aerial.states.factory.AerialStateType;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 
@@ -13,16 +15,15 @@ import fr.unice.polytech.qgl.qab.util.enums.Found;
  * @version 17/12/15.
  */
 public class GoToTheCorner extends AerialState {
-
     @Override
     public AerialState getState(Context context, Map map, StateMediator stateMediator) {
         // if the plane found a space to initialize the dimention
         if (foundFreeZone(context)) {
             stateMediator.setGoToTheCorner(false);
             updateContext(context);
-            return new Initialize();
+            return AerialStateFactory.buildState(AerialStateType.INITIALIZE);
         } else
-            return new GoToTheCorner();
+            return AerialStateFactory.buildState(AerialStateType.GOTOTHECORNER);
     }
 
     @Override

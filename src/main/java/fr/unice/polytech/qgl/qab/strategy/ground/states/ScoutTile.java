@@ -8,6 +8,8 @@ import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
+import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateFactory;
+import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateType;
 
 /**
  * @version 01/03/16.
@@ -23,13 +25,13 @@ public class ScoutTile extends GroundState {
     public GroundState getState(Context context, Map map) throws PositionOutOfMapRange {
         if (context.current().getLastAction() instanceof MoveTo
                 &&  !contextAnalyzer.analyzerScout(context).isEmpty()) {
-            return new ExploreTile();
+            return GroundStateFactory.buildState(GroundStateType.EXPLORETILE);
         }
 
         if (context.current().getComboAction().isEmpty()) {
-            return new FindTile();
+            return GroundStateFactory.buildState(GroundStateType.FINDTILE);
         }
-        return new ScoutTile();
+        return GroundStateFactory.buildState(GroundStateType.SCOUTTILE);
     }
 
     @Override
