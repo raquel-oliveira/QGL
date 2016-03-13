@@ -8,6 +8,8 @@ import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.aerial.states.AerialState;
 import fr.unice.polytech.qgl.qab.strategy.aerial.states.Initialize;
 import fr.unice.polytech.qgl.qab.strategy.aerial.states.StateMediator;
+import fr.unice.polytech.qgl.qab.strategy.aerial.states.factory.AerialStateFactory;
+import fr.unice.polytech.qgl.qab.strategy.aerial.states.factory.AerialStateType;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 
 /**
@@ -18,7 +20,7 @@ public class AerialStrategy implements IAerialStrategy {
     private StateMediator stateMediator;
 
     public AerialStrategy() {
-        state = new Initialize();
+        state = AerialStateFactory.buildState(AerialStateType.INITIALIZE);
         stateMediator = StateMediator.getInstance();
     }
 
