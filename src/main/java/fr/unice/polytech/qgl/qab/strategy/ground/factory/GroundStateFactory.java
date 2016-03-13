@@ -14,7 +14,7 @@ public class GroundStateFactory {
                 state = new FindTile();
                 break;
 
-            case EXPLOIT:
+            case EXPLOITTILE:
                 state = new ExploitTile();
                 break;
 

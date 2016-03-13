@@ -10,6 +10,8 @@ import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.map.MapHandler;
 import fr.unice.polytech.qgl.qab.map.tile.Position;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
+import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateFactory;
+import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateType;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 import java.util.List;
@@ -26,9 +28,9 @@ public class FindTile extends GroundState {
                 context.current().getStatus() == 3) {
             context.current().setComboAction(null);
             context.current().setStatus(0);
-            return new ScoutTile();
+            return GroundStateFactory.buildState(GroundStateType.SCOUTTILE);
         }
-        return new FindTile();
+        return GroundStateFactory.buildState(GroundStateType.FINDTILE);
     }
 
     @Override
