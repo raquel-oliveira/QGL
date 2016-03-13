@@ -225,11 +225,12 @@ public class Context {
      */
     public void addContract(String resource, int amount) throws NegativeBudgetException {
         try {
-            contracts.add(new ContractItem(new ManufacturedResource(ManufacturedType.valueOf(resource)), amount));
+            //TODO: change fromString to valueOf()
+            contracts.add(new ContractItem(new ManufacturedResource(ManufacturedType.fromString(resource)), amount));
             //update the resources manufatured in the list of resources to be create.
             setResourcesToCreate();
         } catch (Exception ex) {
-            contracts.add(new ContractItem(new PrimaryResource(PrimaryType.valueOf(resource)), amount));
+            contracts.add(new ContractItem(new PrimaryResource(PrimaryType.fromString(resource)), amount));
         }
     }
 
