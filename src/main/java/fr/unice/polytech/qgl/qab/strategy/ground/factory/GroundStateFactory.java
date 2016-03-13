@@ -6,8 +6,12 @@ import fr.unice.polytech.qgl.qab.strategy.ground.states.*;
  * @version 13/03/16.
  */
 public class GroundStateFactory {
+
+    private GroundStateFactory() {
+    }
+
     public static GroundState buildState(GroundStateType model) {
-        GroundState state = null;
+        GroundState state;
 
         switch (model) {
             case FINDTILE:

@@ -6,8 +6,12 @@ import fr.unice.polytech.qgl.qab.strategy.aerial.states.*;
  * @version 13/03/16.
  */
 public class AerialStateFactory {
+
+    private AerialStateFactory() {
+    }
+
     public static AerialState buildState(AerialStateType model) {
-        AerialState state = null;
+        AerialState state;
 
         switch (model) {
             case INITIALIZE:
