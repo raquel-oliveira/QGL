@@ -52,18 +52,8 @@ public class ContractItem {
        if(collectedResources.containsKey(resource.getName())){
            if(collectedResources.get(resource.getName()) >= amount){ completeContract = true;}
        }
-       if (resource instanceof PrimaryResource) {
-           if (collectedResources.containsKey(resource.getName()) &&
-                   collectedResources.get(resource.getName()) >= amount) {
-                   completeContract = true;
-           }
-           return completeContract;
-       }
-       else if(resource instanceof ManufacturedResource){
-           //Todo: Implement taking in count count after transform
-           completeContract = false;
-       }
         return completeContract;
+        //TODO: Later optimize to take account if you have the need to fill after the transform. (Without having done the transform)
     }
 }
 
