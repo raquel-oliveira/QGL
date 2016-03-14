@@ -23,9 +23,10 @@ public class TransformeResource extends GroundState {
     public GroundState getState(Context context, Map map) throws PositionOutOfMapRange {
         if (context.getResourcesToCreate().isEmpty()) {
             updateContext(context);
-           // return new Stop();
-        } //else
+            return new StopSimulation();
+        } else {
             return new TransformeResource();
+        }
     }
 
     @Override
@@ -37,7 +38,6 @@ public class TransformeResource extends GroundState {
         ManufacturedResource res = context.getResourcesToCreate().get(0);
         for(java.util.Map.Entry<PrimaryType, Integer> ingredientRecipe : ((ManufacturedResource) contracts.get(contracts.indexOf(res)).resource()).getRecipe(0).entrySet()) {
             if(context.getContracts().contains(ingredientRecipe.getKey())){
-                //recipe.add(ingredientRecipe, context.getCollectedResources(ingredientRecipe.getKey().name()));
                 recipe.put(ingredientRecipe.getKey(), context.getQtdToUse(res, new PrimaryResource(ingredientRecipe.getKey())));
             }
         }

@@ -31,10 +31,14 @@ public class GroundStrategy implements IGroundStrategy {
 
     @Override
     public Action makeDecision(Context context, Map map) throws PositionOutOfMapRange, IndexOutOfBoundsComboAction {
-        if (contextAnalyzer(context) != null) {
-            return contextAnalyzer(context);
+        int flag = contextAnalyzer(context);
+        switch (flag) {
+            case 1:
+                return new Stop();
+            case 2:
+                state = GroundStateFactory.buildState(GroundStateType.TRANSFORM);
+                return state.responseState(context, map);
         }
-
         state = state.getState(context, map);
         return state.responseState(context, map);
     }
@@ -50,19 +54,20 @@ public class GroundStrategy implements IGroundStrategy {
     /**
      * Method that checks the context to know if it is the moment to stop or to transform.
      * @param context datas about the simulation context
-     * @return stop if the budget is less than 100 and null if the simulation can continue
+     * @return 1 if the action its to Stop
+     * @return 2 if the state to do its to transform
+     * @return 0 if its can continue.
      */
-    private Action contextAnalyzer(Context context) {
+    private int contextAnalyzer(Context context) {
         //If all contracts are filled or there is with low quantity of budgets
         if(context.contractsAreComplete() || context.getBudget() < getLimitBudget()){
-            return new Stop();
+            return 1;
         }
-        //TODO: Go to state of TransformeResource, but returns a action
         if(context.getBudget() < getLimitBudget() + MIN_NB_BUDGET_TO_TRANSFORME){
-
+            return 2;
         }
 
-        return null;
+        return 0;
     }
 
 }
