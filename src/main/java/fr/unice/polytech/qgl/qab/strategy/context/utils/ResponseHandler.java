@@ -80,9 +80,9 @@ public class ResponseHandler {
             tempContext = readDataFromExploit(contextIsland, jsonObj, takeAction);
         } else if (takeAction instanceof Scout) {
             tempContext = readDataFromScout(contextIsland, jsonObj, takeAction);
-        } else if (takeAction instanceof Transform){
+        }/*else if (takeAction instanceof Transform){
             tempContext = readDataFromTransform(contextIsland, jsonObj);
-        }
+        }*/
         return tempContext;
     }
 

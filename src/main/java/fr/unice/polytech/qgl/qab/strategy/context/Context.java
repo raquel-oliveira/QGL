@@ -227,7 +227,7 @@ public class Context {
         try {
             contracts.add(new ContractItem(new ManufacturedResource(ManufacturedType.valueOf(resource)), amount));
             //update the resources manufatured in the list of resources to be create.
-            setResourcesToCreate();
+           // setResourcesToCreate();
         } catch (Exception ex) {
             contracts.add(new ContractItem(new PrimaryResource(PrimaryType.valueOf(resource)), amount));
         }

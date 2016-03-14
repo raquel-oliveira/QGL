@@ -61,6 +61,7 @@ public class ContractItem {
        }
        else if(resource instanceof ManufacturedResource){
            //Todo: Implement taking in count count after transform
+           completeContract = false;
        }
         return completeContract;
     }
