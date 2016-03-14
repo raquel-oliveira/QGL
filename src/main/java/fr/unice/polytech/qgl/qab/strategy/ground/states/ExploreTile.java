@@ -40,7 +40,6 @@ public class ExploreTile extends GroundState {
     @Override
     public Action responseState(Context context, Map map) {
         Action act;
-
         if (context.contractsAreComplete()){
             act = new Stop();
             context.current().setLastAction(act);

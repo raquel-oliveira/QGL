@@ -155,9 +155,7 @@ public class ContextAction {
         this.comboAction = comboAction;
     }
 
-    public List<PrimaryType> getResourcesToExploit() {
-        return resourcesToExploit;
-    }
+    public List<PrimaryType> getResourcesToExploit() { return resourcesToExploit; }
 
     public void setResourcesToExploit(List<PrimaryType> resourcesToExploit, Context context) {
         java.util.Map<String, Integer> collectedResource = context.getCollectedResources();
@@ -168,7 +166,7 @@ public class ContextAction {
                 this.resourcesToExploit.add(resourcesToExploit.get(0));
                 resourcesToExploit.remove(0);
             }
-            else if(collectedResource.get(resource) < context.getAcumulatedAmount(res)) {
+            else if(collectedResource.get(resource) < context.getAcumulatedAmountNecessary(res)) {
                 this.resourcesToExploit.add(resourcesToExploit.get(0));
                 resourcesToExploit.get(0);
                 resourcesToExploit.remove(0);

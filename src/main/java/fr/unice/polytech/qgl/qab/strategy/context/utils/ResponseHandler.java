@@ -4,13 +4,14 @@ import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Scan;
-import fr.unice.polytech.qgl.qab.actions.simple.ground.Exploit;
-import fr.unice.polytech.qgl.qab.actions.simple.ground.Explore;
-import fr.unice.polytech.qgl.qab.actions.simple.ground.Glimpse;
-import fr.unice.polytech.qgl.qab.actions.simple.ground.Scout;
+import fr.unice.polytech.qgl.qab.actions.simple.ground.*;
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.map.tile.Creek;
+import fr.unice.polytech.qgl.qab.resources.Resource;
+import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
+import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedType;
+import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.response.*;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
@@ -39,6 +40,8 @@ public class ResponseHandler {
     private static final String BIOMES = "biomes";
     private static final String CREEKS = "creeks";
     private static final String AMOUNT = "amount";
+    private static final String PRODUCTION = "production";
+    private static final String KIND = "kind";
 
 
     /**
@@ -77,6 +80,8 @@ public class ResponseHandler {
             tempContext = readDataFromExploit(contextIsland, jsonObj, takeAction);
         } else if (takeAction instanceof Scout) {
             tempContext = readDataFromScout(contextIsland, jsonObj, takeAction);
+        } else if (takeAction instanceof Transform){
+            tempContext = readDataFromTransform(contextIsland, jsonObj);
         }
         return tempContext;
     }
@@ -258,5 +263,29 @@ public class ResponseHandler {
         contextIsland.setLastDiscovery(discovery);
 
         return contextIsland;
+    }
+
+    private Context readDataFromTransform(Context context,  JSONObject jsonObj){
+        List<ContractItem> contracts = context.getContracts();
+        TransformResponse transform = new TransformResponse();
+
+        if(jsonObj.getJSONObject(EXTRAS).has(PRODUCTION) && jsonObj.getJSONObject(EXTRAS).has(KIND)) {
+            int amount = jsonObj.getJSONObject(EXTRAS).getInt(AMOUNT);
+            String resource = jsonObj.getJSONObject(EXTRAS).getString(KIND);
+            //Add Data
+            transform.addData(new ManufacturedResource(ManufacturedType.fromString(resource)), amount);
+            //Add the transformed resource in collected resources
+            context.addCollectedResources(transform.getResource(), transform.getAmount());
+            //Delete primary resources transformed (Update collected Resources)
+            for(java.util.Map.Entry<PrimaryType, Integer> ingredientRecipe : ((ManufacturedResource) contracts.get(contracts.indexOf(resource)).resource()).getRecipe(amount).entrySet()) {
+                PrimaryResource primary = new PrimaryResource(ingredientRecipe.getKey());
+                context.decreaseAmountOfCollectedResources(primary, ingredientRecipe.getValue());
+            }
+        }
+
+        discovery.setTransformResponse(transform);
+        context.setLastDiscovery(discovery);
+        return context;
+
     }
 }

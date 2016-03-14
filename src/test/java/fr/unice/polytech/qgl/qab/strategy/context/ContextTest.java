@@ -75,19 +75,19 @@ public class ContextTest {
     @Test
     public void testAcumulletedResources() throws NegativeBudgetException {
         context.addContract("FISH", 10);
-        int amount = context.getAcumulatedAmount(new PrimaryResource(PrimaryType.FISH));
+        int amount = context.getAcumulatedAmountNecessary(new PrimaryResource(PrimaryType.FISH));
         assertEquals(10, amount);
 
         context.addContract("WOOD", 10);
         context.addContract("GLASS", 10);
-        amount = context.getAcumulatedAmount(new ManufacturedResource(ManufacturedType.GLASS));
+        amount = context.getAcumulatedAmountNecessary(new ManufacturedResource(ManufacturedType.GLASS));
         assertEquals(0, amount);
 
-        amount = context.getAcumulatedAmount(new PrimaryResource(PrimaryType.WOOD));
+        amount = context.getAcumulatedAmountNecessary(new PrimaryResource(PrimaryType.WOOD));
         assertEquals(10, amount);
 
         context.addContract("INGOT", 20);
-        amount = context.getAcumulatedAmount(new PrimaryResource(PrimaryType.WOOD));
+        amount = context.getAcumulatedAmountNecessary(new PrimaryResource(PrimaryType.WOOD));
         assertEquals(10, amount);
     }
 }
