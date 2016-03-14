@@ -56,7 +56,6 @@ public class Context {
         firstHead = null;
         heading = null;
         lastDiscovery = null;
-        collectedResources = null;
 
         contextActionCurrent = new ContextAction();
         contextActionAerial = new ContextAction();
