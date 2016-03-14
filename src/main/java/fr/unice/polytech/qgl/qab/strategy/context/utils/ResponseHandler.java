@@ -273,7 +273,7 @@ public class ResponseHandler {
             int amount = jsonObj.getJSONObject(EXTRAS).getInt(AMOUNT);
             String resource = jsonObj.getJSONObject(EXTRAS).getString(KIND);
             //Add Data
-            transform.addData(new ManufacturedResource(ManufacturedType.fromString(resource)), amount);
+            transform.addData(new ManufacturedResource(ManufacturedType.valueOf(resource)), amount);
             //Add the transformed resource in collected resources
             context.addCollectedResources(transform.getResource(), transform.getAmount());
             //Delete primary resources transformed (Update collected Resources)
