@@ -12,7 +12,7 @@ import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
  * @version 29/12/15.
@@ -73,7 +73,7 @@ public class ContextTest {
     }
 
     @Test
-    public void testAcumulletedResources() throws NegativeBudgetException {
+    public void testAcumullatedResources() throws NegativeBudgetException {
         context.addContract("FISH", 10);
         int amount = context.getAcumulatedAmountNecessary(new PrimaryResource(PrimaryType.FISH));
         assertEquals(10, amount);
@@ -89,5 +89,25 @@ public class ContextTest {
         context.addContract("INGOT", 20);
         amount = context.getAcumulatedAmountNecessary(new PrimaryResource(PrimaryType.WOOD));
         assertEquals(10, amount);
+    }
+
+    @Test
+    public void testDecreaseAmout() throws NegativeBudgetException {
+        context.addContract("WOOD", 10000);
+        context.addCollectedResources(new PrimaryResource(PrimaryType.WOOD), 10);
+        int collected = context.getCollectedResources().get(new PrimaryResource(PrimaryType.WOOD).getName());
+        assertEquals(10, collected);
+
+        context.decreaseAmountOfCollectedResources(new PrimaryResource(PrimaryType.WOOD), 6);
+        collected = context.getCollectedResources().get(new PrimaryResource(PrimaryType.WOOD).getName());
+        assertEquals(4, collected);
+
+        context.decreaseAmountOfCollectedResources(new PrimaryResource(PrimaryType.WOOD), 5);
+        collected = context.getCollectedResources().get(new PrimaryResource(PrimaryType.WOOD).getName());
+        assertNotEquals(-1, collected);
+        assertNotEquals(4, collected);
+        assertEquals(0, collected);
+
+        context.decreaseAmountOfCollectedResources(new PrimaryResource(PrimaryType.FISH), 6);
     }
 }

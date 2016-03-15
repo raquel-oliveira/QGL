@@ -14,6 +14,10 @@ import fr.unice.polytech.qgl.qab.util.Discovery;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
+
 import java.util.*;
 
 /**
@@ -22,6 +26,9 @@ import java.util.*;
  * Class that represents the context of the simulation.
  */
 public class Context {
+    private static final Logger LOGGER = LogManager.getLogger(Context.class);
+    private static final String ERROR = "error: try to decrese a amount of a resource that was not collected";
+
     private int men;
     private boolean status;
     private Budget budget;
@@ -52,6 +59,7 @@ public class Context {
         budget = new Budget(0);
         contracts = new ArrayList<>();
         collectedResources = new HashMap<>();
+        resourcesToCreate = new ArrayList<>();
         completeContract = false;
         firstHead = null;
         heading = null;
@@ -60,6 +68,7 @@ public class Context {
         contextActionCurrent = new ContextAction();
         contextActionAerial = new ContextAction();
         contextActionGround = new ContextAction();
+        //setResourcesToCreate();
     }
 
     /**
@@ -168,10 +177,20 @@ public class Context {
      * @param amount
      */
     public void decreaseAmountOfCollectedResources(Resource resource, int amount) {
-        if (collectedResources.containsKey(resource.getName())) {
-            collectedResources.put(resource.getName(), collectedResources.get(resource.getName()) - amount);
-        } else {
-           //todo: exception
+        try{
+            //if (collectedResources.containsKey(resource.getName())) {
+            int newAmount = collectedResources.get(resource.getName()) - amount;
+            if( newAmount >= 0){
+                collectedResources.put(resource.getName(), newAmount);
+            }
+            else {
+                LOGGER.error("error: Try to decrease a quantity of "+ resource.getName() + " more than you collected");
+               // Or is better not decrease anything?
+                collectedResources.put(resource.getName(), 0);
+            }
+            //}
+        }catch (Exception e){
+            LOGGER.error(ERROR,e);
         }
     }
 
@@ -326,7 +345,7 @@ public class Context {
         return resourcesToCreate;
     }
 
-    private void setResourcesToCreate(){
+    public void setResourcesToCreate(){
         for(int i = 0; i < contracts.size(); i++){
             if ((contracts.get(i).resource()) instanceof ManufacturedResource && !contracts.get(i).isComplete(collectedResources)){
                 resourcesToCreate.add((ManufacturedResource) contracts.get(i).resource());
