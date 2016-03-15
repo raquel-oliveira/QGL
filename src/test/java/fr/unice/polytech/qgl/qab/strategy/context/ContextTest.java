@@ -93,20 +93,22 @@ public class ContextTest {
 
     @Test
     public void testDecreaseAmout() throws NegativeBudgetException {
+
         context.addContract("WOOD", 10000);
         context.addCollectedResources(new PrimaryResource(PrimaryType.WOOD), 10);
         int collected = context.getCollectedResources().get(new PrimaryResource(PrimaryType.WOOD).getName());
         assertEquals(10, collected);
 
-        context.decreaseAmountOfCollectedResources(new PrimaryResource(PrimaryType.WOOD), 6);
-        collected = context.getCollectedResources().get(new PrimaryResource(PrimaryType.WOOD).getName());
-        assertEquals(4, collected);
+        int decrease = context.decreaseAmountOfCollectedResources(new PrimaryResource(PrimaryType.WOOD), 6);
+        int newcollected = context.getCollectedResources().get(new PrimaryResource(PrimaryType.WOOD).getName());
+        assertEquals(newcollected, collected-decrease);
+        collected = newcollected;
 
-        context.decreaseAmountOfCollectedResources(new PrimaryResource(PrimaryType.WOOD), 5);
-        collected = context.getCollectedResources().get(new PrimaryResource(PrimaryType.WOOD).getName());
-        assertNotEquals(-1, collected);
-        assertNotEquals(4, collected);
-        assertEquals(0, collected);
+        decrease = context.decreaseAmountOfCollectedResources(new PrimaryResource(PrimaryType.WOOD), 5);
+        newcollected = context.getCollectedResources().get(new PrimaryResource(PrimaryType.WOOD).getName());
+        assertEquals(newcollected, collected-decrease);
+        assertNotEquals(collected-5, newcollected);
+        collected = newcollected;
 
         context.decreaseAmountOfCollectedResources(new PrimaryResource(PrimaryType.FISH), 6);
     }
