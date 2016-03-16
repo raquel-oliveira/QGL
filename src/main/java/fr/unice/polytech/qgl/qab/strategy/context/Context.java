@@ -176,21 +176,23 @@ public class Context {
      * @param resource
      * @param amount
      */
-    public void decreaseAmountOfCollectedResources(Resource resource, int amount) {
+    public int decreaseAmountOfCollectedResources(Resource resource, int amount) {
         try{
-            //if (collectedResources.containsKey(resource.getName())) {
             int newAmount = collectedResources.get(resource.getName()) - amount;
             if( newAmount >= 0){
                 collectedResources.put(resource.getName(), newAmount);
+                return amount;
             }
             else {
-                LOGGER.error("error: Try to decrease a quantity of "+ resource.getName() + " more than you collected");
-               // Or is better not decrease anything?
-                collectedResources.put(resource.getName(), 0);
+                //LOGGER.error("error: Try to decrease a quantity of "+ resource.getName() + " more than you collected");
+                newAmount = 0;
+                int beforeDecrease = collectedResources.get(resource.getName());
+                collectedResources.put(resource.getName(), newAmount);
+                return beforeDecrease;
             }
-            //}
         }catch (Exception e){
-            LOGGER.error(ERROR,e);
+            //LOGGER.error(ERROR,e);
+            return -1;
         }
     }
 
