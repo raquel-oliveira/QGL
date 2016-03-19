@@ -63,7 +63,11 @@ public class GroundStrategy implements IGroundStrategy {
         if(context.contractsAreComplete() || context.getBudget() < getLimitBudget()){
             return 1;
         }
-        if(context.getBudget() < getLimitBudget() + MIN_NB_BUDGET_TO_TRANSFORME){
+
+        //todo: create a for or method to do transform when there is enough primary resources to complete evrything.
+
+        //If you have to transform befor stop. But all primary resources were not completed to make the manufactured resources
+        if((context.getBudget() < getLimitBudget() + MIN_NB_BUDGET_TO_TRANSFORME) /*&& (!context.getResourcesToCreate().isEmpty())*/){
             return 2;
         }
 
