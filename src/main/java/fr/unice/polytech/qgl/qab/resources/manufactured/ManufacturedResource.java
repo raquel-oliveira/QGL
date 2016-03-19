@@ -16,6 +16,15 @@ public class ManufacturedResource implements Resource {
     private ManufacturedType resource;
     private EnumMap<PrimaryType, Integer> recipe = new EnumMap<PrimaryType, Integer>(PrimaryType.class);
     private Set<Biomes> biomes = new HashSet<>();
+    private boolean transformed = false;
+
+    public boolean isTransformed() {
+        return transformed;
+    }
+
+    public void setTransformed(boolean transformed) {
+        this.transformed = transformed;
+    }
 
     /**
      * ManufacturedResource's constructor
@@ -111,5 +120,9 @@ public class ManufacturedResource implements Resource {
         return recipe;
     }
 
+    @Override
+    public boolean isPrimary() {
+        return false;
+    }
    
 }

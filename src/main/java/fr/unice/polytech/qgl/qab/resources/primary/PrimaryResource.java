@@ -78,6 +78,11 @@ public class PrimaryResource implements Resource {
     }
 
     @Override
+    public boolean isPrimary() {
+        return true;
+    }
+
+    @Override
     public Set<Biomes> getBiome(){
         return biomes;
     }
