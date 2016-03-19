@@ -80,9 +80,9 @@ public class ResponseHandler {
             tempContext = readDataFromExploit(contextIsland, jsonObj, takeAction);
         } else if (takeAction instanceof Scout) {
             tempContext = readDataFromScout(contextIsland, jsonObj, takeAction);
-        }/*else if (takeAction instanceof Transform){
+        }else if (takeAction instanceof Transform){
             tempContext = readDataFromTransform(contextIsland, jsonObj);
-        }*/
+        }
         return tempContext;
     }
 
@@ -276,10 +276,13 @@ public class ResponseHandler {
             transform.addData(new ManufacturedResource(ManufacturedType.valueOf(resource)), amount);
             //Add the transformed resource in collected resources
             context.addCollectedResources(transform.getResource(), transform.getAmount());
-            //Delete primary resources transformed (Update collected Resources)
+            // Update that this manufactured was already "created"
+            ((ManufacturedResource) contracts.get(contracts.indexOf(resource)).resource()).setTransformed(true);
+            //Delete primary resources used to create the manufactured (Update collected Resources)
             for(java.util.Map.Entry<PrimaryType, Integer> ingredientRecipe : ((ManufacturedResource) contracts.get(contracts.indexOf(resource)).resource()).getRecipe(amount).entrySet()) {
                 PrimaryResource primary = new PrimaryResource(ingredientRecipe.getKey());
-                context.decreaseAmountOfCollectedResources(primary, ingredientRecipe.getValue());
+                //int qtdToUse =
+                    context.decreaseAmountOfCollectedResources(primary, ingredientRecipe.getValue());
             }
         }
 
