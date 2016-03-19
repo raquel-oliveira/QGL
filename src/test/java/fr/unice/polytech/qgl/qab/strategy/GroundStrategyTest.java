@@ -2,6 +2,7 @@ package fr.unice.polytech.qgl.qab.strategy;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
+import fr.unice.polytech.qgl.qab.actions.simple.ground.Explore;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.MoveTo;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Scout;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
@@ -66,7 +67,7 @@ public class GroundStrategyTest {
         testMoveTo(Direction.SOUTH, 9);
 
         action = strategy.makeDecision(context, map);
-        assertEquals(Scout.class, action.getClass());
+        assertEquals(Explore.class, action.getClass());
 
         action = strategy.makeDecision(context, map);
         assertEquals(MoveTo.class, action.getClass());
