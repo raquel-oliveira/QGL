@@ -23,21 +23,17 @@ public class ExploreTile extends GroundState {
 
     @Override
     public GroundState getState(Context context, Map map) throws PositionOutOfMapRange {
-
         if (context.current().getLastAction() instanceof Explore) {
             context.current().setResourcesToExploit(contextAnalyzer.resourceAnalyzer(context), context);
 
-            if (context.current().getResourcesToExploit().isEmpty()) {
-                return GroundStateFactory.buildState(GroundStateType.SCOUTTILE);
-            } else {
+            if (!context.current().getResourcesToExploit().isEmpty())
                 return GroundStateFactory.buildState(GroundStateType.EXPLOITTILE);
-            }
         }
 
-        if (context.current().getComboAction().isEmpty()) {
+        if (context.current().getComboAction().isEmpty())
             return GroundStateFactory.buildState(GroundStateType.FINDTILE);
-        }
-        return GroundStateFactory.buildState(GroundStateType.SCOUTTILE);
+
+        return GroundStateFactory.buildState(GroundStateType.EXPLORETILE);
     }
 
     @Override

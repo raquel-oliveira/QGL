@@ -23,25 +23,30 @@ public class ComboExploreTile extends Combo {
     @Override
     public void defineActions() {
         actions.add(new Explore());
-        actions.add(new MoveTo(Direction.EAST));
 
+        actions.add(new MoveTo(Direction.EAST));
         actions.add(new Explore());
+
         actions.add(new MoveTo(Direction.SOUTH));
-
         actions.add(new Explore());
+
         actions.add(new MoveTo(Direction.WEST));
         actions.add(new Explore());
+
         actions.add(new MoveTo(Direction.WEST));
-
         actions.add(new Explore());
+
         actions.add(new MoveTo(Direction.NORTH));
         actions.add(new Explore());
-        actions.add(new MoveTo(Direction.NORTH));
 
+        actions.add(new MoveTo(Direction.NORTH));
         actions.add(new Explore());
+
         actions.add(new MoveTo(Direction.EAST));
         actions.add(new Explore());
+
         actions.add(new MoveTo(Direction.EAST));
+        actions.add(new Explore());
 
         actions.add(new MoveTo(Direction.SOUTH));
         actions.add(new MoveTo(Direction.WEST));

@@ -28,7 +28,7 @@ public class FindTile extends GroundState {
                 context.current().getStatus() == 3) {
             context.current().setComboAction(null);
             context.current().setStatus(0);
-            return GroundStateFactory.buildState(GroundStateType.SCOUTTILE);
+            return GroundStateFactory.buildState(GroundStateType.EXPLORETILE);
         }
         return GroundStateFactory.buildState(GroundStateType.FINDTILE);
     }
@@ -55,7 +55,7 @@ public class FindTile extends GroundState {
             map.setTileVisited(context.current().getNextPosition());
 
             // direction to horizontal movement
-            d1 = setDirectionHorizontal(context, map);
+            d1 = ContextAnalyzer.setDirectionHorizontal(context, map);
 
             // create action combo
             context.current().setComboAction(new ComboMoveTo());
@@ -86,7 +86,7 @@ public class FindTile extends GroundState {
         // if get stop is true
         if (context.current().getComboAction().isEmpty() &&
                 ((context.current().getStatus() == 1) || (context.current().getStatus() == 2))) {
-            d2 = setDirectionVertical(context, map);
+            d2 = ContextAnalyzer.setDirectionVertical(context, map);
 
             // set a new action combo
             context.current().setComboAction(new ComboMoveTo());
@@ -110,23 +110,5 @@ public class FindTile extends GroundState {
         } else {
             return new Scout(Direction.EAST);
         }
-    }
-
-    private static Direction setDirectionHorizontal(Context context, Map map) {
-        Direction d1;
-        if (context.current().getNextPosition().getX() > map.getLastPositionGround().getX())
-            d1 = Direction.EAST;
-        else
-            d1 = Direction.WEST;
-        return d1;
-    }
-
-    private static Direction setDirectionVertical(Context context, Map map) {
-        Direction dir;
-        if (context.current().getNextPosition().getY() > map.getLastPositionGround().getY())
-            dir = Direction.SOUTH;
-        else
-            dir = Direction.NORTH;
-        return dir;
     }
 }

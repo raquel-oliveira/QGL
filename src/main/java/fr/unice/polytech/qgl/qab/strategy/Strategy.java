@@ -63,7 +63,7 @@ public class Strategy implements IStrategy {
             if (act instanceof Land) {
                 phase = Phase.GROUND;
                 context.updateToGround();
-                mapHandler.completMap(map);
+                //mapHandler.completMap(map);
                 //writeLog(map);
             }
         } else {
@@ -90,13 +90,12 @@ public class Strategy implements IStrategy {
     private void writeLog(Map map) {
         PrintWriter writer = null;
         try {
-            writer = new PrintWriter("src/main/resource/output/logPosition.json", "UTF-8");
+            writer = new PrintWriter("src/main/resource/output/logPosition.log", "UTF-8");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        writer.println("The first line");
 
         for (Position p : map.getTiles().keySet()) {
             writer.println(p.getX() + " " + p.getY());

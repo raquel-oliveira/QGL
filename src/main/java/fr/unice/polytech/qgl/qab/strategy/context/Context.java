@@ -276,14 +276,4 @@ public class Context {
         this.contextActionCurrent = contextActionGround;
         contextActionGround = tmpContext;
     }
-
-    /**
-     * Method that ckecks if the budget is less than 100
-     * @return stop if the budget is less than 100 and null if the simulation can continue
-     */
-    private boolean enoughBudget() {
-        if (getBudget() <= 500)
-            return false;
-        return true;
-    }
 }

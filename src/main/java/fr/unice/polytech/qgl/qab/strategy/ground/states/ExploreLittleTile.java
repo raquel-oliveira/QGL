@@ -31,7 +31,7 @@ public class ExploreLittleTile extends GroundState {
         context.current().setResourcesToExploit(contextAnalyzer.resourceAnalyzer(context), context);
 
         if (context.current().getResourcesToExploit().isEmpty()) {
-            return GroundStateFactory.buildState(GroundStateType.SCOUTTILE);
+            return GroundStateFactory.buildState(GroundStateType.EXPLORETILE);
         } else {
             return GroundStateFactory.buildState(GroundStateType.EXPLOITTILE);
         }
