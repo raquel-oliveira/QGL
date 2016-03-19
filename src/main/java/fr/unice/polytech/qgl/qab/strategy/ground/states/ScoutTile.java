@@ -26,12 +26,15 @@ public class ScoutTile extends GroundState {
         if (context.current().getLastAction() instanceof MoveTo
                 &&  !contextAnalyzer.analyzerScout(context).isEmpty()) {
             return GroundStateFactory.buildState(GroundStateType.EXPLORETILE);
+            //TODO: changed to test because the scout dont return a different state if all the contacts are of the type manufatured.
         }
 
         if (context.current().getComboAction().isEmpty()) {
             return GroundStateFactory.buildState(GroundStateType.FINDTILE);
         }
-        return GroundStateFactory.buildState(GroundStateType.SCOUTTILE);
+        return GroundStateFactory.buildState(GroundStateType.EXPLORETILE);
+        //TODO: changed to test because the scout dont return a different state if all the contacts are of the type manufatured.
+
     }
 
     @Override
