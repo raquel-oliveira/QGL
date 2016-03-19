@@ -2,7 +2,6 @@ package fr.unice.polytech.qgl.qab.actions.simple.ground;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.Map;
@@ -40,14 +39,12 @@ public class Transform extends Action {
         JSONObject response = new JSONObject();
         response.put("action", "transform");
 
-        JSONArray parameters = new JSONArray();
+        JSONObject parameters = new JSONObject();
         for (Map.Entry<PrimaryType, Integer> resources: recipe.entrySet()) {
             PrimaryType type = resources.getKey();
             Integer amount = resources.getValue();
 
-            JSONObject param = new JSONObject();
-            param.put(type.name(), amount.toString());
-            parameters.put(param);
+            parameters.put(type.name(), amount.toString());
         }
 
         response.put("parameters", parameters);
