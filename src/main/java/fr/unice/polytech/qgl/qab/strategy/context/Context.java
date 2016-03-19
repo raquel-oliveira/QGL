@@ -68,7 +68,6 @@ public class Context {
         contextActionCurrent = new ContextAction();
         contextActionAerial = new ContextAction();
         contextActionGround = new ContextAction();
-        //setResourcesToCreate();
     }
 
     /**
@@ -172,7 +171,7 @@ public class Context {
     }
 
     /**
-     * Method to Remove a quantity of a resource. To use to update after transforme
+     * Method to Remove a quantity of a resource. To use to update after transform.
      * @param resource
      * @param amount
      */
@@ -247,7 +246,7 @@ public class Context {
         try {
             contracts.add(new ContractItem(new ManufacturedResource(ManufacturedType.valueOf(resource)), amount));
             //update the resources manufatured in the list of resources to be create.
-           // setResourcesToCreate();
+            resourcesToCreate.add(new ManufacturedResource(ManufacturedType.valueOf(resource)));
         } catch (Exception ex) {
             contracts.add(new ContractItem(new PrimaryResource(PrimaryType.valueOf(resource)), amount));
         }
@@ -277,10 +276,10 @@ public class Context {
     public int getAcumulatedAmountNecessary(Resource resource){
         int amount = 0;
         for (int i = 0; i < contracts.size(); i++) {
-            if ((contracts.get(i).resource() instanceof PrimaryResource)
+            if ((contracts.get(i).resource().isPrimary())
                 && contracts.get(i).resource().getName().equals(resource.getName())) {
                     amount += contracts.get(i).amount();
-            } else if (contracts.get(i).resource() instanceof ManufacturedResource
+            } else if (!contracts.get(i).resource().isPrimary()
                 && ((ManufacturedResource) contracts.get(i).resource()).getRecipe(0).containsKey(resource)) {
                 amount += ((ManufacturedResource) contracts.get(i).resource()).getRecipe(contracts.get(i).amount()).get(resource);
             }
@@ -307,13 +306,13 @@ public class Context {
 
         for (int i = 0; i < contracts.size(); i++){
             Resource res = contracts.get(i).resource();
-            if(res instanceof PrimaryResource){
+            if(res.isPrimary()){
                 if(res.getName().equals(resource.getName()) && contracts.get(i).isComplete(collectedResources)){
                     //Not use amount of a primary resource already complete
                     amount -= contracts.get(i).amount();
                 }
             }
-            else if(res instanceof ManufacturedResource){
+            else{
                 //If it was not made a transform yet to this res and its not the manufatured I want.
                 if (getResourcesToCreate().contains(res) && !manufatured.equals((ManufacturedResource)res)){
                     //TODO: verify best strategy to use all the primary resource left to make manufatured resources
@@ -347,14 +346,6 @@ public class Context {
         return resourcesToCreate;
     }
 
-    public void setResourcesToCreate(){
-        for(int i = 0; i < contracts.size(); i++){
-            if ((contracts.get(i).resource()) instanceof ManufacturedResource && !contracts.get(i).isComplete(collectedResources)){
-                resourcesToCreate.add((ManufacturedResource) contracts.get(i).resource());
-            }
-        }
-    }
-
     public void updateToAerial() {
         ContextAction tmpContext = this.contextActionCurrent;
         this.contextActionCurrent = contextActionAerial;
@@ -365,5 +356,20 @@ public class Context {
         ContextAction tmpContext = this.contextActionCurrent;
         this.contextActionCurrent = contextActionGround;
         contextActionGround = tmpContext;
+    }
+
+    /**
+     * Return the index of the contract item that have the resource.
+     * @param resource
+     * @return
+     */
+    public int getContractIndex(Resource resource) {
+        for (int index = 0; index < contracts.size(); index++) {
+            ContractItem item = contracts.get(index);
+            if (item.resource().getName().equals(resource.getName())){
+                return index;
+            }
+        }
+        return -1;
     }
 }
