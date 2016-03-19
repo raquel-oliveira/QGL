@@ -270,7 +270,7 @@ public class ResponseHandler {
         TransformResponse transform = new TransformResponse();
 
         if(jsonObj.getJSONObject(EXTRAS).has(PRODUCTION) && jsonObj.getJSONObject(EXTRAS).has(KIND)) {
-            int amount = jsonObj.getJSONObject(EXTRAS).getInt(AMOUNT);
+            int amount = jsonObj.getJSONObject(EXTRAS).getInt(PRODUCTION);
             String resource = jsonObj.getJSONObject(EXTRAS).getString(KIND);
             //Add Data
             transform.addData(new ManufacturedResource(ManufacturedType.valueOf(resource)), amount);
