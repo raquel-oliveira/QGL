@@ -266,24 +266,12 @@ public class ResponseHandler {
     }
 
     private Context readDataFromTransform(Context context,  JSONObject jsonObj){
-        List<ContractItem> contracts = context.getContracts();
         TransformResponse transform = new TransformResponse();
 
         if(jsonObj.getJSONObject(EXTRAS).has(PRODUCTION) && jsonObj.getJSONObject(EXTRAS).has(KIND)) {
             int amount = jsonObj.getJSONObject(EXTRAS).getInt(PRODUCTION);
             String resource = jsonObj.getJSONObject(EXTRAS).getString(KIND);
-            //Add Data
-            transform.addData(new ManufacturedResource(ManufacturedType.valueOf(resource)), amount);
-            //Add the transformed resource in collected resources
-            context.addCollectedResources(transform.getResource(), transform.getAmount());
-            // Update that this manufactured was already "created"
-            ((ManufacturedResource) contracts.get(contracts.indexOf(resource)).resource()).setTransformed(true);
-            //Delete primary resources used to create the manufactured (Update collected Resources)
-            for(java.util.Map.Entry<PrimaryType, Integer> ingredientRecipe : ((ManufacturedResource) contracts.get(contracts.indexOf(resource)).resource()).getRecipe(amount).entrySet()) {
-                PrimaryResource primary = new PrimaryResource(ingredientRecipe.getKey());
-                //int qtdToUse =
-                    context.decreaseAmountOfCollectedResources(primary, ingredientRecipe.getValue());
-            }
+            transform.addData(new ManufacturedResource(ManufacturedType.valueOf(resource)), amount, context);
         }
 
         discovery.setTransformResponse(transform);
