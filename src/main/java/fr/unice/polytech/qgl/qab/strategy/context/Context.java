@@ -78,6 +78,10 @@ public class Context {
 
         for (int i = 0; i < cont.length();  i++) {
             String key = cont.getJSONObject(i).getString("resource");
+            for (ManufacturedType type: ManufacturedType.values()) {
+                if (key.equalsIgnoreCase(type.toString()))
+                    continue;
+            }
             int value = cont.getJSONObject(i).getInt("amount");
             addContract(key, value);
         }
