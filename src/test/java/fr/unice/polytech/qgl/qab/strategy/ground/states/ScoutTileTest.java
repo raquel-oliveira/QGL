@@ -28,7 +28,7 @@ public class ScoutTileTest {
         scoutTile = new ScoutTile();
     }
 
-    @Ignore
+    @Test
     public void testState() throws NegativeBudgetException, IndexOutOfBoundsComboAction, PositionOutOfMapRange {
         Context context = new Context();
 
@@ -58,7 +58,7 @@ public class ScoutTileTest {
         Action action;
         for (int i = 0; i < interations; i++) {
             action = scoutTile.responseState(context, new Map());
-            assertEquals(Stop.class, action.getClass());
+            assertEquals(Scout.class, action.getClass());
             action = scoutTile.responseState(context, new Map());
             assertEquals(MoveTo.class, action.getClass());
             assertEquals(dir, action.getDirection());

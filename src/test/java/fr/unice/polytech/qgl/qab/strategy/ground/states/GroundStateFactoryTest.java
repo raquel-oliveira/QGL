@@ -13,14 +13,11 @@ import static org.junit.Assert.assertEquals;
  */
 public class GroundStateFactoryTest {
 
-    @Ignore
+    @Test
     public void testInitialization() {
         GroundState state;
         state = GroundStateFactory.buildState(GroundStateType.FINDTILE);
         assertEquals(FindTile.class, state.getClass());
-
-        state = GroundStateFactory.buildState(GroundStateType.EXPLORELITTLETILE);
-        //assertEquals(ExploreLittleTile.class, state.getClass());
 
         state = GroundStateFactory.buildState(GroundStateType.SCOUTTILE);
         assertEquals(ScoutTile.class, state.getClass());

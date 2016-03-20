@@ -249,10 +249,6 @@ public class Map {
         return tiles;
     }
 
-    public void setTiles(HashMap<Position, Tile> tiles) {
-        this.tiles = tiles;
-    }
-
     public void copy(Map map) {
         tiles.putAll(map.getTiles());
     }
