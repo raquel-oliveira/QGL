@@ -47,7 +47,7 @@ public class ContextAnalyzer {
 
         for (ContractItem item: contract) {
             if (item.resource() instanceof PrimaryResource &&
-                    context.getLastDiscovery().getExploreResponse().contains(((PrimaryResource) item.resource()).getResource())){
+                    context.getLastDiscovery().getExploreResponse().contains(((PrimaryResource) item.resource()).getType())){
                 resources.add(PrimaryType.valueOf(item.resource().getName()));
             }
             else if (item.resource() instanceof ManufacturedResource) {

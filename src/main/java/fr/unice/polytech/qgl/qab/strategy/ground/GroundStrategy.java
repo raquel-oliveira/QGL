@@ -56,7 +56,7 @@ public class GroundStrategy implements IGroundStrategy {
      * @param context datas about the simulation context
      * @return 1 if the action its to Stop
      * @return 2 if the state to do its to transform
-     * @return 0 if its can continue.
+     * @return 0 if it can continue.
      */
     private int contextAnalyzer(Context context) {
         //If all contracts are filled or there is with low quantity of budgets

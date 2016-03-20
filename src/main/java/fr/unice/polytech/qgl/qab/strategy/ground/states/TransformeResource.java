@@ -53,17 +53,14 @@ public class TransformeResource extends GroundState {
             }
         }
         // Update that this manufactured was already "created"
-
         ((ManufacturedResource)(contracts.get(context.getContractIndex(res)).resource())).setTransformed(true);
-
         //Amounted asked in the contract
         int amountContract = contracts.get(context.getContractIndex(res)).amount();
-
         //TODO: update this to send the right value.
         java.util.Map recipe= ((ManufacturedResource) contracts.get(context.getContractIndex(res)).resource()).getRecipe(amountContract);
 
         Action act = new Transform(recipe);
-        context.getResourcesToCreate().remove(0);
+        context.removeResourceToCreate(0);
         context.current().setLastAction(act);
         return act;
     }

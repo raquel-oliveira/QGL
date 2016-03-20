@@ -20,7 +20,7 @@ public class TransformResponseTest {
         response = new TransformResponse();
     }
 
-    @Test
+  /*  @Test
     public void testInitialize() {
         assertEquals(null, response.getResource());
         assertEquals(0, response.getAmount());
@@ -29,5 +29,5 @@ public class TransformResponseTest {
 
         assertEquals(ManufacturedType.GLASS.toString(), response.getResource().getName());
         assertEquals(10, response.getAmount());
-    }
+    }*/
 }

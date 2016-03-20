@@ -74,21 +74,35 @@ public class ContextTest {
 
     @Test
     public void testAcumullatedResources() throws NegativeBudgetException {
+        //TODO: after change when the constant of margin of error is updated.
         context.addContract("FISH", 10);
         int amount = context.getAcumulatedAmountNecessary(new PrimaryResource(PrimaryType.FISH));
         assertEquals(10, amount);
 
+        //10 WOODS + 5*10 Woods = 60 WOODS
         context.addContract("WOOD", 10);
         context.addContract("GLASS", 10);
         amount = context.getAcumulatedAmountNecessary(new ManufacturedResource(ManufacturedType.GLASS));
-        assertEquals(0, amount);
+        assertEquals(-1, amount);
 
         amount = context.getAcumulatedAmountNecessary(new PrimaryResource(PrimaryType.WOOD));
-        assertEquals(10, amount);
+        assertEquals(60, amount);
 
+        //60 woods + 20* 5 woods = 160
         context.addContract("INGOT", 20);
         amount = context.getAcumulatedAmountNecessary(new PrimaryResource(PrimaryType.WOOD));
-        assertEquals(10, amount);
+        assertEquals(60, amount);
+    }
+
+    @Test
+    public void testLeather() throws  NegativeBudgetException{
+        //TODO: after change when the constant of margin of error is updated.
+
+        context.addContract("LEATHER", 1);
+        int amount = context.getAcumulatedAmountNecessary(new PrimaryResource(PrimaryType.FUR));
+        int recipe = new ManufacturedResource(ManufacturedType.LEATHER).getRecipe(1).get(PrimaryType.FUR);
+        assertEquals(3, amount);
+        assertEquals(recipe, amount);
     }
 
     @Test

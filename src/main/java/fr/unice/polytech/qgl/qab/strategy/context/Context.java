@@ -275,13 +275,19 @@ public class Context {
      */
     public int getAcumulatedAmountNecessary(Resource resource){
         int amount = 0;
+        if (!resource.isPrimary()){
+            LOGGER.error("error", "Passed the wrong parameter.");
+            return -1;
+        }
         for (int i = 0; i < contracts.size(); i++) {
             if ((contracts.get(i).resource().isPrimary())
                 && contracts.get(i).resource().getName().equals(resource.getName())) {
                     amount += contracts.get(i).amount();
-            } else if (!contracts.get(i).resource().isPrimary()
-                && ((ManufacturedResource) contracts.get(i).resource()).getRecipe(0).containsKey(resource)) {
-                amount += ((ManufacturedResource) contracts.get(i).resource()).getRecipe(contracts.get(i).amount()).get(resource);
+            } else if (!(contracts.get(i).resource().isPrimary())){
+                PrimaryType prim = ((PrimaryResource)(resource)).getType();
+                if (((ManufacturedResource) contracts.get(i).resource()).getRecipe(0).containsKey(prim)){
+                    amount += ((ManufacturedResource) contracts.get(i).resource()).getRecipe(contracts.get(i).amount()).get(prim);
+                }
             }
         }
         return amount;
@@ -339,13 +345,40 @@ public class Context {
     }
 
     /**
-     * @return true if there is primary resources enought to complete all the contract
+     * @return true if there is primary resources enough to complete all the contract
      */
     public boolean enoughToTransform(){
+       // boolean enough = true;
         boolean enough = false;
-        //TODO: IMPLEMENT
-        return  enough;
+        Set<Resource> primaryResources = primaryNeeded();
+       /* for(Resource res: primaryResources){
+            if (getAcumulatedAmountNecessary(res)> collectedResources.get(res.getName())){
+                return enough = false;
+            }
+        }*/
+        return enough;
     }
+
+    /**
+     *
+     * @return list of primary resources needed to complet all the contracts
+     * //TODO: Look if there is similar codes.Exemple: addResources in ContextAnalyze.
+     */
+    public Set<Resource> primaryNeeded(){
+        Set<Resource> primaryResource = new HashSet<Resource>();
+
+        for (int i = 0; i < contracts.size(); i++){
+            if (contracts.get(i).resource().isPrimary()){
+                primaryResource.add(contracts.get(i).resource());
+            }
+            else{
+                for (PrimaryType itemRecipe: ((ManufacturedResource) contracts.get(i).resource()).getRecipe(0).keySet()) {
+                        primaryResource.add(new PrimaryResource(itemRecipe));
+                    }
+                }
+            }
+        return primaryResource;
+        }
 
     /**
      *

@@ -32,6 +32,6 @@ public class ExploreResponseTest {
         exploreResponse.addResource(resources);
 
         PrimaryResource resource = new PrimaryResource(PrimaryType.FISH);
-        assertEquals(true, exploreResponse.contains(resource.getResource()));
+        assertEquals(true, exploreResponse.contains(resource.getType()));
     }
 }
