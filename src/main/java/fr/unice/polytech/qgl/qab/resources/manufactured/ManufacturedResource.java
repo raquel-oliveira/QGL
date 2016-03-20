@@ -4,8 +4,11 @@ import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.resources.Resource;
+import java.lang.Math;
 
 import java.util.*;
+
+import static java.lang.Math.ceil;
 
 /**
  * @version 01/02/16.
@@ -17,6 +20,7 @@ public class ManufacturedResource implements Resource {
     private EnumMap<PrimaryType, Integer> recipe = new EnumMap<PrimaryType, Integer>(PrimaryType.class);
     private Set<Biomes> biomes = new HashSet<>();
     private boolean transformed = false;
+    private static final double marginError = 1.1; //1 + 10%
 
     public boolean isTransformed() {
         return transformed;
@@ -93,25 +97,25 @@ public class ManufacturedResource implements Resource {
 
         switch (resource){
             case GLASS:
-                recipe.put(PrimaryType.QUARTZ, 10 * amountRecipe);
-                recipe.put(PrimaryType.WOOD, 5 * amountRecipe);
+                recipe.put(PrimaryType.QUARTZ, (int)(ceil((10 * amountRecipe * marginError))));
+                recipe.put(PrimaryType.WOOD, (int) (ceil(5 * amountRecipe * marginError)));
                 break;
 
             case INGOT:
-                recipe.put(PrimaryType.WOOD, 5 * amountRecipe);
+                recipe.put(PrimaryType.WOOD, (int)(ceil(5 * amountRecipe * marginError)));
                 break;
 
             case LEATHER:
-                recipe.put(PrimaryType.FUR, 3 * amountRecipe);
+                recipe.put(PrimaryType.FUR, (int)(ceil(3 * amountRecipe * marginError)));
                 break;
 
             case PLANK:;
-                recipe.put(PrimaryType.WOOD, amountRecipe/4 + ((amountRecipe % 4 == 0)? 0: 1));
+                recipe.put(PrimaryType.WOOD, (int) (ceil((amountRecipe/4 + ((amountRecipe % 4 == 0)? 0: 1)) * marginError)));
                 break;
 
             case RUM:
-                recipe.put(PrimaryType.SUGAR_CANE, 10 * amountRecipe);
-                recipe.put(PrimaryType.FRUITS, amountRecipe);
+                recipe.put(PrimaryType.SUGAR_CANE, (int) (ceil(10 * amountRecipe * marginError)));
+                recipe.put(PrimaryType.FRUITS, (int) (ceil(amountRecipe * marginError)));
                 break;
 
             default:
