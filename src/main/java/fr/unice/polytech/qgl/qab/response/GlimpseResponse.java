@@ -29,10 +29,10 @@ public class GlimpseResponse {
 
     /**
      * Set the value of the asked range
-     * @param asked_range
+     * @param askedRange
      */
-    public void setAskedRange(int asked_range){
-        this.asked_range = asked_range;
+    public void setAskedRange(int askedRange){
+        this.asked_range = askedRange;
     }
 
     /**

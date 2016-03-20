@@ -1,5 +1,6 @@
 package fr.unice.polytech.qgl.qab.strategy.ground.states;
 
+import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
@@ -7,6 +8,7 @@ import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.response.GlimpseResponse;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.ContractItem;
+import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,37 +43,32 @@ public class ContextAnalyzer {
      * @param context datas about the context of the simulation
      * @return list of resources founded
      */
-    public List<PrimaryType> resourceAnalyzer(Context context) {
+    public List<PrimaryType> resourceAnalyzerScout(Context context) {
         List<ContractItem> contract = context.getContracts();
         List<PrimaryType> resources = new ArrayList<>();
 
         for (ContractItem item: contract) {
             if (item.resource() instanceof PrimaryResource &&
-                    context.getLastDiscovery().getExploreResponse().contains(((PrimaryResource) item.resource()).getResource())){
+                    context.getLastDiscovery().getScoutResponse().found(item.resource().getName()) &&
+                        !resources.contains(PrimaryType.valueOf(item.resource().getName()))) {
                 resources.add(PrimaryType.valueOf(item.resource().getName()));
             }
             else if (item.resource() instanceof ManufacturedResource) {
-                addResources(context, resources, item);
+                List<PrimaryType> tmp = new ArrayList<>();
+                tmp.addAll(addResourcesScout(context, resources, item));
+                resources.clear();
+                resources.addAll(tmp);
             }
         }
         return resources;
     }
 
-    private static void addResources(Context context, List<PrimaryType> resources, ContractItem item) {
+    private static List<PrimaryType> addResourcesScout(Context context, List<PrimaryType> resources, ContractItem item) {
+
         for (PrimaryType itemRecipe: ((ManufacturedResource) item.resource()).getRecipe(0).keySet()) {
-            if(context.getLastDiscovery().getExploreResponse().contains(itemRecipe)) {
+            if(context.getLastDiscovery().getScoutResponse().found(itemRecipe.name()) &&
+                    !resources.contains(itemRecipe)) {
                 resources.add(itemRecipe);
-            }
-        }
-    }
-
-    public List<PrimaryType> analyzerScout(Context context) {
-        List<ContractItem> contract = context.getContracts();
-        List<PrimaryType> resources = new ArrayList<>();
-
-        for (ContractItem item: contract) {
-            if (context.getLastDiscovery().getScoutResponse().found(item.resource().getName())) {
-                resources.add(PrimaryType.valueOf(item.resource().getName()));
             }
         }
         return resources;
@@ -134,5 +131,23 @@ public class ContextAnalyzer {
                 return true;
         }
         return false;
+    }
+
+    public static Direction setDirectionHorizontal(Context context, Map map) {
+        Direction d1;
+        if (context.current().getNextPosition().getX() > map.getLastPositionGround().getX())
+            d1 = Direction.EAST;
+        else
+            d1 = Direction.WEST;
+        return d1;
+    }
+
+    public static Direction setDirectionVertical(Context context, Map map) {
+        Direction dir;
+        if (context.current().getNextPosition().getY() > map.getLastPositionGround().getY())
+            dir = Direction.SOUTH;
+        else
+            dir = Direction.NORTH;
+        return dir;
     }
 }

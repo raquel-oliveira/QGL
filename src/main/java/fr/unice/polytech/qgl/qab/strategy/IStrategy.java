@@ -13,6 +13,7 @@ public interface IStrategy {
      * Method called to make the decision.
      * @return the best action chosen
      */
+    // TODO: Refactor this method to throw at most one checked exception instead of
     String makeDecision() throws PositionOutOfMapRange, IndexOutOfBoundsComboAction;
 
     /**

@@ -24,11 +24,11 @@ public class ScanResponse {
     }
 
     public boolean outOfGround() {
-        return (biomes.contains(Biomes.OCEAN) && biomes.size() == 1);
+        return biomes.contains(Biomes.OCEAN) && biomes.size() == 1;
     }
 
     public boolean foundOcean() {
-        return (biomes.contains(Biomes.OCEAN));
+        return biomes.contains(Biomes.OCEAN);
     }
 
     public void setUpBiomes() {

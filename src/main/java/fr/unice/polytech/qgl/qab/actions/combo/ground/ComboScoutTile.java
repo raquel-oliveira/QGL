@@ -8,13 +8,12 @@ import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import java.util.ArrayList;
 
 /**
- * @version 01/03/16.
+ * @version 20/03/16.
  */
 public class ComboScoutTile extends Combo {
-
-    public ComboScoutTile() {
-            this.actions = new ArrayList<>();
-        }
+   public ComboScoutTile() {
+       this.actions = new ArrayList<>();
+   }
 
     /**
      * Gave a number of range, this method add in the list of action a set of scout

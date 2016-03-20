@@ -1,6 +1,7 @@
 package fr.unice.polytech.qgl.qab.strategy.ground.factory;
 
 import fr.unice.polytech.qgl.qab.strategy.ground.states.*;
+import fr.unice.polytech.qgl.qab.strategy.ground.states.ScoutTile;
 
 /**
  * @version 13/03/16.
@@ -20,10 +21,6 @@ public class GroundStateFactory {
 
             case EXPLOITTILE:
                 state = new ExploitTile();
-                break;
-
-            case EXPLORETILE:
-                state = new ExploreTile();
                 break;
 
             case SCOUTTILE:

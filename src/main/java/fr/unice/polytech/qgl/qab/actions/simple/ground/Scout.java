@@ -10,13 +10,13 @@ public class Scout extends Action {
 
     public Scout(Direction direction){
         super();
-        this.direction = direction;
+        this.dirAction = direction;
     }
 
     @Override
     public boolean isValid(JSONObject jsonObj) {
-        if (jsonObj.has(ACTION)) {
-            String action = jsonObj.getString(ACTION);
+        if (jsonObj.has(ACTION_PARAMS)) {
+            String action = jsonObj.getString(ACTION_PARAMS);
             if (!(ACTION_SCOUT).equals(action))
                 return false;
             if(!checkParameter(jsonObj))
@@ -27,10 +27,11 @@ public class Scout extends Action {
 
     @Override
     public String formatResponse() {
-        return "{ \"action\": \"scout\", \"parameters\": { \"direction\": \"" + direction + "\" } }";
+        return "{ \"action\": \"scout\", \"parameters\": { \"direction\": \"" + dirAction + "\" } }";
     }
 
+    @Override
     public Direction getDirection(){
-        return this.direction;
+        return this.dirAction;
     }
 }
