@@ -43,29 +43,6 @@ public class ContextAnalyzer {
      * @param context datas about the context of the simulation
      * @return list of resources founded
      */
-    public List<PrimaryType> resourceAnalyzer(Context context) {
-        List<ContractItem> contract = context.getContracts();
-        List<PrimaryType> resources = new ArrayList<>();
-
-        for (ContractItem item: contract) {
-            if (item.resource() instanceof PrimaryResource &&
-                    context.getLastDiscovery().getExploreResponse().contains(((PrimaryResource) item.resource()).getResource())){
-                resources.add(PrimaryType.valueOf(item.resource().getName()));
-            } else if (item.resource() instanceof ManufacturedResource) {
-                addResources(context, resources, item);
-            }
-        }
-        return resources;
-    }
-
-
-
-    /**
-     * Method that return a set of primary type resources that were
-     * founded after explore a tile and are on the contract
-     * @param context datas about the context of the simulation
-     * @return list of resources founded
-     */
     public List<PrimaryType> resourceAnalyzerScout(Context context) {
         List<ContractItem> contract = context.getContracts();
         List<PrimaryType> resources = new ArrayList<>();
@@ -77,42 +54,21 @@ public class ContextAnalyzer {
                 resources.add(PrimaryType.valueOf(item.resource().getName()));
             }
             else if (item.resource() instanceof ManufacturedResource) {
-                addResourcesScout(context, resources, item);
-                //List<PrimaryType> tmp = addResourcesScout(context, resources, item);
-                //resources.clear();
-                //resources.addAll(tmp);
-            }
-        }
-        return resources;
-    }
-
-
-    private static List<PrimaryType> addResources(Context context, List<PrimaryType> resources, ContractItem item) {
-        for (PrimaryType itemRecipe: ((ManufacturedResource) item.resource()).getRecipe(0).keySet()) {
-            if(context.getLastDiscovery().getExploreResponse().contains(itemRecipe)) {
-                resources.add(itemRecipe);
+                List<PrimaryType> tmp = new ArrayList<>();
+                tmp.addAll(addResourcesScout(context, resources, item));
+                resources.clear();
+                resources.addAll(tmp);
             }
         }
         return resources;
     }
 
     private static List<PrimaryType> addResourcesScout(Context context, List<PrimaryType> resources, ContractItem item) {
+
         for (PrimaryType itemRecipe: ((ManufacturedResource) item.resource()).getRecipe(0).keySet()) {
             if(context.getLastDiscovery().getScoutResponse().found(itemRecipe.name()) &&
                     !resources.contains(itemRecipe)) {
                 resources.add(itemRecipe);
-            }
-        }
-        return resources;
-    }
-
-    public List<PrimaryType> analyzerScout(Context context) {
-        List<ContractItem> contract = context.getContracts();
-        List<PrimaryType> resources = new ArrayList<>();
-
-        for (ContractItem item: contract) {
-            if (context.getLastDiscovery().getScoutResponse().found(item.resource().getName())) {
-                resources.add(PrimaryType.valueOf(item.resource().getName()));
             }
         }
         return resources;

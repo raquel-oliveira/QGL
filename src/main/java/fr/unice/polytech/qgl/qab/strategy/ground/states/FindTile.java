@@ -28,7 +28,7 @@ public class FindTile extends GroundState {
                 context.current().getStatus() == 3) {
             context.current().setComboAction(null);
             context.current().setStatus(0);
-            return GroundStateFactory.buildState(GroundStateType.EXPLORETILE);
+            return GroundStateFactory.buildState(GroundStateType.SCOUTTILE);
         }
         return GroundStateFactory.buildState(GroundStateType.FINDTILE);
     }

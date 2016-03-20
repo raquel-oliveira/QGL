@@ -27,7 +27,7 @@ public class HeadingTest {
 
     @Test
     public void testCreateGoodObject() throws NoSuchFieldException, IllegalAccessException {
-        Field fieldDirection = Action.class.getDeclaredField("direction");
+        Field fieldDirection = Action.class.getDeclaredField("dirAction");
         fieldDirection.setAccessible(true);
         Direction value = (Direction) fieldDirection.get(heading);
 

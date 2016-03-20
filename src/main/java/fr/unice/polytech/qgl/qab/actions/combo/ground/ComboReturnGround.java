@@ -21,6 +21,7 @@ public class ComboReturnGround extends Combo {
      * @param head direction of the head
      * @param firstHead direction of the firts head
      */
+    @Override
     public void defineActions(Direction head, Direction firstHead) {
         actions.add(new MoveTo(firstHead));
         if (head.isHorizontal()) {

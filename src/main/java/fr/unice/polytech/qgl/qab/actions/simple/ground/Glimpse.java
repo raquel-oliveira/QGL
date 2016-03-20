@@ -14,14 +14,14 @@ public class Glimpse extends Action {
 
     public Glimpse (Direction direction, int range){
         super();
-        this.direction = direction;
+        this.dirAction = direction;
         this.range = range;
     }
 
     @Override
     public boolean isValid(JSONObject jsonObj) {
-        if (jsonObj.has(ACTION)) {
-            String action = jsonObj.getString(ACTION);
+        if (jsonObj.has(ACTION_PARAMS)) {
+            String action = jsonObj.getString(ACTION_PARAMS);
             if (!(ACTION_GLIMPSE).equals(action))
                 return false;
         } else {
@@ -33,10 +33,11 @@ public class Glimpse extends Action {
 
     @Override
     public String formatResponse() {
-        return "{ \"action\": \"glimpse\", \"parameters\": { \"direction\": \"" + direction + "\", \"range\": "+range+" } }";
+        return "{ \"action\": \"glimpse\", \"parameters\": { \"direction\": \"" + dirAction + "\", \"range\": "+range+" } }";
     }
 
+    @Override
     public Direction getDirection(){
-        return this.direction;
+        return this.dirAction;
     }
 }

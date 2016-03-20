@@ -67,7 +67,7 @@ public class GroundStrategyTest {
         testMoveTo(Direction.SOUTH, 9);
 
         action = strategy.makeDecision(context, map);
-        assertEquals(Explore.class, action.getClass());
+        assertEquals(Scout.class, action.getClass());
 
         action = strategy.makeDecision(context, map);
         assertEquals(MoveTo.class, action.getClass());

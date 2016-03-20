@@ -23,14 +23,6 @@ public class GroundStateFactory {
                 state = new ExploitTile();
                 break;
 
-            case EXPLORELITTLETILE:
-                state = new ExploreLittleTile();
-                break;
-
-            case EXPLORETILE:
-                state = new ScoutTile();
-                break;
-
             case SCOUTTILE:
                 state = new ScoutTile();
                 break;

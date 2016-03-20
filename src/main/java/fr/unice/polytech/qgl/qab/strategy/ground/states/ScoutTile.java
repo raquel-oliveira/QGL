@@ -26,7 +26,6 @@ public class ScoutTile extends GroundState {
     public GroundState getState(Context context, Map map) throws PositionOutOfMapRange {
         if (context.current().getLastAction() instanceof MoveTo
                 &&  !contextAnalyzer.resourceAnalyzerScout(context).isEmpty()) {
-            int a  = 1 + 1;
             context.current().setResourcesToExploit(contextAnalyzer.resourceAnalyzerScout(context), context);
             context.getLastDiscovery().setScoutResponse(new ScoutResponse());
 
@@ -37,7 +36,7 @@ public class ScoutTile extends GroundState {
         if (context.current().getComboAction().isEmpty()) {
             return GroundStateFactory.buildState(GroundStateType.FINDTILE);
         }
-        return GroundStateFactory.buildState(GroundStateType.EXPLORETILE);
+        return GroundStateFactory.buildState(GroundStateType.SCOUTTILE);
     }
 
     @Override
