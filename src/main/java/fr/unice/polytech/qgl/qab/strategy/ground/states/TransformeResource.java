@@ -36,12 +36,24 @@ public class TransformeResource extends GroundState {
 
     @Override
     public Action responseState(Context context, Map map) throws IndexOutOfBoundsComboAction {
+        List<ContractItem> contracts = context.getContracts();
+
+
         if (context.getResourcesToCreate().isEmpty()) return new Stop();
 
-        //Element that we are going to try to create
+        //Element that we are going to try to create. If he can not create, take the next.
         ManufacturedResource res = context.getResourcesToCreate().get(0);
+        while(!contracts.get(context.getContractIndex(res)).CanTransform()){
+            context.removeResourceToCreate(0);
+            if (context.getResourcesToCreate().isEmpty()) {
+                return new Stop();
+            }
+            else{
+                res = context.getResourcesToCreate().get(0);
+            }
+        }
         // Update that this manufactured was already "created"
-        List<ContractItem> contracts = context.getContracts();
+
         ((ManufacturedResource)(contracts.get(context.getContractIndex(res)).resource())).setTransformed(true);
 
         //Amounted asked in the contract
@@ -64,4 +76,5 @@ public class TransformeResource extends GroundState {
         context.current().setLastAction(null);
         context.current().setComboAction(null);
     }
+
 }

@@ -245,7 +245,7 @@ public class Context {
     public void addContract(String resource, int amount) throws NegativeBudgetException {
         try {
             contracts.add(new ContractItem(new ManufacturedResource(ManufacturedType.valueOf(resource)), amount));
-            //update the resources manufatured in the list of resources to be create.
+            //update the resources manufactured in the list of resources to be create.
             resourcesToCreate.add(new ManufacturedResource(ManufacturedType.valueOf(resource)));
         } catch (Exception ex) {
             contracts.add(new ContractItem(new PrimaryResource(PrimaryType.valueOf(resource)), amount));
@@ -344,6 +344,16 @@ public class Context {
      */
     public List<ManufacturedResource> getResourcesToCreate() {
         return resourcesToCreate;
+    }
+
+    public void removeResourceToCreate(int index){
+        if(resourcesToCreate.isEmpty()){ LOGGER.error("error:", "The list is empty, can not remove.");}
+        try{
+            resourcesToCreate.remove(index);
+        }
+        catch(Exception e){
+            LOGGER.error("error:", "Can not remove this element");
+        }
     }
 
     public void updateToAerial() {

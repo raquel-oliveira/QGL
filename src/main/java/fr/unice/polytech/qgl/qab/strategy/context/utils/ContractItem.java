@@ -16,7 +16,7 @@ public class ContractItem {
     private Resource resource;
     private int amount;
     private boolean completeContract;
-
+    private boolean canTransform;
 
     /**
      * ContractItem's constructor
@@ -30,6 +30,7 @@ public class ContractItem {
         this.resource = resource;
         this.amount = amount;
         completeContract = false;
+        canTransform = false;
     }
 
     /**
@@ -54,6 +55,14 @@ public class ContractItem {
        }
         return completeContract;
         //TODO: Later optimize to take account if you have the need to fill after the transform. (Without having done the transform)
+    }
+
+    public boolean CanTransform() {
+        if(resource.isPrimary()){ return canTransform = false;}
+        else{
+            //TODO: Verify if the amount collect can tranform.
+            return  false;
+        }
     }
 }
 

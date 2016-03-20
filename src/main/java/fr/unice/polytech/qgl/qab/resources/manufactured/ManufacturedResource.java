@@ -4,11 +4,9 @@ import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.resources.Resource;
-import java.lang.Math;
+import static java.lang.Math.ceil;
 
 import java.util.*;
-
-import static java.lang.Math.ceil;
 
 /**
  * @version 01/02/16.
