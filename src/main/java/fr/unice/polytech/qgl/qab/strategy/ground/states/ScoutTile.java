@@ -8,10 +8,13 @@ import fr.unice.polytech.qgl.qab.actions.simple.ground.Scout;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
+import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.response.ScoutResponse;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateFactory;
 import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateType;
+
+import java.util.List;
 
 /**
  * @version 01/03/16.
@@ -27,11 +30,17 @@ public class ScoutTile extends GroundState {
     public GroundState getState(Context context, Map map) throws PositionOutOfMapRange {
         if (context.current().getLastAction() instanceof MoveTo
                 &&  !contextAnalyzer.resourceAnalyzerScout(context).isEmpty()) {
-            context.current().setResourcesToExploit(contextAnalyzer.resourceAnalyzerScout(context), context);
-            context.getLastDiscovery().setScoutResponse(new ScoutResponse());
 
-            if (!context.current().getResourcesToExploit().isEmpty())
+            List<PrimaryType> resp = contextAnalyzer.resourceAnalyzerScout(context);
+            if (resp.contains(PrimaryType.FUR) && resp.contains(PrimaryType.QUARTZ)) {
+                int a = 1 + 1;
+            }
+            context.current().setResourcesToExploit(contextAnalyzer.resourceAnalyzerScout(context), context);
+
+            if (!context.current().getResourcesToExploit().isEmpty()) {
+                context.getLastDiscovery().setScoutResponse(new ScoutResponse());
                 return GroundStateFactory.buildState(GroundStateType.EXPLOITTILE);
+            }
         }
 
         if (context.current().getComboAction().isEmpty()) {
