@@ -54,7 +54,6 @@ public class ContractItem {
            if(collectedResources.get(resource.getName()) >= amount){ completeContract = true;}
        }
         return completeContract;
-        //TODO: Later optimize to take account if you have the need to fill after the transform. (Without having done the transform)
     }
 
     public boolean CanTransform() {

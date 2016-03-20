@@ -295,10 +295,10 @@ public class Context {
      * @return -1 this resource its not in the recipe of the first parameter.
      */
     public int getQtdToUse(ManufacturedResource manufatured, Resource resource){
-        //TODO: Change this method to do verification if the state transform its called because there is enought resource to do all contracts or because the game had to stop
         //Check if resource is parte of manufatured recipe
         if(!manufatured.getRecipe(0).containsKey(resource)){
-            //TODO: chage this to trow exception
+            LOGGER.error("error:", "trying to get amount of a primary resource that is not necessary to create the transform,");
+            //TODO: change this to trow exception
             return -1;
         }
 
@@ -336,6 +336,15 @@ public class Context {
             }
         }
         return completeContract;
+    }
+
+    /**
+     * @return true if there is primary resources enought to complete all the contract
+     */
+    public boolean enoughToTransform(){
+        boolean enough = false;
+        //TODO: IMPLEMENT
+        return  enough;
     }
 
     /**
