@@ -91,7 +91,7 @@ public class ContextTest {
         //60 woods + 20* 5 woods = 160
         context.addContract("INGOT", 20);
         amount = context.getAcumulatedAmountNecessary(new PrimaryResource(PrimaryType.WOOD));
-        assertEquals(60, amount);
+        assertEquals(160, amount);
     }
 
     @Test
