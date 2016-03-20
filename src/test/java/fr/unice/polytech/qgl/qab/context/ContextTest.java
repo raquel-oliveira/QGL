@@ -3,10 +3,7 @@ package fr.unice.polytech.qgl.qab.context;
 import static org.junit.Assert.*;
 
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
-import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
-import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import org.junit.Before;
-import org.junit.Ignore;
 
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;

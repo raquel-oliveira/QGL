@@ -3,7 +3,6 @@ package fr.unice.polytech.qgl.qab.strategy.ground.states;
 import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
 import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateFactory;
 import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateType;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

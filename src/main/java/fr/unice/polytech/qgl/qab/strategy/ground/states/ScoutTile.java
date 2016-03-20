@@ -31,10 +31,6 @@ public class ScoutTile extends GroundState {
         if (context.current().getLastAction() instanceof MoveTo
                 &&  !contextAnalyzer.resourceAnalyzerScout(context).isEmpty()) {
 
-            List<PrimaryType> resp = contextAnalyzer.resourceAnalyzerScout(context);
-            if (resp.contains(PrimaryType.FUR) && resp.contains(PrimaryType.QUARTZ)) {
-                int a = 1 + 1;
-            }
             context.current().setResourcesToExploit(contextAnalyzer.resourceAnalyzerScout(context), context);
 
             if (!context.current().getResourcesToExploit().isEmpty()) {
