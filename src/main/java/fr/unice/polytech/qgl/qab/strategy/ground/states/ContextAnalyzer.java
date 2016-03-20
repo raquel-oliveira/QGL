@@ -72,23 +72,38 @@ public class ContextAnalyzer {
 
         for (ContractItem item: contract) {
             if (item.resource() instanceof PrimaryResource &&
-                    context.getLastDiscovery().getScoutResponse().found(item.resource().getName())) {
+                    context.getLastDiscovery().getScoutResponse().found(item.resource().getName()) &&
+                        !resources.contains(PrimaryType.valueOf(item.resource().getName()))) {
                 resources.add(PrimaryType.valueOf(item.resource().getName()));
             }
             else if (item.resource() instanceof ManufacturedResource) {
-                addResources(context, resources, item);
+                addResourcesScout(context, resources, item);
+                //List<PrimaryType> tmp = addResourcesScout(context, resources, item);
+                //resources.clear();
+                //resources.addAll(tmp);
             }
         }
         return resources;
     }
 
 
-    private static void addResources(Context context, List<PrimaryType> resources, ContractItem item) {
+    private static List<PrimaryType> addResources(Context context, List<PrimaryType> resources, ContractItem item) {
         for (PrimaryType itemRecipe: ((ManufacturedResource) item.resource()).getRecipe(0).keySet()) {
             if(context.getLastDiscovery().getExploreResponse().contains(itemRecipe)) {
                 resources.add(itemRecipe);
             }
         }
+        return resources;
+    }
+
+    private static List<PrimaryType> addResourcesScout(Context context, List<PrimaryType> resources, ContractItem item) {
+        for (PrimaryType itemRecipe: ((ManufacturedResource) item.resource()).getRecipe(0).keySet()) {
+            if(context.getLastDiscovery().getScoutResponse().found(itemRecipe.name()) &&
+                    !resources.contains(itemRecipe)) {
+                resources.add(itemRecipe);
+            }
+        }
+        return resources;
     }
 
     public List<PrimaryType> analyzerScout(Context context) {
