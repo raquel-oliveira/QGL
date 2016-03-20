@@ -1,15 +1,20 @@
 package fr.unice.polytech.qgl.qab.strategy.ground.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
+import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Transform;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
+import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
+import fr.unice.polytech.qgl.qab.resources.Resource;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.ContractItem;
+import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateFactory;
+import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateType;
 
 import java.util.EnumMap;
 import java.util.List;
@@ -25,23 +30,25 @@ public class TransformeResource extends GroundState {
             updateContext(context);
             return new StopSimulation();
         } else {
-            return new TransformeResource();
+            return GroundStateFactory.buildState(GroundStateType.TRANSFORM);
         }
     }
 
     @Override
     public Action responseState(Context context, Map map) throws IndexOutOfBoundsComboAction {
-        List<ContractItem> contracts = context.getContracts();
+        if (context.getResourcesToCreate().isEmpty()) return new Stop();
 
-        EnumMap<PrimaryType, Integer> recipe = new EnumMap<PrimaryType, Integer>(PrimaryType.class);
-
+        //Element that we are going to try to create
         ManufacturedResource res = context.getResourcesToCreate().get(0);
-        for(java.util.Map.Entry<PrimaryType, Integer> ingredientRecipe : ((ManufacturedResource) contracts.get(contracts.indexOf(res)).resource()).getRecipe(0).entrySet()) {
-            if(context.getContracts().contains(ingredientRecipe.getKey())){
-                recipe.put(ingredientRecipe.getKey(), context.getQtdToUse(res, new PrimaryResource(ingredientRecipe.getKey())));
-            }
-        }
+        // Update that this manufactured was already "created"
+        List<ContractItem> contracts = context.getContracts();
+        ((ManufacturedResource)(contracts.get(context.getContractIndex(res)).resource())).setTransformed(true);
 
+        //Amounted asked in the contract
+        int amountContract = contracts.get(context.getContractIndex(res)).amount();
+
+        //TODO: update this to send the right value.
+        java.util.Map recipe= ((ManufacturedResource) contracts.get(context.getContractIndex(res)).resource()).getRecipe(amountContract);
 
         Action act = new Transform(recipe);
         context.getResourcesToCreate().remove(0);
@@ -50,7 +57,7 @@ public class TransformeResource extends GroundState {
     }
 
     /**
-     * Method to updata the context
+     * Method to update the context
      * @param context
      */
     private static void updateContext(Context context) {
