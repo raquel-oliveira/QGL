@@ -23,13 +23,17 @@ public class Position {
      * Return the coordinate X
      * @return coordinate X
      */
-    public int getX() { return x; }
+    public int getX() {
+        return x;
+    }
 
     /**
      * Return the coordinate Y
      * @return coordinate Y
      */
-    public int getY() { return y; }
+    public int getY() {
+        return y;
+    }
 
     /**
      * Set the coordinate X

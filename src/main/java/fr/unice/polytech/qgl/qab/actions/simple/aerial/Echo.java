@@ -25,8 +25,8 @@ public class Echo extends Action {
 
     @Override
     public boolean isValid(JSONObject jsonObj) {
-        if (jsonObj.has(ACTION)) {
-            String action = jsonObj.getString(ACTION);
+        if (jsonObj.has(ACTION_PARAMS)) {
+            String action = jsonObj.getString(ACTION_PARAMS);
             if (!(ACTION_ECHO).equals(action)) {
                 return false;
             }
@@ -41,7 +41,7 @@ public class Echo extends Action {
 
     @Override
     public String formatResponse() {
-        return "{ \"action\": \"echo\", \"parameters\": { \"direction\": \"" + direction + "\" } }";
+        return "{ \"action\": \"echo\", \"parameters\": { \"direction\": \"" + dirAction + "\" } }";
     }
 
 }

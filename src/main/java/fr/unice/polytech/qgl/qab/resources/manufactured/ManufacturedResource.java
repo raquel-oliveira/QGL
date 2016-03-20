@@ -111,6 +111,4 @@ public class ManufacturedResource implements Resource {
         }
         return recipe;
     }
-
-   
 }

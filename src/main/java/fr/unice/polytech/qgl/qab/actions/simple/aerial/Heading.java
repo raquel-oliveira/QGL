@@ -19,8 +19,8 @@ public class Heading extends Action {
 
     @Override
     public boolean isValid(JSONObject jsonObj) {
-        if (jsonObj.has(ACTION)) {
-            String action = jsonObj.getString(ACTION);
+        if (jsonObj.has(ACTION_PARAMS)) {
+            String action = jsonObj.getString(ACTION_PARAMS);
             if (!(ACTION_HEADING).equals(action)) {
                 return false;
             }
@@ -35,6 +35,6 @@ public class Heading extends Action {
 
     @Override
     public String formatResponse() {
-        return "{ \"action\": \"heading\", \"parameters\": { \"direction\": \"" + direction + "\" } }";
+        return "{ \"action\": \"heading\", \"parameters\": { \"direction\": \"" + dirAction + "\" } }";
     }
 }

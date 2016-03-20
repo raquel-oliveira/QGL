@@ -1,9 +1,6 @@
 package fr.unice.polytech.qgl.qab.strategy.ground.states;
 
 import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
-import fr.unice.polytech.qgl.qab.strategy.aerial.states.*;
-import fr.unice.polytech.qgl.qab.strategy.aerial.states.factory.AerialStateFactory;
-import fr.unice.polytech.qgl.qab.strategy.aerial.states.factory.AerialStateType;
 import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateFactory;
 import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateType;
 import org.junit.Test;
@@ -23,9 +20,6 @@ public class GroundStateFactoryTest {
 
         state = GroundStateFactory.buildState(GroundStateType.SCOUTTILE);
         assertEquals(ScoutTile.class, state.getClass());
-
-        state = GroundStateFactory.buildState(GroundStateType.EXPLORETILE);
-        assertEquals(ExploreTile.class, state.getClass());
 
         state = GroundStateFactory.buildState(GroundStateType.EXPLOITTILE);
         assertEquals(ExploitTile.class, state.getClass());

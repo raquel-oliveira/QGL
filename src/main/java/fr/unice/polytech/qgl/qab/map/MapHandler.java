@@ -7,7 +7,8 @@ import fr.unice.polytech.qgl.qab.util.enums.Direction;
  * @version 06/03/16.
  */
 public class MapHandler {
-    private MapHandler() {}
+    private MapHandler() {
+    }
 
     public static void updatePositionX(int x, Map map, Direction dir) {
         if (dir.equals(Direction.EAST))

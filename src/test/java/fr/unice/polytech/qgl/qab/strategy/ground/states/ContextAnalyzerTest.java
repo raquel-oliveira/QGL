@@ -6,6 +6,7 @@ import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedType;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.response.ExploreResponse;
 import fr.unice.polytech.qgl.qab.response.GlimpseResponse;
+import fr.unice.polytech.qgl.qab.response.ScoutResponse;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.util.Discovery;
 import org.junit.Before;
@@ -59,31 +60,39 @@ public class ContextAnalyzerTest {
 
     @Test
     public void testResourceAnalyzer() throws NegativeBudgetException {
-        ExploreResponse exploreResponse = new ExploreResponse();
-        List<String> list = new ArrayList<>();
-        list.add("");
-        list.add(PrimaryType.FISH.toString());
-        exploreResponse.addResource(list);
+        ScoutResponse scoutResponse = new ScoutResponse();
+        List<PrimaryType> list = new ArrayList<>();
+        list.add(PrimaryType.FISH);
+        scoutResponse.setResources(list);
 
         context = new Context();
         discovery = new Discovery();
 
-        discovery.setExploreResponse(exploreResponse);
+        discovery.setScoutResponse(scoutResponse);
         context.setLastDiscovery(discovery);
         context.addContract(PrimaryType.FISH.toString(), 10);
 
-        assertTrue(contextAnalyzer.resourceAnalyzer(context).contains(PrimaryType.FISH));
+        assertTrue(contextAnalyzer.resourceAnalyzerScout(context).contains(PrimaryType.FISH));
 
-        exploreResponse = new ExploreResponse();
-        list = new ArrayList<>();
-        list.add("");
-        list.add(PrimaryType.SUGAR_CANE.toString());
-        exploreResponse.addResource(list);
+        list.add(PrimaryType.SUGAR_CANE);
+        scoutResponse.setResources(list);
 
-        discovery.setExploreResponse(exploreResponse);
+        discovery.setScoutResponse(scoutResponse);
         context.setLastDiscovery(discovery);
         context.addContract(ManufacturedType.RUM.toString(), 10);
-        assertTrue(contextAnalyzer.resourceAnalyzer(context).contains(PrimaryType.SUGAR_CANE));
+        assertTrue(contextAnalyzer.resourceAnalyzerScout(context).contains(PrimaryType.SUGAR_CANE));
+
+        scoutResponse = new ScoutResponse();
+        list = new ArrayList<>();
+        list.add(PrimaryType.QUARTZ);
+        list.add(PrimaryType.WOOD);
+        scoutResponse.setResources(list);
+
+        discovery.setScoutResponse(scoutResponse);
+        context.setLastDiscovery(discovery);
+        context.addContract(ManufacturedType.GLASS.toString(), 10);
+        assertTrue(contextAnalyzer.resourceAnalyzerScout(context).contains(PrimaryType.QUARTZ));
+        assertTrue(contextAnalyzer.resourceAnalyzerScout(context).contains(PrimaryType.WOOD));
     }
 
     @Test

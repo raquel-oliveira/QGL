@@ -6,4 +6,4 @@ package fr.unice.polytech.qgl.qab.resources.manufactured;
  */
 public enum ManufacturedType {
     GLASS, INGOT, LEATHER, PLANK, RUM
-};
+}

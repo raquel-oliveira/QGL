@@ -9,10 +9,10 @@ import org.json.JSONObject;
  * @version 4.9
  */
 public abstract class Action {
-    public static final String ACTION = "action";
+    public static final String ACTION_PARAMS = "action";
     public static final String DIRECTION = "direction";
     public static final String PARAMETERS = "parameters";
-    protected Direction direction;
+    protected Direction dirAction;
     public abstract boolean isValid(JSONObject jsonObj);
 
     /**
@@ -39,7 +39,7 @@ public abstract class Action {
      * @return the direction.
      */
     public Direction getDirection() {
-        return direction;
+        return dirAction;
     }
 
     /**
@@ -47,6 +47,6 @@ public abstract class Action {
      * @return the direction.
      */
     public void setDirection(Direction dir) {
-        direction = dir;
+        dirAction = dir;
     }
 }

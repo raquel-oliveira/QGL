@@ -21,6 +21,7 @@ public class ComboMoveTo extends Combo {
      * @param direction move_to direction
      * @param range move_to range
      */
+    @Override
     public void defineActions(Direction direction, int range) {
         for (int i = 0; i < range; i++)
             actions.add(new MoveTo(direction));

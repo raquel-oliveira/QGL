@@ -46,25 +46,33 @@ public class Tile {
      * Set the type of the tile
      * @param type type of the tile
      */
-    public void setType(TileType type) { this.type = type; }
+    public void setType(TileType type) {
+        this.type = type;
+    }
 
     /**
      * Get the tile type
      * @return the tile type
      */
-    public TileType getType() { return type; }
+    public TileType getType() {
+        return type;
+    }
 
     /**
      * Set the creek in the tile
      * @param creek to add in the tile
      */
-    public void setCreek(List<Creek> creek) { this.creek = creek; }
+    public void setCreek(List<Creek> creek) {
+        this.creek = creek;
+    }
 
     /**
      * Get the creeks in the tile
      * @return creek in the tile
      */
-    public List<Creek> getCreek() { return creek; }
+    public List<Creek> getCreek() {
+        return creek;
+    }
 
     /**
      * Check if the tile was visited
@@ -78,7 +86,9 @@ public class Tile {
      * Set the tile as visited
      * @param visit
      */
-    public void setVisit(boolean visit) { wasVisited = visit; }
+    public void setVisit(boolean visit) {
+        wasVisited = visit;
+    }
 
     /**
      * Get the list of square

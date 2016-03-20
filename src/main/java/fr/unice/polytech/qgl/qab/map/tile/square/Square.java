@@ -9,7 +9,6 @@ import fr.unice.polytech.qgl.qab.map.tile.Biomes;
  */
 public class Square {
     private Biomes biome;
-    private boolean wasVisited;
 
     /**
      * Square's constructor
