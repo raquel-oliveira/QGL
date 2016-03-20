@@ -2,6 +2,7 @@ package fr.unice.polytech.qgl.qab.strategy.ground.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.combo.ground.ComboScoutTile;
+import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.MoveTo;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Scout;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
@@ -41,6 +42,10 @@ public class ScoutTile extends GroundState {
 
     @Override
     public Action responseState(Context context, Map map) throws IndexOutOfBoundsComboAction {
+        if (context.contractsAreComplete()){
+            return new Stop();
+        }
+
         if (context.current().getComboAction() == null) {
             context.current().setComboAction(new ComboScoutTile());
             context.current().getComboAction().defineActions();

@@ -2,6 +2,7 @@ package fr.unice.polytech.qgl.qab.strategy.aerial.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.simple.common.Land;
+import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
@@ -29,6 +30,9 @@ public class LandInGround extends AerialState {
         if (map.getTile(p) != null) {
             act = new Land(map.getTile(p).getCreek().get(0).getIdCreek(), 1);
         } else {
+            if (context.getLastDiscovery().getCreeks().size() == 0) {
+                return new Stop();
+            }
             act = new Land(context.getLastDiscovery().getCreeks().get(0).getIdCreek(), 1);
         }
         context.current().setLastAction(act);
