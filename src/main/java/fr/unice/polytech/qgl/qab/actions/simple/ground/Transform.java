@@ -23,7 +23,6 @@ public class Transform extends Action {
 
     @Override
     public boolean isValid(JSONObject jsonObject){
-        //todo: make validation to not try to put manufactured resources to be transformed.
         if (jsonObject.has(ACTION)) {
             String action = jsonObject.getString(ACTION);
             if (!(ACTION_TRANSFORM).equals(action))
