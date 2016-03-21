@@ -2,7 +2,6 @@ package fr.unice.polytech.qgl.qab.util;
 
 import fr.unice.polytech.qgl.qab.map.tile.Creek;
 import fr.unice.polytech.qgl.qab.response.*;
-import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,6 @@
 package fr.unice.polytech.qgl.qab.map;
 
-import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
+import fr.unice.polytech.qgl.qab.exception.map.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.tile.Position;
 import fr.unice.polytech.qgl.qab.map.tile.TileType;
 import org.junit.Before;

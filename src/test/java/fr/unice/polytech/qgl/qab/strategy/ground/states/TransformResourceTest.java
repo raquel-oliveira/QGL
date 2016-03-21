@@ -1,8 +1,8 @@
 package fr.unice.polytech.qgl.qab.strategy.ground.states;
 
-import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
-import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
-import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
+import fr.unice.polytech.qgl.qab.exception.action.IndexOutOfBoundsComboAction;
+import fr.unice.polytech.qgl.qab.exception.context.NegativeBudgetException;
+import fr.unice.polytech.qgl.qab.exception.map.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import org.junit.Before;
@@ -25,10 +25,5 @@ public class TransformResourceTest {
     public void testInstance() {
         TransformResource transforme = new TransformResource();
         assertEquals(trans.getClass(), transforme.getClass());
-    }
-
-    @Test
-    public void testActions() throws NegativeBudgetException, PositionOutOfMapRange, IndexOutOfBoundsComboAction {
-        GroundState state = trans.getState(new Context(), new Map());
     }
 }

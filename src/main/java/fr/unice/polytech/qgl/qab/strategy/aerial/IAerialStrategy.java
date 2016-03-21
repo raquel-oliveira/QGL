@@ -1,8 +1,9 @@
 package fr.unice.polytech.qgl.qab.strategy.aerial;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
-import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
+import fr.unice.polytech.qgl.qab.exception.AccessException;
+import fr.unice.polytech.qgl.qab.exception.action.IndexOutOfBoundsComboAction;
+import fr.unice.polytech.qgl.qab.exception.map.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 
@@ -19,5 +20,5 @@ public interface IAerialStrategy {
      * @throws PositionOutOfMapRange
      * @throws IndexOutOfBoundsComboAction
      */
-    Action makeDecision(Context context, Map map) throws PositionOutOfMapRange, IndexOutOfBoundsComboAction;
+    Action makeDecision(Context context, Map map) throws AccessException;
 }

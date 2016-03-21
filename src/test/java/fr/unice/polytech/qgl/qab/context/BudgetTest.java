@@ -2,11 +2,10 @@ package fr.unice.polytech.qgl.qab.context;
 
 import static org.junit.Assert.*;
 
-import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.Budget;
 import org.junit.Test;
 
-import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
+import fr.unice.polytech.qgl.qab.exception.context.NegativeBudgetException;
 
 public class BudgetTest {
 	private Budget b;

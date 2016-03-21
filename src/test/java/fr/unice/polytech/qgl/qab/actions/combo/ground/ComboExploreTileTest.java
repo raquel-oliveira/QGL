@@ -2,7 +2,7 @@ package fr.unice.polytech.qgl.qab.actions.combo.ground;
 
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Explore;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.MoveTo;
-import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
+import fr.unice.polytech.qgl.qab.exception.action.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import org.junit.Before;
 import org.junit.Test;
