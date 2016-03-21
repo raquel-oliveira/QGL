@@ -275,7 +275,7 @@ public class Context {
      * @param resource
      * @return
      */
-    public int getAcumulatedAmountNecessary(Resource resource){
+    public int getAccumulatedAmountNecessary(Resource resource){
         int amount = 0;
         if (!resource.isPrimary()){
             LOGGER.error("Passed the wrong parameter.");
@@ -306,11 +306,10 @@ public class Context {
         //Check if resource is parte of manufatured recipe
         if(!manufatured.getRecipe(0).containsKey(resource)){
             LOGGER.error("error:", "trying to get amount of a primary resource that is not necessary to create the transform,");
-            //TODO: change this to trow exception
             return -1;
         }
 
-        int amount = getAcumulatedAmountNecessary(resource);
+        int amount = getAccumulatedAmountNecessary(resource);
 
         for (int i = 0; i < contracts.size(); i++){
             Resource res = contracts.get(i).resource();
@@ -391,12 +390,14 @@ public class Context {
     }
 
     public void removeResourceToCreate(int index){
-        if(resourcesToCreate.isEmpty()){ LOGGER.error("error:", "The list is empty, can not remove.");}
+        if(resourcesToCreate.isEmpty()){
+            LOGGER.error("error:", "The list is empty, can not remove.");
+        }
         try{
             resourcesToCreate.remove(index);
         }
         catch(Exception e){
-            LOGGER.error("error:", "Can not remove this element");
+            LOGGER.error("Can not remove this element");
         }
     }
 
@@ -424,6 +425,7 @@ public class Context {
                 return index;
             }
         }
+        LOGGER.error("The element" + resource.getName() + "its not in the contract.");
         return -1;
     }
 }
