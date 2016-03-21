@@ -2,7 +2,6 @@ package fr.unice.polytech.qgl.qab.strategy.ground;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
-import fr.unice.polytech.qgl.qab.actions.simple.ground.Transform;
 import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
@@ -10,7 +9,6 @@ import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateFactory;
 import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateType;
 import fr.unice.polytech.qgl.qab.strategy.ground.states.GroundState;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import fr.unice.polytech.qgl.qab.strategy.ground.states.FindTile;
 
 /**
  * @version 09/12/15.
@@ -19,7 +17,7 @@ import fr.unice.polytech.qgl.qab.strategy.ground.states.FindTile;
 public class GroundStrategy implements IGroundStrategy {
     private GroundState state;
     private int limitBudget;
-    private final int MIN_NB_BUDGET_TO_TRANSFORME = 100;
+    private static final int BUDGETTOTRANSFORME = 100;
 
     /**
      * GroundStrategy's constructor.
@@ -38,9 +36,10 @@ public class GroundStrategy implements IGroundStrategy {
             case 2:
                 state = GroundStateFactory.buildState(GroundStateType.TRANSFORM);
                 return state.responseState(context, map);
+            default:
+                state = state.getState(context, map);
+                return state.responseState(context, map);
         }
-        state = state.getState(context, map);
-        return state.responseState(context, map);
     }
 
     /**
@@ -69,7 +68,7 @@ public class GroundStrategy implements IGroundStrategy {
         }
 
         //If you have to transform before stop. But all primary resources were not completed to make the manufactured resources
-        if((context.getBudget() < getLimitBudget() + MIN_NB_BUDGET_TO_TRANSFORME) /*&& (!context.getResourcesToCreate().isEmpty())*/){
+        if(context.getBudget() < getLimitBudget() + BUDGETTOTRANSFORME){
             return 2;
         }
 
