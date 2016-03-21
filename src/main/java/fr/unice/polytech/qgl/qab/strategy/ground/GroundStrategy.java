@@ -29,8 +29,8 @@ public class GroundStrategy implements IGroundStrategy {
 
     @Override
     public Action makeDecision(Context context, Map map) throws PositionOutOfMapRange, IndexOutOfBoundsComboAction {
-        int flag = contextAnalyzer(context);
-        switch (flag) {
+        int statusContext = contextAnalyzer(context);
+        switch (statusContext) {
             case 1:
                 return new Stop();
             case 2:
@@ -58,21 +58,23 @@ public class GroundStrategy implements IGroundStrategy {
      * @return 0 if it can continue.
      */
     private int contextAnalyzer(Context context) {
-        //If all contracts are filled or there is with low quantity of budgets
-        if(context.contractsAreComplete() || context.getBudget() < getLimitBudget()){
+        // If all contracts are filled or there is with low quantity of budgets
+        if (context.contractsAreComplete() || context.getBudget() < getLimitBudget() || transformeFinished(context)){
             return 1;
         }
 
-        if(context.enoughToTransform()){
+        /* Make transform if:
+        * If there are enough (primary) resources to make transform or
+        * if all primary resources were not completed to make the manufactured, but will try to transform the maximum
+        * before stops.
+        * */
+        if (context.enoughToTransform() || context.getBudget() <= getLimitBudget() + BUDGET_TO_TRANSFORME){
             return 2;
         }
-
-        //If you have to transform before stop. But all primary resources were not completed to make the manufactured resources
-        if(context.getBudget() < getLimitBudget() + BUDGET_TO_TRANSFORME){
-            return 2;
-        }
-
         return 0;
     }
 
+    private boolean transformeFinished(Context context) {
+        return (context.getResourcesToCreate() != null && context.getResourcesToCreate().isEmpty());
+    }
 }

@@ -166,15 +166,14 @@ public class ContextAction {
                 this.resourcesToExploit.add(resourcesToExploit.get(0));
                 resourcesToExploit.remove(0);
             }
-            else if(collectedResource.get(resource) < context.getAccumulatedAmountNecessary(res)) {
-                this.resourcesToExploit.add(resourcesToExploit.get(0));
-                resourcesToExploit.get(0);
-                resourcesToExploit.remove(0);
-            }
             else {
-                // TODO: wrong
-                // this.resourcesToExploit.add(resourcesToExploit.get(0));
-                resourcesToExploit.remove(0);
+                if(collectedResource.get(resource) < context.getAccumulatedAmountNecessary(res)) {
+                    this.resourcesToExploit.add(resourcesToExploit.get(0));
+                    resourcesToExploit.remove(0);
+                }else{
+                    resourcesToExploit.remove(0);
+                }
+
             }
         }
     }

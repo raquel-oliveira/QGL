@@ -61,7 +61,7 @@ public class Context {
         budget = new Budget(0);
         contracts = new ArrayList<>();
         collectedResources = new HashMap<>();
-        resourcesToCreate = new ArrayList<>();
+        resourcesToCreate = null;
         completeContract = false;
         firstHead = null;
         heading = null;
@@ -248,6 +248,8 @@ public class Context {
         try {
             contracts.add(new ContractItem(new ManufacturedResource(ManufacturedType.valueOf(resource)), amount));
             //update the resources manufactured in the list of resources to be create.
+            if (resourcesToCreate == null)
+                resourcesToCreate = new ArrayList<>();
             resourcesToCreate.add(new ManufacturedResource(ManufacturedType.valueOf(resource)));
         } catch (Exception ex) {
             contracts.add(new ContractItem(new PrimaryResource(PrimaryType.valueOf(resource)), amount));
@@ -352,8 +354,9 @@ public class Context {
         boolean enough = true;
         Set<String> primaryResources = primaryNeeded();
         for (String resource: primaryResources) {
-            int a = getAccumulatedAmountNecessary(new PrimaryResource(PrimaryType.valueOf(resource)));
-            if(collectedResources.get(resource) < getAccumulatedAmountNecessary(new PrimaryResource(PrimaryType.valueOf(resource)))){
+            if (!collectedResources.containsKey(resource))
+                return false;
+            if (collectedResources.get(resource) < getAccumulatedAmountNecessary(new PrimaryResource(PrimaryType.valueOf(resource)))){
                 return enough = false;
             }
         }

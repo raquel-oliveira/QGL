@@ -39,24 +39,28 @@ public class TransformResource extends GroundState {
 
         //Element that we are going to try to create. If he can not create, take the next.
         ManufacturedResource res = context.getResourcesToCreate().get(0);
-        while(!contracts.get(context.getContractIndex(res)).CanTransform()){
-            context.removeResourceToCreate(0);
+        //while(!contracts.get(context.getContractIndex(res)).CanTransform()){
+          //  context.removeResourceToCreate(0);
             if (context.getResourcesToCreate().isEmpty()) {
                 return new Stop();
             }
             else{
                 res = context.getResourcesToCreate().get(0);
             }
-        }
+       // }
         // Update that this manufactured was already "created"
         ((ManufacturedResource)(contracts.get(context.getContractIndex(res)).resource())).setTransformed(true);
         //Amounted asked in the contract
         int amountContract = contracts.get(context.getContractIndex(res)).amount();
         //TODO: update this to send the right value.
-        java.util.Map recipe= ((ManufacturedResource) contracts.get(context.getContractIndex(res)).resource()).getRecipe(amountContract);
+        java.util.Map recipe = ((ManufacturedResource) contracts.get(context.getContractIndex(res)).resource()).getRecipe(amountContract);
+
+
 
         Action act = new Transform(recipe);
+
         context.removeResourceToCreate(0);
+
         context.current().setLastAction(act);
         return act;
     }
