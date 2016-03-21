@@ -24,10 +24,5 @@ public interface Resource {
      */
     Set<Biomes> getBiome();
 
-    /**
-     * Method that define the set of biomes that can produce this resource
-     */
-    void setBiomes();
-
     boolean isPrimary();
 }

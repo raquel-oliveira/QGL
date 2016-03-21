@@ -46,8 +46,7 @@ public class ManufacturedResource implements Resource {
         return resource.toString();
     }
 
-    @Override
-    public void setBiomes() {
+    private void setBiomes() {
         PrimaryResource res;
         switch (resource){
             case GLASS:
