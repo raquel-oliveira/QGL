@@ -29,8 +29,9 @@ public class GroundStateFactory {
             case SCOUTTILE:
                 state = new ScoutTile();
                 break;
+
             case TRANSFORM:
-                state = new TransformeResource();
+                state = new TransformResource();
                 break;
 
             default:
