@@ -1,7 +1,7 @@
 package fr.unice.polytech.qgl.qab.actions.combo;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
+import fr.unice.polytech.qgl.qab.exception.action.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 import java.util.List;

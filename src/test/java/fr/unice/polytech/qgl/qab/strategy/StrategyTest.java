@@ -8,11 +8,11 @@ import fr.unice.polytech.qgl.qab.actions.simple.common.Land;
 import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.MoveTo;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Scout;
-import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
-import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
-import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
+import fr.unice.polytech.qgl.qab.exception.AccessException;
+import fr.unice.polytech.qgl.qab.exception.action.IndexOutOfBoundsComboAction;
+import fr.unice.polytech.qgl.qab.exception.context.NegativeBudgetException;
+import fr.unice.polytech.qgl.qab.exception.map.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
-import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,12 +28,12 @@ public class StrategyTest {
     }
 
     @Test
-    public void testStop() throws IndexOutOfBoundsComboAction, PositionOutOfMapRange {
+    public void testStop() throws AccessException {
         assertEquals(new Stop().formatResponse(), strategy.makeDecision());
     }
 
     @Test
-    public void testReadContextFewBudged() throws NegativeBudgetException, IndexOutOfBoundsComboAction, PositionOutOfMapRange {
+    public void testReadContextFewBudged() throws NegativeBudgetException, AccessException {
         setContextFewBudged();
 
         String result = strategy.makeDecision();
@@ -41,7 +41,7 @@ public class StrategyTest {
     }
 
     @Test
-    public void testReadContext() throws NegativeBudgetException, IndexOutOfBoundsComboAction, PositionOutOfMapRange {
+    public void testReadContext() throws NegativeBudgetException, AccessException {
         setContextEnoughBudged();
 
         String action = strategy.makeDecision();

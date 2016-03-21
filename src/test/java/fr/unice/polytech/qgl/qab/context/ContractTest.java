@@ -3,14 +3,12 @@ package fr.unice.polytech.qgl.qab.context;
 import static org.junit.Assert.*;
 
 import fr.unice.polytech.qgl.qab.resources.*;
-import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
-import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedType;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.ContractItem;
 import org.junit.Test;
 
-import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
+import fr.unice.polytech.qgl.qab.exception.context.NegativeBudgetException;
 
 public class ContractTest {
 	ContractItem c;

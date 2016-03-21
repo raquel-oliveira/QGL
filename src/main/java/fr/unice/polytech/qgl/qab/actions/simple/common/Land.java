@@ -19,20 +19,16 @@ public class Land extends Action {
 
     @Override
     public boolean isValid(JSONObject jsonObj) {
-        if (jsonObj.has(ACTION_PARAMS)) {
+        if (jsonObj.has(ACTION_PARAMS) && jsonObj.has(PARAMETERS)) {
             String action = jsonObj.getString(ACTION_PARAMS);
-            if (!(ACTION_LAND).equals(action))
-                return false;
-        } else return false;
 
-        if (jsonObj.has(PARAMETERS)) {
-            if (!jsonObj.getJSONObject(PARAMETERS).has("creek")) {
+            if (!ACTION_LAND.equals(action) ||
+                    !jsonObj.getJSONObject(PARAMETERS).has("creek") ||
+                        !jsonObj.getJSONObject(PARAMETERS).has("people")) {
                 return false;
             }
-            if (!jsonObj.getJSONObject(PARAMETERS).has("people")){
-                return false;
-            }
-        } else return false;
+        } else
+            return false;
         return true;
     }
 
