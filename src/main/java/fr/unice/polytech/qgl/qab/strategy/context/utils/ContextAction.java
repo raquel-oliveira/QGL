@@ -171,7 +171,9 @@ public class ContextAction {
                 resourcesToExploit.get(0);
                 resourcesToExploit.remove(0);
             }
-            else{
+            else {
+                // TODO: wrong
+                // this.resourcesToExploit.add(resourcesToExploit.get(0));
                 resourcesToExploit.remove(0);
             }
         }

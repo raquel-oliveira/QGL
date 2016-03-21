@@ -3,6 +3,11 @@ target/
 src/main/resource/
 src/main/java/fr/unice/polytech/qgl/qab/Main.java
 
+# file floorc
+.floo
+.floorc.json
+.flooignore
+
 # Created by https://www.gitignore.io/api/sublimetext,xcode,vim
 
 ### SublimeText ###

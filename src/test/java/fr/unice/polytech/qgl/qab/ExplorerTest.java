@@ -1,13 +1,8 @@
 package fr.unice.polytech.qgl.qab;
 
-import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import org.json.JSONObject;
 import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.matchers.JUnitMatchers;
-import org.junit.rules.ExpectedException;
 
 import static org.junit.Assert.assertEquals;
 

@@ -17,13 +17,13 @@ import fr.unice.polytech.qgl.qab.strategy.context.Context;
 public class GroundStrategy implements IGroundStrategy {
     private GroundState state;
     private int limitBudget;
-    private static final int BUDGETTOTRANSFORME = 100;
+    private static final int BUDGET_TO_TRANSFORME = 100;
 
     /**
      * GroundStrategy's constructor.
      */
     public GroundStrategy() {
-        state = GroundStateFactory.buildState(GroundStateType.FINDTILE);
+        state = GroundStateFactory.buildState(GroundStateType.FIND_TILE);
         limitBudget = 400;
     }
 
@@ -68,7 +68,7 @@ public class GroundStrategy implements IGroundStrategy {
         }
 
         //If you have to transform before stop. But all primary resources were not completed to make the manufactured resources
-        if(context.getBudget() < getLimitBudget() + BUDGETTOTRANSFORME){
+        if(context.getBudget() < getLimitBudget() + BUDGET_TO_TRANSFORME){
             return 2;
         }
 

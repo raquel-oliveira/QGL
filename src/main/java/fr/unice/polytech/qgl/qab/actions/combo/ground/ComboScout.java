@@ -18,6 +18,7 @@ public class ComboScout extends Combo {
      * Gave a number of range, this method add in the list of action a set of scout
      * @param direction move_to direction
      */
+    @Override
     public void defineActions(Direction direction) {
         Direction dir = Direction.randomSideDirection(direction);
         actions.add(new Scout(dir));

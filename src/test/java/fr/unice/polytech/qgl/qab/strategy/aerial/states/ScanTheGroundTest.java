@@ -18,7 +18,6 @@ import fr.unice.polytech.qgl.qab.util.Discovery;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;

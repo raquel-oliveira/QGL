@@ -88,4 +88,8 @@ Factory Pattern implemented, improvement of the tests. Fix problem( gamplay issu
 
 ### Week 11
 
-Short list of the **features** available in the bot delivered for the championship that happened at the end of week 11.
+Fix problem to get the contracts of primaries resources. Improvement the strategy to spend less badged. Improvement of the tests.
+
+### Week 12
+
+Short list of the **features** available in the bot delivered for the championship that happened at the end of week 12.

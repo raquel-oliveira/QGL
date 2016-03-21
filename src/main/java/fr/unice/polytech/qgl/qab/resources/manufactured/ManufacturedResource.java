@@ -129,5 +129,5 @@ public class ManufacturedResource implements Resource {
     public boolean isPrimary() {
         return false;
     }
-   
+
 }

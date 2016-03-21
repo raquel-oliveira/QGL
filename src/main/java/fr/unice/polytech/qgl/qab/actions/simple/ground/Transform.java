@@ -11,6 +11,7 @@ import java.util.Map;
  */
 public class Transform extends Action {
     private static final String ACTION_TRANSFORM = "transform";
+    private static final String ACTION = "action";
     private Map<PrimaryType, Integer> recipe;
 
     /**

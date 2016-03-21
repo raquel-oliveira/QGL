@@ -5,5 +5,9 @@ package fr.unice.polytech.qgl.qab.resources.manufactured;
  * Raquel Lopes de Oliveira update at 01.02.2016
  */
 public enum ManufacturedType {
-    GLASS, INGOT, LEATHER, PLANK, RUM;
+    GLASS,
+    INGOT,
+    LEATHER,
+    PLANK,
+    RUM;
 }

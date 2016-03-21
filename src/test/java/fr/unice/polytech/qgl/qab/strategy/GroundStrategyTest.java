@@ -67,8 +67,10 @@ public class GroundStrategyTest {
         testMoveTo(Direction.SOUTH, 9);
 
         action = strategy.makeDecision(context, map);
-       // assertEquals(Scout.class, action.getClass());
-        assertEquals(Explore.class, action.getClass());
+        assertEquals(Scout.class, action.getClass());
+
+        action = strategy.makeDecision(context, map);
+        assertEquals(MoveTo.class, action.getClass());
     }
 
     private void testMoveTo(Direction direction, int range) throws PositionOutOfMapRange, IndexOutOfBoundsComboAction {

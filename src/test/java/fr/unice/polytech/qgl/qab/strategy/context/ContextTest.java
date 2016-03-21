@@ -83,7 +83,7 @@ public class ContextTest {
         context.addContract("WOOD", 10);
         context.addContract("GLASS", 10);
         amount = context.getAcumulatedAmountNecessary(new ManufacturedResource(ManufacturedType.GLASS));
-        assertEquals(-1, amount);
+        assertEquals(-1, amount); //Log with "error"
 
         amount = context.getAcumulatedAmountNecessary(new PrimaryResource(PrimaryType.WOOD));
         assertEquals(60, amount);

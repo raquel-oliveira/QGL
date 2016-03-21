@@ -21,6 +21,7 @@ public class ComboFlyUntil extends Combo {
      *
      * @param range number of times to fly -1
      */
+    @Override
     public void defineActions(int range) {
         for (int i = 0; i < range; i++) {
             actions.add(new Fly());

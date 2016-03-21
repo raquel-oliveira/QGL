@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import org.junit.Before;
-import org.junit.Ignore;
 
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;

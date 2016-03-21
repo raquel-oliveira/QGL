@@ -1,4 +1,6 @@
 package fr.unice.polytech.qgl.qab.strategy.context;
+import fr.unice.polytech.qgl.qab.actions.Action;
+import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
 import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.resources.Resource;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
@@ -276,7 +278,7 @@ public class Context {
     public int getAcumulatedAmountNecessary(Resource resource){
         int amount = 0;
         if (!resource.isPrimary()){
-            LOGGER.error("error", "Passed the wrong parameter.");
+            LOGGER.error("Passed the wrong parameter.");
             return -1;
         }
         for (int i = 0; i < contracts.size(); i++) {

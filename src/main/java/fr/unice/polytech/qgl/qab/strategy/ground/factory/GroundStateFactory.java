@@ -1,6 +1,7 @@
 package fr.unice.polytech.qgl.qab.strategy.ground.factory;
 
 import fr.unice.polytech.qgl.qab.strategy.ground.states.*;
+import fr.unice.polytech.qgl.qab.strategy.ground.states.ScoutTile;
 
 /**
  * @version 13/03/16.
@@ -14,19 +15,15 @@ public class GroundStateFactory {
         GroundState state;
 
         switch (model) {
-            case FINDTILE:
+            case FIND_TILE:
                 state = new FindTile();
                 break;
 
-            case EXPLOITTILE:
+            case EXPLOIT_TILE:
                 state = new ExploitTile();
                 break;
 
-            case EXPLORETILE:
-                state = new ExploreTile();
-                break;
-
-            case SCOUTTILE:
+            case SCOUT_TILE:
                 state = new ScoutTile();
                 break;
 
