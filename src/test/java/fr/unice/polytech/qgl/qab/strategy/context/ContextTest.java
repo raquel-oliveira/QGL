@@ -13,6 +13,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.omg.CORBA.Object;
 
+import static java.lang.Math.ceil;
+
 import static org.junit.Assert.*;
 
 /**
@@ -20,7 +22,7 @@ import static org.junit.Assert.*;
  */
 public class ContextTest {
     Context context;
-    private static final double marginError = 1.5;
+    private static final double marginError = 1.1;
 
     @Before
     public void defineContext() throws NegativeBudgetException {
@@ -76,34 +78,36 @@ public class ContextTest {
 
     @Test
     public void testAcumullatedResources() throws NegativeBudgetException {
-        //TODO: after change when the constant of margin of error is updated.
         context.addContract("FISH", 10);
         int amount = context.getAccumulatedAmountNecessary(new PrimaryResource(PrimaryType.FISH));
         assertEquals(10, amount);
 
-        //10 WOODS + 5*10 Woods = 60 WOODS
         context.addContract("WOOD", 10);
+        amount = context.getAccumulatedAmountNecessary(new PrimaryResource(PrimaryType.WOOD));
+        assertEquals(10, amount);
+
         context.addContract("GLASS", 10);
         amount = context.getAccumulatedAmountNecessary(new ManufacturedResource(ManufacturedType.GLASS));
         assertEquals(-1, amount); //Log with "error"
 
+        //10 WOODS + 5*10*1.1 Woods = 10+55 WOODS
+        //int wod = 10 + (int)ceil(5 * 10 * marginError);
         amount = context.getAccumulatedAmountNecessary(new PrimaryResource(PrimaryType.WOOD));
-        assertEquals(60, amount);
+        assertEquals(66, amount); //66 because ceil(65.000000001)
 
-        //60 woods + 20* 5 woods = 160
+
+        //ceil(10*1.1) + ceil(5*10*1.1) + (20*5*1.1) = 11+55+110 =176
         context.addContract("INGOT", 20);
         amount = context.getAccumulatedAmountNecessary(new PrimaryResource(PrimaryType.WOOD));
-        assertEquals(160, amount);
+        assertEquals(177, amount); //ceil(176.00000001)
     }
 
     @Test
     public void testLeather() throws  NegativeBudgetException{
-        //TODO: after change when the constant of margin of error is updated.
-
         context.addContract("LEATHER", 1);
         int amount = context.getAccumulatedAmountNecessary(new PrimaryResource(PrimaryType.FUR));
         int recipe = new ManufacturedResource(ManufacturedType.LEATHER).getRecipe(1).get(PrimaryType.FUR);
-        assertEquals(3, amount);
+        assertEquals((int)ceil(3 * marginError), amount);
         assertEquals(recipe, amount);
     }
 
@@ -153,22 +157,22 @@ public class ContextTest {
         Resource fruits = new PrimaryResource(PrimaryType.FRUITS);
         Resource wood = new PrimaryResource(PrimaryType.WOOD);
 
+        //ceil(4*1.1) = 5
         context.addContract("FRUITS", 4);
         context.addCollectedResources(fruits, 3);
         assertFalse(context.enoughToTransform());
-        context.addCollectedResources(fruits, 1);
+        context.addCollectedResources(fruits, 2);
         assertTrue(context.enoughToTransform());
 
 
-        //wood 14 + 12*5 = 74
+        //wood 14 + ceil(12*5*1.1) = 14 + 66 = 80
         context.addContract("WOOD", 14);
         context.addContract("INGOT", 12);
         context.addCollectedResources(wood, 40);
         assertFalse(context.enoughToTransform());
-        context.addCollectedResources(wood, 34);
+        context.addCollectedResources(wood, 40);
         assertTrue(context.enoughToTransform());
 
-        //wood 14 + 60woods(ingot) + 3woods(plank) = 77 woods
         context.addContract("PLANK", 12);
         context.addCollectedResources(wood, 2);
         assertFalse(context.enoughToTransform());

@@ -22,6 +22,7 @@ import static org.junit.Assert.assertTrue;
  * version 14/03/2016.
  */
 public class TransformTest {
+    private static final double marginError = 1.1;
     Transform transform;
 
     @Before
@@ -38,7 +39,9 @@ public class TransformTest {
 
     @Test
     public void goodAnswerTest(){
-        String response = "{\"action\":\"transform\",\"parameters\":{\"WOOD\":\"5\",\"QUARTZ\":\"10\"}}";  
+       // String response = "{\"action\":\"transform\",\"parameters\":{\"WOOD\":\"5\",\"QUARTZ\":\"10\"}}";
+        //with 10%:
+        String response = "{\"action\":\"transform\",\"parameters\":{\"WOOD\":\"6\",\"QUARTZ\":\"11\"}}";
         assertTrue(response.equals(transform.formatResponse()));
     }
 
