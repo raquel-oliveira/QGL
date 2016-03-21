@@ -126,4 +126,23 @@ public class ContextTest {
 
         context.decreaseAmountOfCollectedResources(new PrimaryResource(PrimaryType.FISH), 6);
     }
+
+    @Test
+    public void testgetIndex() throws NegativeBudgetException{
+        Resource res0 = new PrimaryResource(PrimaryType.FISH);
+        Resource res1 = new ManufacturedResource(ManufacturedType.GLASS);
+        Resource res3 = new PrimaryResource(PrimaryType.WOOD);
+        context.addContract("FISH", 3);
+        context.addContract("GLASS", 5);
+
+        int ind = context.getContractIndex(res0);
+        assertEquals(0, ind);
+
+        ind = context.getContractIndex(res1);
+        assertEquals(1, ind);
+
+        ind = context.getContractIndex(res3);
+        assertEquals(-1, ind);
+
+    }
 }
