@@ -11,6 +11,7 @@ import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import org.junit.Before;
 import org.junit.Test;
+import org.omg.CORBA.Object;
 
 import static org.junit.Assert.*;
 
@@ -19,6 +20,7 @@ import static org.junit.Assert.*;
  */
 public class ContextTest {
     Context context;
+    private static final double marginError = 1.5;
 
     @Before
     public void defineContext() throws NegativeBudgetException {
@@ -76,21 +78,21 @@ public class ContextTest {
     public void testAcumullatedResources() throws NegativeBudgetException {
         //TODO: after change when the constant of margin of error is updated.
         context.addContract("FISH", 10);
-        int amount = context.getAcumulatedAmountNecessary(new PrimaryResource(PrimaryType.FISH));
+        int amount = context.getAccumulatedAmountNecessary(new PrimaryResource(PrimaryType.FISH));
         assertEquals(10, amount);
 
         //10 WOODS + 5*10 Woods = 60 WOODS
         context.addContract("WOOD", 10);
         context.addContract("GLASS", 10);
-        amount = context.getAcumulatedAmountNecessary(new ManufacturedResource(ManufacturedType.GLASS));
+        amount = context.getAccumulatedAmountNecessary(new ManufacturedResource(ManufacturedType.GLASS));
         assertEquals(-1, amount); //Log with "error"
 
-        amount = context.getAcumulatedAmountNecessary(new PrimaryResource(PrimaryType.WOOD));
+        amount = context.getAccumulatedAmountNecessary(new PrimaryResource(PrimaryType.WOOD));
         assertEquals(60, amount);
 
         //60 woods + 20* 5 woods = 160
         context.addContract("INGOT", 20);
-        amount = context.getAcumulatedAmountNecessary(new PrimaryResource(PrimaryType.WOOD));
+        amount = context.getAccumulatedAmountNecessary(new PrimaryResource(PrimaryType.WOOD));
         assertEquals(160, amount);
     }
 
@@ -99,7 +101,7 @@ public class ContextTest {
         //TODO: after change when the constant of margin of error is updated.
 
         context.addContract("LEATHER", 1);
-        int amount = context.getAcumulatedAmountNecessary(new PrimaryResource(PrimaryType.FUR));
+        int amount = context.getAccumulatedAmountNecessary(new PrimaryResource(PrimaryType.FUR));
         int recipe = new ManufacturedResource(ManufacturedType.LEATHER).getRecipe(1).get(PrimaryType.FUR);
         assertEquals(3, amount);
         assertEquals(recipe, amount);
@@ -143,6 +145,35 @@ public class ContextTest {
 
         ind = context.getContractIndex(res3);
         assertEquals(-1, ind);
+
+    }
+
+    @Test
+    public void testEnoughToTransform() throws NegativeBudgetException{
+        Resource fruits = new PrimaryResource(PrimaryType.FRUITS);
+        Resource wood = new PrimaryResource(PrimaryType.WOOD);
+
+        context.addContract("FRUITS", 4);
+        context.addCollectedResources(fruits, 3);
+        assertFalse(context.enoughToTransform());
+        context.addCollectedResources(fruits, 1);
+        assertTrue(context.enoughToTransform());
+
+
+        //wood 14 + 12*5 = 74
+        context.addContract("WOOD", 14);
+        context.addContract("INGOT", 12);
+        context.addCollectedResources(wood, 40);
+        assertFalse(context.enoughToTransform());
+        context.addCollectedResources(wood, 34);
+        assertTrue(context.enoughToTransform());
+
+        //wood 14 + 60woods(ingot) + 3woods(plank) = 77 woods
+        context.addContract("PLANK", 12);
+        context.addCollectedResources(wood, 2);
+        assertFalse(context.enoughToTransform());
+        context.addCollectedResources(wood, 2345678);
+        assertTrue(context.enoughToTransform());
 
     }
 }

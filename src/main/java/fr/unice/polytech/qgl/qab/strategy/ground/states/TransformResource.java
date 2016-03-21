@@ -34,8 +34,8 @@ public class TransformResource extends GroundState {
     public Action responseState(Context context, Map map) throws IndexOutOfBoundsComboAction {
         List<ContractItem> contracts = context.getContracts();
 
-
-        if (context.getResourcesToCreate().isEmpty()) return new Stop();
+        if (context.getResourcesToCreate().isEmpty())
+            return new Stop();
 
         //Element that we are going to try to create. If he can not create, take the next.
         ManufacturedResource res = context.getResourcesToCreate().get(0);

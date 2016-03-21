@@ -346,17 +346,17 @@ public class Context {
     }
 
     /**
-     * @return true if there is primary resources enough to complete all the contract
+     * @return true if there is primary resources enough to complete all the contracts
      */
     public boolean enoughToTransform(){
-       // boolean enough = true;
-        boolean enough = false;
-        Set<Resource> primaryResources = primaryNeeded();
-       /* for(Resource res: primaryResources){
-            if (getAcumulatedAmountNecessary(res)> collectedResources.get(res.getName())){
+        boolean enough = true;
+        Set<String> primaryResources = primaryNeeded();
+        for (String resource: primaryResources) {
+            int a = getAccumulatedAmountNecessary(new PrimaryResource(PrimaryType.valueOf(resource)));
+            if(collectedResources.get(resource) < getAccumulatedAmountNecessary(new PrimaryResource(PrimaryType.valueOf(resource)))){
                 return enough = false;
             }
-        }*/
+        }
         return enough;
     }
 
@@ -365,16 +365,16 @@ public class Context {
      * @return list of primary resources needed to complet all the contracts
      * //TODO: Look if there is similar codes.Exemple: addResources in ContextAnalyze.
      */
-    public Set<Resource> primaryNeeded(){
-        Set<Resource> primaryResource = new HashSet<Resource>();
+    public Set<String> primaryNeeded(){
+        Set<String> primaryResource = new HashSet<String>();
 
         for (int i = 0; i < contracts.size(); i++){
-            if (contracts.get(i).resource().isPrimary()){
-                primaryResource.add(contracts.get(i).resource());
+            if (contracts.get(i).resource().isPrimary()){ // tamo na atividads
+                primaryResource.add(contracts.get(i).resource().getName());
             }
             else{
                 for (PrimaryType itemRecipe: ((ManufacturedResource) contracts.get(i).resource()).getRecipe(0).keySet()) {
-                        primaryResource.add(new PrimaryResource(itemRecipe));
+                        primaryResource.add(new PrimaryResource(itemRecipe).getName());
                     }
                 }
             }
