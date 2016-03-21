@@ -59,7 +59,7 @@ public class GroundStrategy implements IGroundStrategy {
      */
     private int contextAnalyzer(Context context) {
         // If all contracts are filled or there is with low quantity of budgets
-        if (context.contractsAreComplete() || context.getBudget() < getLimitBudget() || transformeFinished(context)){
+        if (context.getContracts().contractsAreComplete() || context.getBudget() < getLimitBudget() || transformeFinished(context)){
             return 1;
         }
 
@@ -68,13 +68,13 @@ public class GroundStrategy implements IGroundStrategy {
         * if all primary resources were not completed to make the manufactured, but will try to transform the maximum
         * before stops.
         * */
-        if (context.enoughToTransform() || context.getBudget() <= getLimitBudget() + BUDGET_TO_TRANSFORME){
+        if (context.getContracts().enoughToTransform() || context.getBudget() <= getLimitBudget() + BUDGET_TO_TRANSFORME){
             return 2;
         }
         return 0;
     }
 
     private boolean transformeFinished(Context context) {
-        return (context.getResourcesToCreate() != null && context.getResourcesToCreate().isEmpty());
+        return (context.getContracts().getResourcesToCreate() != null && context.getContracts().getResourcesToCreate().isEmpty());
     }
 }

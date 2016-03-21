@@ -3,7 +3,7 @@ package fr.unice.polytech.qgl.qab.map;
 import fr.unice.polytech.qgl.qab.exception.map.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.tile.*;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import fr.unice.polytech.qgl.qab.strategy.context.utils.ContractItem;
+import fr.unice.polytech.qgl.qab.strategy.context.contracts.ContractItem;
 import java.util.*;
 
 /**
@@ -156,7 +156,7 @@ public class Map {
             Tile value = entry.getValue();
             // check if tile was visited
             if (!value.wasVisited()) {
-                for (ContractItem item : context.getContracts()) {
+                for (ContractItem item : context.getContracts().getItems()) {
                     Set<Biomes> listTmp = new HashSet<>();
                     listTmp.addAll(item.resource().getBiome());
                     listTmp.retainAll(value.getBiomesPredominant());

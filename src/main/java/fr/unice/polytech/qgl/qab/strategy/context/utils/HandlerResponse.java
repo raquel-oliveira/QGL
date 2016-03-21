@@ -31,7 +31,7 @@ import java.util.List;
  *
  * Class responsible for handling the answers after make an current
  */
-public class ResponseHandler {
+public class HandlerResponse {
 
     public static final String RESOURCES = "resources";
     private Discovery discovery;
@@ -47,9 +47,9 @@ public class ResponseHandler {
 
 
     /**
-     * ResponseHandler's constructor
+     * HandlerResponse's constructor
      */
-    public ResponseHandler() {
+    public HandlerResponse() {
         discovery = new Discovery();
     }
 
@@ -232,7 +232,7 @@ public class ResponseHandler {
         if(jsonObj.getJSONObject(EXTRAS).has(AMOUNT)){
             int amount = jsonObj.getJSONObject(EXTRAS).getInt(AMOUNT);
             exploit.addData(((Exploit)takeAction).getResource(), amount);
-            context.addCollectedResources(exploit.getResource(), exploit.getAmount());
+            context.getContracts().addCollectedResources(exploit.getResource(), exploit.getAmount());
         }
 
         discovery.setExploiteResponse(exploit);

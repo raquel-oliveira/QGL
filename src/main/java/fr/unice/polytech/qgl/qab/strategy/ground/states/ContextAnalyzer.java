@@ -3,11 +3,11 @@ package fr.unice.polytech.qgl.qab.strategy.ground.states;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
-import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.response.GlimpseResponse;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import fr.unice.polytech.qgl.qab.strategy.context.utils.ContractItem;
+import fr.unice.polytech.qgl.qab.strategy.context.contracts.ContractItem;
+import fr.unice.polytech.qgl.qab.strategy.context.contracts.Contracts;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 import java.util.ArrayList;
@@ -44,10 +44,10 @@ public class ContextAnalyzer {
      * @return list of resources founded
      */
     public List<PrimaryType> resourceAnalyzerScout(Context context) {
-        List<ContractItem> contract = context.getContracts();
+        Contracts contract = context.getContracts();
         List<PrimaryType> resources = new ArrayList<>();
 
-        for (ContractItem item: contract) {
+        for (ContractItem item: contract.getItems()) {
             if (item.resource().isPrimary() &&
                     context.getLastDiscovery().getScoutResponse().found(item.resource().getName()) &&
                     !resources.contains(PrimaryType.valueOf(item.resource().getName()))) {
@@ -86,7 +86,7 @@ public class ContextAnalyzer {
         // the glimpse response
         GlimpseResponse gr = context.getLastDiscovery().getGlimpseResponse();
         // the contract info
-        List<ContractItem> contract = context.getContracts();
+        Contracts contract = context.getContracts();
 
         // the initial tiles info
         List<HashMap<Biomes, Double>> initialTiles = gr.getInitialTiles();
@@ -99,7 +99,7 @@ public class ContextAnalyzer {
         // two first tiles
         for (HashMap<Biomes, Double> tile: initialTiles) {
             for (Biomes key : tile.keySet()) {
-                findGoodBiome = findGoodBiome(contract, key);
+                findGoodBiome = findGoodBiome(contract.getItems(), key);
                 if (findGoodBiome)
                     break;
             }
@@ -110,7 +110,7 @@ public class ContextAnalyzer {
 
         List<Biomes> thirdTile = gr.getThirdTile();
         for (Biomes key : thirdTile) {
-            findGoodBiome = findGoodBiome(contract, key);
+            findGoodBiome = findGoodBiome(contract.getItems(), key);
             if (findGoodBiome)
                 break;
         }
@@ -118,7 +118,7 @@ public class ContextAnalyzer {
         indexTile++;
 
         Biomes fourth = gr.getFourthTile();
-        findGoodBiome = findGoodBiome(contract, fourth);
+        findGoodBiome = findGoodBiome(contract.getItems(), fourth);
         goodTiles.add(indexTile, findGoodBiome);
 
         return goodTiles;

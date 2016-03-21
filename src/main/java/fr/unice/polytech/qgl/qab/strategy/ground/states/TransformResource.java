@@ -9,7 +9,8 @@ import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
 
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import fr.unice.polytech.qgl.qab.strategy.context.utils.ContractItem;
+import fr.unice.polytech.qgl.qab.strategy.context.contracts.ContractItem;
+import fr.unice.polytech.qgl.qab.strategy.context.contracts.Contracts;
 import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateFactory;
 import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateType;
 
@@ -22,7 +23,7 @@ public class TransformResource extends GroundState {
 
     @Override
     public GroundState getState(Context context, Map map) throws PositionOutOfMapRange {
-        if (context.getResourcesToCreate().isEmpty()) {
+        if (context.getContracts().getResourcesToCreate().isEmpty()) {
             updateContext(context);
             return new StopSimulation();
         } else {
@@ -32,34 +33,34 @@ public class TransformResource extends GroundState {
 
     @Override
     public Action responseState(Context context, Map map) throws IndexOutOfBoundsComboAction {
-        List<ContractItem> contracts = context.getContracts();
+        Contracts contracts = context.getContracts();
 
-        if (context.getResourcesToCreate().isEmpty())
+        if (context.getContracts().getResourcesToCreate() == null || context.getContracts().getResourcesToCreate().isEmpty())
             return new Stop();
 
         //Element that we are going to try to create. If he can not create, take the next.
-        ManufacturedResource res = context.getResourcesToCreate().get(0);
+        ManufacturedResource res = context.getContracts().getResourcesToCreate().get(0);
         //while(!contracts.get(context.getContractIndex(res)).CanTransform()){
           //  context.removeResourceToCreate(0);
-            if (context.getResourcesToCreate().isEmpty()) {
+            if (context.getContracts().getResourcesToCreate().isEmpty()) {
                 return new Stop();
             }
             else{
-                res = context.getResourcesToCreate().get(0);
+                res = context.getContracts().getResourcesToCreate().get(0);
             }
        // }
         // Update that this manufactured was already "created"
-        ((ManufacturedResource)(contracts.get(context.getContractIndex(res)).resource())).setTransformed(true);
+        ((ManufacturedResource)(contracts.getItems().get(context.getContracts().getContractIndex(res)).resource())).setTransformed(true);
         //Amounted asked in the contract
-        int amountContract = contracts.get(context.getContractIndex(res)).amount();
+        int amountContract = contracts.getItems().get(context.getContracts().getContractIndex(res)).amount();
         //TODO: update this to send the right value.
-        java.util.Map recipe = ((ManufacturedResource) contracts.get(context.getContractIndex(res)).resource()).getRecipe(amountContract);
+        java.util.Map recipe = ((ManufacturedResource) contracts.getItems().get(context.getContracts().getContractIndex(res)).resource()).getRecipe(amountContract);
 
 
 
         Action act = new Transform(recipe);
 
-        context.removeResourceToCreate(0);
+        context.getContracts().removeResourceToCreate(0);
 
         context.current().setLastAction(act);
         return act;
