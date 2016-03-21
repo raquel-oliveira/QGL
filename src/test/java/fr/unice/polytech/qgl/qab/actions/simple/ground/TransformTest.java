@@ -14,7 +14,9 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 
+import static java.lang.Math.ceil;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -23,6 +25,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class TransformTest {
     Transform transform;
+    private static final double ERROR = 1.5; //1 + 10%
 
     @Before
     public void defineContext() {
@@ -32,17 +35,21 @@ public class TransformTest {
 
     @Test
     public void testValideTest() {
-        JSONObject jsonObj = new JSONObject("{ \"action\": \"transform\", \"parameters\": { \"WOOD\": 5, \"QUARTZ\": 10 }}");
+        int valueWood = (int)(ceil(5 * ERROR));
+        int valueQuartz = (int)(ceil(10 * ERROR));
+        JSONObject jsonObj = new JSONObject("{\"action\":\"transform\",\"parameters\":{\"WOOD\":\""+String.valueOf(valueWood)+"\",\"QUARTZ\":\""+String.valueOf(valueQuartz)+"\"}}");
         assertTrue(transform.isValid(jsonObj));
     }
 
     @Test
     public void goodAnswerTest(){
-        String response = "{\"action\":\"transform\",\"parameters\":{\"WOOD\":\"5\",\"QUARTZ\":\"10\"}}";  
+        int valueWood = (int)(ceil(5 * ERROR));
+        int valueQuartz = (int)(ceil(10 * ERROR));
+        String response = "{\"action\":\"transform\",\"parameters\":{\"WOOD\":\""+String.valueOf(valueWood)+"\",\"QUARTZ\":\""+String.valueOf(valueQuartz)+"\"}}";
         assertTrue(response.equals(transform.formatResponse()));
     }
 
-    @Ignore
+    @Test
     public void testNotValidActionJson() {
         JSONObject jsonObj = new JSONObject("{ \"action\": \"transform\", \"parameters\": { \"GLASS\": 6, \"QUARTZ\": 11 }}\n");
         assertFalse(transform.isValid(jsonObj));
