@@ -18,7 +18,7 @@ public class ManufacturedResource implements Resource {
     private EnumMap<PrimaryType, Integer> recipe = new EnumMap<PrimaryType, Integer>(PrimaryType.class);
     private Set<Biomes> biomes = new HashSet<>();
     private boolean transformed = false;
-    private static final double marginError = 1.1; //1 + 10%
+    private static final double marginError = 1.11; //1 + 11%
 
     public boolean isTransformed() {
         return transformed;

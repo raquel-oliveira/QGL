@@ -38,35 +38,27 @@ public class TransformResource extends GroundState {
     public Action responseState(Context context, Map map) throws IndexOutOfBoundsComboAction {
         List<ContractItem> contracts = context.getContracts();
         if (context.getResourcesToCreate().isEmpty()){
-            LOGGER.error("getResources to Create is empty");
             return new Stop();
         }
         //Element that we are going to try to create. If he can not create, take the next.
         ManufacturedResource res = context.getResourcesToCreate().get(0);
-        LOGGER.error("-------------Try to do " + res.getName());
         while(!contracts.get(context.getContractIndex(res)).CanTransform(context)){
             context.removeResourceToCreate(0);
             if (context.getResourcesToCreate().isEmpty()) {
-                LOGGER.error("getResources to Create is empty, return stop");
                 return new Stop();
             }
             else{
                 res = context.getResourcesToCreate().get(0);
-                LOGGER.error("Taking the resource"+ res.getName() +" to try transform");
             }
         }
         // Update that this manufactured was already "created"
-        int index = context.getContractIndex(res); LOGGER.error("Index do contrato é" + index);
         ((ManufacturedResource)(contracts.get(context.getContractIndex(res)).resource())).setTransformed(true);
         //Amounted asked in the contract
         int amountContract = contracts.get(context.getContractIndex(res)).amount();
-        LOGGER.error("Quantity asked in the contract is "+ amountContract);
         java.util.Map recipe = ((ManufacturedResource) contracts.get(context.getContractIndex(res)).resource()).getRecipe(amountContract);
 
-
-        LOGGER.error("Send action to create"+ res.getName());
+        LOGGER.error("Transform " + res.getName());
         Action act = new Transform(recipe);
-        LOGGER.error("Tried to make the transform of"+ res.getName());
 
         context.removeResourceToCreate(0);
 

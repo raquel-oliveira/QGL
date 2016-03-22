@@ -71,55 +71,25 @@ public class ContractItem {
      * it will. Priority to manufactured>primary.
      */
     public boolean CanTransform(Context context) {
-        LOGGER.error("entrei");
         if(this.resource.isPrimary()){
-            LOGGER.error("Its primary. Can transform is false");
             return canTransform = false;
         }
         else{
-            LOGGER.error("not primary");
             canTransform = true;
             Map<PrimaryType, Integer> recipe = ((ManufacturedResource)this.resource).getRecipe(1);
             for(Map.Entry<PrimaryType, Integer> getRecipe : recipe.entrySet()){
                 PrimaryResource res = new PrimaryResource(getRecipe.getKey());
-                LOGGER.error("testing enough of "+ res.getName() + " to do "+ this.resource.getName());
-                int a = context.getCollectedResources().get(res.getName());
-                LOGGER.error("collect resources of " + res.getName() + "is " + a);
-                int b = this.amount * recipe.get(res.getType());
-                LOGGER.error("but its needed " + b + " to create" + this.resource.getName());
                 if(context.getCollectedResources().get(res.getName()) < this.amount * recipe.get(res.getType())){
-                    LOGGER.error("Don't have enough");
+                    LOGGER.error("Don't have enough (has "+this.amount * recipe.get(res.getType())+ ") of "+res.getName()+" to fill the contract "+ this.resource.getName());
                     canTransform = false;
                     return false;
+                }
+                else{
+                    LOGGER.error("Have enough (has "+this.amount * recipe.get(res.getType())+ ") of "+res.getName()+" to fill the contract "+ this.resource.getName());
                 }
             }
             return canTransform;
         }
     }
-
-    /*Give the max quantity of this contract can be created given the collectQuantity it was taken.
-     */
-   /* public int maxToCreate(Context context){
-        Map<String, Integer> collect = context.getCollectedResources();
-        if (!canTransform){
-            return 0;
-        } else {
-            int max = 0;
-            for(Map.Entry<PrimaryType, Integer> item: ((ManufacturedResource)resource).getRecipe(0).entrySet()){
-                Resource res = new PrimaryResource(item.getKey());
-                if(context.getContracts().contains(res)){
-                    if(!((context.getContracts().get(context.getContractIndex(res))).isComplete(collect))){
-                        //todo: Change this depending if the priority its to get manufactured or not.
-                        return 0;
-                    }
-                    else{
-                        // Look recipe
-                        return 0;
-                    }
-                }
-            }
-        }
-        return 0;
-    }*/
 }
 

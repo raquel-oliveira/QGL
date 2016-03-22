@@ -10,6 +10,7 @@ import fr.unice.polytech.qgl.qab.strategy.context.utils.ContextAction;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.ContractItem;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
+import static java.lang.Math.ceil;
 import fr.unice.polytech.qgl.qab.util.Discovery;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -282,16 +283,19 @@ public class Context {
             return -1;
         }
         for (int i = 0; i < contracts.size(); i++) {
-            if ((contracts.get(i).resource().isPrimary())
-                && contracts.get(i).resource().getName().equals(resource.getName())) {
-                    amount += contracts.get(i).amount();
-            } else if (!(contracts.get(i).resource().isPrimary())){
+            Resource res = contracts.get(i).resource();
+            int amountAsked = contracts.get(i).amount();
+            if ((res.isPrimary()) && res.getName().equals(resource.getName())) {
+                    amount += amountAsked;
+            } else if (!(res.isPrimary())){
                 PrimaryType prim = ((PrimaryResource)(resource)).getType();
                 if (((ManufacturedResource) contracts.get(i).resource()).getRecipe(0).containsKey(prim)){
-                    amount += ((ManufacturedResource) contracts.get(i).resource()).getRecipe(contracts.get(i).amount()).get(prim);
+                    int pureAmount = ((ManufacturedResource) res).getRecipe(contracts.get(i).amount()).get(prim);
+                    amount +=  (int) ceil(pureAmount * (((ManufacturedResource)res).getMarginError()));
                 }
             }
         }
+        LOGGER.error("The quantity necessary of "+ resource.getName()+ " is " + amount);
         return amount;
     }
 
@@ -316,27 +320,25 @@ public class Context {
         boolean enough = true;
         Set<String> primaryResources = primaryNeeded();
         for (String resource: primaryResources) {
-            //LOGGER.error("------"+ primaryResources+"------");
             if (!collectedResources.containsKey(resource))
                 return false;
             if (collectedResources.get(resource) < getAccumulatedAmountNecessary(new PrimaryResource(PrimaryType.valueOf(resource)))){
                 return enough = false;
             }
         }
-        LOGGER.error("Enough to transform"+ primaryResources+"------");
+        LOGGER.error("Enough to transform "+ primaryResources+"");
         return enough;
     }
 
     /**
      *
      * @return list of primary resources needed to complet all the contracts
-     * //TODO: Look if there is similar codes.Exemple: addResources in ContextAnalyze.
      */
     public Set<String> primaryNeeded(){
         Set<String> primaryResource = new HashSet<String>();
 
         for (int i = 0; i < contracts.size(); i++){
-            if (contracts.get(i).resource().isPrimary()){ // tamo na atividads
+            if (contracts.get(i).resource().isPrimary()){
                 primaryResource.add(contracts.get(i).resource().getName());
             }
             else{
