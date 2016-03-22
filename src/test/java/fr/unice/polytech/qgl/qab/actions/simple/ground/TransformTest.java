@@ -1,20 +1,13 @@
 package fr.unice.polytech.qgl.qab.actions.simple.ground;
 
-import fr.unice.polytech.qgl.qab.resources.Resource;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedType;
-import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
-import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import org.json.JSONObject;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.StringJoiner;
 
 import static java.lang.Math.ceil;
 import static org.junit.Assert.assertFalse;
@@ -25,7 +18,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class TransformTest {
     Transform transform;
-    private static final double ERROR = 1.5; //1 + 10%
+    private static final double ERROR = 1.0; //1 + 10%
 
     @Before
     public void defineContext() {

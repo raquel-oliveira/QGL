@@ -18,15 +18,7 @@ public class ManufacturedResource implements Resource {
     private EnumMap<PrimaryType, Integer> recipe = new EnumMap<PrimaryType, Integer>(PrimaryType.class);
     private Set<Biomes> biomes = new HashSet<>();
     private boolean transformed = false;
-    private static final double marginError = 1.0;
-
-    public boolean isTransformed() {
-        return transformed;
-    }
-
-    public void setTransformed(boolean transformed) {
-        this.transformed = transformed;
-    }
+    private static final double MARGIN_ERROR = 1.0;
 
     /**
      * ManufacturedResource's constructor
@@ -35,6 +27,14 @@ public class ManufacturedResource implements Resource {
     public ManufacturedResource(ManufacturedType resource) {
         this.resource = resource;
         setBiomes();
+    }
+
+    public boolean isTransformed() {
+        return transformed;
+    }
+
+    public void setTransformed(boolean transformed) {
+        this.transformed = transformed;
     }
 
     public ManufacturedType getType(){
@@ -98,25 +98,25 @@ public class ManufacturedResource implements Resource {
 
         switch (resource){
             case GLASS:
-                recipe.put(PrimaryType.QUARTZ, (int)(ceil((10 * amountRecipe * marginError))));
-                recipe.put(PrimaryType.WOOD, (int) (ceil(5 * amountRecipe * marginError)));
+                recipe.put(PrimaryType.QUARTZ, (int)(ceil(10 * amountRecipe * MARGIN_ERROR)));
+                recipe.put(PrimaryType.WOOD, (int) (ceil(5 * amountRecipe * MARGIN_ERROR)));
                 break;
 
             case INGOT:
-                recipe.put(PrimaryType.WOOD, (int)(ceil(5 * amountRecipe * marginError)));
+                recipe.put(PrimaryType.WOOD, (int)(ceil(5 * amountRecipe * MARGIN_ERROR)));
                 break;
 
             case LEATHER:
-                recipe.put(PrimaryType.FUR, (int)(ceil(3 * amountRecipe * marginError)));
+                recipe.put(PrimaryType.FUR, (int)(ceil(3 * amountRecipe * MARGIN_ERROR)));
                 break;
 
-            case PLANK:;
-                recipe.put(PrimaryType.WOOD, (int) (ceil((amountRecipe/4 + ((amountRecipe % 4 == 0)? 0: 1)) * marginError)));
+            case PLANK:
+                recipe.put(PrimaryType.WOOD, (int) (ceil((amountRecipe/4 + ((amountRecipe % 4 == 0)? 0: 1)) * MARGIN_ERROR)));
                 break;
 
             case RUM:
-                recipe.put(PrimaryType.SUGAR_CANE, (int) (ceil(10 * amountRecipe * marginError)));
-                recipe.put(PrimaryType.FRUITS, (int) (ceil(amountRecipe * marginError)));
+                recipe.put(PrimaryType.SUGAR_CANE, (int) (ceil(10 * amountRecipe * MARGIN_ERROR)));
+                recipe.put(PrimaryType.FRUITS, (int) (ceil(amountRecipe * MARGIN_ERROR)));
                 break;
 
             default:

@@ -13,6 +13,12 @@ public abstract class Action {
     public static final String DIRECTION = "direction";
     public static final String PARAMETERS = "parameters";
     protected Direction dirAction;
+
+    /**
+     * Method that check if the json is valid
+     * @param jsonObj
+     * @return
+     */
     public abstract boolean isValid(JSONObject jsonObj);
 
     /**

@@ -17,20 +17,20 @@ import java.util.*;
 public class Contracts {
     private static final Logger LOGGER = LogManager.getLogger(Contracts.class);
 
-    private List<ContractItem> contracts;
+    private List<ContractItem> items;
     private Map<String, Integer> collectedResources;
     private List<ManufacturedResource> resourcesToCreate;
     private Boolean completeContract;
 
     public Contracts() {
-        this.contracts = new ArrayList<>();
+        this.items = new ArrayList<>();
         this.collectedResources = new HashMap<>();
         this.resourcesToCreate = null;
         this.completeContract = false;
     }
 
     public List<ContractItem> getItems() {
-        return this.contracts;
+        return this.items;
     }
 
     /**
@@ -41,12 +41,12 @@ public class Contracts {
     public Set<String> primaryNeeded() {
         Set<String> primaryResource = new HashSet<String>();
 
-        for (int i = 0; i < contracts.size(); i++){
-            if (contracts.get(i).resource().isPrimary()){ // tamo na atividads
-                primaryResource.add(contracts.get(i).resource().getName());
+        for (int i = 0; i < items.size(); i++){
+            if (items.get(i).resource().isPrimary()){ // tamo na atividads
+                primaryResource.add(items.get(i).resource().getName());
             }
             else{
-                for (PrimaryType itemRecipe: ((ManufacturedResource) contracts.get(i).resource()).getRecipe(0).keySet()) {
+                for (PrimaryType itemRecipe: ((ManufacturedResource) items.get(i).resource()).getRecipe(0).keySet()) {
                     primaryResource.add(new PrimaryResource(itemRecipe).getName());
                 }
             }
@@ -64,7 +64,8 @@ public class Contracts {
             if (!collectedResources.containsKey(resource))
                 return false;
             if (collectedResources.get(resource) < getAccumulatedAmountNecessary(new PrimaryResource(PrimaryType.valueOf(resource)))){
-                return enough = false;
+                enough = false;
+                return enough;
             }
         }
         return enough;
@@ -81,14 +82,14 @@ public class Contracts {
             LOGGER.error("Passed the wrong parameter.");
             return -1;
         }
-        for (int i = 0; i < contracts.size(); i++) {
-            if ((contracts.get(i).resource().isPrimary())
-                    && contracts.get(i).resource().getName().equals(resource.getName())) {
-                amount += contracts.get(i).amount();
-            } else if (!(contracts.get(i).resource().isPrimary())){
+        for (int i = 0; i < items.size(); i++) {
+            if ((items.get(i).resource().isPrimary())
+                    && items.get(i).resource().getName().equals(resource.getName())) {
+                amount += items.get(i).amount();
+            } else if (!(items.get(i).resource().isPrimary())){
                 PrimaryType prim = ((PrimaryResource)(resource)).getType();
-                if (((ManufacturedResource) contracts.get(i).resource()).getRecipe(0).containsKey(prim)){
-                    amount += ((ManufacturedResource) contracts.get(i).resource()).getRecipe(contracts.get(i).amount()).get(prim);
+                if (((ManufacturedResource) items.get(i).resource()).getRecipe(0).containsKey(prim)){
+                    amount += ((ManufacturedResource) items.get(i).resource()).getRecipe(items.get(i).amount()).get(prim);
                 }
             }
         }
@@ -111,19 +112,19 @@ public class Contracts {
 
         int amount = getAccumulatedAmountNecessary(resource);
 
-        for (int i = 0; i < contracts.size(); i++){
-            Resource res = contracts.get(i).resource();
+        for (int i = 0; i < items.size(); i++){
+            Resource res = items.get(i).resource();
             if(res.isPrimary()){
-                if(res.getName().equals(resource.getName()) && contracts.get(i).isComplete(collectedResources)){
+                if(res.getName().equals(resource.getName()) && items.get(i).isComplete(collectedResources)){
                     //Not use amount of a primary resource already complete
-                    amount -= contracts.get(i).amount();
+                    amount -= items.get(i).amount();
                 }
             }
             else{
                 //If it was not made a transform yet to this res and its not the manufatured I want.
                 if (getResourcesToCreate().contains(res) && !manufatured.equals((ManufacturedResource)res)){
                     //TODO: verify best strategy to use all the primary resource left to make manufatured resources
-                    amount -= ((ManufacturedResource) res).getRecipe(contracts.get(i).amount()).get(resource);
+                    amount -= ((ManufacturedResource) res).getRecipe(items.get(i).amount()).get(resource);
 
                 }
             }
@@ -165,14 +166,12 @@ public class Contracts {
                 return amount;
             }
             else {
-                //LOGGER.error("error: Try to decrease a quantity of "+ resource.getName() + " more than you collected");
                 newAmount = 0;
                 int beforeDecrease = collectedResources.get(resource.getName());
                 collectedResources.put(resource.getName(), newAmount);
                 return beforeDecrease;
             }
         }catch (Exception e){
-            //LOGGER.error(ERROR,e);
             return -1;
         }
     }
@@ -185,13 +184,13 @@ public class Contracts {
      */
     public void addContract(String resource, int amount) throws NegativeBudgetException {
         try {
-            contracts.add(new ContractItem(new ManufacturedResource(ManufacturedType.valueOf(resource)), amount));
+            items.add(new ContractItem(new ManufacturedResource(ManufacturedType.valueOf(resource)), amount));
             //update the resources manufactured in the list of resources to be create.
             if (resourcesToCreate == null)
                 resourcesToCreate = new ArrayList<>();
             resourcesToCreate.add(new ManufacturedResource(ManufacturedType.valueOf(resource)));
         } catch (Exception ex) {
-            contracts.add(new ContractItem(new PrimaryResource(PrimaryType.valueOf(resource)), amount));
+            items.add(new ContractItem(new PrimaryResource(PrimaryType.valueOf(resource)), amount));
         }
     }
 
@@ -201,8 +200,8 @@ public class Contracts {
      * @return
      */
     public int getContractIndex(Resource resource) {
-        for (int index = 0; index < contracts.size(); index++) {
-            ContractItem item = contracts.get(index);
+        for (int index = 0; index < items.size(); index++) {
+            ContractItem item = items.get(index);
             if (item.resource().getName().equals(resource.getName())){
                 return index;
             }
@@ -216,8 +215,8 @@ public class Contracts {
      */
     public boolean contractsAreComplete(){
         completeContract = true;
-        for(int i = 0; i < contracts.size(); i++){
-            if (!contracts.get(i).isComplete(collectedResources)){
+        for(int i = 0; i < items.size(); i++){
+            if (!items.get(i).isComplete(collectedResources)){
                 completeContract = false;
                 return completeContract;
             }

@@ -3,11 +3,9 @@ package fr.unice.polytech.qgl.qab.actions.simple.ground;
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedType;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Version 02/03/2016.

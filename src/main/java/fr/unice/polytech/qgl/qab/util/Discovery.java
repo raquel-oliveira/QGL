@@ -151,11 +151,15 @@ public class Discovery {
      * Get the data of the Transforme response
      * @return data of the Transforme response
      */
-    public TransformResponse getTransformResponse() { return transformResponse; }
+    public TransformResponse getTransformResponse() {
+        return transformResponse;
+    }
 
     /**
      * Set Last transform response
      * @param transformResponse value of the transforme response
      */
-    public void setTransformResponse(TransformResponse transformResponse) { this.transformResponse = transformResponse; }
+    public void setTransformResponse(TransformResponse transformResponse) {
+        this.transformResponse = transformResponse;
+    }
 }
