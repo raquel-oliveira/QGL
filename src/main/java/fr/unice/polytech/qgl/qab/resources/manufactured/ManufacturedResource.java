@@ -130,4 +130,8 @@ public class ManufacturedResource implements Resource {
         return false;
     }
 
+    public static double getMarginError() {
+        return marginError;
+    }
+
 }

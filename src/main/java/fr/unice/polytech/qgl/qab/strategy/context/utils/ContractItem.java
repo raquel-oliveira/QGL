@@ -4,6 +4,10 @@ import fr.unice.polytech.qgl.qab.exception.context.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.resources.Resource;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
+import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
+import fr.unice.polytech.qgl.qab.strategy.context.Context;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
 
@@ -17,6 +21,7 @@ public class ContractItem {
     private int amount;
     private boolean completeContract;
     private boolean canTransform;
+    private static final Logger LOGGER = LogManager.getLogger(ContractItem.class);
 
     /**
      * ContractItem's constructor
@@ -56,12 +61,65 @@ public class ContractItem {
         return completeContract;
     }
 
-    public boolean CanTransform() {
-        if(resource.isPrimary()){ return canTransform = false;}
+    /**
+     *
+     * @return false if this contract its of typePrimary,
+     * or if there is not enough quantity to fill the contract(complete).
+     * @return true if he can(has the possibility, that changes depending with the difficult) transform
+     * the amount necessary asked in the contract.
+     * Observation: If it need to take amount of a contract of a primaryType to complete this contract(if manufactured),
+     * it will. Priority to manufactured>primary.
+     */
+    public boolean CanTransform(Context context) {
+        LOGGER.error("entrei");
+        if(this.resource.isPrimary()){
+            LOGGER.error("Its primary. Can transform is false");
+            return canTransform = false;
+        }
         else{
-            //TODO: Verify if the amount collect can tranform.
-            return  false;
+            LOGGER.error("not primary");
+            canTransform = true;
+            Map<PrimaryType, Integer> recipe = ((ManufacturedResource)this.resource).getRecipe(1);
+            for(Map.Entry<PrimaryType, Integer> getRecipe : recipe.entrySet()){
+                PrimaryResource res = new PrimaryResource(getRecipe.getKey());
+                LOGGER.error("testing enough of "+ res.getName() + " to do "+ this.resource.getName());
+                int a = context.getCollectedResources().get(res.getName());
+                LOGGER.error("collect resources of " + res.getName() + "is " + a);
+                int b = this.amount * recipe.get(res.getType());
+                LOGGER.error("but its needed " + b + " to create" + this.resource.getName());
+                if(context.getCollectedResources().get(res.getName()) < this.amount * recipe.get(res.getType())){
+                    LOGGER.error("Don't have enough");
+                    canTransform = false;
+                    return false;
+                }
+            }
+            return canTransform;
         }
     }
+
+    /*Give the max quantity of this contract can be created given the collectQuantity it was taken.
+     */
+   /* public int maxToCreate(Context context){
+        Map<String, Integer> collect = context.getCollectedResources();
+        if (!canTransform){
+            return 0;
+        } else {
+            int max = 0;
+            for(Map.Entry<PrimaryType, Integer> item: ((ManufacturedResource)resource).getRecipe(0).entrySet()){
+                Resource res = new PrimaryResource(item.getKey());
+                if(context.getContracts().contains(res)){
+                    if(!((context.getContracts().get(context.getContractIndex(res))).isComplete(collect))){
+                        //todo: Change this depending if the priority its to get manufactured or not.
+                        return 0;
+                    }
+                    else{
+                        // Look recipe
+                        return 0;
+                    }
+                }
+            }
+        }
+        return 0;
+    }*/
 }
 

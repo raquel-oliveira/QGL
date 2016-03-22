@@ -296,42 +296,6 @@ public class Context {
     }
 
     /**
-     * This method is to verify how much of amount can be used of the resource to create manufatured.
-     * @param manufatured to be create
-     * @param resource to be used to create manufatured
-     * @return quantity of resource to be used to create a manufactured.
-     * @return -1 this resource its not in the recipe of the first parameter.
-     */
-    public int getQtdToUse(ManufacturedResource manufatured, Resource resource){
-        //Check if resource is parte of manufatured recipe
-        if(!manufatured.getRecipe(0).containsKey(resource)){
-            LOGGER.error("error:", "trying to get amount of a primary resource that is not necessary to create the transform,");
-            return -1;
-        }
-
-        int amount = getAccumulatedAmountNecessary(resource);
-
-        for (int i = 0; i < contracts.size(); i++){
-            Resource res = contracts.get(i).resource();
-            if(res.isPrimary()){
-                if(res.getName().equals(resource.getName()) && contracts.get(i).isComplete(collectedResources)){
-                    //Not use amount of a primary resource already complete
-                    amount -= contracts.get(i).amount();
-                }
-            }
-            else{
-                //If it was not made a transform yet to this res and its not the manufatured I want.
-                if (getResourcesToCreate().contains(res) && !manufatured.equals((ManufacturedResource)res)){
-                    //TODO: verify best strategy to use all the primary resource left to make manufatured resources
-                    amount -= ((ManufacturedResource) res).getRecipe(contracts.get(i).amount()).get(resource);
-
-                }
-            }
-        }
-        return amount;
-    }
-
-    /**
      * @return true if all the contracts are completed.
      */
     public boolean contractsAreComplete(){
@@ -352,12 +316,14 @@ public class Context {
         boolean enough = true;
         Set<String> primaryResources = primaryNeeded();
         for (String resource: primaryResources) {
+            //LOGGER.error("------"+ primaryResources+"------");
             if (!collectedResources.containsKey(resource))
                 return false;
             if (collectedResources.get(resource) < getAccumulatedAmountNecessary(new PrimaryResource(PrimaryType.valueOf(resource)))){
                 return enough = false;
             }
         }
+        LOGGER.error("Enough to transform"+ primaryResources+"------");
         return enough;
     }
 

@@ -12,6 +12,8 @@ import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.ContractItem;
 import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateFactory;
 import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateType;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
@@ -19,6 +21,8 @@ import java.util.List;
  * version 07/03/2016.
  */
 public class TransformResource extends GroundState {
+    private static final Logger LOGGER = LogManager.getLogger(TransformResource.class);
+
 
     @Override
     public GroundState getState(Context context, Map map) throws PositionOutOfMapRange {
@@ -33,31 +37,36 @@ public class TransformResource extends GroundState {
     @Override
     public Action responseState(Context context, Map map) throws IndexOutOfBoundsComboAction {
         List<ContractItem> contracts = context.getContracts();
-
-        if (context.getResourcesToCreate().isEmpty())
+        if (context.getResourcesToCreate().isEmpty()){
+            LOGGER.error("getResources to Create is empty");
             return new Stop();
-
+        }
         //Element that we are going to try to create. If he can not create, take the next.
         ManufacturedResource res = context.getResourcesToCreate().get(0);
-        //while(!contracts.get(context.getContractIndex(res)).CanTransform()){
-          //  context.removeResourceToCreate(0);
+        LOGGER.error("-------------Try to do " + res.getName());
+        while(!contracts.get(context.getContractIndex(res)).CanTransform(context)){
+            context.removeResourceToCreate(0);
             if (context.getResourcesToCreate().isEmpty()) {
+                LOGGER.error("getResources to Create is empty, return stop");
                 return new Stop();
             }
             else{
                 res = context.getResourcesToCreate().get(0);
+                LOGGER.error("Taking the resource"+ res.getName() +" to try transform");
             }
-       // }
+        }
         // Update that this manufactured was already "created"
+        int index = context.getContractIndex(res); LOGGER.error("Index do contrato é" + index);
         ((ManufacturedResource)(contracts.get(context.getContractIndex(res)).resource())).setTransformed(true);
         //Amounted asked in the contract
         int amountContract = contracts.get(context.getContractIndex(res)).amount();
-        //TODO: update this to send the right value.
+        LOGGER.error("Quantity asked in the contract is "+ amountContract);
         java.util.Map recipe = ((ManufacturedResource) contracts.get(context.getContractIndex(res)).resource()).getRecipe(amountContract);
 
 
-
+        LOGGER.error("Send action to create"+ res.getName());
         Action act = new Transform(recipe);
+        LOGGER.error("Tried to make the transform of"+ res.getName());
 
         context.removeResourceToCreate(0);
 
