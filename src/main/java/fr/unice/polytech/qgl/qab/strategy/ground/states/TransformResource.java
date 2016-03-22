@@ -40,16 +40,23 @@ public class TransformResource extends GroundState {
         if (context.getResourcesToCreate().isEmpty()){
             return new Stop();
         }
+
         //Element that we are going to try to create. If he can not create, take the next.
         ManufacturedResource res = context.getResourcesToCreate().get(0);
-        while(!contracts.get(context.getContractIndex(res)).CanTransform(context)){
-            context.removeResourceToCreate(0);
-            if (context.getResourcesToCreate().isEmpty()) {
-                return new Stop();
-            }
-            else{
-                res = context.getResourcesToCreate().get(0);
-            }
+        LOGGER.error("res = "+res.getName());
+        if(!contracts.get(context.getContractIndex(res)).CanTransform(context)){
+            do{
+                LOGGER.error("can not make "+res.getName());
+                context.removeResourceToCreate(0);
+                if (context.getResourcesToCreate().isEmpty()) {
+                    LOGGER.error("There is not anymore in the list to try");
+                    return new Stop();
+                }
+                else{
+                    res = context.getResourcesToCreate().get(0);
+                    LOGGER.error("Try to "+res.getName());
+                }
+            } while(!contracts.get(context.getContractIndex(res)).CanTransform(context));
         }
         // Update that this manufactured was already "created"
         ((ManufacturedResource)(contracts.get(context.getContractIndex(res)).resource())).setTransformed(true);

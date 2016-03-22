@@ -82,7 +82,7 @@ public class ContractItem {
                 if(context.getCollectedResources().get(res.getName()) < this.amount * recipe.get(res.getType())){
                     LOGGER.error("Don't have enough (has "+this.amount * recipe.get(res.getType())+ ") of "+res.getName()+" to fill the contract "+ this.resource.getName());
                     canTransform = false;
-                    return false;
+                    return canTransform;
                 }
                 else{
                     LOGGER.error("Have enough (has "+this.amount * recipe.get(res.getType())+ ") of "+res.getName()+" to fill the contract "+ this.resource.getName());

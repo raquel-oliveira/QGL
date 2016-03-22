@@ -295,7 +295,7 @@ public class Context {
                 }
             }
         }
-        LOGGER.error("The quantity necessary of "+ resource.getName()+ " is " + amount);
+        //LOGGER.error("The quantity necessary of "+ resource.getName()+ " is " + amount);
         return amount;
     }
 

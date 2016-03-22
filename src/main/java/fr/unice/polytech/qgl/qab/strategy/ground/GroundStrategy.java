@@ -9,12 +9,17 @@ import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateFactory;
 import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateType;
 import fr.unice.polytech.qgl.qab.strategy.ground.states.GroundState;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import sun.rmi.runtime.Log;
 
 /**
  * @version 09/12/15.
  * Class that implements the strategy of the ground phase
  */
 public class GroundStrategy implements IGroundStrategy {
+    private static final Logger LOGGER = LogManager.getLogger(GroundStrategy.class);
+
     private GroundState state;
     private int limitBudget;
     private static final int BUDGET_TO_TRANSFORME = 100;
@@ -70,6 +75,8 @@ public class GroundStrategy implements IGroundStrategy {
         * */
         if(!(context.getResourcesToCreate() == null)){
             if (context.enoughToTransform() || context.getBudget() <= getLimitBudget() + BUDGET_TO_TRANSFORME){
+                LOGGER.error("enough to transform = " + context.enoughToTransform());
+                LOGGER.error("Budgets to transforme = " + (context.getBudget() <= getLimitBudget() + BUDGET_TO_TRANSFORME));
                 return 2;
             }
         }
