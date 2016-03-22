@@ -7,5 +7,5 @@ public enum GroundStateType {
     FIND_TILE,
     EXPLOIT_TILE,
     SCOUT_TILE,
-    TRANSFORM;
+    TRANSFORM
 }

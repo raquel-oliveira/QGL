@@ -18,27 +18,27 @@ public class AerialStateFactory {
                 state = new Initialize();
                 break;
 
-            case GOTOTHECORNER:
+            case GO_TO_THE_CORNER:
                 state = new GoToTheCorner();
                 break;
 
-            case FINDGROUND:
+            case FIND_GROUND:
                 state = new FindGround();
                 break;
 
-            case FLYUNTIL:
+            case FLY_UNTIL:
                 state = new FlyUntil();
                 break;
 
-            case SCANTHEGROUND:
+            case SCAN_THE_GROUND:
                 state = new ScanTheGround();
                 break;
 
-            case RETURNBACK:
+            case RETURN_BACK:
                 state = new ReturnBack();
                 break;
 
-            case LANDINGROUND:
+            case LAND_IN_GROUND:
                 state = new LandInGround();
                 break;
 
