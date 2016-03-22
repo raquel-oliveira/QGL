@@ -40,10 +40,8 @@ public class TransformResource extends GroundState {
         if (context.getResourcesToCreate().isEmpty()){
             return new Stop();
         }
-
         //Element that we are going to try to create. If he can not create, take the next.
         ManufacturedResource res = context.getResourcesToCreate().get(0);
-        LOGGER.error("res = "+res.getName());
         if(!contracts.get(context.getContractIndex(res)).CanTransform(context)){
             do{
                 LOGGER.error("can not make "+res.getName());
