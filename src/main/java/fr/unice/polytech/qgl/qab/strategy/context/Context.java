@@ -2,12 +2,9 @@ package fr.unice.polytech.qgl.qab.strategy.context;
 import fr.unice.polytech.qgl.qab.exception.context.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.resources.Resource;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
-import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedType;
-import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
-import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.Budget;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.ContextAction;
-import fr.unice.polytech.qgl.qab.strategy.context.utils.ContractItem;
+import fr.unice.polytech.qgl.qab.strategy.context.contracts.Contracts;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 import static java.lang.Math.ceil;
@@ -18,8 +15,9 @@ import org.json.JSONObject;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
-
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @version 16/12/15.
@@ -28,15 +26,11 @@ import java.util.*;
  */
 public class Context {
     private static final Logger LOGGER = LogManager.getLogger(Context.class);
-    private static final String ERROR = "error: try to decrese a amount of a resource that was not collected";
 
     private int men;
     private boolean status;
     private Budget budget;
-    private List<ContractItem> contracts;
-    private Map<String, Integer> collectedResources;
-    private List<ManufacturedResource> resourcesToCreate;
-    private Boolean completeContract;
+    private Contracts contracts;
 
     // direction of the head in the begin
     private Direction firstHead;
@@ -50,6 +44,10 @@ public class Context {
     private ContextAction contextActionAerial;
     private ContextAction contextActionGround;
 
+    private Map<String, Integer> collectedResources;
+
+    private List<ManufacturedResource> resourcesToCreate;
+
     /**
      * Context's constructor
      * @throws NegativeBudgetException exception if the valut to the budget is negative
@@ -58,10 +56,7 @@ public class Context {
         men = 0;
         status = true;
         budget = new Budget(0);
-        contracts = new ArrayList<>();
-        collectedResources = new HashMap<>();
-        resourcesToCreate = null;
-        completeContract = false;
+        contracts = new Contracts();
         firstHead = null;
         heading = null;
         lastDiscovery = null;
@@ -69,6 +64,10 @@ public class Context {
         contextActionCurrent = new ContextAction();
         contextActionAerial = new ContextAction();
         contextActionGround = new ContextAction();
+
+        this.collectedResources = new HashMap<>();
+        this.resourcesToCreate = null;
+
     }
 
     /**
@@ -87,7 +86,7 @@ public class Context {
         for (int i = 0; i < cont.length();  i++) {
             String key = cont.getJSONObject(i).getString("resource");
             int value = cont.getJSONObject(i).getInt("amount");
-            addContract(key, value);
+            contracts.addContract(key, value, this);
         }
 
         firstHead = Direction.fromString(jsonObj.getString("heading"));
@@ -146,54 +145,8 @@ public class Context {
      * The the list of contracts gave in the begin of the simulation
      * @return list of contracts
      */
-    public List<ContractItem> getContracts() {
+    public Contracts getContracts() {
         return contracts;
-    }
-
-    /**
-     * Return the collected Resources that were tooked after exploit a tile
-     * @return HashMap - resources collected and the respective amounts.
-     */
-    public  Map<String, Integer> getCollectedResources(){
-        return collectedResources;
-    }
-
-    /**
-     * Method to add a collect resource after action exploit.
-     * @param resource
-     * @param amount
-     */
-    public void addCollectedResources(Resource resource, int amount) {
-        if (collectedResources.containsKey(resource.getName())) {
-            collectedResources.put(resource.getName(), collectedResources.get(resource.getName()) + amount);
-        } else {
-            collectedResources.put(resource.getName(), amount);
-        }
-    }
-
-    /**
-     * Method to Remove a quantity of a resource. To use to update after transform.
-     * @param resource
-     * @param amount
-     */
-    public int decreaseAmountOfCollectedResources(Resource resource, int amount) {
-        try{
-            int newAmount = collectedResources.get(resource.getName()) - amount;
-            if( newAmount >= 0){
-                collectedResources.put(resource.getName(), newAmount);
-                return amount;
-            }
-            else {
-                //LOGGER.error("error: Try to decrease a quantity of "+ resource.getName() + " more than you collected");
-                newAmount = 0;
-                int beforeDecrease = collectedResources.get(resource.getName());
-                collectedResources.put(resource.getName(), newAmount);
-                return beforeDecrease;
-            }
-        }catch (Exception e){
-            //LOGGER.error(ERROR,e);
-            return -1;
-        }
     }
 
     /**
@@ -237,22 +190,16 @@ public class Context {
         men = m;
     }
 
-    /**
-     * Add items in the contract
-     * @param resource resource's name
-     * @param amount resource's amount
-     * @throws NegativeBudgetException
-     */
-    public void addContract(String resource, int amount) throws NegativeBudgetException {
-        try {
-            contracts.add(new ContractItem(new ManufacturedResource(ManufacturedType.valueOf(resource)), amount));
-            //update the resources manufactured in the list of resources to be create.
-            if (resourcesToCreate == null)
-                resourcesToCreate = new ArrayList<>();
-            resourcesToCreate.add(new ManufacturedResource(ManufacturedType.valueOf(resource)));
-        } catch (Exception ex) {
-            contracts.add(new ContractItem(new PrimaryResource(PrimaryType.valueOf(resource)), amount));
-        }
+    public void updateToAerial() {
+        ContextAction tmpContext = this.contextActionCurrent;
+        this.contextActionCurrent = contextActionAerial;
+        contextActionGround = tmpContext;
+    }
+
+    public void updateToGround() {
+        ContextAction tmpContext = this.contextActionCurrent;
+        this.contextActionCurrent = contextActionGround;
+        contextActionGround = tmpContext;
     }
 
     /**
@@ -272,104 +219,55 @@ public class Context {
     }
 
     /**
-     * Get number of amount of a primaryResource needed to fill the contracts that need of 'resource'(primary + maufactured)
-     * @param resource
-     * @return
+     * Return the collected Resources that were tooked after exploit a tile
+     * @return HashMap - resources collected and the respective amounts.
      */
-    public int getAccumulatedAmountNecessary(Resource resource){
-        int amount = 0;
-        if (!resource.isPrimary()){
-            LOGGER.error("Passed the wrong parameter.");
+    public  Map<String, Integer> getCollectedResources(){
+        return collectedResources;
+    }
+
+    /**
+     * Method to add a collect resource after action exploit.
+     * @param resource
+     * @param amount
+     */
+    public void addCollectedResources(Resource resource, int amount) {
+        if (collectedResources.containsKey(resource.getName())) {
+            collectedResources.put(resource.getName(), collectedResources.get(resource.getName()) + amount);
+        } else {
+            collectedResources.put(resource.getName(), amount);
+        }
+    }
+
+    /**
+     * Method to Remove a quantity of a resource. To use to update after transform.
+     * @param resource
+     * @param amount
+     */
+    public int decreaseAmountOfCollectedResources(Resource resource, int amount) {
+        try{
+            int newAmount = collectedResources.get(resource.getName()) - amount;
+            if( newAmount >= 0){
+                collectedResources.put(resource.getName(), newAmount);
+                return amount;
+            }
+            else {
+                newAmount = 0;
+                int beforeDecrease = collectedResources.get(resource.getName());
+                collectedResources.put(resource.getName(), newAmount);
+                return beforeDecrease;
+            }
+        }catch (Exception e){
             return -1;
         }
-        for (int i = 0; i < contracts.size(); i++) {
-            Resource res = contracts.get(i).resource();
-            int amountAsked = contracts.get(i).amount();
-            if ((res.isPrimary()) && res.getName().equals(resource.getName())) {
-                    amount += amountAsked;
-            } else if (!(res.isPrimary())){
-                PrimaryType prim = ((PrimaryResource)(resource)).getType();
-                if (((ManufacturedResource) contracts.get(i).resource()).getRecipe(0).containsKey(prim)){
-                    int pureAmount = ((ManufacturedResource) res).getRecipe(contracts.get(i).amount()).get(prim);
-                    amount +=  pureAmount;
-                }
-            }
-        }
-        //LOGGER.error("The quantity necessary of "+ resource.getName()+ " is " + amount);
-        return amount;
     }
 
-    /**
-     * @return true if all the contracts are completed.
-     */
-    public boolean contractsAreComplete(){
-        completeContract = true;
-        for(int i = 0; i < contracts.size(); i++){
-            if (!contracts.get(i).isComplete(collectedResources)){
-                completeContract = false;
-                return completeContract;
-            }
-        }
-        return completeContract;
-    }
-
-    /**
-     * @return true if there is primary resources enough to complete all the contracts
-     * Observation: It reserves the quantity of primary to complete the primaries resources
-     */
-    public boolean enoughToTransformAll(){
-        boolean enough = true;
-        Set<String> primaryResources = primaryNeeded();
-        for (String resource: primaryResources) {
-            if (!collectedResources.containsKey(resource))
-                return false;
-            if (collectedResources.get(resource) < getAccumulatedAmountNecessary(new PrimaryResource(PrimaryType.valueOf(resource)))){
-                return enough = false;
-            }
-        }
-        LOGGER.error("Enough to transform "+ primaryResources+"");
-        return enough;
-    }
-
-    /**
-     * @return true if there is primary resources enough to complete at least one contract manufactured
-     */
-    public boolean enoughToTransform(){
-        List<ManufacturedResource> listManufactures = getResourcesToCreate();
-        for (int i = 0; i < listManufactures.size(); i++){
-            if (contracts.get(getContractIndex(listManufactures.get(i))).CanTransform(this)){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     *
-     * @return list of primary resources needed to complet all the contracts
-     */
-    public Set<String> primaryNeeded(){
-        Set<String> primaryResource = new HashSet<String>();
-
-        for (int i = 0; i < contracts.size(); i++){
-            if (contracts.get(i).resource().isPrimary()){
-                primaryResource.add(contracts.get(i).resource().getName());
-            }
-            else{
-                for (PrimaryType itemRecipe: ((ManufacturedResource) contracts.get(i).resource()).getRecipe(0).keySet()) {
-                        primaryResource.add(new PrimaryResource(itemRecipe).getName());
-                    }
-                }
-            }
-        return primaryResource;
-        }
-
-    /**
-     *
-     * @return List of resources in the contract that need to be transformed
-     */
     public List<ManufacturedResource> getResourcesToCreate() {
         return resourcesToCreate;
+    }
+
+    public void setResourcesToCreate(List<ManufacturedResource> resourcesToCreate) {
+        this.resourcesToCreate = resourcesToCreate;
     }
 
     public void removeResourceToCreate(int index){
@@ -384,31 +282,5 @@ public class Context {
         }
     }
 
-    public void updateToAerial() {
-        ContextAction tmpContext = this.contextActionCurrent;
-        this.contextActionCurrent = contextActionAerial;
-        contextActionGround = tmpContext;
-    }
 
-    public void updateToGround() {
-        ContextAction tmpContext = this.contextActionCurrent;
-        this.contextActionCurrent = contextActionGround;
-        contextActionGround = tmpContext;
-    }
-
-    /**
-     * Return the index of the contract item that have the resource.
-     * @param resource
-     * @return
-     */
-    public int getContractIndex(Resource resource) {
-        for (int index = 0; index < contracts.size(); index++) {
-            ContractItem item = contracts.get(index);
-            if (item.resource().getName().equals(resource.getName())){
-                return index;
-            }
-        }
-        LOGGER.error("The element" + resource.getName() + "its not in the contract.");
-        return -1;
-    }
 }

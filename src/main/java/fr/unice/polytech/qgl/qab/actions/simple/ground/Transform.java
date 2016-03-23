@@ -1,6 +1,7 @@
 package fr.unice.polytech.qgl.qab.actions.simple.ground;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
+import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedType;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import org.json.JSONObject;
 
@@ -28,8 +29,16 @@ public class Transform extends Action {
             String action = jsonObject.getString(ACTION);
             if (!(ACTION_TRANSFORM).equals(action))
                 return false;
+
+            JSONObject params = jsonObject.getJSONObject(PARAMETERS);
+
+            for (ManufacturedType type: ManufacturedType.values()) {
+                if (params.has(type.toString()))
+                    return false;
+            }
+        } else {
+            return false;
         }
-        else return false;
 
         return true;
     }
@@ -38,7 +47,7 @@ public class Transform extends Action {
     public String formatResponse() {
         //TODO: Create restriction to not receive a ManufacturedType
         JSONObject response = new JSONObject();
-        response.put("action", "transform");
+        response.put(ACTION_PARAMS, ACTION_TRANSFORM);
 
         JSONObject parameters = new JSONObject();
         for (Map.Entry<PrimaryType, Integer> resources: recipe.entrySet()) {
@@ -48,7 +57,7 @@ public class Transform extends Action {
             parameters.put(type.name(), amount.toString());
         }
 
-        response.put("parameters", parameters);
+        response.put(PARAMETERS, parameters);
         return response.toString();
     }
 

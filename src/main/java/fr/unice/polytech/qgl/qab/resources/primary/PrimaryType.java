@@ -6,5 +6,12 @@ package fr.unice.polytech.qgl.qab.resources.primary;
  * Enum that represents the types of the primary resources
  */
 public enum PrimaryType {
-    FISH, FLOWER, FRUITS, FUR, ORE, QUARTZ, SUGAR_CANE, WOOD;
+    FISH,
+    FLOWER,
+    FRUITS,
+    FUR,
+    ORE,
+    QUARTZ,
+    SUGAR_CANE,
+    WOOD;
 }

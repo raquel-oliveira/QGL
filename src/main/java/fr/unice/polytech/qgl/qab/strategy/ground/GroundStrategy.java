@@ -64,7 +64,7 @@ public class GroundStrategy implements IGroundStrategy {
      */
     private int contextAnalyzer(Context context) {
         // If all contracts are filled or there is with low quantity of budgets
-        if (context.contractsAreComplete() || context.getBudget() < getLimitBudget() || transformFinished(context)){
+        if (context.getContracts().contractsAreComplete(context) || context.getBudget() < getLimitBudget() || transformFinished(context)){
             LOGGER.error("Should stop, low budget.");
             return 1;
         }
@@ -76,14 +76,14 @@ public class GroundStrategy implements IGroundStrategy {
         * */
         if(!(context.getResourcesToCreate() == null)){
             //Enough to transform all the manufactured without take resources rewerved to contract of type Primary
-            if(context.enoughToTransformAll()){
+            if(context.getContracts().enoughToTransformAll(context)){
                 return 2;
             }
             //Time to transform
             if(context.getBudget() <= getLimitBudget() + BUDGET_TO_TRANSFORME){
                 LOGGER.info("Money says: TIME TO TRANSFORM");
                 //But if there is not a single contract to fill, continue
-                if(!context.enoughToTransform()){
+                if(!context.getContracts().enoughToTransform(context)){
                     LOGGER.info("Can not transform even a single contract, come back what it was doing");
                     return 0;
                 }

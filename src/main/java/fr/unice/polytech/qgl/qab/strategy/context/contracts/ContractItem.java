@@ -1,4 +1,4 @@
-package fr.unice.polytech.qgl.qab.strategy.context.utils;
+package fr.unice.polytech.qgl.qab.strategy.context.contracts;
 
 import fr.unice.polytech.qgl.qab.exception.context.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.resources.Resource;

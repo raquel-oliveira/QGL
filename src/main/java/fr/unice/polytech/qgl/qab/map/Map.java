@@ -3,7 +3,7 @@ package fr.unice.polytech.qgl.qab.map;
 import fr.unice.polytech.qgl.qab.exception.map.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.tile.*;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import fr.unice.polytech.qgl.qab.strategy.context.utils.ContractItem;
+import fr.unice.polytech.qgl.qab.strategy.context.contracts.ContractItem;
 import java.util.*;
 
 /**
@@ -156,7 +156,7 @@ public class Map {
             Tile value = entry.getValue();
             // check if tile was visited
             if (!value.wasVisited()) {
-                for (ContractItem item : context.getContracts()) {
+                for (ContractItem item : context.getContracts().getItems()) {
                     Set<Biomes> listTmp = new HashSet<>();
                     listTmp.addAll(item.resource().getBiome());
                     listTmp.retainAll(value.getBiomesPredominant());
@@ -233,23 +233,5 @@ public class Map {
 
     public Tile getTile(Position p) {
         return tiles.get(p);
-    }
-
-    public Tile getTileOverride(Position p) {
-        for (HashMap.Entry<Position, Tile> tile:tiles.entrySet()) {
-            Position posit = tile.getKey();
-            Tile t = tile.getValue();
-            if (p.getX() == posit.getX() && p.getY() == posit.getY())
-                return t;
-        }
-        return null;
-    }
-
-    public HashMap<Position, Tile> getTiles() {
-        return tiles;
-    }
-
-    public void copy(Map map) {
-        tiles.putAll(map.getTiles());
     }
 }

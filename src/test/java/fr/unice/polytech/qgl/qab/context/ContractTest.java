@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import fr.unice.polytech.qgl.qab.resources.*;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
-import fr.unice.polytech.qgl.qab.strategy.context.utils.ContractItem;
+import fr.unice.polytech.qgl.qab.strategy.context.contracts.ContractItem;
 import org.junit.Test;
 
 import fr.unice.polytech.qgl.qab.exception.context.NegativeBudgetException;

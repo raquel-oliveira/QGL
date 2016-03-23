@@ -9,7 +9,8 @@ import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
 
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import fr.unice.polytech.qgl.qab.strategy.context.utils.ContractItem;
+import fr.unice.polytech.qgl.qab.strategy.context.contracts.ContractItem;
+import fr.unice.polytech.qgl.qab.strategy.context.contracts.Contracts;
 import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateFactory;
 import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateType;
 import org.apache.logging.log4j.LogManager;
@@ -36,13 +37,15 @@ public class TransformResource extends GroundState {
 
     @Override
     public Action responseState(Context context, Map map) throws IndexOutOfBoundsComboAction {
-        List<ContractItem> contracts = context.getContracts();
+        Contracts contracts = context.getContracts();
+        List<ContractItem> contractItems = contracts.getItems();
+
         if (context.getResourcesToCreate().isEmpty()){
             return new Stop();
         }
         //Element that we are going to try to create. If he can not create, take the next.
         ManufacturedResource res = context.getResourcesToCreate().get(0);
-        if(!contracts.get(context.getContractIndex(res)).CanTransform(context)){
+        if(!contractItems.get(contracts.getContractIndex(res)).CanTransform(context)){
             do{
                 LOGGER.info("can not make "+res.getName());
                 context.removeResourceToCreate(0);
@@ -54,13 +57,13 @@ public class TransformResource extends GroundState {
                     res = context.getResourcesToCreate().get(0);
                     LOGGER.info("Try to "+res.getName());
                 }
-            } while(!contracts.get(context.getContractIndex(res)).CanTransform(context));
+            } while(!contractItems.get(contracts.getContractIndex(res)).CanTransform(context));
         }
         // Update that this manufactured was already "created"
-        ((ManufacturedResource)(contracts.get(context.getContractIndex(res)).resource())).setTransformed(true);
+        ((ManufacturedResource)(contractItems.get(contracts.getContractIndex(res)).resource())).setTransformed(true);
         //Amounted asked in the contract
-        int amountContract = contracts.get(context.getContractIndex(res)).amount();
-        java.util.Map recipe = ((ManufacturedResource) contracts.get(context.getContractIndex(res)).resource()).getRecipe(amountContract);
+        int amountContract = contractItems.get(contracts.getContractIndex(res)).amount();
+        java.util.Map recipe = ((ManufacturedResource) contractItems.get(contracts.getContractIndex(res)).resource()).getRecipe(amountContract);
 
         LOGGER.info("Transform " + res.getName());
         Action act = new Transform(recipe);

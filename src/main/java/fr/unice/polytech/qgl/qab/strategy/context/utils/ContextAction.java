@@ -157,7 +157,7 @@ public class ContextAction {
     public List<PrimaryType> getResourcesToExploit() { return resourcesToExploit; }
 
     public void setResourcesToExploit(List<PrimaryType> resourcesToExploit, Context context) {
-        java.util.Map<String, Integer> collectedResource = context.getCollectedResources();
+        java.util.Map<String, Integer> collectedResource = context.getContracts().getCollectedResources();
         while(!resourcesToExploit.isEmpty()){
             PrimaryResource res = new PrimaryResource(resourcesToExploit.get(0));
             String resource = res.getName();
@@ -166,7 +166,7 @@ public class ContextAction {
                 resourcesToExploit.remove(0);
             }
             else {
-                if(collectedResource.get(resource) < context.getAccumulatedAmountNecessary(res)) {
+                if(collectedResource.get(resource) < context.getContracts().getAccumulatedAmountNecessary(res)) {
                     this.resourcesToExploit.add(resourcesToExploit.get(0));
                     resourcesToExploit.remove(0);
                 }else{
