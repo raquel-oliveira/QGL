@@ -112,3 +112,8 @@ crashlytics-build.properties
 #FLOBITS
 .flooignore
 .floo
+
+#Files and path to regressions tests
+maps
+src/test/java/fr/unice/polytech/qgl/qab/ChampionshipRunner.java
+src/test/java/fr/unice/polytech/qgl/qab/ITRunPreviousChampionships.java
