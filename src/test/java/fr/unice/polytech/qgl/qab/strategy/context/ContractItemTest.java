@@ -29,7 +29,7 @@ public class ContractItemTest {
         contractItem = new ContractItem(new PrimaryResource(PrimaryType.FISH), 10);
         itemManufactured = new ContractItem(new ManufacturedResource(ManufacturedType.RUM), 11);
         //context.addContract("RUM", 11);
-        context.getContracts().addContract(itemManufactured.resource().getName(), 11);
+        context.getContracts().addContract(itemManufactured.resource().getName(), 11, context);
     }
 
     @Test
@@ -47,20 +47,20 @@ public class ContractItemTest {
         assertEquals(11, itemManufactured.amount());
         assertEquals(ManufacturedResource.class, itemManufactured.resource().getClass());
 
-        assertFalse(itemManufactured.isComplete(context.getContracts().getCollectedResources()));
+        assertFalse(itemManufactured.isComplete(context.getCollectedResources()));
 
-        context.getContracts().addCollectedResources(new ManufacturedResource(ManufacturedType.RUM), 3);
-        assertFalse(itemManufactured.isComplete(context.getContracts().getCollectedResources()));
-        int collectedRum = context.getContracts().getCollectedResources().get(new ManufacturedResource(ManufacturedType.RUM).getName());
+        context.addCollectedResources(new ManufacturedResource(ManufacturedType.RUM), 3);
+        assertFalse(itemManufactured.isComplete(context.getCollectedResources()));
+        int collectedRum = context.getCollectedResources().get(new ManufacturedResource(ManufacturedType.RUM).getName());
         assertEquals(3, collectedRum);
 
-        context.getContracts().addCollectedResources(new ManufacturedResource(ManufacturedType.RUM), 3);
-        collectedRum = context.getContracts().getCollectedResources().get(new ManufacturedResource(ManufacturedType.RUM).getName());
+        context.addCollectedResources(new ManufacturedResource(ManufacturedType.RUM), 3);
+        collectedRum = context.getCollectedResources().get(new ManufacturedResource(ManufacturedType.RUM).getName());
         assertEquals(6, collectedRum);
 
-        context.getContracts().addCollectedResources(new ManufacturedResource(ManufacturedType.RUM), 10);
-        collectedRum = context.getContracts().getCollectedResources().get(new ManufacturedResource(ManufacturedType.RUM).getName());
+        context.addCollectedResources(new ManufacturedResource(ManufacturedType.RUM), 10);
+        collectedRum = context.getCollectedResources().get(new ManufacturedResource(ManufacturedType.RUM).getName());
         assertEquals(16, collectedRum);
-        assertTrue(itemManufactured.isComplete(context.getContracts().getCollectedResources()));
+        assertTrue(itemManufactured.isComplete(context.getCollectedResources()));
     }
 }

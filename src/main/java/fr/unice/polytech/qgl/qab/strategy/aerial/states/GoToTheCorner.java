@@ -23,7 +23,7 @@ public class GoToTheCorner extends AerialState {
             updateContext(context);
             return AerialStateFactory.buildState(AerialStateType.INITIALIZE);
         } else
-            return AerialStateFactory.buildState(AerialStateType.GOTOTHECORNER);
+            return AerialStateFactory.buildState(AerialStateType.GO_TO_THE_CORNER);
     }
 
     @Override

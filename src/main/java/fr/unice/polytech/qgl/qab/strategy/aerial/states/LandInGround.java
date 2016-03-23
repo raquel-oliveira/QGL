@@ -18,7 +18,7 @@ public class LandInGround extends AerialState {
 
     @Override
     public AerialState getState(Context context, Map map, StateMediator stateMediator) throws PositionOutOfMapRange {
-        return AerialStateFactory.buildState(AerialStateType.LANDINGROUND);
+        return AerialStateFactory.buildState(AerialStateType.LAND_IN_GROUND);
     }
 
     @Override

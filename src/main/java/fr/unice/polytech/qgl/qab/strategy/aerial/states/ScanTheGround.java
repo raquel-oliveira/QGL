@@ -37,16 +37,16 @@ public class ScanTheGround extends AerialState {
         // if is necessary return back to the ground
         if (returnBack(context)) {
             updateContext(context);
-            return AerialStateFactory.buildState(AerialStateType.RETURNBACK);
+            return AerialStateFactory.buildState(AerialStateType.RETURN_BACK);
         }
 
         // if is necessary fly until the ground
         if (needFlyUntil(context, stateMediator)) {
             updateContext(context);
-            return AerialStateFactory.buildState(AerialStateType.FLYUNTIL);
+            return AerialStateFactory.buildState(AerialStateType.FLY_UNTIL);
         }
 
-        return AerialStateFactory.buildState(AerialStateType.SCANTHEGROUND);
+        return AerialStateFactory.buildState(AerialStateType.SCAN_THE_GROUND);
     }
 
     @Override

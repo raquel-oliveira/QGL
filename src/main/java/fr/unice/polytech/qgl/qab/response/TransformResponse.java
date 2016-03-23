@@ -22,11 +22,11 @@ public class TransformResponse {
         this.amount = amount;
 
         //Add the transformed resource in collected resources
-        context.getContracts().addCollectedResources(res, amount);
+        context.addCollectedResources(res, amount);
         //Decrease primary amounts used to create
         for(java.util.Map.Entry<PrimaryType, Integer> ingredientRecipe : res.getRecipe(amount).entrySet()) {
             PrimaryResource primary = new PrimaryResource(ingredientRecipe.getKey());
-            context.getContracts().decreaseAmountOfCollectedResources(primary, ingredientRecipe.getValue());
+            context.decreaseAmountOfCollectedResources(primary, ingredientRecipe.getValue());
         }
     }
 

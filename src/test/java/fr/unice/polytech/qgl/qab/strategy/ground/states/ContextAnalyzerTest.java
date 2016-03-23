@@ -69,7 +69,7 @@ public class ContextAnalyzerTest {
 
         discovery.setScoutResponse(scoutResponse);
         context.setLastDiscovery(discovery);
-        context.getContracts().addContract(PrimaryType.FISH.toString(), 10);
+        context.getContracts().addContract(PrimaryType.FISH.toString(), 10, context);
 
         assertTrue(contextAnalyzer.resourceAnalyzerScout(context).contains(PrimaryType.FISH));
 
@@ -78,7 +78,7 @@ public class ContextAnalyzerTest {
 
         discovery.setScoutResponse(scoutResponse);
         context.setLastDiscovery(discovery);
-        context.getContracts().addContract(ManufacturedType.RUM.toString(), 10);
+        context.getContracts().addContract(ManufacturedType.RUM.toString(), 10, context);
         assertTrue(contextAnalyzer.resourceAnalyzerScout(context).contains(PrimaryType.SUGAR_CANE));
 
         scoutResponse = new ScoutResponse();
@@ -89,7 +89,7 @@ public class ContextAnalyzerTest {
 
         discovery.setScoutResponse(scoutResponse);
         context.setLastDiscovery(discovery);
-        context.getContracts().addContract(ManufacturedType.GLASS.toString(), 10);
+        context.getContracts().addContract(ManufacturedType.GLASS.toString(), 10, context);
         assertTrue(contextAnalyzer.resourceAnalyzerScout(context).contains(PrimaryType.QUARTZ));
         assertTrue(contextAnalyzer.resourceAnalyzerScout(context).contains(PrimaryType.WOOD));
     }
@@ -115,7 +115,7 @@ public class ContextAnalyzerTest {
 
         discovery.setGlimpseResponse(glimpseResponse);
         context.setLastDiscovery(discovery);
-        context.getContracts().addContract(PrimaryType.FISH.toString(), 10);
+        context.getContracts().addContract(PrimaryType.FISH.toString(), 10, context);
 
         List<Boolean> response = new ArrayList<>();
         response.add(true);

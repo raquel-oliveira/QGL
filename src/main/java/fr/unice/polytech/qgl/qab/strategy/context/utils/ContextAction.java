@@ -157,7 +157,7 @@ public class ContextAction {
     public List<PrimaryType> getResourcesToExploit() { return resourcesToExploit; }
 
     public void setResourcesToExploit(List<PrimaryType> resourcesToExploit, Context context) {
-        java.util.Map<String, Integer> collectedResource = context.getContracts().getCollectedResources();
+        java.util.Map<String, Integer> collectedResource = context.getCollectedResources();
         while(!resourcesToExploit.isEmpty()){
             PrimaryResource res = new PrimaryResource(resourcesToExploit.get(0));
             String resource = res.getName();

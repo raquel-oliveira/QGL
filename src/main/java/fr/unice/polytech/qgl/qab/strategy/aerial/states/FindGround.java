@@ -31,9 +31,9 @@ public class FindGround extends AerialState {
     public AerialState getState(Context context, Map map, StateMediator stateMediator) {
         if (context.current().getLastAction() instanceof Heading) {
             updateContext(context);
-            return AerialStateFactory.buildState(AerialStateType.FLYUNTIL);
+            return AerialStateFactory.buildState(AerialStateType.FLY_UNTIL);
         }
-        return AerialStateFactory.buildState(AerialStateType.FINDGROUND);
+        return AerialStateFactory.buildState(AerialStateType.FIND_GROUND);
     }
 
     @Override
