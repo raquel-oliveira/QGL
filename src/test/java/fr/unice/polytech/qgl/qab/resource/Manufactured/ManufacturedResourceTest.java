@@ -17,10 +17,11 @@ import static org.junit.Assert.assertEquals;
  */
 public class ManufacturedResourceTest {
     ManufacturedResource manufacturedResource;
-    private static final double marginError = 1.1;
+    double marginError;
 
     @Before
     public void defineContext() {
+        marginError = ManufacturedResource.getMarginError();
         manufacturedResource = new ManufacturedResource(ManufacturedType.GLASS);
     }
 
