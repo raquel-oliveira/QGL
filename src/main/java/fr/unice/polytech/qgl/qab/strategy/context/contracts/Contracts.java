@@ -9,11 +9,11 @@ import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import scala.util.control.TailCalls;
 
 import java.util.*;
 
 /**
+ * Everything related or that affect directly the contracts/contractItem.
  * @version 21/03/16.
  */
 public class Contracts {
@@ -21,10 +21,12 @@ public class Contracts {
 
     private List<ContractItem> items;
     private Boolean completeContract;
+    private List<ManufacturedResource> resourcesToCreate;
 
     public Contracts() {
         this.items = new ArrayList<>();
         this.completeContract = false;
+        this.resourcesToCreate = null;
     }
 
     public List<ContractItem> getItems() {
@@ -41,9 +43,9 @@ public class Contracts {
         try {
             items.add(new ContractItem(new ManufacturedResource(ManufacturedType.valueOf(resource)), amount));
             //update the resources manufactured in the list of resources to be create.
-            if (context.getResourcesToCreate() == null)
-                context.setResourcesToCreate(new ArrayList<>());
-            context.getResourcesToCreate().add(new ManufacturedResource(ManufacturedType.valueOf(resource)));
+            if (getResourcesToCreate() == null)
+                setResourcesToCreate(new ArrayList<>());
+            getResourcesToCreate().add(new ManufacturedResource(ManufacturedType.valueOf(resource)));
         } catch (Exception ex) {
             items.add(new ContractItem(new PrimaryResource(PrimaryType.valueOf(resource)), amount));
         }
@@ -113,7 +115,7 @@ public class Contracts {
      * @return true if there is primary resources enough to complete at least one contract manufactured
      */
     public boolean enoughToTransform(Context context){
-        List<ManufacturedResource> listManufactures = context.getResourcesToCreate();
+        List<ManufacturedResource> listManufactures = getResourcesToCreate();
         for (int i = 0; i < listManufactures.size(); i++){
             if (items.get(getContractIndex(listManufactures.get(i))).CanTransform(context)){
                 return true;
@@ -156,6 +158,26 @@ public class Contracts {
         }
         LOGGER.error("The element" + resource.getName() + "its not in the contract.");
         return -1;
+    }
+
+    public List<ManufacturedResource> getResourcesToCreate() {
+        return resourcesToCreate;
+    }
+
+    public void setResourcesToCreate(List<ManufacturedResource> resourcesToCreate) {
+        this.resourcesToCreate = resourcesToCreate;
+    }
+
+    public void removeResourceToCreate(int index){
+        if(resourcesToCreate.isEmpty()){
+            LOGGER.error("error:", "The list is empty, can not remove.");
+        }
+        try{
+            resourcesToCreate.remove(index);
+        }
+        catch(Exception e){
+            LOGGER.error("Can not remove this element");
+        }
     }
 
 }

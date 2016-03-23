@@ -1,7 +1,6 @@
 package fr.unice.polytech.qgl.qab.strategy.context;
 import fr.unice.polytech.qgl.qab.exception.context.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.resources.Resource;
-import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.Budget;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.ContextAction;
 import fr.unice.polytech.qgl.qab.strategy.context.contracts.Contracts;
@@ -46,8 +45,6 @@ public class Context {
 
     private Map<String, Integer> collectedResources;
 
-    private List<ManufacturedResource> resourcesToCreate;
-
     /**
      * Context's constructor
      * @throws NegativeBudgetException exception if the valut to the budget is negative
@@ -66,8 +63,6 @@ public class Context {
         contextActionGround = new ContextAction();
 
         this.collectedResources = new HashMap<>();
-        this.resourcesToCreate = null;
-
     }
 
     /**
@@ -261,26 +256,4 @@ public class Context {
             return -1;
         }
     }
-
-    public List<ManufacturedResource> getResourcesToCreate() {
-        return resourcesToCreate;
-    }
-
-    public void setResourcesToCreate(List<ManufacturedResource> resourcesToCreate) {
-        this.resourcesToCreate = resourcesToCreate;
-    }
-
-    public void removeResourceToCreate(int index){
-        if(resourcesToCreate.isEmpty()){
-            LOGGER.error("error:", "The list is empty, can not remove.");
-        }
-        try{
-            resourcesToCreate.remove(index);
-        }
-        catch(Exception e){
-            LOGGER.error("Can not remove this element");
-        }
-    }
-
-
 }

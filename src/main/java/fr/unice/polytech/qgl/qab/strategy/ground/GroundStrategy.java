@@ -9,7 +9,6 @@ import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateFactory;
 import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateType;
 import fr.unice.polytech.qgl.qab.strategy.ground.states.GroundState;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import org.apache.commons.logging.Log;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -65,7 +64,7 @@ public class GroundStrategy implements IGroundStrategy {
     private int contextAnalyzer(Context context) {
         // If all contracts are filled or there is with low quantity of budgets
         if (context.getContracts().contractsAreComplete(context) || context.getBudget() < getLimitBudget() || transformFinished(context)){
-            LOGGER.error("Should stop, low budget.");
+            LOGGER.info("Should stop, low budget.");
             return 1;
         }
 
@@ -74,7 +73,7 @@ public class GroundStrategy implements IGroundStrategy {
         * if all primary resources were not completed to make the manufactured, but will try to transform the maximum
         * before stops.
         * */
-        if(!(context.getResourcesToCreate() == null)){
+        if(!(context.getContracts().getResourcesToCreate() == null)){
             //Enough to transform all the manufactured without take resources rewerved to contract of type Primary
             if(context.getContracts().enoughToTransformAll(context)){
                 return 2;
@@ -97,6 +96,6 @@ public class GroundStrategy implements IGroundStrategy {
     }
 
     private boolean transformFinished(Context context) {
-        return (context.getResourcesToCreate() != null && context.getResourcesToCreate().isEmpty());
+        return (context.getContracts().getResourcesToCreate() != null && context.getContracts().getResourcesToCreate().isEmpty());
     }
 }
