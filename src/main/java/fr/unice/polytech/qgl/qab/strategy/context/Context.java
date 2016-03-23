@@ -291,7 +291,7 @@ public class Context {
                 PrimaryType prim = ((PrimaryResource)(resource)).getType();
                 if (((ManufacturedResource) contracts.get(i).resource()).getRecipe(0).containsKey(prim)){
                     int pureAmount = ((ManufacturedResource) res).getRecipe(contracts.get(i).amount()).get(prim);
-                    amount +=  (int) ceil(pureAmount * (((ManufacturedResource)res).getMarginError()));
+                    amount +=  pureAmount;
                 }
             }
         }
@@ -315,8 +315,9 @@ public class Context {
 
     /**
      * @return true if there is primary resources enough to complete all the contracts
+     * Observation: It reserves the quantity of primary to complete the primaries resources
      */
-    public boolean enoughToTransform(){
+    public boolean enoughToTransformAll(){
         boolean enough = true;
         Set<String> primaryResources = primaryNeeded();
         for (String resource: primaryResources) {
@@ -328,6 +329,19 @@ public class Context {
         }
         LOGGER.error("Enough to transform "+ primaryResources+"");
         return enough;
+    }
+
+    /**
+     * @return true if there is primary resources enough to complete at least one contract manufactured
+     */
+    public boolean enoughToTransform(){
+        List<ManufacturedResource> listManufactures = getResourcesToCreate();
+        for (int i = 0; i < listManufactures.size(); i++){
+            if (contracts.get(getContractIndex(listManufactures.get(i))).CanTransform(this)){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
