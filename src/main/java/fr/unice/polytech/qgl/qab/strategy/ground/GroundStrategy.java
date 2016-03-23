@@ -75,8 +75,8 @@ public class GroundStrategy implements IGroundStrategy {
         * */
         if(!(context.getResourcesToCreate() == null)){
             if (context.enoughToTransform() || context.getBudget() <= getLimitBudget() + BUDGET_TO_TRANSFORME){
-                LOGGER.error("enough to transform = " + context.enoughToTransform());
-                LOGGER.error("Budgets to transforme = " + (context.getBudget() <= getLimitBudget() + BUDGET_TO_TRANSFORME));
+                LOGGER.info("enough to transform = " + context.enoughToTransform());
+                LOGGER.info("Budgets to transforme = " + (context.getBudget() <= getLimitBudget() + BUDGET_TO_TRANSFORME));
                 return 2;
             }
         }

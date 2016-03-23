@@ -83,7 +83,7 @@ public class ContractItem {
                     return canTransform = false;
                 }
                 if(context.getCollectedResources().get(res.getName()) < this.amount * recipe.get(res.getType())){
-                    LOGGER.error("Don't have enough (has " + context.getCollectedResources().get(res.getName()) + " and need "+this.amount * recipe.get(res.getType())+ ") of "+res.getName()+" to fill the contract "+ this.resource.getName());
+                    LOGGER.info("Don't have enough (has " + context.getCollectedResources().get(res.getName()) + " and need "+this.amount * recipe.get(res.getType())+ ") of "+res.getName()+" to fill the contract "+ this.resource.getName());
                     canTransform = false;
                     return canTransform;
                 }

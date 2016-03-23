@@ -44,15 +44,15 @@ public class TransformResource extends GroundState {
         ManufacturedResource res = context.getResourcesToCreate().get(0);
         if(!contracts.get(context.getContractIndex(res)).CanTransform(context)){
             do{
-                LOGGER.error("can not make "+res.getName());
+                LOGGER.info("can not make "+res.getName());
                 context.removeResourceToCreate(0);
                 if (context.getResourcesToCreate().isEmpty()) {
-                    LOGGER.error("There is not anymore in the list to try");
+                    LOGGER.info("There is not anymore in the list to try");
                     return new Stop();
                 }
                 else{
                     res = context.getResourcesToCreate().get(0);
-                    LOGGER.error("Try to "+res.getName());
+                    LOGGER.info("Try to "+res.getName());
                 }
             } while(!contracts.get(context.getContractIndex(res)).CanTransform(context));
         }
@@ -62,7 +62,7 @@ public class TransformResource extends GroundState {
         int amountContract = contracts.get(context.getContractIndex(res)).amount();
         java.util.Map recipe = ((ManufacturedResource) contracts.get(context.getContractIndex(res)).resource()).getRecipe(amountContract);
 
-        LOGGER.error("Transform " + res.getName());
+        LOGGER.info("Transform " + res.getName());
         Action act = new Transform(recipe);
 
         context.removeResourceToCreate(0);

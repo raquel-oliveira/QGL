@@ -24,6 +24,10 @@ public class ManufacturedResource implements Resource {
         return transformed;
     }
 
+    /**
+     *
+     * @param transformed true if it was already TRIED to transform
+     */
     public void setTransformed(boolean transformed) {
         this.transformed = transformed;
     }
