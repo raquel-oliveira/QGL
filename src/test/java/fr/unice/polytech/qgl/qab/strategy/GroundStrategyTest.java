@@ -60,7 +60,7 @@ public class GroundStrategyTest {
         action = strategy.makeDecision(context, map);
         assertEquals(Stop.class, action.getClass());
 
-        context.getContracts().addContract("FISH", 10, context);
+        context.getContracts().addContract("FISH", 10);
         testMoveTo(Direction.EAST, 9);
         testMoveTo(Direction.SOUTH, 9);
 

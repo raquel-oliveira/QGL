@@ -29,7 +29,7 @@ public class ContractItemTest {
         contractItem = new ContractItem(new PrimaryResource(PrimaryType.FISH), 10);
         itemManufactured = new ContractItem(new ManufacturedResource(ManufacturedType.RUM), 11);
         //context.addContract("RUM", 11);
-        context.getContracts().addContract(itemManufactured.resource().getName(), 11, context);
+        context.getContracts().addContract(itemManufactured.resource().getName(), 11);
     }
 
     @Test

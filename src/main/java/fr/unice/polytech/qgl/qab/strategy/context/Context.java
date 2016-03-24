@@ -81,7 +81,7 @@ public class Context {
         for (int i = 0; i < cont.length();  i++) {
             String key = cont.getJSONObject(i).getString("resource");
             int value = cont.getJSONObject(i).getInt("amount");
-            contracts.addContract(key, value, this);
+            contracts.addContract(key, value);
         }
 
         firstHead = Direction.fromString(jsonObj.getString("heading"));

@@ -39,7 +39,7 @@ public class Contracts {
      * @param amount resource's amount
      * @throws NegativeBudgetException
      */
-    public void addContract(String resource, int amount, Context context) throws NegativeBudgetException {
+    public void addContract(String resource, int amount) throws NegativeBudgetException {
         try {
             items.add(new ContractItem(new ManufacturedResource(ManufacturedType.valueOf(resource)), amount));
             //update the resources manufactured in the list of resources to be create.
@@ -75,7 +75,7 @@ public class Contracts {
                 }
             }
         }
-        //LOGGER.error("The quantity necessary of "+ resource.getName()+ " is " + amount);
+        LOGGER.info("The quantity necessary of "+ resource.getName()+ " is " + amount);
         return amount;
     }
 
@@ -98,17 +98,16 @@ public class Contracts {
      * Observation: It reserves the quantity of primary to complete the primaries resources
      */
     public boolean enoughToTransformAll(Context context){
-        boolean enough = true;
         Set<String> primaryResources = primaryNeeded();
         for (String resource: primaryResources) {
             if (!context.getCollectedResources().containsKey(resource))
                 return false;
             if (context.getCollectedResources().get(resource) < getAccumulatedAmountNecessary(new PrimaryResource(PrimaryType.valueOf(resource)))){
-                return enough = false;
+                return false;
             }
         }
         LOGGER.error("Enough to transform "+ primaryResources+"");
-        return enough;
+        return true;
     }
 
     /**
@@ -117,7 +116,7 @@ public class Contracts {
     public boolean enoughToTransform(Context context){
         List<ManufacturedResource> listManufactures = getResourcesToCreate();
         for (int i = 0; i < listManufactures.size(); i++){
-            if (items.get(getContractIndex(listManufactures.get(i))).CanTransform(context)){
+            if (items.get(getContractIndex(listManufactures.get(i))).canTransform(context)){
                 return true;
             }
         }

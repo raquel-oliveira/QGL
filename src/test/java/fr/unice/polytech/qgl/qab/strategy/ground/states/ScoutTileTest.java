@@ -34,7 +34,7 @@ public class ScoutTileTest {
     @Test
     public void testState() throws NegativeBudgetException, IndexOutOfBoundsComboAction, PositionOutOfMapRange {
         Context context = new Context();
-        context.getContracts().addContract(PrimaryType.FISH.toString(), 10, context);
+        context.getContracts().addContract(PrimaryType.FISH.toString(), 10);
 
         List<PrimaryType> scoutResp = new ArrayList<>();
         scoutResp.add(PrimaryType.FISH);

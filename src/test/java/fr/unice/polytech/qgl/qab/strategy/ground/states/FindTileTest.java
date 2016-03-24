@@ -37,7 +37,7 @@ public class FindTileTest {
 
     public void setContext() throws NegativeBudgetException {
         context.current().setStatus(0);
-        context.getContracts().addContract("FISH", 1000, context);
+        context.getContracts().addContract("FISH", 1000);
     }
 
     public void setMap() throws PositionOutOfMapRange {

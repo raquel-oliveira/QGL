@@ -55,8 +55,8 @@ public class ContractItem {
     }
 
     public Boolean isComplete(Map<String, Integer> collectedResources){
-       if(collectedResources.containsKey(resource.getName())){
-           if(collectedResources.get(resource.getName()) >= amount){ completeContract = true;}
+       if(collectedResources.containsKey(resource.getName()) && collectedResources.get(resource.getName()) >= amount){
+            completeContract = true;
        }
         return completeContract;
     }
@@ -70,9 +70,10 @@ public class ContractItem {
      * Observation: If it need to take amount of a contract of a primaryType to complete this contract(if manufactured),
      * it will. Priority to manufactured>primary.
      */
-    public boolean CanTransform(Context context) {
+    public boolean canTransform(Context context) {
         if(this.resource.isPrimary()){
-            return canTransform = false;
+            canTransform = false;
+            return canTransform;
         }
         else{
             canTransform = true;
@@ -80,7 +81,8 @@ public class ContractItem {
             for(Map.Entry<PrimaryType, Integer> getRecipe : recipe.entrySet()){
                 PrimaryResource res = new PrimaryResource(getRecipe.getKey());
                 if (!context.getCollectedResources().containsKey(res.getName())) {
-                    return canTransform = false;
+                    canTransform = false;
+                    return canTransform;
                 }
                 if(context.getCollectedResources().get(res.getName()) < recipe.get(res.getType())){
                     LOGGER.info("Don't have enough (has " + context.getCollectedResources().get(res.getName()) + " and need "+ recipe.get(res.getType())+ ") of "+res.getName()+" to fill the contract "+ this.resource.getName());

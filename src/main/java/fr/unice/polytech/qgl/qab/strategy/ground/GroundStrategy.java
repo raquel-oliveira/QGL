@@ -21,14 +21,14 @@ public class GroundStrategy implements IGroundStrategy {
 
     private GroundState state;
     private int limitBudget;
-    private static final int BUDGET_TO_TRANSFORME = 100;
+    private static final int BUDGET_TO_TRANSFORME = 50;
 
     /**
      * GroundStrategy's constructor.
      */
     public GroundStrategy() {
         state = GroundStateFactory.buildState(GroundStateType.FIND_TILE);
-        limitBudget = 400;
+        limitBudget = 100;
     }
 
     @Override
@@ -95,7 +95,7 @@ public class GroundStrategy implements IGroundStrategy {
         return 0;
     }
 
-    private boolean transformFinished(Context context) {
-        return (context.getContracts().getResourcesToCreate() != null && context.getContracts().getResourcesToCreate().isEmpty());
+    private static boolean transformFinished(Context context) {
+        return context.getContracts().getResourcesToCreate() != null && context.getContracts().getResourcesToCreate().isEmpty();
     }
 }
