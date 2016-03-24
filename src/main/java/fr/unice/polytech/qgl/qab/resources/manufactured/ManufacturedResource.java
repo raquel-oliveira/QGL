@@ -107,6 +107,7 @@ public class ManufacturedResource implements Resource {
                 break;
 
             case INGOT:
+                recipe.put(PrimaryType.ORE, (int)(ceil(5 * amountRecipe * marginError)));
                 recipe.put(PrimaryType.WOOD, (int)(ceil(5 * amountRecipe * marginError)));
                 break;
 
