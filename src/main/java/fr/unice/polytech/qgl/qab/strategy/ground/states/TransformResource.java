@@ -55,7 +55,7 @@ public class TransformResource extends GroundState {
                     java.util.Map recipe = ((ManufacturedResource)(items.resource())).getRecipe(amountContract);
 
                     LOGGER.info("Transform " + items.resource().getName());
-                    Action act = new Transform(recipe);
+                    Action act = new Transform(recipe, context);
 
                     context.current().setLastAction(act);
                     return act;

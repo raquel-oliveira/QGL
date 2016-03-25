@@ -2,9 +2,12 @@ package fr.unice.polytech.qgl.qab.actions.simple.ground;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedType;
+import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
+import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import org.json.JSONObject;
 
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -19,8 +22,13 @@ public class Transform extends Action {
      * Constructor to transform given the values of the recipe.
      * @param recipe
      */
-    public Transform(Map<PrimaryType, Integer> recipe){
+    public Transform(Map<PrimaryType, Integer> recipe, Context context){
         this.recipe = recipe;
+        //Decrease primary amounts used to create. Does not matter if the number of production is > 0 or not.
+        for(java.util.Map.Entry<PrimaryType, Integer> ingredientRecipe : recipe.entrySet()) {
+            PrimaryResource primary = new PrimaryResource(ingredientRecipe.getKey());
+            context.decreaseAmountOfCollectedResources(primary, ingredientRecipe.getValue());
+        }
     }
 
     @Override
