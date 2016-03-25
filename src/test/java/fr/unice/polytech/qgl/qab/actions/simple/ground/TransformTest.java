@@ -8,6 +8,8 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 
 import static java.lang.Math.ceil;
@@ -33,14 +35,6 @@ public class TransformTest {
         int valueQuartz = (int)(ceil(10 * ERROR));
         JSONObject jsonObj = new JSONObject("{\"action\":\"transform\",\"parameters\":{\"WOOD\":\""+String.valueOf(valueWood)+"\",\"QUARTZ\":\""+String.valueOf(valueQuartz)+"\"}}");
         assertTrue(transform.isValid(jsonObj));
-    }
-
-    @Ignore
-    public void goodAnswerTest(){
-        int valueWood = (int)(ceil(5 * ERROR));
-        int valueQuartz = (int)(ceil(10 * ERROR));
-        String response = "{\"action\":\"transform\",\"parameters\":{\"WOOD\":\""+String.valueOf(valueWood)+"\",\"QUARTZ\":\""+String.valueOf(valueQuartz)+"\"}}";
-        assertTrue(response.equals(transform.formatResponse()));
     }
 
     @Test

@@ -45,7 +45,6 @@ public class Transform extends Action {
 
     @Override
     public String formatResponse() {
-        //TODO: Create restriction to not receive a ManufacturedType
         JSONObject response = new JSONObject();
         response.put(ACTION_PARAMS, ACTION_TRANSFORM);
 
