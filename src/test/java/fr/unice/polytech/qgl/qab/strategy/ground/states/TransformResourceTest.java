@@ -1,7 +1,9 @@
 package fr.unice.polytech.qgl.qab.strategy.ground.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
+import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Exploit;
+import fr.unice.polytech.qgl.qab.actions.simple.ground.Transform;
 import fr.unice.polytech.qgl.qab.exception.action.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.context.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.exception.map.PositionOutOfMapRange;
@@ -57,6 +59,31 @@ public class TransformResourceTest {
         context.addCollectedResources(new PrimaryResource(PrimaryType.WOOD), new ManufacturedResource(ManufacturedType.GLASS).getRecipe(1).get(PrimaryType.WOOD));
         state = trans.getState(context, new Map());
         assertEquals(TransformResource.class, state.getClass());
+
+    }
+
+    @Test
+    public void responseStop() throws NegativeBudgetException, IndexOutOfBoundsComboAction {
+        context.getContracts().addContract("GLASS", 1);
+        context.addCollectedResources(new ManufacturedResource(ManufacturedType.GLASS), 1);
+        Action act = trans.responseState(context, new Map());
+        assertEquals(Stop.class, act.getClass());
+    }
+
+    @Test
+    public void responseTransforme() throws NegativeBudgetException, IndexOutOfBoundsComboAction {
+        context.getContracts().addContract("GLASS", 1);
+        context.addCollectedResources(new PrimaryResource(PrimaryType.QUARTZ), new ManufacturedResource(ManufacturedType.GLASS).getRecipe(1).get(PrimaryType.QUARTZ));
+        context.addCollectedResources(new PrimaryResource(PrimaryType.WOOD), new ManufacturedResource(ManufacturedType.GLASS).getRecipe(1).get(PrimaryType.WOOD));
+        Action act = trans.responseState(context, new Map());
+        assertEquals(Transform.class, act.getClass());
+    }
+
+    @Test
+    public void returnLastActionDifferentOfTransform() throws NegativeBudgetException{
+        context.getContracts().addContract("GLASS", 1);
+        context.addCollectedResources(new PrimaryResource(PrimaryType.QUARTZ), new ManufacturedResource(ManufacturedType.GLASS).getRecipe(1).get(PrimaryType.QUARTZ));
+        //scout? 
 
     }
 }
