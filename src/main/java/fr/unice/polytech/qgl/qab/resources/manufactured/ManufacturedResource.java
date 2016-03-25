@@ -17,7 +17,6 @@ public class ManufacturedResource implements Resource {
     private ManufacturedType resource;
     private EnumMap<PrimaryType, Integer> recipe = new EnumMap<PrimaryType, Integer>(PrimaryType.class);
     private Set<Biomes> biomes = new HashSet<>();
-    private boolean transformed = false;
     private static final double marginError = 10/9;
 
     /**
