@@ -232,6 +232,7 @@ public class Context {
         } else {
             collectedResources.put(resource.getName(), amount);
         }
+        LOGGER.info("Collected resources: " + collectedResources);
     }
 
     /**

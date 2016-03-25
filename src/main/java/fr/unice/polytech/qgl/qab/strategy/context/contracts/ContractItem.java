@@ -77,20 +77,28 @@ public class ContractItem {
         }
         else{
             canTransform = true;
-            Map<PrimaryType, Integer> recipe = ((ManufacturedResource)this.resource).getRecipe(amount);
-            for(Map.Entry<PrimaryType, Integer> getRecipe : recipe.entrySet()){
-                PrimaryResource res = new PrimaryResource(getRecipe.getKey());
-                if (!context.getCollectedResources().containsKey(res.getName())) {
-                    canTransform = false;
-                    return canTransform;
-                }
-                if(context.getCollectedResources().get(res.getName()) < recipe.get(res.getType())){
-                    LOGGER.info("Don't have enough (has " + context.getCollectedResources().get(res.getName()) + " and need "+ recipe.get(res.getType())+ ") of "+res.getName()+" to fill the contract "+ this.resource.getName());
-                    canTransform = false;
-                    return canTransform;
-                }
-                else{
-                    LOGGER.info("Have enough (has " + context.getCollectedResources().get(res.getName()) + " and need "+ recipe.get(res.getType())+ ") of "+res.getName()+" to fill the contract "+ this.resource.getName());
+            if(isComplete(context.getCollectedResources())){
+                LOGGER.info("Already transform:"+ this.resource.getName() + " Asked: " + this.amount() + " have: " + context.getCollectedResources().get(resource.getName()));
+                canTransform = false;
+                return canTransform;
+            }
+            else{
+                Map<PrimaryType, Integer> recipe = ((ManufacturedResource)this.resource).getRecipe(amount);
+                for(Map.Entry<PrimaryType, Integer> getRecipe : recipe.entrySet()){
+                    PrimaryResource res = new PrimaryResource(getRecipe.getKey());
+                    //Doesn' have primary to create the resource.
+                    if (!context.getCollectedResources().containsKey(res.getName())) {
+                        canTransform = false;
+                        return canTransform;
+                    }
+                    if(context.getCollectedResources().get(res.getName()) < recipe.get(res.getType())){
+                        LOGGER.info("Don't have enough (has " + context.getCollectedResources().get(res.getName()) + " and need "+ recipe.get(res.getType())+ ") of "+res.getName()+" to fill the contract "+ this.resource.getName());
+                        canTransform = false;
+                        return canTransform;
+                    }
+                    else{
+                        LOGGER.info("Have enough (has " + context.getCollectedResources().get(res.getName()) + " and need "+ recipe.get(res.getType())+ ") of "+res.getName()+" to fill the contract "+ this.resource.getName());
+                    }
                 }
             }
             return canTransform;

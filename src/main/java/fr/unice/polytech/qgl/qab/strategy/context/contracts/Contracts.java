@@ -75,7 +75,6 @@ public class Contracts {
                 }
             }
         }
-        LOGGER.info("The quantity necessary of "+ resource.getName()+ " is " + amount);
         return amount;
     }
 
@@ -106,7 +105,7 @@ public class Contracts {
                 return false;
             }
         }
-        LOGGER.error("Enough to transform "+ primaryResources+"");
+        LOGGER.info("Enough to transform "+ primaryResources+"");
         return true;
     }
 
@@ -116,7 +115,8 @@ public class Contracts {
     public boolean enoughToTransform(Context context){
         List<ManufacturedResource> listManufactures = getResourcesToCreate();
         for (int i = 0; i < listManufactures.size(); i++){
-            if (items.get(getContractIndex(listManufactures.get(i))).canTransform(context)){
+            ContractItem item = items.get(getContractIndex(listManufactures.get(i)));
+            if (item.canTransform(context)){
                 return true;
             }
         }

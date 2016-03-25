@@ -2,6 +2,7 @@ package fr.unice.polytech.qgl.qab.strategy.ground.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
+import fr.unice.polytech.qgl.qab.actions.simple.ground.Scout;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Transform;
 import fr.unice.polytech.qgl.qab.exception.action.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.map.PositionOutOfMapRange;
@@ -27,9 +28,11 @@ public class TransformResource extends GroundState {
 
     @Override
     public GroundState getState(Context context, Map map) throws PositionOutOfMapRange {
-        if (context.getContracts().getResourcesToCreate().isEmpty()) {
+        if (!context.getContracts().enoughToTransform(context)) {
             updateContext(context);
-            return new StopSimulation();
+            //return new StopSimulation();
+            LOGGER.info("Will scout");
+            return GroundStateFactory.buildState(GroundStateType.SCOUT_TILE);
         } else {
             return GroundStateFactory.buildState(GroundStateType.TRANSFORM);
         }
@@ -40,38 +43,29 @@ public class TransformResource extends GroundState {
         Contracts contracts = context.getContracts();
         List<ContractItem> contractItems = contracts.getItems();
 
-        if (context.getContracts().getResourcesToCreate().isEmpty()){
+        //Everything was completed
+        if (context.getContracts().contractsAreComplete(context)){
             return new Stop();
         }
-        //Element that we are going to try to create. If he can not create, take the next.
-        ManufacturedResource res = context.getContracts().getResourcesToCreate().get(0);
-        if(!contractItems.get(contracts.getContractIndex(res)).canTransform(context)){
-            do{
-                LOGGER.info("can not make "+res.getName());
-                context.getContracts().removeResourceToCreate(0);
-                if (context.getContracts().getResourcesToCreate().isEmpty()) {
-                    LOGGER.info("There is not anymore in the list to try");
-                    return new Stop();
+        //There is at least one element that can be transformed.
+        if(contracts.enoughToTransform(context)) {
+            for(ContractItem items : contractItems){
+                //This element can be transformed:
+                if (items.canTransform(context)){
+                    //Amounted asked in the contract
+                    int amountContract = items.amount();
+                    java.util.Map recipe = ((ManufacturedResource)(items.resource())).getRecipe(amountContract);
+
+                    LOGGER.info("Transform " + items.resource().getName());
+                    Action act = new Transform(recipe);
+
+                    context.current().setLastAction(act);
+                    return act;
                 }
-                else{
-                    res = context.getContracts().getResourcesToCreate().get(0);
-                    LOGGER.info("Try to "+res.getName());
-                }
-            } while(!contractItems.get(contracts.getContractIndex(res)).canTransform(context));
+            }
         }
-        // Update that this manufactured was already "created"
-        ((ManufacturedResource)(contractItems.get(contracts.getContractIndex(res)).resource())).setTransformed(true);
-        //Amounted asked in the contract
-        int amountContract = contractItems.get(contracts.getContractIndex(res)).amount();
-        java.util.Map recipe = ((ManufacturedResource) contractItems.get(contracts.getContractIndex(res)).resource()).getRecipe(amountContract);
-
-        LOGGER.info("Transform " + res.getName());
-        Action act = new Transform(recipe);
-
-        context.getContracts().removeResourceToCreate(0);
-
-        context.current().setLastAction(act);
-        return act;
+        //Retorna procurar mais materiais? Verificar essa condicao abaixo:
+        return context.current().getLastAction();
     }
 
     /**

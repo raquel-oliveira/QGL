@@ -20,18 +20,6 @@ public class ManufacturedResource implements Resource {
     private boolean transformed = false;
     private static final double marginError = 10/9;
 
-    public boolean isTransformed() {
-        return transformed;
-    }
-
-    /**
-     *
-     * @param transformed true if it was already TRIED to transform
-     */
-    public void setTransformed(boolean transformed) {
-        this.transformed = transformed;
-    }
-
     /**
      * ManufacturedResource's constructor
      * @param resource

@@ -78,19 +78,12 @@ public class GroundStrategy implements IGroundStrategy {
             if(context.getContracts().enoughToTransformAll(context)){
                 return 2;
             }
-            //Time to transform
-            if(context.getBudget() <= getLimitBudget() + BUDGET_TO_TRANSFORME){
-                LOGGER.info("Money says: TIME TO TRANSFORM");
-                //But if there is not a single contract to fill, continue
-                if(!context.getContracts().enoughToTransform(context)){
-                    LOGGER.info("Can not transform even a single contract, come back what it was doing");
-                    return 0;
-                }
-                else{
-                    LOGGER.info("Can transform at least one");
-                    return 2;
-                }
+
+            if(context.getContracts().enoughToTransform(context)){
+                LOGGER.info("Can transform at least one");
+                return 2;
             }
+
         }
         return 0;
     }
