@@ -52,16 +52,16 @@ public class Contracts {
      */
     public int getAccumulatedAmountNecessary(Resource resource){
         int amount = 0;
-        if (!resource.isPrimary()){
+        if (resource instanceof ManufacturedResource){
             LOGGER.error("Passed the wrong parameter.");
             return -1;
         }
         for (int i = 0; i < items.size(); i++) {
             Resource res = items.get(i).resource();
             int amountAsked = items.get(i).amount();
-            if ((res.isPrimary()) && res.getName().equals(resource.getName())) {
+            if ((res instanceof PrimaryResource) && res.getName().equals(resource.getName())) {
                 amount += amountAsked;
-            } else if (!(res.isPrimary())){
+            } else if (res instanceof ManufacturedResource){
                 PrimaryType prim = ((PrimaryResource)(resource)).getType();
                 if (((ManufacturedResource) items.get(i).resource()).getRecipe(0).containsKey(prim)){
                     int pureAmount = ((ManufacturedResource) res).getRecipe(items.get(i).amount()).get(prim);
@@ -123,7 +123,7 @@ public class Contracts {
         Set<String> primaryResource = new HashSet<String>();
 
         for (int i = 0; i < items.size(); i++){
-            if (items.get(i).resource().isPrimary()){
+            if (items.get(i).resource() instanceof PrimaryResource){
                 primaryResource.add(items.get(i).resource().getName());
             }
             else{

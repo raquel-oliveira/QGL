@@ -12,7 +12,7 @@ import java.util.*;
  *
  * Class that represent the manufactured resources
  */
-public class ManufacturedResource implements Resource {
+public class ManufacturedResource extends Resource {
     private ManufacturedType resource;
     private EnumMap<PrimaryType, Integer> recipe = new EnumMap<PrimaryType, Integer>(PrimaryType.class);
     private Set<Biomes> biomes = new HashSet<>();
@@ -30,7 +30,6 @@ public class ManufacturedResource implements Resource {
         return resource;
     }
 
-    @Override
     public String getName() {
         return resource.toString();
     }
@@ -44,12 +43,14 @@ public class ManufacturedResource implements Resource {
                 res =  new PrimaryResource(PrimaryType.WOOD);
                 biomes.addAll(res.getBiome());
                 break;
+
             case INGOT:
                 res =  new PrimaryResource(PrimaryType.ORE);
                 biomes.addAll(res.getBiome());
                 res =  new PrimaryResource(PrimaryType.WOOD);
                 biomes.addAll(res.getBiome());
                 break;
+
             case LEATHER:
                 res = new PrimaryResource(PrimaryType.FUR);
                 biomes.addAll(res.getBiome());
@@ -99,7 +100,7 @@ public class ManufacturedResource implements Resource {
                 recipe.put(PrimaryType.FUR, 3 * amount);
                 break;
 
-            case PLANK:;
+            case PLANK:
                 recipe.put(PrimaryType.WOOD, amount/4 + ((amount % 4 == 0)? 0: 1));
                 break;
 
@@ -112,10 +113,6 @@ public class ManufacturedResource implements Resource {
                 break;
         }
         return recipe;
-    }
-
-    public boolean isPrimary() {
-        return false;
     }
 
     @Override

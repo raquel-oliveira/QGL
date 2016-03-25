@@ -11,7 +11,7 @@ import java.util.Set;
  *
  * Class that represent the primary resources
  */
-public class PrimaryResource implements Resource {
+public class PrimaryResource extends Resource {
     private PrimaryType resource;
     private Set<Biomes> biomes = new HashSet<>();
 
@@ -73,10 +73,6 @@ public class PrimaryResource implements Resource {
             default:
                 break;
         }
-    }
-
-    public boolean isPrimary() {
-        return true;
     }
 
     public Set<Biomes> getBiome(){

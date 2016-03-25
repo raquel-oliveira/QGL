@@ -74,13 +74,14 @@ public class ContractItem {
      * it will. Priority to manufactured>primary.
      */
     public boolean canTransform(Context context) {
-        if(this.resource.isPrimary()){
+        //Can not transform a primary Resource.
+        if(resource() instanceof PrimaryResource){
             canTransform = false;
             return canTransform;
         }
-        else{
-            canTransform = true;
+        else if (resource() instanceof ManufacturedResource){
             if(isComplete(context.getCollectedResources())){
+                //This contract it was already fill.
                 LOGGER.info("Already transform:"+ this.resource.getName() + " Asked: " + this.amount() + " have: " + context.getCollectedResources().get(resource.getName()));
                 canTransform = false;
                 return canTransform;
@@ -103,9 +104,12 @@ public class ContractItem {
                         LOGGER.info("Have enough (has " + context.getCollectedResources().get(res.getName()) + " and need "+ recipe.get(res.getType())+ ") of "+res.getName()+" to fill the contract "+ this.resource.getName());
                     }
                 }
+                canTransform = true;
+                return canTransform;
             }
-            return canTransform;
         }
+        //As there is only PrimaryResource and ManufacturedResource it will never get in the return:
+        return false;
     }
 }
 

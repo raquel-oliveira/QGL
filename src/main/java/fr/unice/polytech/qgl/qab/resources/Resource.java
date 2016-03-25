@@ -2,6 +2,7 @@ package fr.unice.polytech.qgl.qab.resources;
 
 
 import fr.unice.polytech.qgl.qab.map.tile.Biomes;
+import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedType;
 
 import java.util.Set;
 
@@ -10,19 +11,20 @@ import java.util.Set;
  *
  * Class that represent the resources.
  */
-public interface Resource {
+public abstract class Resource <T extends ResourceType> {
 
     /**
      * Method that return the resource name
      * @return resource name
      */
-    abstract String getName();
+    public abstract String getName();
 
     /**
      * Method the return the set of biomes that can produce this resource
      * @return set of biomes that can produce this resource
      */
-    abstract Set<Biomes> getBiome();
+    public abstract Set<Biomes> getBiome();
 
-    abstract boolean isPrimary();
+    public abstract T getType();
+
 }

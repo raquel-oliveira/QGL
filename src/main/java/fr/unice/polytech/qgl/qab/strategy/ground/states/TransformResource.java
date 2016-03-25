@@ -62,7 +62,7 @@ public class TransformResource extends GroundState {
                 }
             }
         }
-        //Retorna procurar mais materiais? Verificar essa condicao abaixo:
+        //TODO: Change this return to the lastaction different of Transform. scout?
         return context.current().getLastAction();
     }
 
