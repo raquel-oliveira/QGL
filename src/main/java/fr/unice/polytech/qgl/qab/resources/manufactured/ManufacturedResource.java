@@ -4,7 +4,6 @@ import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.resources.Resource;
-import static java.lang.Math.ceil;
 
 import java.util.*;
 
@@ -17,7 +16,6 @@ public class ManufacturedResource implements Resource {
     private ManufacturedType resource;
     private EnumMap<PrimaryType, Integer> recipe = new EnumMap<PrimaryType, Integer>(PrimaryType.class);
     private Set<Biomes> biomes = new HashSet<>();
-    private static final double marginError = 10/9;
 
     /**
      * ManufacturedResource's constructor
@@ -79,35 +77,35 @@ public class ManufacturedResource implements Resource {
 
     /**
      * Return the "recipe" to making this manufactured resource
-     * @param amountRecipe
+     * @param amount
      * @return
      */
-    public Map<PrimaryType, Integer> getRecipe(int amountRecipe){
-        if (amountRecipe < 0)
+    public Map<PrimaryType, Integer> getRecipe(int amount){
+        if (amount < 0)
             throw new IllegalArgumentException("Not allow negative value");
 
         switch (resource){
             case GLASS:
-                recipe.put(PrimaryType.QUARTZ, (int)(ceil((10 * amountRecipe * marginError))));
-                recipe.put(PrimaryType.WOOD, (int) (ceil(5 * amountRecipe * marginError)));
+                recipe.put(PrimaryType.QUARTZ, 10 * amount);
+                recipe.put(PrimaryType.WOOD, 5 * amount);
                 break;
 
             case INGOT:
-                recipe.put(PrimaryType.ORE, (int)(ceil(5 * amountRecipe * marginError)));
-                recipe.put(PrimaryType.WOOD, (int)(ceil(5 * amountRecipe * marginError)));
+                recipe.put(PrimaryType.ORE, 5 * amount);
+                recipe.put(PrimaryType.WOOD, 5 * amount);
                 break;
 
             case LEATHER:
-                recipe.put(PrimaryType.FUR, (int)(ceil(3 * amountRecipe * marginError)));
+                recipe.put(PrimaryType.FUR, 3 * amount);
                 break;
 
             case PLANK:;
-                recipe.put(PrimaryType.WOOD, (int) (ceil((amountRecipe/4 + ((amountRecipe % 4 == 0)? 0: 1)) * marginError)));
+                recipe.put(PrimaryType.WOOD, amount/4 + ((amount % 4 == 0)? 0: 1));
                 break;
 
             case RUM:
-                recipe.put(PrimaryType.SUGAR_CANE, (int) (ceil(10 * amountRecipe * marginError)));
-                recipe.put(PrimaryType.FRUITS, (int) (ceil(amountRecipe * marginError)));
+                recipe.put(PrimaryType.SUGAR_CANE, 10 * amount);
+                recipe.put(PrimaryType.FRUITS, amount);
                 break;
 
             default:
@@ -118,10 +116,6 @@ public class ManufacturedResource implements Resource {
 
     public boolean isPrimary() {
         return false;
-    }
-
-    public static double getMarginError() {
-        return marginError;
     }
 
     @Override

@@ -8,6 +8,8 @@ import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import static java.lang.Math.ceil;
+
 
 import java.util.Map;
 
@@ -21,6 +23,7 @@ public class ContractItem {
     private int amount;
     private boolean completeContract;
     private boolean canTransform;
+    private static final double marginError = 10/9;
     private static final Logger LOGGER = LogManager.getLogger(ContractItem.class);
 
     /**
@@ -83,10 +86,10 @@ public class ContractItem {
                 return canTransform;
             }
             else{
-                Map<PrimaryType, Integer> recipe = ((ManufacturedResource)this.resource).getRecipe(amount);
+                Map<PrimaryType, Integer> recipe = ((ManufacturedResource)this.resource).getRecipe((int) (ceil(amount * marginError)));
                 for(Map.Entry<PrimaryType, Integer> getRecipe : recipe.entrySet()){
                     PrimaryResource res = new PrimaryResource(getRecipe.getKey());
-                    //Doesn' have primary to create the resource.
+                    //Does not have primary to create the resource.
                     if (!context.getCollectedResources().containsKey(res.getName())) {
                         canTransform = false;
                         return canTransform;

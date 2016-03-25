@@ -83,7 +83,7 @@ public class TransformResourceTest {
     public void returnLastActionDifferentOfTransform() throws NegativeBudgetException{
         context.getContracts().addContract("GLASS", 1);
         context.addCollectedResources(new PrimaryResource(PrimaryType.QUARTZ), new ManufacturedResource(ManufacturedType.GLASS).getRecipe(1).get(PrimaryType.QUARTZ));
-        //scout? 
+        //scout?
 
     }
 }
