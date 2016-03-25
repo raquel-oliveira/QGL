@@ -63,7 +63,7 @@ public class GroundStrategy implements IGroundStrategy {
      */
     private int contextAnalyzer(Context context) {
         // If all contracts are filled or there is with low quantity of budgets
-        if (context.getContracts().contractsAreComplete(context) || context.getBudget() < getLimitBudget() || transformFinished(context)){
+        if (context.getContracts().contractsAreComplete(context) || context.getBudget() < getLimitBudget()){
             LOGGER.info("Should stop, low budget.");
             return 1;
         }
@@ -73,22 +73,13 @@ public class GroundStrategy implements IGroundStrategy {
         * if all primary resources were not completed to make the manufactured, but will try to transform the maximum
         * before stops.
         * */
-        if(!(context.getContracts().getResourcesToCreate() == null)){
-            //Enough to transform all the manufactured without take resources rewerved to contract of type Primary
-            if(context.getContracts().enoughToTransformAll(context)){
-                return 2;
-            }
-
-            if(context.getContracts().enoughToTransform(context)){
-                LOGGER.info("Can transform at least one");
-                return 2;
-            }
-
+        //Enough to transform all the manufactured without take resources rewerved to contract of type Primary
+        if(context.getContracts().enoughToTransformAll(context) || context.getContracts().enoughToTransform(context)){
+            LOGGER.info("Can transform at least one: " +  context.getContracts().enoughToTransform(context));
+            LOGGER.info("Can transform all: " +  context.getContracts().enoughToTransformAll(context));
+            return 2;
         }
-        return 0;
-    }
 
-    private static boolean transformFinished(Context context) {
-        return context.getContracts().getResourcesToCreate() != null && context.getContracts().getResourcesToCreate().isEmpty();
+        return 0;
     }
 }

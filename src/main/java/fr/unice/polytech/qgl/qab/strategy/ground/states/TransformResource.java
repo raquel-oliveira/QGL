@@ -2,7 +2,6 @@ package fr.unice.polytech.qgl.qab.strategy.ground.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
-import fr.unice.polytech.qgl.qab.actions.simple.ground.Scout;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Transform;
 import fr.unice.polytech.qgl.qab.exception.action.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.map.PositionOutOfMapRange;
@@ -30,7 +29,6 @@ public class TransformResource extends GroundState {
     public GroundState getState(Context context, Map map) throws PositionOutOfMapRange {
         if (!context.getContracts().enoughToTransform(context)) {
             updateContext(context);
-            //return new StopSimulation();
             LOGGER.info("Will scout");
             return GroundStateFactory.buildState(GroundStateType.SCOUT_TILE);
         } else {

@@ -21,12 +21,10 @@ public class Contracts {
 
     private List<ContractItem> items;
     private Boolean completeContract;
-    private List<ManufacturedResource> resourcesToCreate;
 
     public Contracts() {
         this.items = new ArrayList<>();
         this.completeContract = false;
-        this.resourcesToCreate = null;
     }
 
     public List<ContractItem> getItems() {
@@ -42,10 +40,6 @@ public class Contracts {
     public void addContract(String resource, int amount) throws NegativeBudgetException {
         try {
             items.add(new ContractItem(new ManufacturedResource(ManufacturedType.valueOf(resource)), amount));
-            //update the resources manufactured in the list of resources to be create.
-            if (getResourcesToCreate() == null)
-                setResourcesToCreate(new ArrayList<>());
-            getResourcesToCreate().add(new ManufacturedResource(ManufacturedType.valueOf(resource)));
         } catch (Exception ex) {
             items.add(new ContractItem(new PrimaryResource(PrimaryType.valueOf(resource)), amount));
         }
@@ -113,10 +107,8 @@ public class Contracts {
      * @return true if there is primary resources enough to complete at least one contract manufactured
      */
     public boolean enoughToTransform(Context context){
-        List<ManufacturedResource> listManufactures = getResourcesToCreate();
-        for (int i = 0; i < listManufactures.size(); i++){
-            ContractItem item = items.get(getContractIndex(listManufactures.get(i)));
-            if (item.canTransform(context)){
+        for(ContractItem contracts : items){
+            if (contracts.canTransform(context)){
                 return true;
             }
         }
@@ -157,26 +149,6 @@ public class Contracts {
         }
         LOGGER.error("The element" + resource.getName() + "its not in the contract.");
         return -1;
-    }
-
-    public List<ManufacturedResource> getResourcesToCreate() {
-        return resourcesToCreate;
-    }
-
-    public void setResourcesToCreate(List<ManufacturedResource> resourcesToCreate) {
-        this.resourcesToCreate = resourcesToCreate;
-    }
-
-    public void removeResourceToCreate(int index){
-        if(resourcesToCreate.isEmpty()){
-            LOGGER.error("error:", "The list is empty, can not remove.");
-        }
-        try{
-            resourcesToCreate.remove(index);
-        }
-        catch(Exception e){
-            LOGGER.error("Can not remove this element");
-        }
     }
 
 }
