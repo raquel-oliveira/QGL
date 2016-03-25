@@ -3,6 +3,7 @@ package fr.unice.polytech.qgl.qab.strategy.ground.states;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
+import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.response.GlimpseResponse;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
@@ -48,12 +49,12 @@ public class ContextAnalyzer {
         List<PrimaryType> resources = new ArrayList<>();
 
         for (ContractItem item: contract.getItems()) {
-            if (item.resource().isPrimary() &&
+            if (item.resource().getClass() == PrimaryResource.class &&
                     context.getLastDiscovery().getScoutResponse().found(item.resource().getName()) &&
                     !resources.contains(PrimaryType.valueOf(item.resource().getName()))) {
                 resources.add(PrimaryType.valueOf(item.resource().getName()));
             }
-            else if (!item.resource().isPrimary()) {
+            else if (item.resource().getClass() == ManufacturedResource.class) {
                 List<PrimaryType> tmp = new ArrayList<>();
                 tmp.addAll(addResourcesScout(context, resources, item));
                 resources.clear();

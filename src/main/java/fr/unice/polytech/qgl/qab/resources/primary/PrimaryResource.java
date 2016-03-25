@@ -24,7 +24,6 @@ public class PrimaryResource implements Resource {
         setBiomes();
     }
 
-    @Override
     public String getName() {
         return resource.toString();
     }
@@ -76,17 +75,31 @@ public class PrimaryResource implements Resource {
         }
     }
 
-    @Override
     public boolean isPrimary() {
         return true;
     }
 
-    @Override
     public Set<Biomes> getBiome(){
         return biomes;
     }
 
     public PrimaryType getType(){
         return resource;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PrimaryResource that = (PrimaryResource) o;
+
+        return resource == that.resource;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return resource != null ? resource.hashCode() : 0;
     }
 }

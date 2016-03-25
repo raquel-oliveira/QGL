@@ -16,13 +16,13 @@ public interface Resource {
      * Method that return the resource name
      * @return resource name
      */
-    String getName();
+    abstract String getName();
 
     /**
      * Method the return the set of biomes that can produce this resource
      * @return set of biomes that can produce this resource
      */
-    Set<Biomes> getBiome();
+    abstract Set<Biomes> getBiome();
 
-    boolean isPrimary();
+    abstract boolean isPrimary();
 }

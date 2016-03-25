@@ -18,7 +18,7 @@ public class ManufacturedResource implements Resource {
     private EnumMap<PrimaryType, Integer> recipe = new EnumMap<PrimaryType, Integer>(PrimaryType.class);
     private Set<Biomes> biomes = new HashSet<>();
     private boolean transformed = false;
-    private static final double marginError = 1.11; //1 + 11%
+    private static final double marginError = 10/9;
 
     public boolean isTransformed() {
         return transformed;
@@ -86,7 +86,6 @@ public class ManufacturedResource implements Resource {
         }
     }
 
-    @Override
     public Set<Biomes> getBiome(){
         return biomes;
     }
@@ -130,7 +129,6 @@ public class ManufacturedResource implements Resource {
         return recipe;
     }
 
-    @Override
     public boolean isPrimary() {
         return false;
     }
@@ -139,4 +137,19 @@ public class ManufacturedResource implements Resource {
         return marginError;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ManufacturedResource that = (ManufacturedResource) o;
+
+        return resource == that.resource;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return resource != null ? resource.hashCode() : 0;
+    }
 }
