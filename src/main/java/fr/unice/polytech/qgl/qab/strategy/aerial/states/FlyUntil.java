@@ -28,9 +28,9 @@ public class FlyUntil extends AerialState {
     public AerialState getState(Context context, Map map, StateMediator stateMediator) {
         if (context.current().getComboAction().isEmpty()) {
             updateContext(context);
-            return AerialStateFactory.buildState(AerialStateType.SCANTHEGROUND);
+            return AerialStateFactory.buildState(AerialStateType.SCAN_THE_GROUND);
         }
-        return AerialStateFactory.buildState(AerialStateType.FLYUNTIL);
+        return AerialStateFactory.buildState(AerialStateType.FLY_UNTIL);
     }
 
     @Override
