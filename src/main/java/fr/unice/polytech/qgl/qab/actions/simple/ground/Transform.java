@@ -7,7 +7,6 @@ import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import org.json.JSONObject;
 
-import java.util.Collection;
 import java.util.Map;
 
 /**

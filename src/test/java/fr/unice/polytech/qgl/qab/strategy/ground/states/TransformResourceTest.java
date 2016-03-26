@@ -16,7 +16,6 @@ import fr.unice.polytech.qgl.qab.strategy.context.contracts.ContractItem;
 import static java.lang.Math.ceil;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
