@@ -7,6 +7,7 @@ import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import java.util.ArrayList;
 
 /**
+ * Class that represent the combo of action scout.
  * @version 24/02/16.
  */
 public class ComboScout extends Combo {
