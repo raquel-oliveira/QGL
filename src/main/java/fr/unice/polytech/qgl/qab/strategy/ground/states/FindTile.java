@@ -17,6 +17,7 @@ import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import java.util.List;
 
 /**
+ * This GroundState represents the state to find the next tile to explore.
  * @version 29/02/16.
  */
 public class FindTile extends GroundState {
@@ -39,7 +40,8 @@ public class FindTile extends GroundState {
 
         // define horizontal move
         if (context.current().getStatus() == 0) {
-            if (moveHozintal(context, map)) return new Stop();
+            if (moveHozintal(context, map))
+                return new Stop();
         }
 
         if (context.current().getStatus() == 1 && !context.current().getComboAction().isEmpty()) {
@@ -83,6 +85,12 @@ public class FindTile extends GroundState {
         context.current().setStatus(3);
     }
 
+    /**
+     * Method that defines how many tiles the bot need move until a specifical tile
+     * @param context current data context
+     * @param map map of the simulation
+     * @return true if the simulation needs stop, or false if the simulation can continues
+     */
     private boolean moveHozintal(Context context, Map map) {
         Direction d1;// take the position with interesting biomes for the contract
         List<Position> goodPositions = map.getGoodPositions(context);

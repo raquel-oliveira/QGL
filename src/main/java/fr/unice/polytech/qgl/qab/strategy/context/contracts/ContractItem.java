@@ -13,9 +13,8 @@ import static java.lang.Math.ceil;
 import java.util.Map;
 
 /**
- * @version 16/12/15.
- *
  * Class that represents the items of the contract
+ * @version 16/12/15.
  */
 public class ContractItem {
     private Resource resource;
@@ -109,6 +108,10 @@ public class ContractItem {
         return false;
     }
 
+    /**
+     * Return the constant of error margin
+     * @return error margin
+     */
     public static double getMarginError() {
         return MARGIN_ERROR;
     }

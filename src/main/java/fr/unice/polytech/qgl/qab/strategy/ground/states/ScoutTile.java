@@ -14,6 +14,7 @@ import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateFactory;
 import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateType;
 
 /**
+ * This GroundState represents the state to make the scout in the tile.
  * @version 01/03/16.
  */
 public class ScoutTile extends GroundState {
@@ -24,7 +25,6 @@ public class ScoutTile extends GroundState {
     }
 
     @Override
-    //TODO: changed to test because the scout dont return a different state if all the contacts are of the type manufatured.
     public GroundState getState(Context context, Map map) throws PositionOutOfMapRange {
         if (context.current().getLastAction() instanceof MoveTo
                 &&  !contextAnalyzer.resourceAnalyzerScout(context).isEmpty()) {

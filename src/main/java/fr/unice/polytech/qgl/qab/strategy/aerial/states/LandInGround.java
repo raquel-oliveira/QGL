@@ -12,6 +12,7 @@ import fr.unice.polytech.qgl.qab.strategy.aerial.states.factory.AerialStateType;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 
 /**
+ * This AerialState represents the state final, where the bot run the land action.
  * @version 23/02/16.
  */
 public class LandInGround extends AerialState {
@@ -23,9 +24,10 @@ public class LandInGround extends AerialState {
 
     @Override
     public Action responseState(Context context, Map map, StateMediator stateMediator) throws IndexOutOfBoundsComboAction {
-        // if any creek was found
+        // if some creek was found
         map.getBestCreek(context);
         Position p = map.getCreekLand();
+
         Action act;
         if (map.getTile(p) != null) {
             act = new Land(map.getTile(p).getCreek().get(0).getIdCreek(), 1);
@@ -34,6 +36,7 @@ public class LandInGround extends AerialState {
                 return new Stop();
             act = new Land(context.getLastDiscovery().getCreeks().get(0).getIdCreek(), 1);
         }
+
         context.current().setLastAction(act);
         return act;
     }

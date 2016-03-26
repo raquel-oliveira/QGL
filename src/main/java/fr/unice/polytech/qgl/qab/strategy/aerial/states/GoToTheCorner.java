@@ -12,9 +12,12 @@ import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 
 /**
+ * This AerialState represents the phase when the plane needs go to the corner
+ * to find the map dimentition.
  * @version 17/12/15.
  */
 public class GoToTheCorner extends AerialState {
+
     @Override
     public AerialState getState(Context context, Map map, StateMediator stateMediator) {
         // if the plane found a space to initialize the dimention
@@ -74,7 +77,7 @@ public class GoToTheCorner extends AerialState {
     /**
      * Return the heading initial and final.
      * @param context data context of the simulation
-     * @param stateMediator
+     * @param stateMediator mediator to stock informations used among the states
      * @return heading action
      */
     private static Action getHeading(Context context, StateMediator stateMediator) {

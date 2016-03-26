@@ -7,6 +7,7 @@ import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 
 /**
+ * This GroundState represents the state to stop the simulation.
  * @version 13/03/16.
  */
 public class StopSimulation extends GroundState {

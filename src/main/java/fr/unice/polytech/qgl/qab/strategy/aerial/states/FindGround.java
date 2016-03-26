@@ -15,7 +15,9 @@ import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 
 /**
- * @version 11.12.2015.
+ * This AerialState represents the phase when the plane fly
+ * and make echo until it finds a ground.
+ * @version 11/12/2015.
  */
 public class FindGround extends AerialState {
     private UpdaterMap updaterMap;

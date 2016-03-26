@@ -133,6 +133,12 @@ public class ContextAnalyzer {
         return false;
     }
 
+    /**
+     * Method that set the horizintal direction to move
+     * @param context current data context
+     * @param map map of the simulation
+     * @return the direction
+     */
     public static Direction setDirectionHorizontal(Context context, Map map) {
         Direction d1;
         if (context.current().getNextPosition().getX() > map.getLastPositionGround().getX())
@@ -142,6 +148,12 @@ public class ContextAnalyzer {
         return d1;
     }
 
+    /**
+     * Method that set the vertical direction to move
+     * @param context current data context
+     * @param map map of the simulation
+     * @return the direction
+     */
     public static Direction setDirectionVertical(Context context, Map map) {
         Direction dir;
         if (context.current().getNextPosition().getY() > map.getLastPositionGround().getY())

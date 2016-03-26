@@ -21,6 +21,7 @@ import static java.lang.Math.ceil;
 import java.util.List;
 
 /**
+ * This GroundState represents the state to transforme the resources.
  * version 07/03/2016.
  */
 public class TransformResource extends GroundState {

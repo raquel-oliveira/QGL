@@ -16,6 +16,7 @@ import fr.unice.polytech.qgl.qab.util.enums.Found;
 import java.util.ArrayList;
 
 /**
+ * This AerialState represents the phase when the plane fly and scan the ground.
  * @version 12/12/15.
  */
 public class ScanTheGround extends AerialState {
