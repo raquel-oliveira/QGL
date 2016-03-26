@@ -80,9 +80,9 @@ public class ContractItem {
             return canTransform;
         }
         else if (resource() instanceof ManufacturedResource){
-            if(isComplete(context.getCollectedResources())){
+            if(isComplete(context.getContracts().getCollectedResources())){
                 //This contract it was already fill.
-                LOGGER.info("Already transform:"+ this.resource.getName() + " Asked: " + this.amount() + " have: " + context.getCollectedResources().get(resource.getName()));
+                LOGGER.info("Already transform:"+ this.resource.getName() + " Asked: " + this.amount() + " have: " + context.getContracts().getCollectedResources().get(resource.getName()));
                 canTransform = false;
                 return canTransform;
             }
@@ -91,11 +91,11 @@ public class ContractItem {
                 for(Map.Entry<PrimaryType, Integer> getRecipe : recipe.entrySet()){
                     PrimaryResource res = new PrimaryResource(getRecipe.getKey());
                     //Does not have primary to create the resource.
-                    if (!context.getCollectedResources().containsKey(res.getName())) {
+                    if (!context.getContracts().getCollectedResources().containsKey(res.getName())) {
                         canTransform = false;
                         return canTransform;
                     }
-                    if(context.getCollectedResources().get(res.getName()) < recipe.get(res.getType())){
+                    if(context.getContracts().getCollectedResources().get(res.getName()) < recipe.get(res.getType())){
                        // LOGGER.info("Don't have enough (has " + context.getCollectedResources().get(res.getName()) + " and need "+ recipe.get(res.getType())+ ") of "+res.getName()+" to fill the contract "+ this.resource.getName());
                         canTransform = false;
                         return canTransform;

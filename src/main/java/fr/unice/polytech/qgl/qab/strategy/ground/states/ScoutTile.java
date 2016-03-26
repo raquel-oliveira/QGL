@@ -45,7 +45,7 @@ public class ScoutTile extends GroundState {
 
     @Override
     public Action responseState(Context context, Map map) throws IndexOutOfBoundsComboAction {
-        if (context.getContracts().contractsAreComplete(context)){
+        if (context.getContracts().contractsAreComplete()){
             return new Stop();
         }
 

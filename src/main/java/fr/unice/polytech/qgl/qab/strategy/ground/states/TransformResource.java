@@ -43,7 +43,7 @@ public class TransformResource extends GroundState {
         List<ContractItem> contractItems = contracts.getItems();
 
         //Everything was completed
-        if (context.getContracts().contractsAreComplete(context)){
+        if (context.getContracts().contractsAreComplete()){
             return new Stop();
         }
         //There is at least one element that can be transformed.

@@ -22,7 +22,7 @@ public class TransformResponse {
         this.amount = amount;
 
         //Add the transformed resource in collected resources
-        context.addCollectedResources(res, amount);
+        context.getContracts().addCollectedResources(res, amount);
     }
 
     public Resource getResource(){
