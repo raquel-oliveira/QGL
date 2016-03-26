@@ -20,7 +20,6 @@ import java.util.Map;
 public class ContractItem {
     private Resource resource;
     private int amount;
-    private boolean completeContract;
     private boolean canTransform;
     private static final double MARGIN_ERROR = (double)10/9;
     private static final Logger LOGGER = LogManager.getLogger(ContractItem.class);
@@ -36,7 +35,6 @@ public class ContractItem {
             throw new NegativeBudgetException("The value to initial amount to the resource can not be negative.");
         this.resource = resource;
         this.amount = amount;
-        completeContract = false;
         canTransform = false;
     }
 
@@ -56,11 +54,16 @@ public class ContractItem {
         return this.resource;
     }
 
-    public Boolean isComplete(Map<String, Integer> collectedResources){
-       if(collectedResources.containsKey(resource.getName()) && collectedResources.get(resource.getName()) >= amount){
-            completeContract = true;
-       }
-        return completeContract;
+    /**
+     * @param collectedResources Map with the information of the resources available/took.
+     * @return if this contract it was completed
+     */
+    public Boolean isComplete(Map<Resource, Integer> collectedResources){
+       if(collectedResources.containsKey(resource) && collectedResources.get(resource) >= amount){
+            return true;
+       }else{
+            return false;
+        }
     }
 
     /**
@@ -82,7 +85,7 @@ public class ContractItem {
         else {
             if(isComplete(contracts.getCollectedResources())){
                 //This contract it was already fill.
-                LOGGER.info("Already transform:"+ this.resource.getName() + " Asked: " + this.amount() + " have: " + contracts.getCollectedResources().get(resource.getName()));
+                LOGGER.info("Already transform:"+ this.resource.getName() + " Asked: " + this.amount() + " have: " + contracts.getCollectedResources().get(resource));
                 canTransform = false;
                 return canTransform;
             }
@@ -91,11 +94,11 @@ public class ContractItem {
                 for(Map.Entry<PrimaryType, Integer> getRecipe : recipe.entrySet()){
                     PrimaryResource res = new PrimaryResource(getRecipe.getKey());
                     //Does not have primary to create the resource.
-                    if (!contracts.getCollectedResources().containsKey(res.getName())) {
+                    if (!contracts.getCollectedResources().containsKey(res)) {
                         canTransform = false;
                         return canTransform;
                     }
-                    if(contracts.getCollectedResources().get(res.getName()) < recipe.get(res.getType())){
+                    if(contracts.getCollectedResources().get(res) < recipe.get(res.getType())){
                         canTransform = false;
                         return canTransform;
                     }
@@ -106,6 +109,10 @@ public class ContractItem {
         }
     }
 
+    /**
+     *
+     * @return the margin error referent to the production of a Resource.
+     */
     public static double getMarginError() {
         return MARGIN_ERROR;
     }
