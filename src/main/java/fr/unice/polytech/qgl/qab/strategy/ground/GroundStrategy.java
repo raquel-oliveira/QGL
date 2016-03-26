@@ -21,23 +21,25 @@ public class GroundStrategy implements IGroundStrategy {
 
     private GroundState state;
     private int limitBudget;
-    private static final int BUDGET_TO_TRANSFORME = 50;
+    private static final int STOP = 1;
+    private static final int TRANSFORME = 2;
+
 
     /**
      * GroundStrategy's constructor.
      */
     public GroundStrategy() {
         state = GroundStateFactory.buildState(GroundStateType.FIND_TILE);
-        limitBudget = 100;
+        limitBudget = 50;
     }
 
     @Override
     public Action makeDecision(Context context, Map map) throws PositionOutOfMapRange, IndexOutOfBoundsComboAction {
         int statusContext = contextAnalyzer(context);
         switch (statusContext) {
-            case 1:
+            case STOP:
                 return new Stop();
-            case 2:
+            case TRANSFORME:
                 state = GroundStateFactory.buildState(GroundStateType.TRANSFORM);
                 return state.responseState(context, map);
             default:
@@ -65,18 +67,13 @@ public class GroundStrategy implements IGroundStrategy {
         // If all contracts are filled or there is with low quantity of budgets
         if (context.getContracts().contractsAreComplete(context) || context.getBudget() < getLimitBudget()){
             LOGGER.info("Should stop, low budget.");
-            return 1;
+            return STOP;
         }
 
-        /* Make transform if:
-        * If there are enough (primary) resources to make transform or
-        * if all primary resources were not completed to make the manufactured, but will try to transform the maximum
-        * before stops.
-        * */
-        //Enough to transform all the manufactured without take resources rewerved to contract of type Primary
+        // Make transform if it's possible to transform all manufactured resources that wasn't transformed.
         if(context.getContracts().enoughToTransformAll(context)){
             LOGGER.info("Can transform all: " +  context.getContracts().enoughToTransformAll(context));
-            return 2;
+            return TRANSFORME;
         }
 
         return 0;

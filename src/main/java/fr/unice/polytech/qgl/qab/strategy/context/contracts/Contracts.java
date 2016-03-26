@@ -61,7 +61,7 @@ public class Contracts {
             int amountAsked = items.get(i).amount();
             if ((res instanceof PrimaryResource) && res.getName().equals(resource.getName())) {
                 amount += amountAsked;
-            } else if (res instanceof ManufacturedResource){
+            } else if (res instanceof ManufacturedResource){ // TODO: && !item.get(i).isComplete()
                 PrimaryType prim = ((PrimaryResource)(resource)).getType();
                 if (((ManufacturedResource) items.get(i).resource()).getRecipe(0).containsKey(prim)){
                     int pureAmount = ((ManufacturedResource) res).getRecipe(items.get(i).amount()).get(prim);
