@@ -66,7 +66,7 @@ public class Contracts {
             } else if ((res instanceof ManufacturedResource) && (!items.get(i).isComplete(getCollectedResources()))){
                 PrimaryType prim = resource.getType();
                 if (((ManufacturedResource) items.get(i).resource()).getRecipe(0).containsKey(prim)){
-                    int amountAprox = ((ManufacturedResource) res).getRecipe((int) (ceil(items.get(i).amount() * items.get(i).getMarginError()))).get(prim);
+                    int amountAprox = ((ManufacturedResource) res).getRecipe((int) (ceil(items.get(i).amount() * ContractItem.getMarginError()))).get(prim);
                     amount +=  amountAprox;
                 }
             }
@@ -108,9 +108,9 @@ public class Contracts {
     /**
      * @return true if there is primary resources enough to complete at least one contract manufactured
      */
-    public boolean enoughToTransform(Context context){
+    public boolean enoughToTransform(){
         for(ContractItem contracts : items){
-            if (contracts.canTransform(context)){
+            if (contracts.canTransform(this)){
                 return true;
             }
         }
@@ -196,10 +196,6 @@ public class Contracts {
         }catch (Exception e){
             return -1;
         }
-    }
-
-    public static double getMarginError(){
-        return ContractItem.getMarginError();
     }
 
 }

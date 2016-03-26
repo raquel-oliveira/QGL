@@ -28,7 +28,8 @@ public class TransformResource extends GroundState {
 
     @Override
     public GroundState getState(Context context, Map map) throws PositionOutOfMapRange {
-        if (!context.getContracts().enoughToTransform(context)) {
+        Contracts contracts = context.getContracts();
+        if (!contracts.enoughToTransform()) {
             updateContext(context);
             LOGGER.info("Will scout");
             return GroundStateFactory.buildState(GroundStateType.SCOUT_TILE);
@@ -47,10 +48,10 @@ public class TransformResource extends GroundState {
             return new Stop();
         }
         //There is at least one element that can be transformed.
-        if(contracts.enoughToTransform(context)) {
+        if(contracts.enoughToTransform()) {
             for(ContractItem items : contractItems){
                 //This element can be transformed:
-                if (items.canTransform(context)){
+                if (items.canTransform(contracts)){
                     LOGGER.info("Can transform");
                     //Amounted asked in the contract
                     int amountContract = items.amount();

@@ -73,16 +73,16 @@ public class ContractItem {
      * Observation: If it need to take amount of a contract of a primaryType to complete this contract(if manufactured),
      * it will. Priority to manufactured>primary.
      */
-    public boolean canTransform(Context context) {
+    public boolean canTransform(Contracts contracts) {
         //Can not transform a primary Resource.
         if(resource() instanceof PrimaryResource){
             canTransform = false;
             return canTransform;
         }
         else if (resource() instanceof ManufacturedResource){
-            if(isComplete(context.getContracts().getCollectedResources())){
+            if(isComplete(contracts.getCollectedResources())){
                 //This contract it was already fill.
-                LOGGER.info("Already transform:"+ this.resource.getName() + " Asked: " + this.amount() + " have: " + context.getContracts().getCollectedResources().get(resource.getName()));
+                LOGGER.info("Already transform:"+ this.resource.getName() + " Asked: " + this.amount() + " have: " + contracts.getCollectedResources().get(resource.getName()));
                 canTransform = false;
                 return canTransform;
             }
@@ -91,11 +91,11 @@ public class ContractItem {
                 for(Map.Entry<PrimaryType, Integer> getRecipe : recipe.entrySet()){
                     PrimaryResource res = new PrimaryResource(getRecipe.getKey());
                     //Does not have primary to create the resource.
-                    if (!context.getContracts().getCollectedResources().containsKey(res.getName())) {
+                    if (!contracts.getCollectedResources().containsKey(res.getName())) {
                         canTransform = false;
                         return canTransform;
                     }
-                    if(context.getContracts().getCollectedResources().get(res.getName()) < recipe.get(res.getType())){
+                    if(contracts.getCollectedResources().get(res.getName()) < recipe.get(res.getType())){
                        // LOGGER.info("Don't have enough (has " + context.getCollectedResources().get(res.getName()) + " and need "+ recipe.get(res.getType())+ ") of "+res.getName()+" to fill the contract "+ this.resource.getName());
                         canTransform = false;
                         return canTransform;
