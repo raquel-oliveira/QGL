@@ -23,12 +23,12 @@ public class TransformTest {
     Transform transform;
     Map<PrimaryType, Integer> recipe;
 
-    @Test
+    @Before
     public void defineContext() {
         recipe = new ManufacturedResource(ManufacturedType.GLASS).getRecipe(1);
     }
 
-    @Ignore
+    @Test
     public void testValideTest() {
         int valueWood = recipe.get(PrimaryType.WOOD);
         int valueQuartz = recipe.get(PrimaryType.QUARTZ);
@@ -36,7 +36,7 @@ public class TransformTest {
         assertTrue(transform.isValid(jsonObj));
     }
 
-    @Ignore
+    @Test
     public void testNotValidActionJson() {
         JSONObject jsonObj = new JSONObject("{ \"action\": \"transform\", \"parameters\": { \"GLASS\": 6, \"QUARTZ\": 11 }}\n");
         assertFalse(transform.isValid(jsonObj));
