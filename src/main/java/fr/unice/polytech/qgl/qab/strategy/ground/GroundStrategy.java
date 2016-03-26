@@ -74,8 +74,7 @@ public class GroundStrategy implements IGroundStrategy {
         * before stops.
         * */
         //Enough to transform all the manufactured without take resources rewerved to contract of type Primary
-        if(context.getContracts().enoughToTransformAll(context) || context.getContracts().enoughToTransform(context)){
-            LOGGER.info("Can transform at least one: " +  context.getContracts().enoughToTransform(context));
+        if(context.getContracts().enoughToTransformAll(context)){
             LOGGER.info("Can transform all: " +  context.getContracts().enoughToTransformAll(context));
             return 2;
         }
