@@ -30,7 +30,7 @@ public class GroundStrategy implements IGroundStrategy {
      */
     public GroundStrategy() {
         state = GroundStateFactory.buildState(GroundStateType.FIND_TILE);
-        limitBudget = 50;
+        limitBudget = 100;
     }
 
     @Override
