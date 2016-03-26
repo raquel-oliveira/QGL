@@ -34,6 +34,10 @@ public class Strategy implements IStrategy {
     // map
     private Map map;
 
+    /**
+     * Strategy's constructor.
+     * @throws NegativeBudgetException
+     */
     public Strategy() throws NegativeBudgetException {
         context = new Context();
         aerialStrategy = new AerialStrategy();

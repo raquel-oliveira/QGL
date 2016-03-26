@@ -12,6 +12,8 @@ import fr.unice.polytech.qgl.qab.strategy.context.utils.UpdaterMap;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 
 /**
+ * This AerialState represents the state initial, where the plane make
+ * 3 echos and initialize the map dimentions
  * @version 10.12.2015
  */
 public class Initialize extends AerialState {
@@ -85,8 +87,8 @@ public class Initialize extends AerialState {
     }
 
     /**
-     * Method to updata the context
-     * @param context
+     * Method to updata the current context
+     * @param context data about current context
      */
     private static void updateContext(Context context) {
         context.current().setComboAction(null);

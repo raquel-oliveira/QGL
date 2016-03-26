@@ -8,6 +8,7 @@ import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import java.util.ArrayList;
 
 /**
+ * Class that defines the combo of action to return back.
  * @version 9.12.2015
  */
 public class ComboReturn extends Combo {

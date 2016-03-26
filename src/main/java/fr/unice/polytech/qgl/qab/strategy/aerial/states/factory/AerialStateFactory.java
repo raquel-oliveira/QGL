@@ -3,6 +3,7 @@ package fr.unice.polytech.qgl.qab.strategy.aerial.states.factory;
 import fr.unice.polytech.qgl.qab.strategy.aerial.states.*;
 
 /**
+ * Class factory to return a new instance of each state in the aerial strategy.
  * @version 13/03/16.
  */
 public class AerialStateFactory {
@@ -10,10 +11,15 @@ public class AerialStateFactory {
     private AerialStateFactory() {
     }
 
-    public static AerialState buildState(AerialStateType model) {
+    /**
+     * Method that returns a new instance of each state.
+     * @param stateType return a new instance of the stateType
+     * @return new instance
+     */
+    public static AerialState buildState(AerialStateType stateType) {
         AerialState state;
 
-        switch (model) {
+        switch (stateType) {
             case INITIALIZE:
                 state = new Initialize();
                 break;

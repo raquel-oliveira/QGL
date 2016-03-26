@@ -82,6 +82,11 @@ public enum Direction {
         return null;
     }
 
+    /**
+     * Method that returns the inverse direction
+     * @param direction the base direction
+     * @return the interse direction
+     */
     public static Direction inverse(Direction direction) {
         if (direction.isHorizontal()) {
             if (direction.equals(Direction.EAST))

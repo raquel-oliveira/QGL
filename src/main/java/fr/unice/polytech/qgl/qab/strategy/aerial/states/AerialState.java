@@ -7,7 +7,7 @@ import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 
 /**
- * @version 11.12.2015.
+ * @version 11/12/2015.
  */
 public abstract class AerialState {
     /**

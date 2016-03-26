@@ -27,6 +27,9 @@ public class Contracts {
     private Map<Resource, Integer> collectedResources;
 
 
+    /**
+     * Contracts' constructor
+     */
     public Contracts() {
         this.items = new ArrayList<>();
         this.completeContracts = false;
@@ -34,6 +37,10 @@ public class Contracts {
 
     }
 
+    /**
+     * Return the items of the contract.
+     * @return itemns of the contract.
+     */
     public List<ContractItem> getItems() {
         return this.items;
     }
@@ -53,9 +60,10 @@ public class Contracts {
     }
 
     /**
-     * Get number of amount of a primaryResource needed to fill the contracts (primary and manufactured).
-     * @param resource
-     * @return
+     * Get number of amount of a primaryResource needed to fill the contracts
+     * that need of 'resource'(primary + maufactured)
+     * @param resource the analyzed resource
+     * @return the amount of a primaryResource needed to fill the contracts
      */
     public int getAmountPrimaryNeeded(PrimaryResource resource){
         int amount = 0;
@@ -76,6 +84,7 @@ public class Contracts {
     }
 
     /**
+     * Method to checks if the contracts are complete.
      * @return true if all the contracts are completed.
      */
     public boolean contractsAreComplete(){
@@ -83,13 +92,14 @@ public class Contracts {
         for(int i = 0; i < items.size(); i++){
             if (!items.get(i).isComplete(getCollectedResources())){
                 completeContracts = false;
-                return completeContracts;
+                return false;
             }
         }
         return completeContracts;
     }
 
     /**
+     * Method to checks if there is primary resources enough to complete all the contracts
      * @return true if there is primary resources enough to complete all the contracts
      * Observation: It reserves the quantity of primary to complete the primaries resources
      */
@@ -107,7 +117,9 @@ public class Contracts {
     }
 
     /**
-     * @return true if there is primary resources enough to complete at least one contract manufactured
+     * Method to check if there is primary resources enough to complete at least one contract manufactured
+     * @return true if there is primary resources enough to
+     * complete at least one contract manufactured
      */
     public boolean enoughToTransform(){
         for(ContractItem contracts : items){
@@ -119,9 +131,8 @@ public class Contracts {
     }
 
     /**
-     *
-     * @return list of primary resources needed
-     * to complete all the contracts
+     * Method that returns a list of primary resources needed to complet all the contracts
+     * @return list of primary resources needed to complet all the contracts
      */
     public Set<PrimaryResource> primaryNeeded(){
         Set<PrimaryResource> primaryResource = new HashSet<PrimaryResource>();
@@ -141,10 +152,11 @@ public class Contracts {
         return primaryResource;
     }
 
-    /**
-     * Return the index of the contract item that have the param resource.
-     * @param resource
-     * @return the index of the contract with the param resource.
+
+     /*
+     *Return the index of the contract item that has the resource
+     * @param resource the analyzed resource
+     * @return the index of the contract item that has the resource
      */
     public int getContractIndex(Resource resource) {
         for (int index = 0; index < items.size(); index++) {

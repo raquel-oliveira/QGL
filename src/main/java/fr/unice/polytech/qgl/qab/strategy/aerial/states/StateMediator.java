@@ -3,6 +3,7 @@ package fr.unice.polytech.qgl.qab.strategy.aerial.states;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 /**
+ * Class that works as a mediator amoung the classes.
  * @version 17/12/15.
  */
 public class StateMediator {

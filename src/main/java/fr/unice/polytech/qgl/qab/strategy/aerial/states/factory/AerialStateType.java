@@ -1,6 +1,7 @@
 package fr.unice.polytech.qgl.qab.strategy.aerial.states.factory;
 
 /**
+ * Enum with the aerials states.
  * @version 13/03/16.
  */
 public enum AerialStateType {

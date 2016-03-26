@@ -8,6 +8,7 @@ import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import java.util.ArrayList;
 
 /**
+ * Class that represents the combo of action to explore a tile
  * @version 01/03/16.
  */
 public class ComboExploreTile extends Combo {
