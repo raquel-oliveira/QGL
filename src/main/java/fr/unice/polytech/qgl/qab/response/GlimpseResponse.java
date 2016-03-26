@@ -7,9 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * @version 04/02/16.
- *
  * Class that represent the glimpse response structure
+ * @version 04/02/16.
  */
 public class GlimpseResponse {
     private int asked_range;
@@ -85,7 +84,7 @@ public class GlimpseResponse {
 
     /**
      * check if there was response
-     * @return
+     * @return is the glimpse has a response
      */
     public boolean hasResponse() {
         return asked_range > 0;

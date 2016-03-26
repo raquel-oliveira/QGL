@@ -6,12 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @version 06/02/16.
- *
  * Class that represent the explore response structure
+ * @version 06/02/16.
  */
 public class ExploreResponse {
-    List<List<String>> resources;
+    private List<List<String>> resources;
 
     /**
      * ExploreResponse's constructor
