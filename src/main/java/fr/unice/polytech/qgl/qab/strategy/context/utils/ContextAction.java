@@ -154,7 +154,9 @@ public class ContextAction {
         this.comboAction = comboAction;
     }
 
-    public List<PrimaryType> getResourcesToExploit() { return resourcesToExploit; }
+    public List<PrimaryType> getResourcesToExploit() {
+        return resourcesToExploit;
+    }
 
     public void setResourcesToExploit(List<PrimaryType> resourcesToExploit, Context context) {
         java.util.Map<String, Integer> collectedResource = context.getContracts().getCollectedResources();

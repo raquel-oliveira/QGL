@@ -78,7 +78,8 @@ public class ContractItem {
             canTransform = false;
             return canTransform;
         }
-        else if (resource() instanceof ManufacturedResource){
+        //Or is manufactured
+        else {
             if(isComplete(contracts.getCollectedResources())){
                 //This contract it was already fill.
                 LOGGER.info("Already transform:"+ this.resource.getName() + " Asked: " + this.amount() + " have: " + contracts.getCollectedResources().get(resource.getName()));
@@ -95,7 +96,6 @@ public class ContractItem {
                         return canTransform;
                     }
                     if(contracts.getCollectedResources().get(res.getName()) < recipe.get(res.getType())){
-                       // LOGGER.info("Don't have enough (has " + context.getCollectedResources().get(res.getName()) + " and need "+ recipe.get(res.getType())+ ") of "+res.getName()+" to fill the contract "+ this.resource.getName());
                         canTransform = false;
                         return canTransform;
                     }
@@ -104,9 +104,6 @@ public class ContractItem {
                 return canTransform;
             }
         }
-        //As there is only PrimaryResource and ManufacturedResource it will never get in the return, we let the else if instead of else because the user
-        // can "create" a new type of Resource.
-        return false;
     }
 
     public static double getMarginError() {
