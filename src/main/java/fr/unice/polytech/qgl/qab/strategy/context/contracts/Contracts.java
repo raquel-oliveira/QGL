@@ -1,5 +1,6 @@
 package fr.unice.polytech.qgl.qab.strategy.context.contracts;
 
+import fr.unice.polytech.qgl.qab.exception.context.InsufficientException;
 import fr.unice.polytech.qgl.qab.exception.context.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.resources.Resource;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
@@ -183,23 +184,16 @@ public class Contracts {
      * Method to Remove a quantity of a resource. To use to update after transform.
      * @param resource
      * @param amount
+     * @return the amount it decrease. Same of parameter.
+     * @throws InsufficientException
      */
-    public int decreaseAmountOfCollectedResources(Resource resource, int amount) {
-        try{
-            int newAmount = collectedResources.get(resource) - amount;
-            if( newAmount >= 0){
-                collectedResources.put(resource, newAmount);
-                return amount;
-            }
-            else {
-                newAmount = 0;
-                int beforeDecrease = collectedResources.get(resource);
-                collectedResources.put(resource, newAmount);
-                return beforeDecrease;
-            }
-        }catch (Exception e){
-            return -1;
+    public int decreaseAmountOfCollectedResources(Resource resource, int amount) throws InsufficientException {
+        int newAmount = collectedResources.get(resource) - amount;
+        if( newAmount >= 0){
+            collectedResources.put(resource, newAmount);
+            return amount;
+        } else {
+            throw new InsufficientException("Can not decrease " + amount + " of " + resource.getName() + " . There is only " + collectedResources.get(resource));
         }
     }
-
 }
