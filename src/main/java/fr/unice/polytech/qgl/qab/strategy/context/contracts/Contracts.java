@@ -15,6 +15,7 @@ import java.util.*;
 
 /**
  * Everything related or that affect directly the contracts/contractItem.
+ * Contracts Handle.
  * @version 21/03/16.
  */
 public class Contracts {
@@ -51,7 +52,7 @@ public class Contracts {
     }
 
     /**
-     * Get number of amount of a primaryResource needed to fill the contracts that need of 'resource'(primary + maufactured)
+     * Get number of amount of a primaryResource needed to fill the contracts (primary and manufactured).
      * @param resource
      * @return
      */
@@ -118,19 +119,21 @@ public class Contracts {
 
     /**
      *
-     * @return list of names(string) of primary resources needed
+     * @return list of primary resources needed
      * to complete all the contracts
      */
     public Set<PrimaryResource> primaryNeeded(){
         Set<PrimaryResource> primaryResource = new HashSet<PrimaryResource>();
 
         for (int i = 0; i < items.size(); i++){
-            if (items.get(i).resource() instanceof PrimaryResource){
-                primaryResource.add((PrimaryResource) items.get(i).resource());
-            }
-            else{
-                for (PrimaryType itemRecipe: ((ManufacturedResource) items.get(i).resource()).getRecipe(0).keySet()) {
-                    primaryResource.add(new PrimaryResource(itemRecipe));
+            if(!items.get(i).isComplete(getCollectedResources())){
+                if (items.get(i).resource() instanceof PrimaryResource){
+                    primaryResource.add((PrimaryResource) items.get(i).resource());
+                }
+                else{
+                    for (PrimaryType itemRecipe: ((ManufacturedResource) items.get(i).resource()).getRecipe(0).keySet()) {
+                        primaryResource.add(new PrimaryResource(itemRecipe));
+                    }
                 }
             }
         }
@@ -138,9 +141,9 @@ public class Contracts {
     }
 
     /**
-     * Return the index of the contract item that have the resource.
+     * Return the index of the contract item that have the param resource.
      * @param resource
-     * @return
+     * @return the index of the contract with the param resource.
      */
     public int getContractIndex(Resource resource) {
         for (int index = 0; index < items.size(); index++) {
@@ -154,7 +157,7 @@ public class Contracts {
     }
 
     /**
-     * Return the collected Resources that were tooked after exploit a tile
+     * Return the collected Resources
      * @return HashMap - resources collected and the respective amounts.
      */
     public  Map<Resource, Integer> getCollectedResources(){
@@ -162,7 +165,7 @@ public class Contracts {
     }
 
     /**
-     * Method to add a collect resource after action exploit.
+     * Method to add a collect resource after action exploit or transform.
      * @param resource
      * @param amount
      */
