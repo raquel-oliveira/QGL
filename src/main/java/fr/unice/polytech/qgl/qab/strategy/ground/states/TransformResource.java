@@ -20,7 +20,6 @@ import java.util.List;
  * version 07/03/2016.
  */
 public class TransformResource extends GroundState {
-
     @Override
     public GroundState getState(Context context, Map map) throws PositionOutOfMapRange {
         if (context.getContracts().getResourcesToCreate().isEmpty()) {
