@@ -96,12 +96,9 @@ public class ContractItem {
                         return canTransform;
                     }
                     if(context.getCollectedResources().get(res.getName()) < recipe.get(res.getType())){
-                        LOGGER.info("Don't have enough (has " + context.getCollectedResources().get(res.getName()) + " and need "+ recipe.get(res.getType())+ ") of "+res.getName()+" to fill the contract "+ this.resource.getName());
+                       // LOGGER.info("Don't have enough (has " + context.getCollectedResources().get(res.getName()) + " and need "+ recipe.get(res.getType())+ ") of "+res.getName()+" to fill the contract "+ this.resource.getName());
                         canTransform = false;
                         return canTransform;
-                    }
-                    else{
-                        LOGGER.info("Have enough (has " + context.getCollectedResources().get(res.getName()) + " and need "+ recipe.get(res.getType())+ ") of "+res.getName()+" to fill the contract "+ this.resource.getName());
                     }
                 }
                 canTransform = true;
@@ -110,6 +107,10 @@ public class ContractItem {
         }
         //As there is only PrimaryResource and ManufacturedResource it will never get in the return:
         return false;
+    }
+
+    public static double getMarginError() {
+        return marginError;
     }
 }
 

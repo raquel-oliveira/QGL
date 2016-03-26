@@ -15,6 +15,8 @@ import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateFactory;
 import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import static java.lang.Math.ceil;
+
 
 import java.util.List;
 
@@ -23,7 +25,6 @@ import java.util.List;
  */
 public class TransformResource extends GroundState {
     private static final Logger LOGGER = LogManager.getLogger(TransformResource.class);
-
 
     @Override
     public GroundState getState(Context context, Map map) throws PositionOutOfMapRange {
@@ -50,9 +51,10 @@ public class TransformResource extends GroundState {
             for(ContractItem items : contractItems){
                 //This element can be transformed:
                 if (items.canTransform(context)){
+                    LOGGER.info("Can transform");
                     //Amounted asked in the contract
                     int amountContract = items.amount();
-                    java.util.Map recipe = ((ManufacturedResource)(items.resource())).getRecipe(amountContract);
+                    java.util.Map recipe = ((ManufacturedResource)(items.resource())).getRecipe((int) (ceil(amountContract * items.getMarginError())));
 
                     LOGGER.info("Transform " + items.resource().getName());
                     Action act = new Transform(recipe, context);
@@ -62,7 +64,7 @@ public class TransformResource extends GroundState {
                 }
             }
         }
-        //TODO: Change this return to the lastaction different of Transform. scout?
+        //todo: ?
         return context.current().getLastAction();
     }
 
