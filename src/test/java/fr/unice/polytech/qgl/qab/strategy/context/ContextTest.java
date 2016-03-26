@@ -3,12 +3,14 @@ package fr.unice.polytech.qgl.qab.strategy.context;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
 import fr.unice.polytech.qgl.qab.exception.context.NegativeBudgetException;
-import fr.unice.polytech.qgl.qab.resources.Resource;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedType;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
+import fr.unice.polytech.qgl.qab.strategy.context.contracts.ContractItem;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
+import static java.lang.Math.ceil;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -47,7 +49,7 @@ public class ContextTest {
         assertEquals(Direction.WEST, context.getHeading());
     }
 
-    @Ignore
+    @Test
     public void testCollectedResources() throws NegativeBudgetException {
         context.getContracts().addContract("FISH", 10);
 
@@ -77,14 +79,11 @@ public class ContextTest {
 
 
 
-    @Ignore
+    @Test
     public void testLeather() throws  NegativeBudgetException{
-        //TODO: after change when the constant of margin of error is updated.
-
         context.getContracts().addContract("LEATHER", 1);
         int amount = context.getContracts().getAmountPrimaryNeeded(new PrimaryResource(PrimaryType.FUR));
-        int recipe = new ManufacturedResource(ManufacturedType.LEATHER).getRecipe(1).get(PrimaryType.FUR);
-        assertEquals(3, amount);
+        int recipe = new ManufacturedResource(ManufacturedType.LEATHER).getRecipe((int)(ceil(1 * ContractItem.getMarginError()))).get(PrimaryType.FUR);
         assertEquals(recipe, amount);
     }
 }

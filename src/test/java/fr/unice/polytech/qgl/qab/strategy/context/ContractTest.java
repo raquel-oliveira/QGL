@@ -99,16 +99,16 @@ public class ContractTest {
         //TODO: change test after throws exception in the method.
         contracts.addContract("WOOD", 10000);
         contracts.addCollectedResources(new PrimaryResource(PrimaryType.WOOD), 10);
-        int collected = contracts.getCollectedResources().get(new PrimaryResource(PrimaryType.WOOD).getName());
+        int collected = contracts.getCollectedResources().get(new PrimaryResource(PrimaryType.WOOD));
         assertEquals(10, collected);
 
         int decrease = contracts.decreaseAmountOfCollectedResources(new PrimaryResource(PrimaryType.WOOD), 6);
-        int newcollected = contracts.getCollectedResources().get(new PrimaryResource(PrimaryType.WOOD).getName());
+        int newcollected = contracts.getCollectedResources().get(new PrimaryResource(PrimaryType.WOOD));
         assertEquals(newcollected, collected-decrease);
         collected = newcollected;
 
         decrease = contracts.decreaseAmountOfCollectedResources(new PrimaryResource(PrimaryType.WOOD), 5);
-        newcollected = contracts.getCollectedResources().get(new PrimaryResource(PrimaryType.WOOD).getName());
+        newcollected = contracts.getCollectedResources().get(new PrimaryResource(PrimaryType.WOOD));
         assertEquals(newcollected, collected-decrease);
         assertNotEquals(collected-5, newcollected);
         collected = newcollected;

@@ -18,9 +18,8 @@ import static org.junit.Assert.assertEquals;
  */
 public class ManufacturedResourceTest {
     ManufacturedResource manufacturedResource;
-    double marginError;
 
-    @Ignore
+    @Test
     public void defineContext() {
         manufacturedResource = new ManufacturedResource(ManufacturedType.GLASS);
     }
@@ -48,29 +47,29 @@ public class ManufacturedResourceTest {
 
         int amountRecipe = 10;
         Map<PrimaryType,Integer> mapDefault = new HashMap<>();
-        mapDefault.put(PrimaryType.QUARTZ, (int) ceil( 10 * amountRecipe * marginError));
-        mapDefault.put(PrimaryType.WOOD, (int) ceil( 5 * amountRecipe * marginError));
+        mapDefault.put(PrimaryType.QUARTZ, 10 * amountRecipe);
+        mapDefault.put(PrimaryType.WOOD, 5 * amountRecipe);
 
         assertEquals(mapDefault, map);
 
         manufacturedResource = new ManufacturedResource(ManufacturedType.INGOT);
         map = manufacturedResource.getRecipe(10);
         mapDefault = new HashMap<>();
-        mapDefault.put(PrimaryType.WOOD, (int) ceil( 5 * amountRecipe * marginError));
+        mapDefault.put(PrimaryType.WOOD, 5 * amountRecipe);
 
         assertEquals(mapDefault, map);
 
         manufacturedResource = new ManufacturedResource(ManufacturedType.LEATHER);
         map = manufacturedResource.getRecipe(10);
         mapDefault = new HashMap<>();
-        mapDefault.put(PrimaryType.FUR, (int) ceil( 3 * amountRecipe * marginError));
+        mapDefault.put(PrimaryType.FUR, 3 * amountRecipe);
 
         assertEquals(mapDefault, map);
 
         manufacturedResource = new ManufacturedResource(ManufacturedType.PLANK);
         map = manufacturedResource.getRecipe(10);
         mapDefault = new HashMap<>();
-        mapDefault.put(PrimaryType.WOOD, (int) (ceil((amountRecipe/4 + ((amountRecipe % 4 == 0)? 0: 1)) * marginError)));
+        mapDefault.put(PrimaryType.WOOD, amountRecipe/4 + ((amountRecipe % 4 == 0)? 0: 1));
 
         assertEquals(mapDefault, map);
 
@@ -78,8 +77,8 @@ public class ManufacturedResourceTest {
         manufacturedResource = new ManufacturedResource(ManufacturedType.RUM);
         map = manufacturedResource.getRecipe(10);
         mapDefault = new HashMap<>();
-        mapDefault.put(PrimaryType.SUGAR_CANE, (int) ceil( 10 * amountRecipe * marginError));
-        mapDefault.put(PrimaryType.FRUITS, (int) ceil(amountRecipe * marginError));
+        mapDefault.put(PrimaryType.SUGAR_CANE, 10 * amountRecipe);
+        mapDefault.put(PrimaryType.FRUITS, amountRecipe);
 
         assertEquals(mapDefault, map);
     }
