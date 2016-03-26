@@ -1,9 +1,9 @@
 package fr.unice.polytech.qgl.qab.map;
 
-import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
+import fr.unice.polytech.qgl.qab.exception.map.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.tile.*;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import fr.unice.polytech.qgl.qab.strategy.context.utils.ContractItem;
+import fr.unice.polytech.qgl.qab.strategy.context.contracts.ContractItem;
 import java.util.*;
 
 /**
@@ -156,7 +156,7 @@ public class Map {
             Tile value = entry.getValue();
             // check if tile was visited
             if (!value.wasVisited()) {
-                for (ContractItem item : context.getContracts()) {
+                for (ContractItem item : context.getContracts().getItems()) {
                     Set<Biomes> listTmp = new HashSet<>();
                     listTmp.addAll(item.resource().getBiome());
                     listTmp.retainAll(value.getBiomesPredominant());
@@ -178,10 +178,10 @@ public class Map {
      */
     public Position positionClose(List<Position> positionList, Position current) {
         Position good = null;
-        double distance = -1;
+        int distance = -1;
         for (Position p: positionList) {
-            double distFinal = MapHandler.getDistance(current, p);
-            if (distance == -1f) {
+            int distFinal = MapHandler.getDistance(current, p);
+            if (distance == -1) {
                 distance = distFinal;
                 good = p;
             } else if (distFinal < distance) {
@@ -209,7 +209,7 @@ public class Map {
     public void getBestCreek(Context context) {
         // positions that have interesting biomes for the contract
         List<Position> goodPositions = getGoodPositions(context);
-        double dist = 0;
+        int dist = 0;
 
         for(java.util.Map.Entry<Position, Tile> entry : tiles.entrySet()) {
             Position currentPosition = entry.getKey();
@@ -217,8 +217,8 @@ public class Map {
             // check if there are creek in this tile
             if (!tile.getCreek().isEmpty()) {
                 // I give the position of this tile and the position more close
-                double distance = MapHandler.getDistance(currentPosition, positionClose(goodPositions, currentPosition));
-                if (dist == 0.0) {
+                int distance = MapHandler.getDistance(currentPosition, positionClose(goodPositions, currentPosition));
+                if (dist == 0) {
                     dist = distance;
                     creekLand = currentPosition;
                 }
@@ -233,23 +233,5 @@ public class Map {
 
     public Tile getTile(Position p) {
         return tiles.get(p);
-    }
-
-    public Tile getTileOverride(Position p) {
-        for (HashMap.Entry<Position, Tile> tile:tiles.entrySet()) {
-            Position posit = tile.getKey();
-            Tile t = tile.getValue();
-            if (p.getX() == posit.getX() && p.getY() == posit.getY())
-                return t;
-        }
-        return null;
-    }
-
-    public HashMap<Position, Tile> getTiles() {
-        return tiles;
-    }
-
-    public void copy(Map map) {
-        tiles.putAll(map.getTiles());
     }
 }

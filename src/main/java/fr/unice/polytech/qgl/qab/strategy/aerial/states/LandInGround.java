@@ -3,8 +3,8 @@ package fr.unice.polytech.qgl.qab.strategy.aerial.states;
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.simple.common.Land;
 import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
-import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
-import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
+import fr.unice.polytech.qgl.qab.exception.action.IndexOutOfBoundsComboAction;
+import fr.unice.polytech.qgl.qab.exception.map.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.map.tile.Position;
 import fr.unice.polytech.qgl.qab.strategy.aerial.states.factory.AerialStateFactory;
@@ -18,7 +18,7 @@ public class LandInGround extends AerialState {
 
     @Override
     public AerialState getState(Context context, Map map, StateMediator stateMediator) throws PositionOutOfMapRange {
-        return AerialStateFactory.buildState(AerialStateType.LANDINGROUND);
+        return AerialStateFactory.buildState(AerialStateType.LAND_IN_GROUND);
     }
 
     @Override

@@ -15,13 +15,13 @@ public class GroundStateFactoryTest {
     @Test
     public void testInitialization() {
         GroundState state;
-        state = GroundStateFactory.buildState(GroundStateType.FINDTILE);
+        state = GroundStateFactory.buildState(GroundStateType.FIND_TILE);
         assertEquals(FindTile.class, state.getClass());
 
-        state = GroundStateFactory.buildState(GroundStateType.SCOUTTILE);
+        state = GroundStateFactory.buildState(GroundStateType.SCOUT_TILE);
         assertEquals(ScoutTile.class, state.getClass());
 
-        state = GroundStateFactory.buildState(GroundStateType.EXPLOITTILE);
+        state = GroundStateFactory.buildState(GroundStateType.EXPLOIT_TILE);
         assertEquals(ExploitTile.class, state.getClass());
     }
 

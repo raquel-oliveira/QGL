@@ -32,17 +32,17 @@ public class MapHandler {
         return Math.abs(p.getY() - lastPosition.getY());
     }
 
-    public static double getDistance(Position current, Position p) {
-        double distX = getDistX(current, p);
-        double distY = getDistY(current, p);
+    public static int getDistance(Position current, Position p) {
+        int distX = getDistX(current, p);
+        int distY = getDistY(current, p);
         return distX + distY;
     }
 
-    public static double getDistY(Position current, Position p) {
-        return (double) Math.abs(p.getY() - current.getY());
+    public static int getDistY(Position current, Position p) {
+        return Math.abs(p.getY() - current.getY());
     }
 
-    public static double getDistX(Position current, Position p) {
-        return (double) Math.abs(p.getX() - current.getX());
+    public static int getDistX(Position current, Position p) {
+        return Math.abs(p.getX() - current.getX());
     }
 }

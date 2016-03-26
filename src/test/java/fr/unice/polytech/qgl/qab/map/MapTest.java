@@ -1,9 +1,10 @@
 package fr.unice.polytech.qgl.qab.map;
 
-import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
+import fr.unice.polytech.qgl.qab.exception.map.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.tile.Position;
 import fr.unice.polytech.qgl.qab.map.tile.TileType;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -102,5 +103,14 @@ public class MapTest {
     public void testChoiceTitleOutOfBound() throws PositionOutOfMapRange {
         position = new Position(15, 15);
         m.initializeTile(position, TileType.UNDEFINED);
+    }
+
+    @Test
+    public void testCreekLand() {
+        position = new Position(15, 15);
+        m.setCreekLand(position);
+
+        assertEquals(m.getCreekLand().getX(), position.getX());
+        assertEquals(m.getCreekLand().getY(), position.getY());
     }
 }

@@ -2,49 +2,80 @@ package fr.unice.polytech.qgl.qab.strategy.ground;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
-import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
-import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
+import fr.unice.polytech.qgl.qab.exception.action.IndexOutOfBoundsComboAction;
+import fr.unice.polytech.qgl.qab.exception.map.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateFactory;
 import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateType;
 import fr.unice.polytech.qgl.qab.strategy.ground.states.GroundState;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import fr.unice.polytech.qgl.qab.strategy.ground.states.FindTile;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * @version 09/12/15.
  * Class that implements the strategy of the ground phase
  */
 public class GroundStrategy implements IGroundStrategy {
+    private static final Logger LOGGER = LogManager.getLogger(GroundStrategy.class);
+
     private GroundState state;
+    private int limitBudget;
+    private static final int STOP = 1;
+    private static final int TRANSFORME = 2;
+
 
     /**
      * GroundStrategy's constructor.
      */
     public GroundStrategy() {
-        state = GroundStateFactory.buildState(GroundStateType.FINDTILE);
+        state = GroundStateFactory.buildState(GroundStateType.FIND_TILE);
+        limitBudget = 50;
     }
 
     @Override
     public Action makeDecision(Context context, Map map) throws PositionOutOfMapRange, IndexOutOfBoundsComboAction {
-        if (contextAnalyzer(context) != null) {
-            return contextAnalyzer(context);
+        int statusContext = contextAnalyzer(context);
+        switch (statusContext) {
+            case STOP:
+                return new Stop();
+            case TRANSFORME:
+                state = GroundStateFactory.buildState(GroundStateType.TRANSFORM);
+                return state.responseState(context, map);
+            default:
+                state = state.getState(context, map);
+                return state.responseState(context, map);
         }
-
-        state = state.getState(context, map);
-        return state.responseState(context, map);
-
     }
 
     /**
-     * Method that ckecks if the budget is less than 100
-     * @param context datas about the simulation context
-     * @return stop if the budget is less than 100 and null if the simulation can continue
+     * Take the value of budgets needed before call the action stop.
      */
-    private static Action contextAnalyzer(Context context) {
-        if (context.getBudget() < 400) {
-            return new Stop();
+    public int getLimitBudget(){
+        return limitBudget;
+    }
+
+
+    /**
+     * Method that checks the context to know if it is the moment to stop or to transform.
+     * @param context datas about the simulation context
+     * @return 1 if the action its to Stop
+     * @return 2 if the state to do its to transform
+     * @return 0 if it can continue.
+     */
+    private int contextAnalyzer(Context context) {
+        // If all contracts are filled or there is with low quantity of budgets
+        if (context.getContracts().contractsAreComplete(context) || context.getBudget() < getLimitBudget()){
+            LOGGER.info("Should stop, low budget.");
+            return STOP;
         }
-        return null;
+
+        // Make transform if it's possible to transform all manufactured resources that wasn't transformed.
+        if(context.getContracts().enoughToTransformAll(context)){
+            LOGGER.info("Can transform all: " +  context.getContracts().enoughToTransformAll(context));
+            return TRANSFORME;
+        }
+
+        return 0;
     }
 }

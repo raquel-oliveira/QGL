@@ -12,10 +12,9 @@ import java.util.*;
  *
  * Class that represent the manufactured resources
  */
-public class ManufacturedResource implements Resource {
+public class ManufacturedResource extends Resource {
     private ManufacturedType resource;
     private EnumMap<PrimaryType, Integer> recipe = new EnumMap<PrimaryType, Integer>(PrimaryType.class);
-    private List<PrimaryType> simpleRecipe = new ArrayList<>();
     private Set<Biomes> biomes = new HashSet<>();
 
     /**
@@ -27,13 +26,15 @@ public class ManufacturedResource implements Resource {
         setBiomes();
     }
 
-    @Override
+    public ManufacturedType getType(){
+        return resource;
+    }
+
     public String getName() {
         return resource.toString();
     }
 
-    @Override
-    public void setBiomes() {
+    private void setBiomes() {
         PrimaryResource res;
         switch (resource){
             case GLASS:
@@ -42,12 +43,14 @@ public class ManufacturedResource implements Resource {
                 res =  new PrimaryResource(PrimaryType.WOOD);
                 biomes.addAll(res.getBiome());
                 break;
+
             case INGOT:
                 res =  new PrimaryResource(PrimaryType.ORE);
                 biomes.addAll(res.getBiome());
                 res =  new PrimaryResource(PrimaryType.WOOD);
                 biomes.addAll(res.getBiome());
                 break;
+
             case LEATHER:
                 res = new PrimaryResource(PrimaryType.FUR);
                 biomes.addAll(res.getBiome());
@@ -69,46 +72,62 @@ public class ManufacturedResource implements Resource {
         }
     }
 
-    @Override
     public Set<Biomes> getBiome(){
         return biomes;
     }
 
     /**
      * Return the "recipe" to making this manufactured resource
-     * @param amountRecipe
+     * @param amount
      * @return
      */
-    public Map<PrimaryType, Integer> getRecipe(int amountRecipe){
-        if (amountRecipe < 0)
+    public Map<PrimaryType, Integer> getRecipe(int amount){
+        if (amount < 0)
             throw new IllegalArgumentException("Not allow negative value");
 
         switch (resource){
             case GLASS:
-                recipe.put(PrimaryType.QUARTZ, 10 * amountRecipe);
-                recipe.put(PrimaryType.WOOD, 5 * amountRecipe);
+                recipe.put(PrimaryType.QUARTZ, 10 * amount);
+                recipe.put(PrimaryType.WOOD, 5 * amount);
                 break;
 
             case INGOT:
-                recipe.put(PrimaryType.WOOD, 5 * amountRecipe);
+                recipe.put(PrimaryType.ORE, 5 * amount);
+                recipe.put(PrimaryType.WOOD, 5 * amount);
                 break;
 
             case LEATHER:
-                recipe.put(PrimaryType.FUR, 3 * amountRecipe);
+                recipe.put(PrimaryType.FUR, 3 * amount);
                 break;
 
-            case PLANK:;
-                recipe.put(PrimaryType.WOOD, amountRecipe/4 + ((amountRecipe % 4 == 0)? 0: 1));
+            case PLANK:
+                recipe.put(PrimaryType.WOOD, amount/4 + ((amount % 4 == 0)? 0: 1));
                 break;
 
             case RUM:
-                recipe.put(PrimaryType.SUGAR_CANE, 10 * amountRecipe);
-                recipe.put(PrimaryType.FRUITS, amountRecipe);
+                recipe.put(PrimaryType.SUGAR_CANE, 10 * amount);
+                recipe.put(PrimaryType.FRUITS, amount);
                 break;
 
             default:
                 break;
         }
         return recipe;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ManufacturedResource that = (ManufacturedResource) o;
+
+        return resource == that.resource;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return resource != null ? resource.hashCode() : 0;
     }
 }

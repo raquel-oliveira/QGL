@@ -9,20 +9,20 @@ import fr.unice.polytech.qgl.qab.actions.simple.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Scan;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Explore;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Glimpse;
-import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
+import fr.unice.polytech.qgl.qab.exception.context.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import fr.unice.polytech.qgl.qab.strategy.context.utils.ResponseHandler;
+import fr.unice.polytech.qgl.qab.strategy.context.utils.HandlerResponse;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import org.junit.Before;
 import org.junit.Test;
 
 public class ResponseHandlerTest {
-    ResponseHandler r;
+    HandlerResponse r;
 
     @Before
     public void defineContext() {
-        r = new ResponseHandler();
+        r = new HandlerResponse();
     }
 
     @Test

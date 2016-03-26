@@ -6,7 +6,6 @@ import fr.unice.polytech.qgl.qab.map.tile.Position;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -155,9 +154,7 @@ public class ContextAction {
         this.comboAction = comboAction;
     }
 
-    public List<PrimaryType> getResourcesToExploit() {
-        return resourcesToExploit;
-    }
+    public List<PrimaryType> getResourcesToExploit() { return resourcesToExploit; }
 
     public void setResourcesToExploit(List<PrimaryType> resourcesToExploit, Context context) {
         java.util.Map<String, Integer> collectedResource = context.getCollectedResources();
@@ -168,15 +165,14 @@ public class ContextAction {
                 this.resourcesToExploit.add(resourcesToExploit.get(0));
                 resourcesToExploit.remove(0);
             }
-            else if(collectedResource.get(resource) < context.getAcumulatedAmount(res)) {
-                this.resourcesToExploit.add(resourcesToExploit.get(0));
-                resourcesToExploit.get(0);
-                resourcesToExploit.remove(0);
-            }
             else {
-                // TODO: wrong
-                // this.resourcesToExploit.add(resourcesToExploit.get(0));
-                resourcesToExploit.remove(0);
+                if(collectedResource.get(resource) < context.getContracts().getAccumulatedAmountNecessary(res)) {
+                    this.resourcesToExploit.add(resourcesToExploit.get(0));
+                    resourcesToExploit.remove(0);
+                }else{
+                    resourcesToExploit.remove(0);
+                }
+
             }
         }
     }

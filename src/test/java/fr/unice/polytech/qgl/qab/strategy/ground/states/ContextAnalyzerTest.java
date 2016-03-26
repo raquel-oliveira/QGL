@@ -1,10 +1,9 @@
 package fr.unice.polytech.qgl.qab.strategy.ground.states;
 
-import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
+import fr.unice.polytech.qgl.qab.exception.context.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedType;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
-import fr.unice.polytech.qgl.qab.response.ExploreResponse;
 import fr.unice.polytech.qgl.qab.response.GlimpseResponse;
 import fr.unice.polytech.qgl.qab.response.ScoutResponse;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
@@ -70,7 +69,7 @@ public class ContextAnalyzerTest {
 
         discovery.setScoutResponse(scoutResponse);
         context.setLastDiscovery(discovery);
-        context.addContract(PrimaryType.FISH.toString(), 10);
+        context.getContracts().addContract(PrimaryType.FISH.toString(), 10);
 
         assertTrue(contextAnalyzer.resourceAnalyzerScout(context).contains(PrimaryType.FISH));
 
@@ -79,7 +78,7 @@ public class ContextAnalyzerTest {
 
         discovery.setScoutResponse(scoutResponse);
         context.setLastDiscovery(discovery);
-        context.addContract(ManufacturedType.RUM.toString(), 10);
+        context.getContracts().addContract(ManufacturedType.RUM.toString(), 10);
         assertTrue(contextAnalyzer.resourceAnalyzerScout(context).contains(PrimaryType.SUGAR_CANE));
 
         scoutResponse = new ScoutResponse();
@@ -90,7 +89,7 @@ public class ContextAnalyzerTest {
 
         discovery.setScoutResponse(scoutResponse);
         context.setLastDiscovery(discovery);
-        context.addContract(ManufacturedType.GLASS.toString(), 10);
+        context.getContracts().addContract(ManufacturedType.GLASS.toString(), 10);
         assertTrue(contextAnalyzer.resourceAnalyzerScout(context).contains(PrimaryType.QUARTZ));
         assertTrue(contextAnalyzer.resourceAnalyzerScout(context).contains(PrimaryType.WOOD));
     }
@@ -116,7 +115,7 @@ public class ContextAnalyzerTest {
 
         discovery.setGlimpseResponse(glimpseResponse);
         context.setLastDiscovery(discovery);
-        context.addContract(PrimaryType.FISH.toString(), 10);
+        context.getContracts().addContract(PrimaryType.FISH.toString(), 10);
 
         List<Boolean> response = new ArrayList<>();
         response.add(true);

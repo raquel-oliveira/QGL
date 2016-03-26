@@ -15,16 +15,20 @@ public class GroundStateFactory {
         GroundState state;
 
         switch (model) {
-            case FINDTILE:
+            case FIND_TILE:
                 state = new FindTile();
                 break;
 
-            case EXPLOITTILE:
+            case EXPLOIT_TILE:
                 state = new ExploitTile();
                 break;
 
-            case SCOUTTILE:
+            case SCOUT_TILE:
                 state = new ScoutTile();
+                break;
+
+            case TRANSFORM:
+                state = new TransformResource();
                 break;
 
             default:

@@ -1,6 +1,6 @@
 package fr.unice.polytech.qgl.qab.exception;
 
-import fr.unice.polytech.qgl.qab.strategy.context.Context;
+import fr.unice.polytech.qgl.qab.exception.context.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.Budget;
 import org.junit.Test;
 

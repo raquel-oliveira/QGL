@@ -5,16 +5,13 @@ import fr.unice.polytech.qgl.qab.actions.combo.ground.ComboScoutTile;
 import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.MoveTo;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Scout;
-import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
-import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
+import fr.unice.polytech.qgl.qab.exception.action.IndexOutOfBoundsComboAction;
+import fr.unice.polytech.qgl.qab.exception.map.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
-import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.response.ScoutResponse;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateFactory;
 import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateType;
-
-import java.util.List;
 
 /**
  * @version 01/03/16.
@@ -27,6 +24,7 @@ public class ScoutTile extends GroundState {
     }
 
     @Override
+    //TODO: changed to test because the scout dont return a different state if all the contacts are of the type manufatured.
     public GroundState getState(Context context, Map map) throws PositionOutOfMapRange {
         if (context.current().getLastAction() instanceof MoveTo
                 &&  !contextAnalyzer.resourceAnalyzerScout(context).isEmpty()) {
@@ -35,19 +33,19 @@ public class ScoutTile extends GroundState {
 
             if (!context.current().getResourcesToExploit().isEmpty()) {
                 context.getLastDiscovery().setScoutResponse(new ScoutResponse());
-                return GroundStateFactory.buildState(GroundStateType.EXPLOITTILE);
+                return GroundStateFactory.buildState(GroundStateType.EXPLOIT_TILE);
             }
         }
 
         if (context.current().getComboAction().isEmpty()) {
-            return GroundStateFactory.buildState(GroundStateType.FINDTILE);
+            return GroundStateFactory.buildState(GroundStateType.FIND_TILE);
         }
-        return GroundStateFactory.buildState(GroundStateType.SCOUTTILE);
+        return GroundStateFactory.buildState(GroundStateType.SCOUT_TILE);
     }
 
     @Override
     public Action responseState(Context context, Map map) throws IndexOutOfBoundsComboAction {
-        if (context.contractsAreComplete()){
+        if (context.getContracts().contractsAreComplete(context)){
             return new Stop();
         }
 

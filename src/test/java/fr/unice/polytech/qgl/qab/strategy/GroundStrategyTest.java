@@ -2,19 +2,17 @@ package fr.unice.polytech.qgl.qab.strategy;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
-import fr.unice.polytech.qgl.qab.actions.simple.ground.Explore;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.MoveTo;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Scout;
-import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
-import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
-import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
+import fr.unice.polytech.qgl.qab.exception.action.IndexOutOfBoundsComboAction;
+import fr.unice.polytech.qgl.qab.exception.context.NegativeBudgetException;
+import fr.unice.polytech.qgl.qab.exception.map.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.map.tile.Position;
 import fr.unice.polytech.qgl.qab.response.*;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.ground.GroundStrategy;
-import fr.unice.polytech.qgl.qab.strategy.ground.states.GroundState;
 import fr.unice.polytech.qgl.qab.util.Discovery;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import org.junit.Before;
@@ -62,7 +60,7 @@ public class GroundStrategyTest {
         action = strategy.makeDecision(context, map);
         assertEquals(Stop.class, action.getClass());
 
-        context.addContract("FISH", 10);
+        context.getContracts().addContract("FISH", 10);
         testMoveTo(Direction.EAST, 9);
         testMoveTo(Direction.SOUTH, 9);
 

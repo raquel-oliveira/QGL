@@ -4,7 +4,7 @@ import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboFlyEcho;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Heading;
-import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
+import fr.unice.polytech.qgl.qab.exception.action.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.aerial.states.factory.AerialStateFactory;
 import fr.unice.polytech.qgl.qab.strategy.aerial.states.factory.AerialStateType;
@@ -23,7 +23,7 @@ public class GoToTheCorner extends AerialState {
             updateContext(context);
             return AerialStateFactory.buildState(AerialStateType.INITIALIZE);
         } else
-            return AerialStateFactory.buildState(AerialStateType.GOTOTHECORNER);
+            return AerialStateFactory.buildState(AerialStateType.GO_TO_THE_CORNER);
     }
 
     @Override
