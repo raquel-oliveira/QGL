@@ -26,4 +26,10 @@ public interface Resource <T extends ResourceType> {
 
     public T getType();
 
+    @Override
+    public boolean equals(Object o);
+
+    @Override
+    public int hashCode();
+
 }

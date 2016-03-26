@@ -22,7 +22,7 @@ public class Contracts {
 
     private List<ContractItem> items;
     private Boolean completeContracts;
-    private Map<String, Integer> collectedResources;
+    private Map<Resource, Integer> collectedResources;
 
 
     public Contracts() {
@@ -92,11 +92,11 @@ public class Contracts {
      * Observation: It reserves the quantity of primary to complete the primaries resources
      */
     public boolean enoughToTransformAll(){
-        Set<String> primaryResources = primaryNeeded();
-        for (String resource: primaryResources) {
+        Set<PrimaryResource> primaryResources = primaryNeeded();
+        for (PrimaryResource resource: primaryResources) {
             if (!getCollectedResources().containsKey(resource))
                 return false;
-            if (getCollectedResources().get(resource) <  getAmountPrimaryNeeded(new PrimaryResource(PrimaryType.valueOf(resource)))){
+            if (getCollectedResources().get(resource) <  getAmountPrimaryNeeded(new PrimaryResource(PrimaryType.valueOf(resource.getName())))){
                 return false;
             }
         }
@@ -118,18 +118,19 @@ public class Contracts {
 
     /**
      *
-     * @return list of primary resources needed to complet all the contracts
+     * @return list of names(string) of primary resources needed
+     * to complete all the contracts
      */
-    public Set<String> primaryNeeded(){
-        Set<String> primaryResource = new HashSet<String>();
+    public Set<PrimaryResource> primaryNeeded(){
+        Set<PrimaryResource> primaryResource = new HashSet<PrimaryResource>();
 
         for (int i = 0; i < items.size(); i++){
             if (items.get(i).resource() instanceof PrimaryResource){
-                primaryResource.add(items.get(i).resource().getName());
+                primaryResource.add((PrimaryResource) items.get(i).resource());
             }
             else{
                 for (PrimaryType itemRecipe: ((ManufacturedResource) items.get(i).resource()).getRecipe(0).keySet()) {
-                    primaryResource.add(new PrimaryResource(itemRecipe).getName());
+                    primaryResource.add(new PrimaryResource(itemRecipe));
                 }
             }
         }
@@ -156,7 +157,7 @@ public class Contracts {
      * Return the collected Resources that were tooked after exploit a tile
      * @return HashMap - resources collected and the respective amounts.
      */
-    public  Map<String, Integer> getCollectedResources(){
+    public  Map<Resource, Integer> getCollectedResources(){
         return collectedResources;
     }
 
@@ -166,12 +167,13 @@ public class Contracts {
      * @param amount
      */
     public void addCollectedResources(Resource resource, int amount) {
-        if (collectedResources.containsKey(resource.getName())) {
-            collectedResources.put(resource.getName(), collectedResources.get(resource.getName()) + amount);
+        if (collectedResources.containsKey(resource)) {
+            LOGGER.info("Add "  + resource.getName() + "more: " + amount + "new: " + (amount+ collectedResources.get(resource)));
+            collectedResources.put(resource, collectedResources.get(resource) + amount);
         } else {
-            collectedResources.put(resource.getName(), amount);
+            LOGGER.info("Add "  + resource.getName() + " with " + amount);
+            collectedResources.put(resource, amount);
         }
-        LOGGER.info("Collected resources: " + collectedResources);
     }
 
     /**
@@ -181,15 +183,15 @@ public class Contracts {
      */
     public int decreaseAmountOfCollectedResources(Resource resource, int amount) {
         try{
-            int newAmount = collectedResources.get(resource.getName()) - amount;
+            int newAmount = collectedResources.get(resource) - amount;
             if( newAmount >= 0){
-                collectedResources.put(resource.getName(), newAmount);
+                collectedResources.put(resource, newAmount);
                 return amount;
             }
             else {
                 newAmount = 0;
-                int beforeDecrease = collectedResources.get(resource.getName());
-                collectedResources.put(resource.getName(), newAmount);
+                int beforeDecrease = collectedResources.get(resource);
+                collectedResources.put(resource, newAmount);
                 return beforeDecrease;
             }
         }catch (Exception e){

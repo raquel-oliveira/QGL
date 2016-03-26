@@ -56,8 +56,8 @@ public class ContractItem {
         return this.resource;
     }
 
-    public Boolean isComplete(Map<String, Integer> collectedResources){
-       if(collectedResources.containsKey(resource.getName()) && collectedResources.get(resource.getName()) >= amount){
+    public Boolean isComplete(Map<Resource, Integer> collectedResources){
+       if(collectedResources.containsKey(resource) && collectedResources.get(resource) >= amount){
             completeContract = true;
        }
         return completeContract;
@@ -82,7 +82,7 @@ public class ContractItem {
         else {
             if(isComplete(contracts.getCollectedResources())){
                 //This contract it was already fill.
-                LOGGER.info("Already transform:"+ this.resource.getName() + " Asked: " + this.amount() + " have: " + contracts.getCollectedResources().get(resource.getName()));
+                LOGGER.info("Already transform:"+ this.resource.getName() + " Asked: " + this.amount() + " have: " + contracts.getCollectedResources().get(resource));
                 canTransform = false;
                 return canTransform;
             }
@@ -91,11 +91,11 @@ public class ContractItem {
                 for(Map.Entry<PrimaryType, Integer> getRecipe : recipe.entrySet()){
                     PrimaryResource res = new PrimaryResource(getRecipe.getKey());
                     //Does not have primary to create the resource.
-                    if (!contracts.getCollectedResources().containsKey(res.getName())) {
+                    if (!contracts.getCollectedResources().containsKey(res)) {
                         canTransform = false;
                         return canTransform;
                     }
-                    if(contracts.getCollectedResources().get(res.getName()) < recipe.get(res.getType())){
+                    if(contracts.getCollectedResources().get(res) < recipe.get(res.getType())){
                         canTransform = false;
                         return canTransform;
                     }
