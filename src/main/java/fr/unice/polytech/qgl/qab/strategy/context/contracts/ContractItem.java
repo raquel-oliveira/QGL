@@ -5,7 +5,6 @@ import fr.unice.polytech.qgl.qab.resources.Resource;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
-import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import static java.lang.Math.ceil;
@@ -23,7 +22,7 @@ public class ContractItem {
     private int amount;
     private boolean completeContract;
     private boolean canTransform;
-    private static final double marginError = 10/9;
+    private static final double MARGIN_ERROR = (double)10/9;
     private static final Logger LOGGER = LogManager.getLogger(ContractItem.class);
 
     /**
@@ -87,7 +86,7 @@ public class ContractItem {
                 return canTransform;
             }
             else{
-                Map<PrimaryType, Integer> recipe = ((ManufacturedResource)this.resource).getRecipe((int) (ceil(amount * marginError)));
+                Map<PrimaryType, Integer> recipe = ((ManufacturedResource)this.resource).getRecipe((int) (ceil(amount * MARGIN_ERROR)));
                 for(Map.Entry<PrimaryType, Integer> getRecipe : recipe.entrySet()){
                     PrimaryResource res = new PrimaryResource(getRecipe.getKey());
                     //Does not have primary to create the resource.
@@ -105,12 +104,13 @@ public class ContractItem {
                 return canTransform;
             }
         }
-        //As there is only PrimaryResource and ManufacturedResource it will never get in the return:
+        //As there is only PrimaryResource and ManufacturedResource it will never get in the return, we let the else if instead of else because the user
+        // can "create" a new type of Resource.
         return false;
     }
 
     public static double getMarginError() {
-        return marginError;
+        return MARGIN_ERROR;
     }
 }
 

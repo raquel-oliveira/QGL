@@ -42,12 +42,12 @@ public class ContractTest {
     @Test
     public void testAmountNecessary() throws NegativeBudgetException{
         contracts.addContract("GLASS", 2);
-        int wood = (int) (ceil(new ManufacturedResource(ManufacturedType.GLASS).getRecipe(2).get(PrimaryType.WOOD) * ContractItem.getMarginError()));
+        int wood =  new ManufacturedResource(ManufacturedType.GLASS).getRecipe((int) (ceil(2 * ContractItem.getMarginError()))).get(PrimaryType.WOOD);
         int getAmount = contracts.getAmountPrimaryNeeded(new PrimaryResource(PrimaryType.WOOD));
         assertEquals(wood, getAmount);
 
         contracts.addContract("INGOT", 3);
-        wood += (int) (ceil(new ManufacturedResource(ManufacturedType.INGOT).getRecipe(3).get(PrimaryType.WOOD) * ContractItem.getMarginError()));
+        wood +=  new ManufacturedResource(ManufacturedType.INGOT).getRecipe((int) (ceil(3 * ContractItem.getMarginError()))).get(PrimaryType.WOOD);
         getAmount = contracts.getAmountPrimaryNeeded(new PrimaryResource(PrimaryType.WOOD));
         assertEquals(wood, getAmount);
 
@@ -60,8 +60,8 @@ public class ContractTest {
     @Test
     public void transformAll() throws NegativeBudgetException{
         contracts.addContract("GLASS", 2);
-        int wood = (int) (ceil(new ManufacturedResource(ManufacturedType.GLASS).getRecipe(2).get(PrimaryType.WOOD) * ContractItem.getMarginError()));
-        int quartz = (int) (ceil(new ManufacturedResource(ManufacturedType.GLASS).getRecipe(2).get(PrimaryType.QUARTZ) * ContractItem.getMarginError()));
+        int wood = new ManufacturedResource(ManufacturedType.GLASS).getRecipe((int) (ceil(2 * ContractItem.getMarginError()))).get(PrimaryType.WOOD);
+        int quartz =  new ManufacturedResource(ManufacturedType.GLASS).getRecipe((int) (ceil(2 * ContractItem.getMarginError()))).get(PrimaryType.QUARTZ);
         contracts.addCollectedResources(new PrimaryResource(PrimaryType.WOOD), wood);
         contracts.addCollectedResources(new PrimaryResource(PrimaryType.QUARTZ), quartz);
         assertTrue(contracts.enoughToTransformAll());
