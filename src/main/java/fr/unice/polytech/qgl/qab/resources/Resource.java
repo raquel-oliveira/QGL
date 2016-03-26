@@ -2,8 +2,9 @@ package fr.unice.polytech.qgl.qab.resources;
 
 
 import fr.unice.polytech.qgl.qab.map.tile.Biomes;
-import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedType;
+import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -11,20 +12,49 @@ import java.util.Set;
  *
  * Class that represent the resources.
  */
-public interface Resource <T extends ResourceType> {
+public abstract class Resource <T extends Enum<T> & ResourceType> {
+    protected T resource;
+    protected Set<Biomes> biomes = new HashSet<>();
+
+
+    public Resource(T resource) {
+        this.resource = resource;
+        setBiomes();
+    }
 
     /**
      * Method that return the resource name
      * @return resource name
      */
-    public String getName();
+    abstract public String getName();
 
     /**
      * Method the return the set of biomes that can produce this resource
      * @return set of biomes that can produce this resource
      */
-    public Set<Biomes> getBiome();
+    public Set<Biomes> getBiome(){
+        return biomes;
+    }
 
-    public T getType();
+    abstract void setBiomes();
 
+    public T getType(){
+       return resource;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Resource)) return false;
+
+        Resource<?> resource1 = (Resource<?>) o;
+
+        return resource.equals(resource1.resource);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return resource.hashCode();
+    }
 }

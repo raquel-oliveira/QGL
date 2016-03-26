@@ -12,23 +12,16 @@ import java.util.*;
  *
  * Class that represent the manufactured resources
  */
-public class ManufacturedResource implements Resource {
-    private ManufacturedType resource;
+public class ManufacturedResource extends Resource {
     private EnumMap<PrimaryType, Integer> recipe = new EnumMap<PrimaryType, Integer>(PrimaryType.class);
-    private Set<Biomes> biomes = new HashSet<>();
 
     /**
      * ManufacturedResource's constructor
      * @param resource
      */
     public ManufacturedResource(ManufacturedType resource) {
-        this.resource = resource;
+        super(resource);
         setBiomes();
-    }
-
-    @Override
-    public ManufacturedType getType(){
-        return resource;
     }
 
     @Override
@@ -74,11 +67,6 @@ public class ManufacturedResource implements Resource {
         }
     }
 
-    @Override
-    public Set<Biomes> getBiome(){
-        return biomes;
-    }
-
     /**
      * Return the "recipe" to making this manufactured resource
      * @param amount
@@ -116,21 +104,5 @@ public class ManufacturedResource implements Resource {
                 break;
         }
         return recipe;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ManufacturedResource that = (ManufacturedResource) o;
-
-        return resource == that.resource;
-
-    }
-
-    @Override
-    public int hashCode() {
-        return resource != null ? resource.hashCode() : 0;
     }
 }

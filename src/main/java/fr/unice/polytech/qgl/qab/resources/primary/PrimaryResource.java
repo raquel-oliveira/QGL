@@ -11,16 +11,14 @@ import java.util.Set;
  *
  * Class that represent the primary resources
  */
-public class PrimaryResource implements Resource {
-    private PrimaryType resource;
-    private Set<Biomes> biomes = new HashSet<>();
+public class PrimaryResource extends Resource {
 
     /**
      * PrimaryResource's constructor
      * @param resource
      */
     public PrimaryResource(PrimaryType resource) {
-        this.resource = resource;
+        super(resource);
         setBiomes();
     }
 
@@ -74,31 +72,5 @@ public class PrimaryResource implements Resource {
             default:
                 break;
         }
-    }
-
-    @Override
-    public Set<Biomes> getBiome(){
-        return biomes;
-    }
-
-    @Override
-    public PrimaryType getType(){
-        return resource;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        PrimaryResource that = (PrimaryResource) o;
-
-        return resource == that.resource;
-
-    }
-
-    @Override
-    public int hashCode() {
-        return resource != null ? resource.hashCode() : 0;
     }
 }
