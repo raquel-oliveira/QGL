@@ -9,31 +9,37 @@ import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateFactory;
 import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateType;
 import fr.unice.polytech.qgl.qab.strategy.ground.states.GroundState;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * @version 09/12/15.
  * Class that implements the strategy of the ground phase
  */
 public class GroundStrategy implements IGroundStrategy {
+    private static final Logger LOGGER = LogManager.getLogger(GroundStrategy.class);
+
     private GroundState state;
     private int limitBudget;
-    private static final int BUDGET_TO_TRANSFORME = 100;
+    private static final int STOP = 1;
+    private static final int TRANSFORME = 2;
+
 
     /**
      * GroundStrategy's constructor.
      */
     public GroundStrategy() {
         state = GroundStateFactory.buildState(GroundStateType.FIND_TILE);
-        limitBudget = 400;
+        limitBudget = 50;
     }
 
     @Override
     public Action makeDecision(Context context, Map map) throws PositionOutOfMapRange, IndexOutOfBoundsComboAction {
         int statusContext = contextAnalyzer(context);
         switch (statusContext) {
-            case 1:
+            case STOP:
                 return new Stop();
-            case 2:
+            case TRANSFORME:
                 state = GroundStateFactory.buildState(GroundStateType.TRANSFORM);
                 return state.responseState(context, map);
             default:
@@ -59,22 +65,17 @@ public class GroundStrategy implements IGroundStrategy {
      */
     private int contextAnalyzer(Context context) {
         // If all contracts are filled or there is with low quantity of budgets
-        if (context.getContracts().contractsAreComplete() || context.getBudget() < getLimitBudget() || transformeFinished(context)){
-            return 1;
+        if (context.getContracts().contractsAreComplete() || context.getBudget() < getLimitBudget()){
+            LOGGER.info("Should stop, low budget.");
+            return STOP;
         }
 
-        /* Make transform if:
-        * If there are enough (primary) resources to make transform or
-        * if all primary resources were not completed to make the manufactured, but will try to transform the maximum
-        * before stops.
-        * */
-        if (context.getContracts().enoughToTransform() || context.getBudget() <= getLimitBudget() + BUDGET_TO_TRANSFORME){
-            return 2;
+        // Make transform if it's possible to transform all manufactured resources that wasn't transformed.
+        if(context.getContracts().enoughToTransformAll()){
+            LOGGER.info("Can transform all: " +  context.getContracts().enoughToTransformAll());
+            return TRANSFORME;
         }
+
         return 0;
-    }
-
-    private boolean transformeFinished(Context context) {
-        return (context.getContracts().getResourcesToCreate() != null && context.getContracts().getResourcesToCreate().isEmpty());
     }
 }

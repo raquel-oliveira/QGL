@@ -1,5 +1,6 @@
 package fr.unice.polytech.qgl.qab.strategy.context;
 import fr.unice.polytech.qgl.qab.exception.context.NegativeBudgetException;
+import fr.unice.polytech.qgl.qab.resources.Resource;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.Budget;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.ContextAction;
 import fr.unice.polytech.qgl.qab.strategy.context.contracts.Contracts;
@@ -11,6 +12,9 @@ import org.json.JSONObject;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @version 16/12/15.

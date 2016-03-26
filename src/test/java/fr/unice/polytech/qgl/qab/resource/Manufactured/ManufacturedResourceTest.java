@@ -10,6 +10,7 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
+import static java.lang.Math.ceil;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -17,9 +18,11 @@ import static org.junit.Assert.assertEquals;
  */
 public class ManufacturedResourceTest {
     ManufacturedResource manufacturedResource;
+    double marginError;
 
     @Before
     public void defineContext() {
+        marginError = ManufacturedResource.getMarginError();
         manufacturedResource = new ManufacturedResource(ManufacturedType.GLASS);
     }
 
@@ -46,29 +49,29 @@ public class ManufacturedResourceTest {
 
         int amountRecipe = 10;
         Map<PrimaryType,Integer> mapDefault = new HashMap<>();
-        mapDefault.put(PrimaryType.QUARTZ, 10 * amountRecipe);
-        mapDefault.put(PrimaryType.WOOD, 5 * amountRecipe);
+        mapDefault.put(PrimaryType.QUARTZ, (int) ceil( 10 * amountRecipe * marginError));
+        mapDefault.put(PrimaryType.WOOD, (int) ceil( 5 * amountRecipe * marginError));
 
         assertEquals(mapDefault, map);
 
         manufacturedResource = new ManufacturedResource(ManufacturedType.INGOT);
         map = manufacturedResource.getRecipe(10);
         mapDefault = new HashMap<>();
-        mapDefault.put(PrimaryType.WOOD, 5 * amountRecipe);
+        mapDefault.put(PrimaryType.WOOD, (int) ceil( 5 * amountRecipe * marginError));
 
         assertEquals(mapDefault, map);
 
         manufacturedResource = new ManufacturedResource(ManufacturedType.LEATHER);
         map = manufacturedResource.getRecipe(10);
         mapDefault = new HashMap<>();
-        mapDefault.put(PrimaryType.FUR, 3 * amountRecipe);
+        mapDefault.put(PrimaryType.FUR, (int) ceil( 3 * amountRecipe * marginError));
 
         assertEquals(mapDefault, map);
 
         manufacturedResource = new ManufacturedResource(ManufacturedType.PLANK);
         map = manufacturedResource.getRecipe(10);
         mapDefault = new HashMap<>();
-        mapDefault.put(PrimaryType.WOOD, amountRecipe/4 + ((amountRecipe % 4 == 0)? 0: 1));
+        mapDefault.put(PrimaryType.WOOD, (int) (ceil((amountRecipe/4 + ((amountRecipe % 4 == 0)? 0: 1)) * marginError)));
 
         assertEquals(mapDefault, map);
 
@@ -76,8 +79,8 @@ public class ManufacturedResourceTest {
         manufacturedResource = new ManufacturedResource(ManufacturedType.RUM);
         map = manufacturedResource.getRecipe(10);
         mapDefault = new HashMap<>();
-        mapDefault.put(PrimaryType.SUGAR_CANE, 10 * amountRecipe);
-        mapDefault.put(PrimaryType.FRUITS, amountRecipe);
+        mapDefault.put(PrimaryType.SUGAR_CANE, (int) ceil( 10 * amountRecipe * marginError));
+        mapDefault.put(PrimaryType.FRUITS, (int) ceil(amountRecipe * marginError));
 
         assertEquals(mapDefault, map);
     }

@@ -166,7 +166,7 @@ public class ContextAction {
                 resourcesToExploit.remove(0);
             }
             else {
-                if(collectedResource.get(resource) < context.getContracts().getAccumulatedAmountNecessary(res)) {
+                if(collectedResource.get(resource) < context.getContracts().getAmountPrimaryNeeded(res)) {
                     this.resourcesToExploit.add(resourcesToExploit.get(0));
                     resourcesToExploit.remove(0);
                 }else{

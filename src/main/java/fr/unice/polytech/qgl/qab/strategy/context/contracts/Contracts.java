@@ -6,27 +6,31 @@ import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedType;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
+import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import static java.lang.Math.ceil;
+
 
 import java.util.*;
 
 /**
+ * Everything related or that affect directly the contracts/contractItem.
  * @version 21/03/16.
  */
 public class Contracts {
     private static final Logger LOGGER = LogManager.getLogger(Contracts.class);
 
     private List<ContractItem> items;
+    private Boolean completeContracts;
     private Map<String, Integer> collectedResources;
-    private List<ManufacturedResource> resourcesToCreate;
-    private Boolean completeContract;
+
 
     public Contracts() {
         this.items = new ArrayList<>();
+        this.completeContracts = false;
         this.collectedResources = new HashMap<>();
-        this.resourcesToCreate = null;
-        this.completeContract = false;
+
     }
 
     public List<ContractItem> getItems() {
@@ -34,15 +38,94 @@ public class Contracts {
     }
 
     /**
+     * Add items in the contract
+     * @param resource resource's name
+     * @param amount resource's amount
+     * @throws NegativeBudgetException
+     */
+    public void addContract(String resource, int amount) throws NegativeBudgetException {
+        try {
+            items.add(new ContractItem(new ManufacturedResource(ManufacturedType.valueOf(resource)), amount));
+        } catch (Exception ex) {
+            items.add(new ContractItem(new PrimaryResource(PrimaryType.valueOf(resource)), amount));
+        }
+    }
+
+    /**
+     * Get number of amount of a primaryResource needed to fill the contracts that need of 'resource'(primary + maufactured)
+     * @param resource
+     * @return
+     */
+    public int getAmountPrimaryNeeded(PrimaryResource resource){
+        int amount = 0;
+        for (int i = 0; i < items.size(); i++) {
+            Resource res = items.get(i).resource();
+            int amountAsked = items.get(i).amount();
+            if ((res instanceof PrimaryResource) && res.getName().equals(resource.getName())) {
+                amount += amountAsked;
+            } else if ((res instanceof ManufacturedResource) && (!items.get(i).isComplete(getCollectedResources()))){
+                PrimaryType prim = resource.getType();
+                if (((ManufacturedResource) items.get(i).resource()).getRecipe(0).containsKey(prim)){
+                    int amountAprox = ((ManufacturedResource) res).getRecipe((int) (ceil(items.get(i).amount() * ContractItem.getMarginError()))).get(prim);
+                    amount +=  amountAprox;
+                }
+            }
+        }
+        return amount;
+    }
+
+    /**
+     * @return true if all the contracts are completed.
+     */
+    public boolean contractsAreComplete(){
+        completeContracts = true;
+        for(int i = 0; i < items.size(); i++){
+            if (!items.get(i).isComplete(getCollectedResources())){
+                completeContracts = false;
+                return completeContracts;
+            }
+        }
+        return completeContracts;
+    }
+
+    /**
+     * @return true if there is primary resources enough to complete all the contracts
+     * Observation: It reserves the quantity of primary to complete the primaries resources
+     */
+    public boolean enoughToTransformAll(){
+        Set<String> primaryResources = primaryNeeded();
+        for (String resource: primaryResources) {
+            if (!getCollectedResources().containsKey(resource))
+                return false;
+            if (getCollectedResources().get(resource) <  getAmountPrimaryNeeded(new PrimaryResource(PrimaryType.valueOf(resource)))){
+                return false;
+            }
+        }
+        LOGGER.info("Enough to transform "+ primaryResources+"");
+        return true;
+    }
+
+    /**
+     * @return true if there is primary resources enough to complete at least one contract manufactured
+     */
+    public boolean enoughToTransform(){
+        for(ContractItem contracts : items){
+            if (contracts.canTransform(this)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      *
      * @return list of primary resources needed to complet all the contracts
-     * //TODO: Look if there is similar codes.Exemple: addResources in ContextAnalyze.
      */
-    public Set<String> primaryNeeded() {
+    public Set<String> primaryNeeded(){
         Set<String> primaryResource = new HashSet<String>();
 
         for (int i = 0; i < items.size(); i++){
-            if (items.get(i).resource().isPrimary()){ // tamo na atividads
+            if (items.get(i).resource() instanceof PrimaryResource){
                 primaryResource.add(items.get(i).resource().getName());
             }
             else{
@@ -55,81 +138,19 @@ public class Contracts {
     }
 
     /**
-     * @return true if there is primary resources enough to complete all the contracts
-     */
-    public boolean enoughToTransform(){
-        boolean enough = true;
-        Set<String> primaryResources = primaryNeeded();
-        for (String resource: primaryResources) {
-            if (!collectedResources.containsKey(resource))
-                return false;
-            if (collectedResources.get(resource) < getAccumulatedAmountNecessary(new PrimaryResource(PrimaryType.valueOf(resource)))){
-                enough = false;
-                return enough;
-            }
-        }
-        return enough;
-    }
-
-    /**
-     * Get number of amount of a primaryResource needed to fill the contracts that need of 'resource'(primary + maufactured)
+     * Return the index of the contract item that have the resource.
      * @param resource
      * @return
      */
-    public int getAccumulatedAmountNecessary(Resource resource) {
-        int amount = 0;
-        if (!resource.isPrimary()){
-            LOGGER.error("Passed the wrong parameter.");
-            return -1;
-        }
-        for (int i = 0; i < items.size(); i++) {
-            if ((items.get(i).resource().isPrimary())
-                    && items.get(i).resource().getName().equals(resource.getName())) {
-                amount += items.get(i).amount();
-            } else if (!(items.get(i).resource().isPrimary())){
-                PrimaryType prim = ((PrimaryResource)(resource)).getType();
-                if (((ManufacturedResource) items.get(i).resource()).getRecipe(0).containsKey(prim)){
-                    amount += ((ManufacturedResource) items.get(i).resource()).getRecipe(items.get(i).amount()).get(prim);
-                }
+    public int getContractIndex(Resource resource) {
+        for (int index = 0; index < items.size(); index++) {
+            ContractItem item = items.get(index);
+            if (item.resource().getName().equals(resource.getName())){
+                return index;
             }
         }
-        return amount;
-    }
-
-    /**
-     * This method is to verify how much of amount can be used of the resource to create manufatured.
-     * @param manufatured to be create
-     * @param resource to be used to create manufatured
-     * @return quantity of resource to be used to create a manufactured.
-     * @return -1 this resource its not in the recipe of the first parameter.
-     */
-    public int getQtdToUse(ManufacturedResource manufatured, Resource resource) {
-        //Check if resource is parte of manufatured recipe
-        if(!manufatured.getRecipe(0).containsKey(resource)){
-            LOGGER.error("error:", "trying to get amount of a primary resource that is not necessary to create the transform,");
-            return -1;
-        }
-
-        int amount = getAccumulatedAmountNecessary(resource);
-
-        for (int i = 0; i < items.size(); i++){
-            Resource res = items.get(i).resource();
-            if(res.isPrimary()){
-                if(res.getName().equals(resource.getName()) && items.get(i).isComplete(collectedResources)){
-                    //Not use amount of a primary resource already complete
-                    amount -= items.get(i).amount();
-                }
-            }
-            else{
-                //If it was not made a transform yet to this res and its not the manufatured I want.
-                if (getResourcesToCreate().contains(res) && !manufatured.equals((ManufacturedResource)res)){
-                    //TODO: verify best strategy to use all the primary resource left to make manufatured resources
-                    amount -= ((ManufacturedResource) res).getRecipe(items.get(i).amount()).get(resource);
-
-                }
-            }
-        }
-        return amount;
+        LOGGER.error("The element" + resource.getName() + "its not in the contract.");
+        return -1;
     }
 
     /**
@@ -151,6 +172,7 @@ public class Contracts {
         } else {
             collectedResources.put(resource.getName(), amount);
         }
+        LOGGER.info("Collected resources: " + collectedResources);
     }
 
     /**
@@ -176,71 +198,4 @@ public class Contracts {
         }
     }
 
-    /**
-     * Add items in the contract
-     * @param resource resource's name
-     * @param amount resource's amount
-     * @throws NegativeBudgetException
-     */
-    public void addContract(String resource, int amount) throws NegativeBudgetException {
-        try {
-            items.add(new ContractItem(new ManufacturedResource(ManufacturedType.valueOf(resource)), amount));
-            //update the resources manufactured in the list of resources to be create.
-            if (resourcesToCreate == null)
-                resourcesToCreate = new ArrayList<>();
-            resourcesToCreate.add(new ManufacturedResource(ManufacturedType.valueOf(resource)));
-        } catch (Exception ex) {
-            items.add(new ContractItem(new PrimaryResource(PrimaryType.valueOf(resource)), amount));
-        }
-    }
-
-    /**
-     * Return the index of the contract item that have the resource.
-     * @param resource
-     * @return
-     */
-    public int getContractIndex(Resource resource) {
-        for (int index = 0; index < items.size(); index++) {
-            ContractItem item = items.get(index);
-            if (item.resource().getName().equals(resource.getName())){
-                return index;
-            }
-        }
-        LOGGER.error("The element" + resource.getName() + "its not in the contract.");
-        return -1;
-    }
-
-    /**
-     * @return true if all the contracts are completed.
-     */
-    public boolean contractsAreComplete(){
-        completeContract = true;
-        for(int i = 0; i < items.size(); i++){
-            if (!items.get(i).isComplete(collectedResources)){
-                completeContract = false;
-                return completeContract;
-            }
-        }
-        return completeContract;
-    }
-
-    /**
-     *
-     * @return List of resources in the contract that need to be transformed
-     */
-    public List<ManufacturedResource> getResourcesToCreate() {
-        return resourcesToCreate;
-    }
-
-    public void removeResourceToCreate(int index){
-        if(resourcesToCreate.isEmpty()){
-            LOGGER.error("error:", "The list is empty, can not remove.");
-        }
-        try{
-            resourcesToCreate.remove(index);
-        }
-        catch(Exception e){
-            LOGGER.error("Can not remove this element");
-        }
-    }
 }

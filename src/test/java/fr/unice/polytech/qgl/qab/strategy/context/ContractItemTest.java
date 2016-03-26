@@ -7,6 +7,7 @@ import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.strategy.context.contracts.ContractItem;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -50,7 +51,6 @@ public class ContractItemTest {
         assertFalse(itemManufactured.isComplete(context.getContracts().getCollectedResources()));
 
         context.getContracts().addCollectedResources(new ManufacturedResource(ManufacturedType.RUM), 3);
-        assertFalse(itemManufactured.isComplete(context.getContracts().getCollectedResources()));
         int collectedRum = context.getContracts().getCollectedResources().get(new ManufacturedResource(ManufacturedType.RUM).getName());
         assertEquals(3, collectedRum);
 

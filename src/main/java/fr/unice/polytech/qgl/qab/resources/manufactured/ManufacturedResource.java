@@ -4,7 +4,6 @@ import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.resources.Resource;
-import static java.lang.Math.ceil;
 
 import java.util.*;
 
@@ -17,8 +16,6 @@ public class ManufacturedResource implements Resource {
     private ManufacturedType resource;
     private EnumMap<PrimaryType, Integer> recipe = new EnumMap<PrimaryType, Integer>(PrimaryType.class);
     private Set<Biomes> biomes = new HashSet<>();
-    private boolean transformed = false;
-    private static final double MARGIN_ERROR = 1.0;
 
     /**
      * ManufacturedResource's constructor
@@ -29,14 +26,7 @@ public class ManufacturedResource implements Resource {
         setBiomes();
     }
 
-    public boolean isTransformed() {
-        return transformed;
-    }
-
-    public void setTransformed(boolean transformed) {
-        this.transformed = transformed;
-    }
-
+    @Override
     public ManufacturedType getType(){
         return resource;
     }
@@ -55,12 +45,14 @@ public class ManufacturedResource implements Resource {
                 res =  new PrimaryResource(PrimaryType.WOOD);
                 biomes.addAll(res.getBiome());
                 break;
+
             case INGOT:
                 res =  new PrimaryResource(PrimaryType.ORE);
                 biomes.addAll(res.getBiome());
                 res =  new PrimaryResource(PrimaryType.WOOD);
                 biomes.addAll(res.getBiome());
                 break;
+
             case LEATHER:
                 res = new PrimaryResource(PrimaryType.FUR);
                 biomes.addAll(res.getBiome());
@@ -89,34 +81,35 @@ public class ManufacturedResource implements Resource {
 
     /**
      * Return the "recipe" to making this manufactured resource
-     * @param amountRecipe
+     * @param amount
      * @return
      */
-    public Map<PrimaryType, Integer> getRecipe(int amountRecipe){
-        if (amountRecipe < 0)
+    public Map<PrimaryType, Integer> getRecipe(int amount){
+        if (amount < 0)
             throw new IllegalArgumentException("Not allow negative value");
 
         switch (resource){
             case GLASS:
-                recipe.put(PrimaryType.QUARTZ, (int)(ceil(10 * amountRecipe * MARGIN_ERROR)));
-                recipe.put(PrimaryType.WOOD, (int) (ceil(5 * amountRecipe * MARGIN_ERROR)));
+                recipe.put(PrimaryType.QUARTZ, 10 * amount);
+                recipe.put(PrimaryType.WOOD, 5 * amount);
                 break;
 
             case INGOT:
-                recipe.put(PrimaryType.WOOD, (int)(ceil(5 * amountRecipe * MARGIN_ERROR)));
+                recipe.put(PrimaryType.ORE, 5 * amount);
+                recipe.put(PrimaryType.WOOD, 5 * amount);
                 break;
 
             case LEATHER:
-                recipe.put(PrimaryType.FUR, (int)(ceil(3 * amountRecipe * MARGIN_ERROR)));
+                recipe.put(PrimaryType.FUR, 3 * amount);
                 break;
 
             case PLANK:
-                recipe.put(PrimaryType.WOOD, (int) (ceil((amountRecipe/4 + ((amountRecipe % 4 == 0)? 0: 1)) * MARGIN_ERROR)));
+                recipe.put(PrimaryType.WOOD, amount/4 + ((amount % 4 == 0)? 0: 1));
                 break;
 
             case RUM:
-                recipe.put(PrimaryType.SUGAR_CANE, (int) (ceil(10 * amountRecipe * MARGIN_ERROR)));
-                recipe.put(PrimaryType.FRUITS, (int) (ceil(amountRecipe * MARGIN_ERROR)));
+                recipe.put(PrimaryType.SUGAR_CANE, 10 * amount);
+                recipe.put(PrimaryType.FRUITS, amount);
                 break;
 
             default:
@@ -126,8 +119,18 @@ public class ManufacturedResource implements Resource {
     }
 
     @Override
-    public boolean isPrimary() {
-        return false;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ManufacturedResource that = (ManufacturedResource) o;
+
+        return resource == that.resource;
+
     }
 
+    @Override
+    public int hashCode() {
+        return resource != null ? resource.hashCode() : 0;
+    }
 }
