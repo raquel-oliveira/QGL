@@ -56,9 +56,8 @@ public class ManufacturedResourceTest {
         map = manufacturedResource.getRecipe(10);
         mapDefault = new HashMap<>();
         mapDefault.put(PrimaryType.WOOD, 5 * amountRecipe);
-
-        // TODO: veja esse teste
-        // assertEquals(mapDefault, map);
+        mapDefault.put(PrimaryType.ORE, 5 * amountRecipe);
+        assertEquals(mapDefault, map);
 
         manufacturedResource = new ManufacturedResource(ManufacturedType.LEATHER);
         map = manufacturedResource.getRecipe(10);
