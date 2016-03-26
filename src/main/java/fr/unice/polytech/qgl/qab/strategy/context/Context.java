@@ -6,7 +6,6 @@ import fr.unice.polytech.qgl.qab.strategy.context.utils.ContextAction;
 import fr.unice.polytech.qgl.qab.strategy.context.contracts.Contracts;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
-import static java.lang.Math.ceil;
 import fr.unice.polytech.qgl.qab.util.Discovery;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -15,7 +14,6 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -43,8 +41,6 @@ public class Context {
     private ContextAction contextActionAerial;
     private ContextAction contextActionGround;
 
-    private Map<String, Integer> collectedResources;
-
     /**
      * Context's constructor
      * @throws NegativeBudgetException exception if the valut to the budget is negative
@@ -61,8 +57,6 @@ public class Context {
         contextActionCurrent = new ContextAction();
         contextActionAerial = new ContextAction();
         contextActionGround = new ContextAction();
-
-        this.collectedResources = new HashMap<>();
     }
 
     /**
@@ -211,50 +205,5 @@ public class Context {
      */
     public void setLastDiscovery(Discovery lastDiscovery) {
         this.lastDiscovery = lastDiscovery;
-    }
-
-    /**
-     * Return the collected Resources that were tooked after exploit a tile
-     * @return HashMap - resources collected and the respective amounts.
-     */
-    public  Map<String, Integer> getCollectedResources(){
-        return collectedResources;
-    }
-
-    /**
-     * Method to add a collect resource after action exploit.
-     * @param resource
-     * @param amount
-     */
-    public void addCollectedResources(Resource resource, int amount) {
-        if (collectedResources.containsKey(resource.getName())) {
-            collectedResources.put(resource.getName(), collectedResources.get(resource.getName()) + amount);
-        } else {
-            collectedResources.put(resource.getName(), amount);
-        }
-        LOGGER.info("Collected resources: " + collectedResources);
-    }
-
-    /**
-     * Method to Remove a quantity of a resource. To use to update after transform.
-     * @param resource
-     * @param amount
-     */
-    public int decreaseAmountOfCollectedResources(Resource resource, int amount) {
-        try{
-            int newAmount = collectedResources.get(resource.getName()) - amount;
-            if( newAmount >= 0){
-                collectedResources.put(resource.getName(), newAmount);
-                return amount;
-            }
-            else {
-                newAmount = 0;
-                int beforeDecrease = collectedResources.get(resource.getName());
-                collectedResources.put(resource.getName(), newAmount);
-                return beforeDecrease;
-            }
-        }catch (Exception e){
-            return -1;
-        }
     }
 }

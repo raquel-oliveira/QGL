@@ -2,7 +2,6 @@ package fr.unice.polytech.qgl.qab.strategy.ground.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
-import fr.unice.polytech.qgl.qab.actions.simple.ground.Exploit;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Transform;
 import fr.unice.polytech.qgl.qab.exception.action.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.context.NegativeBudgetException;
@@ -13,6 +12,9 @@ import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedType;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
+import fr.unice.polytech.qgl.qab.strategy.context.contracts.ContractItem;
+import static java.lang.Math.ceil;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -45,18 +47,18 @@ public class TransformResourceTest {
     @Test
     public void testReturnState() throws NegativeBudgetException, PositionOutOfMapRange{
         context.getContracts().addContract("WOOD", 15);
-        context.addCollectedResources(new PrimaryResource(PrimaryType.FISH), 10);
+        context.getContracts().addCollectedResources(new PrimaryResource(PrimaryType.FISH), 10);
 
         GroundState state = trans.getState(context, new Map());
         assertEquals(ScoutTile.class, state.getClass());
 
-        context.addCollectedResources(new PrimaryResource(PrimaryType.WOOD), 15);
+        context.getContracts().addCollectedResources(new PrimaryResource(PrimaryType.WOOD), 15);
         state = trans.getState(context, new Map());
         assertEquals(ScoutTile.class, state.getClass());
 
         context.getContracts().addContract("GLASS", 1);
-        context.addCollectedResources(new PrimaryResource(PrimaryType.QUARTZ), new ManufacturedResource(ManufacturedType.GLASS).getRecipe(1).get(PrimaryType.QUARTZ));
-        context.addCollectedResources(new PrimaryResource(PrimaryType.WOOD), new ManufacturedResource(ManufacturedType.GLASS).getRecipe(1).get(PrimaryType.WOOD));
+        context.getContracts().addCollectedResources(new PrimaryResource(PrimaryType.QUARTZ), new ManufacturedResource(ManufacturedType.GLASS).getRecipe((int)(ceil(1 * ContractItem.getMarginError()))).get(PrimaryType.QUARTZ));
+        context.getContracts().addCollectedResources(new PrimaryResource(PrimaryType.WOOD), new ManufacturedResource(ManufacturedType.GLASS).getRecipe((int)(ceil(1 * ContractItem.getMarginError()))).get(PrimaryType.WOOD));
         state = trans.getState(context, new Map());
         assertEquals(TransformResource.class, state.getClass());
 
@@ -65,25 +67,18 @@ public class TransformResourceTest {
     @Test
     public void responseStop() throws NegativeBudgetException, IndexOutOfBoundsComboAction {
         context.getContracts().addContract("GLASS", 1);
-        context.addCollectedResources(new ManufacturedResource(ManufacturedType.GLASS), 1);
+        context.getContracts().addCollectedResources(new ManufacturedResource(ManufacturedType.GLASS), 1);
         Action act = trans.responseState(context, new Map());
         assertEquals(Stop.class, act.getClass());
     }
 
     @Test
     public void responseTransforme() throws NegativeBudgetException, IndexOutOfBoundsComboAction {
-        context.getContracts().addContract("GLASS", 1);
-        context.addCollectedResources(new PrimaryResource(PrimaryType.QUARTZ), new ManufacturedResource(ManufacturedType.GLASS).getRecipe(1).get(PrimaryType.QUARTZ));
-        context.addCollectedResources(new PrimaryResource(PrimaryType.WOOD), new ManufacturedResource(ManufacturedType.GLASS).getRecipe(1).get(PrimaryType.WOOD));
+        context.getContracts().addContract("GLASS", 5);
+        context.getContracts().addCollectedResources(new PrimaryResource(PrimaryType.QUARTZ), new ManufacturedResource(ManufacturedType.GLASS).getRecipe((int)(ceil(5 * ContractItem.getMarginError()))).get(PrimaryType.QUARTZ));
+        context.getContracts().addCollectedResources(new PrimaryResource(PrimaryType.WOOD), new ManufacturedResource(ManufacturedType.GLASS).getRecipe((int)(ceil(5 * ContractItem.getMarginError()))).get(PrimaryType.WOOD));
         Action act = trans.responseState(context, new Map());
         assertEquals(Transform.class, act.getClass());
     }
 
-    @Test
-    public void returnLastActionDifferentOfTransform() throws NegativeBudgetException{
-        context.getContracts().addContract("GLASS", 1);
-        context.addCollectedResources(new PrimaryResource(PrimaryType.QUARTZ), new ManufacturedResource(ManufacturedType.GLASS).getRecipe(1).get(PrimaryType.QUARTZ));
-        //scout?
-
-    }
 }

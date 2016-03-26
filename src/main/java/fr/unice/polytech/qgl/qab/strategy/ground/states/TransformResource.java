@@ -21,6 +21,7 @@ import static java.lang.Math.ceil;
 import java.util.List;
 
 /**
+ * This GroundState represents the state to transforme the resources.
  * version 07/03/2016.
  */
 public class TransformResource extends GroundState {
@@ -28,7 +29,8 @@ public class TransformResource extends GroundState {
 
     @Override
     public GroundState getState(Context context, Map map) throws PositionOutOfMapRange {
-        if (!context.getContracts().enoughToTransform(context)) {
+        Contracts contracts = context.getContracts();
+        if (!contracts.enoughToTransform()) {
             updateContext(context);
             LOGGER.info("Will scout");
             return GroundStateFactory.buildState(GroundStateType.SCOUT_TILE);
@@ -43,18 +45,17 @@ public class TransformResource extends GroundState {
         List<ContractItem> contractItems = contracts.getItems();
 
         //Everything was completed
-        if (context.getContracts().contractsAreComplete(context)){
+        if (context.getContracts().contractsAreComplete()){
             return new Stop();
         }
         //There is at least one element that can be transformed.
-        if(contracts.enoughToTransform(context)) {
+        if(contracts.enoughToTransform()) {
             for(ContractItem items : contractItems){
                 //This element can be transformed:
-                if (items.canTransform(context)){
+                if (items.canTransform(contracts)){
                     LOGGER.info("Can transform");
                     //Amounted asked in the contract
-                    int amountContract = items.amount();
-                    java.util.Map recipe = ((ManufacturedResource)(items.resource())).getRecipe((int) (ceil(amountContract * items.getMarginError())));
+                    java.util.Map recipe = ((ManufacturedResource)(items.resource())).getRecipe( (int) (ceil(items.amount() * ContractItem.getMarginError())));
 
                     LOGGER.info("Transform " + items.resource().getName());
                     Action act = new Transform(recipe, context);
@@ -64,7 +65,7 @@ public class TransformResource extends GroundState {
                 }
             }
         }
-        //todo: ?
+        //Never will get in the action because of the verifications in groundStrategy.
         return context.current().getLastAction();
     }
 

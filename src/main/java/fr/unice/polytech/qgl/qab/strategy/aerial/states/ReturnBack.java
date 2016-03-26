@@ -13,6 +13,9 @@ import fr.unice.polytech.qgl.qab.strategy.context.utils.UpdaterMap;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 
 /**
+ * This AerialState represents the phase when the plane need return back to the ground.
+ * After fly in the ocean and see that there is not ground in the same direction,
+ * the bot will return back.
  * @version 12.12.2015.
  */
 public class ReturnBack extends AerialState {

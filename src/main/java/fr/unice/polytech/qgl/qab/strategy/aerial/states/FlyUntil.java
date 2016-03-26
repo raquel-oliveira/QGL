@@ -14,7 +14,6 @@ import fr.unice.polytech.qgl.qab.strategy.context.utils.UpdaterMap;
  * @version 12/12/2015.
  */
 public class FlyUntil extends AerialState {
-
     private UpdaterMap updaterMap;
 
     /**

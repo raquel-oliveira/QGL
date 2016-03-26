@@ -9,6 +9,8 @@ import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import static java.lang.Math.ceil;
+
 
 import java.util.*;
 
@@ -20,13 +22,24 @@ public class Contracts {
     private static final Logger LOGGER = LogManager.getLogger(Contracts.class);
 
     private List<ContractItem> items;
-    private Boolean completeContract;
+    private Boolean completeContracts;
+    private Map<String, Integer> collectedResources;
 
+
+    /**
+     * Contracts' constructor
+     */
     public Contracts() {
         this.items = new ArrayList<>();
-        this.completeContract = false;
+        this.completeContracts = false;
+        this.collectedResources = new HashMap<>();
+
     }
 
+    /**
+     * Return the items of the contract.
+     * @return itemns of the contract.
+     */
     public List<ContractItem> getItems() {
         return this.items;
     }
@@ -46,26 +59,23 @@ public class Contracts {
     }
 
     /**
-     * Get number of amount of a primaryResource needed to fill the contracts that need of 'resource'(primary + maufactured)
-     * @param resource
-     * @return
+     * Get number of amount of a primaryResource needed to fill the contracts
+     * that need of 'resource'(primary + maufactured)
+     * @param resource the analyzed resource
+     * @return the amount of a primaryResource needed to fill the contracts
      */
-    public int getAccumulatedAmountNecessary(Resource resource){
+    public int getAmountPrimaryNeeded(PrimaryResource resource){
         int amount = 0;
-        if (resource instanceof ManufacturedResource){
-            LOGGER.error("Passed the wrong parameter.");
-            return -1;
-        }
         for (int i = 0; i < items.size(); i++) {
             Resource res = items.get(i).resource();
             int amountAsked = items.get(i).amount();
             if ((res instanceof PrimaryResource) && res.getName().equals(resource.getName())) {
                 amount += amountAsked;
-            } else if (res instanceof ManufacturedResource){ // TODO: && !item.get(i).isComplete()
-                PrimaryType prim = ((PrimaryResource)(resource)).getType();
+            } else if ((res instanceof ManufacturedResource) && (!items.get(i).isComplete(getCollectedResources()))){
+                PrimaryType prim = resource.getType();
                 if (((ManufacturedResource) items.get(i).resource()).getRecipe(0).containsKey(prim)){
-                    int pureAmount = ((ManufacturedResource) res).getRecipe(items.get(i).amount()).get(prim);
-                    amount +=  pureAmount;
+                    int amountAprox = ((ManufacturedResource) res).getRecipe((int) (ceil(items.get(i).amount() * ContractItem.getMarginError()))).get(prim);
+                    amount +=  amountAprox;
                 }
             }
         }
@@ -73,29 +83,31 @@ public class Contracts {
     }
 
     /**
+     * Method to checks if the contracts are complete.
      * @return true if all the contracts are completed.
      */
-    public boolean contractsAreComplete(Context context){
-        completeContract = true;
+    public boolean contractsAreComplete(){
+        completeContracts = true;
         for(int i = 0; i < items.size(); i++){
-            if (!items.get(i).isComplete(context.getCollectedResources())){
-                completeContract = false;
-                return completeContract;
+            if (!items.get(i).isComplete(getCollectedResources())){
+                completeContracts = false;
+                return false;
             }
         }
-        return completeContract;
+        return completeContracts;
     }
 
     /**
+     * Method to checks if there is primary resources enough to complete all the contracts
      * @return true if there is primary resources enough to complete all the contracts
      * Observation: It reserves the quantity of primary to complete the primaries resources
      */
-    public boolean enoughToTransformAll(Context context){
+    public boolean enoughToTransformAll(){
         Set<String> primaryResources = primaryNeeded();
         for (String resource: primaryResources) {
-            if (!context.getCollectedResources().containsKey(resource))
+            if (!getCollectedResources().containsKey(resource))
                 return false;
-            if (context.getCollectedResources().get(resource) < getAccumulatedAmountNecessary(new PrimaryResource(PrimaryType.valueOf(resource)))){
+            if (getCollectedResources().get(resource) <  getAmountPrimaryNeeded(new PrimaryResource(PrimaryType.valueOf(resource)))){
                 return false;
             }
         }
@@ -104,11 +116,13 @@ public class Contracts {
     }
 
     /**
-     * @return true if there is primary resources enough to complete at least one contract manufactured
+     * Method to check if there is primary resources enough to complete at least one contract manufactured
+     * @return true if there is primary resources enough to
+     * complete at least one contract manufactured
      */
-    public boolean enoughToTransform(Context context){
+    public boolean enoughToTransform(){
         for(ContractItem contracts : items){
-            if (contracts.canTransform(context)){
+            if (contracts.canTransform(this)){
                 return true;
             }
         }
@@ -116,7 +130,7 @@ public class Contracts {
     }
 
     /**
-     *
+     * Method that returns a list of primary resources needed to complet all the contracts
      * @return list of primary resources needed to complet all the contracts
      */
     public Set<String> primaryNeeded(){
@@ -136,9 +150,9 @@ public class Contracts {
     }
 
     /**
-     * Return the index of the contract item that have the resource.
-     * @param resource
-     * @return
+     * Return the index of the contract item that has the resource
+     * @param resource the analyzed resource
+     * @return the index of the contract item that has the resource
      */
     public int getContractIndex(Resource resource) {
         for (int index = 0; index < items.size(); index++) {
@@ -149,6 +163,51 @@ public class Contracts {
         }
         LOGGER.error("The element" + resource.getName() + "its not in the contract.");
         return -1;
+    }
+
+    /**
+     * Return the collected Resources that were tooked after exploit a tile
+     * @return HashMap - resources collected and the respective amounts.
+     */
+    public  Map<String, Integer> getCollectedResources(){
+        return collectedResources;
+    }
+
+    /**
+     * Method to add a collect resource after action exploit.
+     * @param resource
+     * @param amount
+     */
+    public void addCollectedResources(Resource resource, int amount) {
+        if (collectedResources.containsKey(resource.getName())) {
+            collectedResources.put(resource.getName(), collectedResources.get(resource.getName()) + amount);
+        } else {
+            collectedResources.put(resource.getName(), amount);
+        }
+        LOGGER.info("Collected resources: " + collectedResources);
+    }
+
+    /**
+     * Method to Remove a quantity of a resource. To use to update after transform.
+     * @param resource
+     * @param amount
+     */
+    public int decreaseAmountOfCollectedResources(Resource resource, int amount) {
+        try{
+            int newAmount = collectedResources.get(resource.getName()) - amount;
+            if( newAmount >= 0){
+                collectedResources.put(resource.getName(), newAmount);
+                return amount;
+            }
+            else {
+                newAmount = 0;
+                int beforeDecrease = collectedResources.get(resource.getName());
+                collectedResources.put(resource.getName(), newAmount);
+                return beforeDecrease;
+            }
+        }catch (Exception e){
+            return -1;
+        }
     }
 
 }

@@ -12,7 +12,7 @@ import java.util.*;
  *
  * Class that represent the manufactured resources
  */
-public class ManufacturedResource extends Resource {
+public class ManufacturedResource implements Resource {
     private ManufacturedType resource;
     private EnumMap<PrimaryType, Integer> recipe = new EnumMap<PrimaryType, Integer>(PrimaryType.class);
     private Set<Biomes> biomes = new HashSet<>();
@@ -26,10 +26,12 @@ public class ManufacturedResource extends Resource {
         setBiomes();
     }
 
+    @Override
     public ManufacturedType getType(){
         return resource;
     }
 
+    @Override
     public String getName() {
         return resource.toString();
     }
@@ -72,6 +74,7 @@ public class ManufacturedResource extends Resource {
         }
     }
 
+    @Override
     public Set<Biomes> getBiome(){
         return biomes;
     }

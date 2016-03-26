@@ -92,7 +92,7 @@ public class HandlerResponse {
      * Method tha read response from echo
      * @param context context data of the current simulation
      * @param jsonObj json with the response
-     * @param takeAction
+     * @param takeAction last action made
      * @return context updated
      */
     private Context readDataFromEcho(Context context, JSONObject jsonObj, Action takeAction) {
@@ -227,12 +227,19 @@ public class HandlerResponse {
         return contextIsland;
     }
 
+    /**
+     * Method tha read response from exploit
+     * @param context context data of the current simulation
+     * @param jsonObj json with the response
+     * @param takeAction the last action taken
+     * @return context updated
+     */
     private Context readDataFromExploit(Context context, JSONObject jsonObj, Action takeAction){
         ExploitResponse exploit = new ExploitResponse();
         if(jsonObj.getJSONObject(EXTRAS).has(AMOUNT)){
             int amount = jsonObj.getJSONObject(EXTRAS).getInt(AMOUNT);
             exploit.addData(((Exploit)takeAction).getResource(), amount);
-            context.addCollectedResources(exploit.getResource(), exploit.getAmount());
+            context.getContracts().addCollectedResources(exploit.getResource(), exploit.getAmount());
         }
 
         discovery.setExploiteResponse(exploit);
@@ -267,6 +274,12 @@ public class HandlerResponse {
         return contextIsland;
     }
 
+    /**
+     * Method tha read response from transform
+     * @param context context data of the current simulation
+     * @param jsonObj json with the response
+     * @return context updated
+     */
     private Context readDataFromTransform(Context context,  JSONObject jsonObj){
         TransformResponse transform = new TransformResponse();
 

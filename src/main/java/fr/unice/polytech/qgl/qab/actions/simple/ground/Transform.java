@@ -7,7 +7,6 @@ import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import org.json.JSONObject;
 
-import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -27,7 +26,7 @@ public class Transform extends Action {
         //Decrease primary amounts used to create. Does not matter if the number of production is > 0 or not.
         for(java.util.Map.Entry<PrimaryType, Integer> ingredientRecipe : recipe.entrySet()) {
             PrimaryResource primary = new PrimaryResource(ingredientRecipe.getKey());
-            context.decreaseAmountOfCollectedResources(primary, ingredientRecipe.getValue());
+            context.getContracts().decreaseAmountOfCollectedResources(primary, ingredientRecipe.getValue());
         }
     }
 

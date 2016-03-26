@@ -11,20 +11,29 @@ import java.util.Set;
  *
  * Class that represent the resources.
  */
-public abstract class Resource <T extends ResourceType> {
+public interface Resource <T extends ResourceType> {
 
     /**
      * Method that return the resource name
      * @return resource name
      */
-    public abstract String getName();
+    public String getName();
 
     /**
      * Method the return the set of biomes that can produce this resource
      * @return set of biomes that can produce this resource
      */
-    public abstract Set<Biomes> getBiome();
+    public Set<Biomes> getBiome();
 
-    public abstract T getType();
+    /**
+     * Return the resource type.
+     * @return resource type
+     */
+    public T getType();
 
+    @Override
+    public boolean equals(Object o);
+
+    @Override
+    public int hashCode();
 }

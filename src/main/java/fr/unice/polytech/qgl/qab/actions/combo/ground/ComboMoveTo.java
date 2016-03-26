@@ -7,9 +7,8 @@ import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import java.util.ArrayList;
 
 /**
- * @version 01/02/16.
- *
  * Class that represent the combo of action move.
+ * @version 01/02/16.
  */
 public class ComboMoveTo extends Combo {
     public ComboMoveTo() {
