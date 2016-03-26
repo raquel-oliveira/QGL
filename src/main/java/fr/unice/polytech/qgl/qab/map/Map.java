@@ -69,7 +69,7 @@ public class Map {
 
     /**
      * If I need initialize a tile as ocean
-     * @param position
+     * @param position position of the tile
      * @throws PositionOutOfMapRange
      */
     public void initializeTile(Position position, TileType type) throws PositionOutOfMapRange {
@@ -81,6 +81,12 @@ public class Map {
         tiles.put(position, new Tile(type));
     }
 
+    /**
+     * add a list of biomes or creeks of a tile
+     * @param position position of the tile
+     * @param biomes list of biomes
+     * @param creeks list of creeks
+     */
     public void addBiome(Position position, List<Biomes> biomes, List<Creek> creeks) {
         Tile newTile = new Tile();
         newTile.setBiomesPredominant(biomes);
@@ -143,12 +149,18 @@ public class Map {
 
     /**
      * Check if the set of tiles is empty
-     * @return
+     * @return if the set of tiles is empty
      */
     public boolean isEmpty() {
         return tiles.isEmpty();
     }
 
+    /**
+     * Return a list of position with biomes that can produce the
+     * resources that were given in the contract
+     * @param context current context data
+     * @return a list of positions
+     */
     public List<Position> getGoodPositions(Context context) {
         List<Position> goodPositions = new ArrayList<>();
         for(java.util.Map.Entry<Position, Tile> entry : tiles.entrySet()) {
@@ -172,9 +184,9 @@ public class Map {
 
     /**
      * Return the position more close of the current position
-     * @param positionList
-     * @param current
-     * @return
+     * @param positionList list of positions
+     * @param current current position
+     * @return the best position
      */
     public Position positionClose(List<Position> positionList, Position current) {
         Position good = null;
@@ -194,7 +206,7 @@ public class Map {
 
     /**
      * Set a specifical tile as visited
-     * @param position
+     * @param position position to set as visited
      */
     public void setTileVisited(Position position) {
         Tile tmpTile = tiles.get(position);
@@ -204,7 +216,7 @@ public class Map {
 
     /**
      * Get the best creek
-     * @param context
+     * @param context current context data
      */
     public void getBestCreek(Context context) {
         // positions that have interesting biomes for the contract
@@ -231,6 +243,11 @@ public class Map {
         lastPositionGround = creekLand;
     }
 
+    /**
+     * Get the Tile for a position
+     * @param p position to find the tile
+     * @return the tile found
+     */
     public Tile getTile(Position p) {
         return tiles.get(p);
     }

@@ -16,14 +16,14 @@ public abstract class Action {
 
     /**
      * Method that check if the json is valid
-     * @param jsonObj
-     * @return
+     * @param jsonObj json object to analyze
+     * @return true if the json is valid, false if not
      */
     public abstract boolean isValid(JSONObject jsonObj);
 
     /**
      * Method that return the response in the right structure
-     * @return
+     * @return the response in the right structure
      */
     public abstract String formatResponse();
 
