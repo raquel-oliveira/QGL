@@ -54,8 +54,7 @@ public class TransformResource extends GroundState {
                 if (items.canTransform(contracts)){
                     LOGGER.info("Can transform");
                     //Amounted asked in the contract
-                    int amountContract = items.amount();
-                    java.util.Map recipe = ((ManufacturedResource)(items.resource())).getRecipe((int) (ceil(amountContract * items.getMarginError())));
+                    java.util.Map recipe = ((ManufacturedResource)(items.resource())).getRecipe( (int) (ceil(items.amount() * ContractItem.getMarginError())));
 
                     LOGGER.info("Transform " + items.resource().getName());
                     Action act = new Transform(recipe, context);
@@ -65,7 +64,7 @@ public class TransformResource extends GroundState {
                 }
             }
         }
-        //todo: ?
+        //Never will get in the action because of the verifications in groundStrategy.
         return context.current().getLastAction();
     }
 
