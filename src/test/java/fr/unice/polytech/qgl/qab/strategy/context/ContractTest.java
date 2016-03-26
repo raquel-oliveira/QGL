@@ -13,6 +13,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @version 29/12/15.
@@ -54,7 +56,24 @@ public class ContractTest {
         wood += 5;
         getAmount = contracts.getAmountPrimaryNeeded(new PrimaryResource(PrimaryType.WOOD));
         assertEquals(wood, getAmount);
+    }
 
+    @Test
+    public void transformAll() throws NegativeBudgetException{
+        contracts.addContract("GLASS", 2);
+        int wood = (int) (ceil(new ManufacturedResource(ManufacturedType.GLASS).getRecipe(2).get(PrimaryType.WOOD) * ContractItem.getMarginError()));
+        int quartz = (int) (ceil(new ManufacturedResource(ManufacturedType.GLASS).getRecipe(2).get(PrimaryType.QUARTZ) * ContractItem.getMarginError()));
+        contracts.addCollectedResources(new PrimaryResource(PrimaryType.WOOD), wood);
+        contracts.addCollectedResources(new PrimaryResource(PrimaryType.QUARTZ), quartz);
+        assertTrue(contracts.enoughToTransformAll());
+
+        contracts.addContract("INGOT", 3);
+        contracts.decreaseAmountOfCollectedResources(new PrimaryResource(PrimaryType.WOOD), wood);
+        contracts.decreaseAmountOfCollectedResources(new PrimaryResource(PrimaryType.QUARTZ), quartz);
+        assertFalse(contracts.enoughToTransformAll());
+
+        contracts.addCollectedResources(new PrimaryResource(PrimaryType.WOOD), 3);
+        assertFalse(contracts.enoughToTransformAll());
 
     }
 
