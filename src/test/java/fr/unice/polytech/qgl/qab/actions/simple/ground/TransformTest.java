@@ -1,8 +1,10 @@
 package fr.unice.polytech.qgl.qab.actions.simple.ground;
 
+import fr.unice.polytech.qgl.qab.exception.context.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedType;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
+import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -23,12 +25,13 @@ public class TransformTest {
     Transform transform;
     Map<PrimaryType, Integer> recipe;
 
-    @Test
-    public void defineContext() {
+    @Before
+    public void defineContext() throws NegativeBudgetException {
+        transform = new Transform(new HashMap<>(), new Context());
         recipe = new ManufacturedResource(ManufacturedType.GLASS).getRecipe(1);
     }
 
-    @Ignore
+    @Test
     public void testValideTest() {
         int valueWood = recipe.get(PrimaryType.WOOD);
         int valueQuartz = recipe.get(PrimaryType.QUARTZ);
@@ -36,19 +39,19 @@ public class TransformTest {
         assertTrue(transform.isValid(jsonObj));
     }
 
-    @Ignore
+    @Test
     public void testNotValidActionJson() {
         JSONObject jsonObj = new JSONObject("{ \"action\": \"transform\", \"parameters\": { \"GLASS\": 6, \"QUARTZ\": 11 }}\n");
         assertFalse(transform.isValid(jsonObj));
     }
 
-    @Ignore
+    @Test
     public void testWithoutActionNotValidActionJson() {
         JSONObject jsonObj = new JSONObject("{\"act\": \"transform\", \"parameters\": { \"WOOD\": 6, \"QUARTZ\": 11 }}\n");
         assertFalse(transform.isValid(jsonObj));
     }
 
-    @Ignore
+    @Test
     public void testNotTransformNotValidActionJson() {
         JSONObject jsonObj = new JSONObject("{ \"action\": \"transforme\", \"parameters\": { \"WOOD\": 6, \"QUARTZ\": 11 }}\n");
         assertFalse(transform.isValid(jsonObj));
