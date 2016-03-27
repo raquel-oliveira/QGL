@@ -10,10 +10,10 @@ import org.apache.logging.log4j.LogManager;
 
 
 /**
- * @version 4.9
- *
  * Class that represents the bot in the game.
- * Description based on documentation (http://ace-design.github.io/island/bot/)
+ *
+ * @version 4.9
+ * @see <a href="http://ace-design.github.io/island/bot/">Ace Design</a>.
  */
 public class Explorer implements IExplorerRaid {
     // strategy with the bot actions
@@ -22,7 +22,7 @@ public class Explorer implements IExplorerRaid {
     private static final String ERROR = "error";
 
     /**
-     * Explorer's constructor
+     * Explorer's constructor.
      */
     public Explorer() {
         try {

@@ -7,9 +7,44 @@
   <artifactId>qab</artifactId>
   <version>0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
+  <description>
+      This project is a programming game designed with the objective comply with the requirements
+      provided during the discipline of Quality and Software Engineering.
+      To more informations about the project: http://ace-design.github.io/island/description/.
+  </description>
 
   <name>ISLAB :: 煉獄</name>
   <url>http://www.i3s.unice.fr/~mosser/teaching/15_16/se</url>
+
+  <mailingLists>
+    <mailingList>
+      <name>Gabriela Cavalcante da Silva</name>
+      <post>gabriela.cavalcante-da-silva@etu.unice.fr</post>
+      <unsubscribe>gabriela.cavalcante-da-silva@etu.unice.fr</unsubscribe>
+      <archive>gabriela.cavalcante-da-silva@etu.unice.fr</archive>
+    </mailingList>
+
+    <mailingList>
+      <name>Huang Xiaohan</name>
+      <post>xiaohan.huang@etu.unice.fr</post>
+      <unsubscribe>gabriela.cavalcante-da-silva@etu.unice.fr</unsubscribe>
+      <archive>gabriela.cavalcante-da-silva@etu.unice.fr</archive>
+    </mailingList>
+
+    <mailingList>
+      <name>Quentin Prod'Homme</name>
+      <post>quentin.prod'homme@etu.unice.fr</post>
+      <unsubscribe>quentin.prod'homme@etu.unice.fr</unsubscribe>
+      <archive>quentin.prod'homme@etu.unice.fr</archive>
+    </mailingList>
+
+    <mailingList>
+      <name>Raquel Lopes de Oliveira</name>
+      <post>raquel.lopes-de-oliveira@etu.unice.fr</post>
+      <unsubscribe>raquel.lopes-de-oliveira@etu.unice.fr</unsubscribe>
+      <archive>raquel.lopes-de-oliveira@etu.unice.fr</archive>
+    </mailingList>
+  </mailingLists>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
