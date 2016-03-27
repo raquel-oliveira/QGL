@@ -92,4 +92,4 @@ Fix problem to get the contracts of primaries resources. Improvement the strateg
 
 ### Week 12
 
-Implementation of action transforme. Improvement of code quality. Improvement of tests.
+Implementation of action transforme. Improvement of ground phase (analyze of the map and complete tiles with biomes). Improvement of code quality. Improvement of tests.
