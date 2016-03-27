@@ -2,7 +2,6 @@ package fr.unice.polytech.qgl.qab.resources;
 
 
 import fr.unice.polytech.qgl.qab.map.tile.Biomes;
-import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedType;
 
 import java.util.Set;
 
@@ -36,4 +35,5 @@ public interface Resource <T extends ResourceType> {
 
     @Override
     public int hashCode();
+
 }

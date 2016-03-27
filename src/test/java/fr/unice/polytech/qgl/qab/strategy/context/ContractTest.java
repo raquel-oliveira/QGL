@@ -1,5 +1,6 @@
 package fr.unice.polytech.qgl.qab.strategy.context;
 
+import fr.unice.polytech.qgl.qab.exception.context.InsufficientException;
 import fr.unice.polytech.qgl.qab.exception.context.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.resources.Resource;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
@@ -58,7 +59,7 @@ public class ContractTest {
     }
 
     @Test
-    public void transformAll() throws NegativeBudgetException{
+    public void transformAll() throws NegativeBudgetException, InsufficientException{
         contracts.addContract("GLASS", 2);
         int wood = new ManufacturedResource(ManufacturedType.GLASS).getRecipe((int) (ceil(2 * ContractItem.getMarginError()))).get(PrimaryType.WOOD);
         int quartz =  new ManufacturedResource(ManufacturedType.GLASS).getRecipe((int) (ceil(2 * ContractItem.getMarginError()))).get(PrimaryType.QUARTZ);
@@ -95,25 +96,23 @@ public class ContractTest {
     }
 
     @Test
-    public void testDecreaseAmout() throws NegativeBudgetException {
-        //TODO: change test after throws exception in the method.
+    public void testDecreaseAmout() throws NegativeBudgetException, InsufficientException {
         contracts.addContract("WOOD", 10000);
         contracts.addCollectedResources(new PrimaryResource(PrimaryType.WOOD), 10);
-        int collected = contracts.getCollectedResources().get(new PrimaryResource(PrimaryType.WOOD).getName());
+        int collected = contracts.getCollectedResources().get(new PrimaryResource(PrimaryType.WOOD));
         assertEquals(10, collected);
 
         int decrease = contracts.decreaseAmountOfCollectedResources(new PrimaryResource(PrimaryType.WOOD), 6);
-        int newcollected = contracts.getCollectedResources().get(new PrimaryResource(PrimaryType.WOOD).getName());
+        int newcollected = contracts.getCollectedResources().get(new PrimaryResource(PrimaryType.WOOD));
         assertEquals(newcollected, collected-decrease);
         collected = newcollected;
 
-        decrease = contracts.decreaseAmountOfCollectedResources(new PrimaryResource(PrimaryType.WOOD), 5);
-        newcollected = contracts.getCollectedResources().get(new PrimaryResource(PrimaryType.WOOD).getName());
-        assertEquals(newcollected, collected-decrease);
-        assertNotEquals(collected-5, newcollected);
-        collected = newcollected;
+        try{
+            decrease = contracts.decreaseAmountOfCollectedResources(new PrimaryResource(PrimaryType.WOOD), 5);
+            fail();
+        }catch (InsufficientException e){
 
-        contracts.decreaseAmountOfCollectedResources(new PrimaryResource(PrimaryType.FISH), 6);
+        }
     }
 
     @Test
