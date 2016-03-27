@@ -251,4 +251,22 @@ public class Map {
     public Tile getTile(Position p) {
         return tiles.get(p);
     }
+
+    public Tile getTileOverride(Position p) {
+        for (HashMap.Entry<Position, Tile> tile: tiles.entrySet()) {
+            Position posit = tile.getKey();
+            Tile t = tile.getValue();
+            if (p.getX() == posit.getX() && p.getY() == posit.getY())
+                return t;
+        }
+        return null;
+    }
+
+    public HashMap<Position, Tile> getTiles() {
+        return tiles;
+    }
+
+    public void copy(Map map) {
+        tiles.putAll(map.getTiles());
+    }
 }

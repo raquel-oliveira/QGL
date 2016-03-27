@@ -1,14 +1,23 @@
 package fr.unice.polytech.qgl.qab.map;
 
+import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.map.tile.Position;
+import fr.unice.polytech.qgl.qab.map.tile.Tile;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Class to handle with the map information
  * @version 06/03/16.
  */
 public class MapHandler {
-    private MapHandler() {
+    private Map map_tmp;
+
+    public MapHandler() {
+        map_tmp = new Map();
     }
 
     /**
@@ -87,5 +96,72 @@ public class MapHandler {
      */
     public static int getDistX(Position current, Position p) {
         return Math.abs(p.getX() - current.getX());
+    }
+
+    /**
+     * Method that will analize the map and complete the tile with the most probable biomes
+     * @param mapCurrent
+     */
+    public void completMap(Map mapCurrent) {
+        map_tmp.copy(mapCurrent);
+
+        HashMap<Position, Tile> tmpTiles = new HashMap<>();
+        tmpTiles.putAll(map_tmp.getTiles());
+
+        for (Position p: tmpTiles.keySet()) {
+            Tile t = tmpTiles.get(p);
+            List<Biomes> comums = analizeTiles(t, p, mapCurrent);
+            if (comums != null) {
+                setBiomaComum(p, mapCurrent, comums);
+                mapCurrent.copy(map_tmp);
+            }
+        }
+    }
+
+    private List<Biomes> analizeTiles(Tile t, Position p, Map map) {
+        Tile t1 = map.getTileOverride(new Position(p.getX() + 2, p.getY()));
+        Tile t2 = map.getTileOverride(new Position(p.getX() + 2, p.getY() + 2));
+        Tile t3 = map.getTileOverride(new Position(p.getX(), p.getY() + 2));
+        List<Biomes> comums = new ArrayList<>();
+        comums.addAll(t.getBiomesPredominant());
+
+        if (t1 != null && t2 != null && t3 != null) {
+            comums.retainAll(t1.getBiomesPredominant());
+            comums.retainAll(t2.getBiomesPredominant());
+            comums.retainAll(t3.getBiomesPredominant());
+
+            if (!comums.isEmpty()) {
+                return comums;
+            }
+        }
+        return null;
+    }
+
+    private void setBiomaComum(Position p, Map map, List<Biomes> comuns) {
+        //Tile t1 = map.getTile(new Position(p.getX() + 1, p.getY()));
+        //Tile t2 = map.getTile(new Position(p.getX() + 2, p.getY() + 1));
+        //Tile t3 = map.getTile(new Position(p.getX() + 1, p.getY() + 2));
+        //Tile t4 = map.getTile(new Position(p.getX(), p.getY() + 1));
+        Tile t5 = map.getTile(new Position(p.getX() + 1, p.getY() + 1));
+
+        /*if (t1 == null) {
+            map_tmp.addBiome(new Position(p.getX() + 1, p.getY()), comuns, new ArrayList<>());
+        }
+
+        if (t2 == null) {
+            map_tmp.addBiome(new Position(p.getX() + 2, p.getY() + 1), comuns, new ArrayList<>());
+        }
+
+        if (t3 == null) {
+            map_tmp.addBiome(new Position(p.getX() + 1, p.getY() + 2), comuns, new ArrayList<>());
+        }
+
+        if (t4 == null) {
+            map_tmp.addBiome(new Position(p.getX(), p.getY() + 1), comuns, new ArrayList<>());
+        }*/
+
+        if (t5 == null) {
+            map_tmp.addBiome(new Position(p.getX() + 1, p.getY() + 1), comuns, new ArrayList<>());
+        }
     }
 }
