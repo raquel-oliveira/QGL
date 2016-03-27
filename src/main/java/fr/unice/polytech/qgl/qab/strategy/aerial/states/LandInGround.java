@@ -29,7 +29,7 @@ public class LandInGround extends AerialState {
         Position p = map.getCreekLand();
 
         Action act;
-        if (map.getTileOverride(p) != null) {
+        if (map.getTile(p) != null) {
             act = new Land(map.getTileOverride(p).getCreek().get(0).getIdCreek(), 1);
         } else {
             if (context.getLastDiscovery().getCreeks().isEmpty())

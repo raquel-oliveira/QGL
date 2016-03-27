@@ -268,9 +268,18 @@ public class Map {
 
     /**
      * Make a copy of a map to the current map
-     * @param map map to make a copy
+     * @param map  map to make a copy
      */
     public void copy(Map map) {
         tiles.putAll(map.getTiles());
+    }
+
+    /**
+     * Get the Tile for a position
+     * @param p position to find the tile
+     * @return the tile found
+     */
+    public Tile getTile(Position p) {
+        return tiles.get(p);
     }
 }
