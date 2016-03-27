@@ -20,7 +20,7 @@ public class GroundStrategy implements IGroundStrategy {
     private static final Logger LOGGER = LogManager.getLogger(GroundStrategy.class);
 
     private GroundState state;
-    private int limitBudget;
+    private static final int BUDGET_MIN = 100;
     private static final int STOP = 1;
     private static final int TRANSFORME = 2;
 
@@ -30,7 +30,6 @@ public class GroundStrategy implements IGroundStrategy {
      */
     public GroundStrategy() {
         state = GroundStateFactory.buildState(GroundStateType.FIND_TILE);
-        limitBudget = 100;
     }
 
     @Override
@@ -52,7 +51,7 @@ public class GroundStrategy implements IGroundStrategy {
      * Take the value of budgets needed before call the action stop.
      */
     public int getLimitBudget(){
-        return limitBudget;
+        return BUDGET_MIN;
     }
 
 
