@@ -6,11 +6,11 @@ import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import java.util.Set;
 
 /**
- * @version 16/12/15.
  *
  * Class that represent the resources.
+ * @version 27/03/16.
  */
-public interface Resource <T extends ResourceType> {
+public interface Resource <T extends Enum<T> & ResourceType> {
 
     /**
      * Method that return the resource name
