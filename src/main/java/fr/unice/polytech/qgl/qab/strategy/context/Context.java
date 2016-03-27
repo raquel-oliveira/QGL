@@ -1,22 +1,14 @@
 package fr.unice.polytech.qgl.qab.strategy.context;
-import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
-import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
-import fr.unice.polytech.qgl.qab.resources.Resource;
-import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
-import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedType;
-import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
-import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
+import fr.unice.polytech.qgl.qab.exception.context.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.Budget;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.ContextAction;
-import fr.unice.polytech.qgl.qab.strategy.context.utils.ContractItem;
+import fr.unice.polytech.qgl.qab.strategy.context.contracts.Contracts;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 import fr.unice.polytech.qgl.qab.util.Discovery;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.*;
 
 /**
  * @version 16/12/15.
@@ -27,9 +19,7 @@ public class Context {
     private int men;
     private boolean status;
     private Budget budget;
-    private List<ContractItem> contracts;
-    private Map<String, Integer> collectedResources;
-    private Boolean completeContract;
+    private Contracts contracts;
 
     // direction of the head in the begin
     private Direction firstHead;
@@ -51,9 +41,7 @@ public class Context {
         men = 0;
         status = true;
         budget = new Budget(0);
-        contracts = new ArrayList<>();
-        collectedResources = new HashMap<>();
-        completeContract = false;
+        contracts = new Contracts();
         firstHead = null;
         heading = null;
         lastDiscovery = null;
@@ -78,12 +66,8 @@ public class Context {
 
         for (int i = 0; i < cont.length();  i++) {
             String key = cont.getJSONObject(i).getString("resource");
-            for (ManufacturedType type: ManufacturedType.values()) {
-                if (key.equalsIgnoreCase(type.toString()))
-                    continue;
-            }
             int value = cont.getJSONObject(i).getInt("amount");
-            addContract(key, value);
+            contracts.addContract(key, value);
         }
 
         firstHead = Direction.fromString(jsonObj.getString("heading"));
@@ -142,29 +126,8 @@ public class Context {
      * The the list of contracts gave in the begin of the simulation
      * @return list of contracts
      */
-    public List<ContractItem> getContracts() {
+    public Contracts getContracts() {
         return contracts;
-    }
-
-    /**
-     * Return the collected Resources that were tooked after exploit a tile
-     * @return HashMap - resources collected and the respective amounts.
-     */
-    public  Map<String, Integer> getCollectedResources(){
-        return collectedResources;
-    }
-
-    /**
-     * Method to add a collect resource after action exploit.
-     * @param resource
-     * @param amount
-     */
-    public void addCollectedResources(Resource resource, int amount) {
-        if (collectedResources.containsKey(resource.getName())) {
-            collectedResources.put(resource.getName(), collectedResources.get(resource.getName()) + amount);
-        } else {
-            collectedResources.put(resource.getName(), amount);
-        }
     }
 
     /**
@@ -208,18 +171,16 @@ public class Context {
         men = m;
     }
 
-    /**
-     * Add items in the contract
-     * @param resource resource's name
-     * @param amount resource's amount
-     * @throws NegativeBudgetException
-     */
-    public void addContract(String resource, int amount) throws NegativeBudgetException {
-        try {
-            contracts.add(new ContractItem(new ManufacturedResource(ManufacturedType.valueOf(resource)), amount));
-        } catch (Exception ex) {
-            contracts.add(new ContractItem(new PrimaryResource(PrimaryType.valueOf(resource)), amount));
-        }
+    public void updateToAerial() {
+        ContextAction tmpContext = this.contextActionCurrent;
+        this.contextActionCurrent = contextActionAerial;
+        contextActionGround = tmpContext;
+    }
+
+    public void updateToGround() {
+        ContextAction tmpContext = this.contextActionCurrent;
+        this.contextActionCurrent = contextActionGround;
+        contextActionGround = tmpContext;
     }
 
     /**
@@ -236,48 +197,5 @@ public class Context {
      */
     public void setLastDiscovery(Discovery lastDiscovery) {
         this.lastDiscovery = lastDiscovery;
-    }
-
-    /**
-     * Get number of amount of a primaryResource needed to do the Resource
-     * @param resource
-     * @return
-     */
-    public int getAcumulatedAmount(Resource resource){
-        int amount = 0;
-        for (int i = 0; i < contracts.size(); i++) {
-            if ((contracts.get(i).resource() instanceof PrimaryResource)
-                && contracts.get(i).resource().getName().equals(resource.getName())) {
-                    amount += contracts.get(i).amount();
-            } else if (contracts.get(i).resource() instanceof ManufacturedResource
-                && ((ManufacturedResource) contracts.get(i).resource()).getRecipe(0).containsKey(resource)) {
-                amount += ((ManufacturedResource) contracts.get(i).resource()).getRecipe(contracts.get(i).amount()).get(resource);
-            }
-        }
-        return amount;
-    }
-
-    public boolean contractsAreComplete(){
-        completeContract = true;
-        for (int i = 0; i < contracts.size(); i++) {
-            if (!contracts.get(i).isComplete(collectedResources)) {
-                completeContract = false;
-                return completeContract;
-            }
-        }
-        return completeContract;
-    }
-
-
-    public void updateToAerial() {
-        ContextAction tmpContext = this.contextActionCurrent;
-        this.contextActionCurrent = contextActionAerial;
-        contextActionGround = tmpContext;
-    }
-
-    public void updateToGround() {
-        ContextAction tmpContext = this.contextActionCurrent;
-        this.contextActionCurrent = contextActionGround;
-        contextActionGround = tmpContext;
     }
 }

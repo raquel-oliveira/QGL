@@ -4,7 +4,6 @@ import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import org.json.JSONObject;
 
-
 public class Scout extends Action {
     private static final String ACTION_SCOUT = "scout";
 

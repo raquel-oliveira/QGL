@@ -1,7 +1,7 @@
 package fr.unice.polytech.qgl.qab.actions.combo.aerial;
 
 import fr.unice.polytech.qgl.qab.actions.combo.Combo;
-import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
+import fr.unice.polytech.qgl.qab.exception.action.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import org.junit.Test;
 

@@ -2,8 +2,8 @@ package fr.unice.polytech.qgl.qab.strategy.aerial.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboEchos;
-import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
-import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
+import fr.unice.polytech.qgl.qab.exception.action.IndexOutOfBoundsComboAction;
+import fr.unice.polytech.qgl.qab.exception.map.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.aerial.states.factory.AerialStateFactory;
 import fr.unice.polytech.qgl.qab.strategy.aerial.states.factory.AerialStateType;
@@ -12,6 +12,8 @@ import fr.unice.polytech.qgl.qab.strategy.context.utils.UpdaterMap;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 
 /**
+ * This AerialState represents the state initial, where the plane make
+ * 3 echos and initialize the map dimentions
  * @version 10.12.2015
  */
 public class Initialize extends AerialState {
@@ -37,11 +39,11 @@ public class Initialize extends AerialState {
             // after made the 3 acho and see if it's necessary go to the corner
             if (context.current().getComboAction().isEmpty() && stateMediator.shouldGoToTheCorner()) {
                 updateContext(context);
-                return AerialStateFactory.buildState(AerialStateType.GOTOTHECORNER);
+                return AerialStateFactory.buildState(AerialStateType.GO_TO_THE_CORNER);
             } else if (context.current().getComboAction().isEmpty() && !stateMediator.shouldGoToTheCorner()) {
                 updaterMap.setFirtsPosition(context, map);
                 updateContext(context);
-                return AerialStateFactory.buildState(AerialStateType.FINDGROUND);
+                return AerialStateFactory.buildState(AerialStateType.FIND_GROUND);
             }
         }
         return AerialStateFactory.buildState(AerialStateType.INITIALIZE);
@@ -85,8 +87,8 @@ public class Initialize extends AerialState {
     }
 
     /**
-     * Method to updata the context
-     * @param context
+     * Method to updata the current context
+     * @param context data about current context
      */
     private static void updateContext(Context context) {
         context.current().setComboAction(null);

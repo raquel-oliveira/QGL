@@ -1,7 +1,12 @@
 # file project
 target/
-src/main/resource/
 src/main/java/fr/unice/polytech/qgl/qab/Main.java
+
+# exclude all files inside resource except the file log4j2.xml
+#/*
+!/src/main/resource
+/src/main/resource/*
+!/src/main/resource/log4j2.xml
 
 # file floorc
 .floo
@@ -108,3 +113,12 @@ atlassian-ide-plugin.xml
 com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
+
+#FLOBITS
+.flooignore
+.floo
+
+#Files and path to regressions tests
+maps
+src/test/java/fr/unice/polytech/qgl/qab/ChampionshipRunner.java
+src/test/java/fr/unice/polytech/qgl/qab/ITRunPreviousChampionships.java

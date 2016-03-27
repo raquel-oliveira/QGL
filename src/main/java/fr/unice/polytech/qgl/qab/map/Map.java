@@ -1,9 +1,9 @@
 package fr.unice.polytech.qgl.qab.map;
 
-import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
+import fr.unice.polytech.qgl.qab.exception.map.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.tile.*;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import fr.unice.polytech.qgl.qab.strategy.context.utils.ContractItem;
+import fr.unice.polytech.qgl.qab.strategy.context.contracts.ContractItem;
 import java.util.*;
 
 /**
@@ -69,7 +69,7 @@ public class Map {
 
     /**
      * If I need initialize a tile as ocean
-     * @param position
+     * @param position position of the tile
      * @throws PositionOutOfMapRange
      */
     public void initializeTile(Position position, TileType type) throws PositionOutOfMapRange {
@@ -81,6 +81,12 @@ public class Map {
         tiles.put(position, new Tile(type));
     }
 
+    /**
+     * add a list of biomes or creeks of a tile
+     * @param position position of the tile
+     * @param biomes list of biomes
+     * @param creeks list of creeks
+     */
     public void addBiome(Position position, List<Biomes> biomes, List<Creek> creeks) {
         Tile newTile = new Tile();
         newTile.setBiomesPredominant(biomes);
@@ -143,12 +149,18 @@ public class Map {
 
     /**
      * Check if the set of tiles is empty
-     * @return
+     * @return if the set of tiles is empty
      */
     public boolean isEmpty() {
         return tiles.isEmpty();
     }
 
+    /**
+     * Return a list of position with biomes that can produce the
+     * resources that were given in the contract
+     * @param context current context data
+     * @return a list of positions
+     */
     public List<Position> getGoodPositions(Context context) {
         List<Position> goodPositions = new ArrayList<>();
         for(java.util.Map.Entry<Position, Tile> entry : tiles.entrySet()) {
@@ -156,7 +168,7 @@ public class Map {
             Tile value = entry.getValue();
             // check if tile was visited
             if (!value.wasVisited()) {
-                for (ContractItem item : context.getContracts()) {
+                for (ContractItem item : context.getContracts().getItems()) {
                     Set<Biomes> listTmp = new HashSet<>();
                     listTmp.addAll(item.resource().getBiome());
                     listTmp.retainAll(value.getBiomesPredominant());
@@ -172,16 +184,16 @@ public class Map {
 
     /**
      * Return the position more close of the current position
-     * @param positionList
-     * @param current
-     * @return
+     * @param positionList list of positions
+     * @param current current position
+     * @return the best position
      */
     public Position positionClose(List<Position> positionList, Position current) {
         Position good = null;
-        double distance = -1;
+        int distance = -1;
         for (Position p: positionList) {
-            double distFinal = MapHandler.getDistance(current, p);
-            if (distance == -1f) {
+            int distFinal = MapHandler.getDistance(current, p);
+            if (distance == -1) {
                 distance = distFinal;
                 good = p;
             } else if (distFinal < distance) {
@@ -194,7 +206,7 @@ public class Map {
 
     /**
      * Set a specifical tile as visited
-     * @param position
+     * @param position position to set as visited
      */
     public void setTileVisited(Position position) {
         Tile tmpTile = tiles.get(position);
@@ -204,12 +216,12 @@ public class Map {
 
     /**
      * Get the best creek
-     * @param context
+     * @param context current context data
      */
     public void getBestCreek(Context context) {
         // positions that have interesting biomes for the contract
         List<Position> goodPositions = getGoodPositions(context);
-        double dist = 0;
+        int dist = 0;
 
         for(java.util.Map.Entry<Position, Tile> entry : tiles.entrySet()) {
             Position currentPosition = entry.getKey();
@@ -217,8 +229,8 @@ public class Map {
             // check if there are creek in this tile
             if (!tile.getCreek().isEmpty()) {
                 // I give the position of this tile and the position more close
-                double distance = MapHandler.getDistance(currentPosition, positionClose(goodPositions, currentPosition));
-                if (dist == 0.0) {
+                int distance = MapHandler.getDistance(currentPosition, positionClose(goodPositions, currentPosition));
+                if (dist == 0) {
                     dist = distance;
                     creekLand = currentPosition;
                 }
@@ -231,12 +243,13 @@ public class Map {
         lastPositionGround = creekLand;
     }
 
-    public Tile getTile(Position p) {
-        return tiles.get(p);
-    }
-
+    /**
+     * Get a tile by your position
+     * @param p position of the tile
+     * @return the tile found in a position
+     */
     public Tile getTileOverride(Position p) {
-        for (HashMap.Entry<Position, Tile> tile:tiles.entrySet()) {
+        for (HashMap.Entry<Position, Tile> tile: tiles.entrySet()) {
             Position posit = tile.getKey();
             Tile t = tile.getValue();
             if (p.getX() == posit.getX() && p.getY() == posit.getY())
@@ -245,11 +258,28 @@ public class Map {
         return null;
     }
 
+    /**
+     * Returns all tiles
+     * @return all tiles
+     */
     public HashMap<Position, Tile> getTiles() {
         return tiles;
     }
 
+    /**
+     * Make a copy of a map to the current map
+     * @param map  map to make a copy
+     */
     public void copy(Map map) {
         tiles.putAll(map.getTiles());
+    }
+
+    /**
+     * Get the Tile for a position
+     * @param p position to find the tile
+     * @return the tile found
+     */
+    public Tile getTile(Position p) {
+        return tiles.get(p);
     }
 }

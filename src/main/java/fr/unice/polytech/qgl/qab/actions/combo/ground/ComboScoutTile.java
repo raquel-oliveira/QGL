@@ -8,6 +8,7 @@ import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import java.util.ArrayList;
 
 /**
+ * Class that represent the combo of action scout a tile (3 x 3).
  * @version 20/03/16.
  */
 public class ComboScoutTile extends Combo {
@@ -42,6 +43,8 @@ public class ComboScoutTile extends Combo {
         actions.add(new MoveTo(Direction.WEST));
 
         actions.add(new MoveTo(Direction.NORTH));
+
+        actions.add(new Scout(Direction.EAST));
         actions.add(new MoveTo(Direction.EAST));
     }
 }

@@ -3,10 +3,10 @@ package fr.unice.polytech.qgl.qab.strategy.context.utils;
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.combo.Combo;
 import fr.unice.polytech.qgl.qab.map.tile.Position;
+import fr.unice.polytech.qgl.qab.resources.Resource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,7 +110,7 @@ public class ContextAction {
 
     /**
      * Set the index action
-     * @param indexAction
+     * @param indexAction index action
      */
     public void setIndexAction(int indexAction) {
         this.indexAction = indexAction;
@@ -125,7 +125,7 @@ public class ContextAction {
 
     /**
      * Set value in cont scan
-     * @param contScan
+     * @param contScan value to set in cont scan
      */
     public void setContScan(int contScan) {
         this.contScan = contScan;
@@ -133,7 +133,7 @@ public class ContextAction {
 
     /**
      * Set the last action made
-     * @param lastAction
+     * @param lastAction last action made
      */
     public void setLastAction(Action lastAction) {
         this.lastAction = lastAction;
@@ -141,7 +141,7 @@ public class ContextAction {
 
     /**
      * Set a simple action
-     * @param simpleAction
+     * @param simpleAction simple action
      */
     public void setSimpleAction(Action simpleAction) {
         this.simpleAction = simpleAction;
@@ -149,38 +149,50 @@ public class ContextAction {
 
     /**
      * Set the combo action
-     * @param comboAction
+     * @param comboAction combo action
      */
     public void setComboAction(Combo comboAction) {
         this.comboAction = comboAction;
     }
 
+    /**
+     * Method that returns the resources to exploit
+     * @return resources to exploit
+     */
     public List<PrimaryType> getResourcesToExploit() {
         return resourcesToExploit;
     }
 
+    /**
+     * Method that update parameter resourcesToExploit with the resources importants
+     * to fill the contract that were find in the tile
+     * @param resourcesToExploit resources to exploit
+     * @param context current context data
+     */
     public void setResourcesToExploit(List<PrimaryType> resourcesToExploit, Context context) {
-        java.util.Map<String, Integer> collectedResource = context.getCollectedResources();
+        java.util.Map<Resource, Integer> collectedResource = context.getContracts().getCollectedResources();
         while(!resourcesToExploit.isEmpty()){
             PrimaryResource res = new PrimaryResource(resourcesToExploit.get(0));
-            String resource = res.getName();
-            if(!collectedResource.containsKey(resource)){
+            if(!collectedResource.containsKey(res)){
                 this.resourcesToExploit.add(resourcesToExploit.get(0));
-                resourcesToExploit.remove(0);
-            }
-            else if(collectedResource.get(resource) < context.getAcumulatedAmount(res)) {
-                this.resourcesToExploit.add(resourcesToExploit.get(0));
-                resourcesToExploit.get(0);
                 resourcesToExploit.remove(0);
             }
             else {
-                // TODO: wrong
-                // this.resourcesToExploit.add(resourcesToExploit.get(0));
-                resourcesToExploit.remove(0);
+                if(collectedResource.get(res) < context.getContracts().getAmountPrimaryNeeded(res)) {
+                    this.resourcesToExploit.add(resourcesToExploit.get(0));
+                    resourcesToExploit.remove(0);
+                }else{
+                    resourcesToExploit.remove(0);
+                }
+
             }
         }
     }
 
+    /**
+     * Return the status of the simulation
+     * @return status of the simulation
+     */
     public int getStatus() {
         return this.status;
     }

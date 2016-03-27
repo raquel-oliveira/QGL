@@ -2,13 +2,13 @@ package fr.unice.polytech.qgl.qab.strategy;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.simple.common.Land;
-import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
-import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
-import fr.unice.polytech.qgl.qab.exception.PositionOutOfMapRange;
+import fr.unice.polytech.qgl.qab.exception.AccessException;
+import fr.unice.polytech.qgl.qab.exception.context.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.map.Map;
+import fr.unice.polytech.qgl.qab.map.MapHandler;
 import fr.unice.polytech.qgl.qab.strategy.aerial.AerialStrategy;
 import fr.unice.polytech.qgl.qab.strategy.aerial.IAerialStrategy;
-import fr.unice.polytech.qgl.qab.strategy.context.utils.ResponseHandler;
+import fr.unice.polytech.qgl.qab.strategy.context.utils.HandlerResponse;
 import fr.unice.polytech.qgl.qab.strategy.ground.GroundStrategy;
 import fr.unice.polytech.qgl.qab.strategy.ground.IGroundStrategy;
 import fr.unice.polytech.qgl.qab.util.enums.Phase;
@@ -31,28 +31,36 @@ public class Strategy implements IStrategy {
     // object that save the current action
     private Action currentAction;
     // object to read the response
-    private ResponseHandler responseHandler;
+    private HandlerResponse responseHandler;
     // map
     private Map map;
+    // handle map
+    private MapHandler mapHandler;
 
+    /**
+     * Strategy's constructor.
+     * @throws NegativeBudgetException
+     */
     public Strategy() throws NegativeBudgetException {
         context = new Context();
         aerialStrategy = new AerialStrategy();
         groundStrategy = new GroundStrategy();
         phase = Phase.AERIAL;
         currentAction = null;
-        responseHandler = new ResponseHandler();
+        responseHandler = new HandlerResponse();
         map = new Map();
+        mapHandler = new MapHandler();
     }
 
     @Override
-    public String makeDecision() throws PositionOutOfMapRange, IndexOutOfBoundsComboAction {
+    public String makeDecision() throws AccessException {
         Action act;
         if (phase.equals(Phase.AERIAL)) {
             act = aerialStrategy.makeDecision(context, map);
             if (act instanceof Land) {
                 phase = Phase.GROUND;
                 context.updateToGround();
+                mapHandler.completMap(map);
             }
         } else {
             act = groundStrategy.makeDecision(context, map);

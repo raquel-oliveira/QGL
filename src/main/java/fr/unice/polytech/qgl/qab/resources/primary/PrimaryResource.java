@@ -7,9 +7,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * Class that represent the primary resources
  * @version 01/02/16.
  *
- * Class that represent the primary resources
  */
 public class PrimaryResource implements Resource {
     private PrimaryType resource;
@@ -29,8 +29,7 @@ public class PrimaryResource implements Resource {
         return resource.toString();
     }
 
-    @Override
-    public void setBiomes() {
+    private void setBiomes() {
         switch (resource) {
             case FISH:
                 biomes.add(Biomes.OCEAN);
@@ -82,5 +81,24 @@ public class PrimaryResource implements Resource {
         return biomes;
     }
 
-    public PrimaryType getResource(){return resource;}
+    @Override
+    public PrimaryType getType(){
+        return resource;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PrimaryResource that = (PrimaryResource) o;
+
+        return resource == that.resource;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return resource != null ? resource.hashCode() : 0;
+    }
 }

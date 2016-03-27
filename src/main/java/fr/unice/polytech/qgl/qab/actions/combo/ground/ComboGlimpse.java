@@ -7,6 +7,7 @@ import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import java.util.ArrayList;
 
 /**
+ * Class that represents the combo of action to make a glimpse
  * @version 27/02/16.
  */
 public class ComboGlimpse extends Combo {

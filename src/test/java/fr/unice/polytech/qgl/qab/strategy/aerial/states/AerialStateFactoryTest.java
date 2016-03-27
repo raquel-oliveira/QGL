@@ -25,22 +25,22 @@ public class AerialStateFactoryTest {
         state = AerialStateFactory.buildState(AerialStateType.INITIALIZE);
         assertEquals(Initialize.class, state.getClass());
 
-        state = AerialStateFactory.buildState(AerialStateType.SCANTHEGROUND);
+        state = AerialStateFactory.buildState(AerialStateType.SCAN_THE_GROUND);
         assertEquals(ScanTheGround.class, state.getClass());
 
-        state = AerialStateFactory.buildState(AerialStateType.FLYUNTIL);
+        state = AerialStateFactory.buildState(AerialStateType.FLY_UNTIL);
         assertEquals(FlyUntil.class, state.getClass());
 
-        state = AerialStateFactory.buildState(AerialStateType.RETURNBACK);
+        state = AerialStateFactory.buildState(AerialStateType.RETURN_BACK);
         assertEquals(ReturnBack.class, state.getClass());
 
-        state = AerialStateFactory.buildState(AerialStateType.FINDGROUND);
+        state = AerialStateFactory.buildState(AerialStateType.FIND_GROUND);
         assertEquals(FindGround.class, state.getClass());
 
-        state = AerialStateFactory.buildState(AerialStateType.GOTOTHECORNER);
+        state = AerialStateFactory.buildState(AerialStateType.GO_TO_THE_CORNER);
         assertEquals(GoToTheCorner.class, state.getClass());
 
-        state = AerialStateFactory.buildState(AerialStateType.LANDINGROUND);
+        state = AerialStateFactory.buildState(AerialStateType.LAND_IN_GROUND);
         assertEquals(LandInGround.class, state.getClass());
     }
 

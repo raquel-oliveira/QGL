@@ -2,7 +2,7 @@ package fr.unice.polytech.qgl.qab;
 
 import eu.ace_design.island.bot.IExplorerRaid;
 import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
-import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
+import fr.unice.polytech.qgl.qab.exception.context.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.strategy.IStrategy;
 import fr.unice.polytech.qgl.qab.strategy.Strategy;
 import org.apache.logging.log4j.Logger;
@@ -10,10 +10,10 @@ import org.apache.logging.log4j.LogManager;
 
 
 /**
- * @version 4.9
- *
  * Class that represents the bot in the game.
- * Description based on documentation (http://ace-design.github.io/island/bot/)
+ *
+ * @version 4.9
+ * @see <a href="http://ace-design.github.io/island/bot/">Ace Design</a>.
  */
 public class Explorer implements IExplorerRaid {
     // strategy with the bot actions
@@ -22,7 +22,7 @@ public class Explorer implements IExplorerRaid {
     private static final String ERROR = "error";
 
     /**
-     * Explorer's constructor
+     * Explorer's constructor.
      */
     public Explorer() {
         try {

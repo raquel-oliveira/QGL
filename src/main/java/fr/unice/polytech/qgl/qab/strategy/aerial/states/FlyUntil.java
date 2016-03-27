@@ -2,21 +2,18 @@ package fr.unice.polytech.qgl.qab.strategy.aerial.states;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboFlyUntil;
-import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
+import fr.unice.polytech.qgl.qab.exception.action.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.aerial.states.factory.AerialStateFactory;
 import fr.unice.polytech.qgl.qab.strategy.aerial.states.factory.AerialStateType;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.UpdaterMap;
 
-import java.io.IOException;
-
 /**
  * This AerialState represents the phase when the plane fly until it gets over the land.
  * @version 12/12/2015.
  */
 public class FlyUntil extends AerialState {
-
     private UpdaterMap updaterMap;
 
     /**
@@ -30,9 +27,9 @@ public class FlyUntil extends AerialState {
     public AerialState getState(Context context, Map map, StateMediator stateMediator) {
         if (context.current().getComboAction().isEmpty()) {
             updateContext(context);
-            return AerialStateFactory.buildState(AerialStateType.SCANTHEGROUND);
+            return AerialStateFactory.buildState(AerialStateType.SCAN_THE_GROUND);
         }
-        return AerialStateFactory.buildState(AerialStateType.FLYUNTIL);
+        return AerialStateFactory.buildState(AerialStateType.FLY_UNTIL);
     }
 
     @Override

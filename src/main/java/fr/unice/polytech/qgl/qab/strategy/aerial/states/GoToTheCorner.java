@@ -4,7 +4,7 @@ import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboFlyEcho;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Heading;
-import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
+import fr.unice.polytech.qgl.qab.exception.action.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.aerial.states.factory.AerialStateFactory;
 import fr.unice.polytech.qgl.qab.strategy.aerial.states.factory.AerialStateType;
@@ -12,9 +12,12 @@ import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 
 /**
+ * This AerialState represents the phase when the plane needs go to the corner
+ * to find the map dimentition.
  * @version 17/12/15.
  */
 public class GoToTheCorner extends AerialState {
+
     @Override
     public AerialState getState(Context context, Map map, StateMediator stateMediator) {
         // if the plane found a space to initialize the dimention
@@ -23,7 +26,7 @@ public class GoToTheCorner extends AerialState {
             updateContext(context);
             return AerialStateFactory.buildState(AerialStateType.INITIALIZE);
         } else
-            return AerialStateFactory.buildState(AerialStateType.GOTOTHECORNER);
+            return AerialStateFactory.buildState(AerialStateType.GO_TO_THE_CORNER);
     }
 
     @Override
@@ -74,7 +77,7 @@ public class GoToTheCorner extends AerialState {
     /**
      * Return the heading initial and final.
      * @param context data context of the simulation
-     * @param stateMediator
+     * @param stateMediator mediator to stock informations used among the states
      * @return heading action
      */
     private static Action getHeading(Context context, StateMediator stateMediator) {

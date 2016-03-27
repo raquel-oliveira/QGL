@@ -1,7 +1,7 @@
 package fr.unice.polytech.qgl.qab.actions.combo;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
-import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
+import fr.unice.polytech.qgl.qab.exception.action.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 import java.util.List;
@@ -53,22 +53,43 @@ public abstract class Combo {
         return actions.remove(index);
     }
 
+    /**
+     * Methodo to define a action with a direction.
+     * @param dir direction of the action
+     */
     public void defineActions(Direction dir) {
 
     }
 
+    /**
+     * Methodo to define a action with a range.
+     * @param range range of the action
+     */
     public void defineActions(int range) {
 
     }
 
+    /**
+     * Methodo to define a simple action
+     */
     public void defineActions() {
 
     }
 
+    /**
+     * Methodo to define a action with a direction of the head and to move to.
+     * @param head direction of the head
+     * @param moveTo direction to move to
+     */
     public void defineActions(Direction head, Direction moveTo) {
 
     }
 
+    /**
+     * Methodo to define a action with a direction and range.
+     * @param direction direction of the action
+     * @param range range of the action
+     */
     public void defineActions(Direction direction, int range) {
 
     }

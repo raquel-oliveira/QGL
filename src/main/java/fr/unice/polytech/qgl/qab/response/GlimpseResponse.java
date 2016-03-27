@@ -7,12 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * @version 04/02/16.
- *
  * Class that represent the glimpse response structure
+ * @version 04/02/16.
  */
 public class GlimpseResponse {
-    private int asked_range;
+    private int askedRange;
     private List<HashMap<Biomes, Double>> initialTiles;
     private List<Biomes> thirdTile;
     private Biomes fourthTile;
@@ -21,7 +20,7 @@ public class GlimpseResponse {
      * GlimpseResponse's constructor
      */
     public GlimpseResponse() {
-        asked_range = 0;
+        askedRange = 0;
         initialTiles = new ArrayList<>();
         thirdTile = new ArrayList<>();
         fourthTile = null;
@@ -32,7 +31,7 @@ public class GlimpseResponse {
      * @param askedRange
      */
     public void setAskedRange(int askedRange){
-        this.asked_range = askedRange;
+        this.askedRange = askedRange;
     }
 
     /**
@@ -85,9 +84,9 @@ public class GlimpseResponse {
 
     /**
      * check if there was response
-     * @return
+     * @return is the glimpse has a response
      */
     public boolean hasResponse() {
-        return asked_range > 0;
+        return askedRange > 0;
     }
 }

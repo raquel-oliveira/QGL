@@ -9,6 +9,7 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
+import static java.lang.Math.ceil;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -54,7 +55,7 @@ public class ManufacturedResourceTest {
         map = manufacturedResource.getRecipe(10);
         mapDefault = new HashMap<>();
         mapDefault.put(PrimaryType.WOOD, 5 * amountRecipe);
-
+        mapDefault.put(PrimaryType.ORE, 5 * amountRecipe);
         assertEquals(mapDefault, map);
 
         manufacturedResource = new ManufacturedResource(ManufacturedType.LEATHER);

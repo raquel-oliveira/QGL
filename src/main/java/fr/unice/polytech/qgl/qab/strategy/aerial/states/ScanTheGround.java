@@ -5,7 +5,7 @@ import fr.unice.polytech.qgl.qab.actions.simple.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboFlyScan;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Scan;
-import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
+import fr.unice.polytech.qgl.qab.exception.action.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.aerial.states.factory.AerialStateFactory;
 import fr.unice.polytech.qgl.qab.strategy.aerial.states.factory.AerialStateType;
@@ -13,10 +13,10 @@ import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.UpdaterMap;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
+ * This AerialState represents the phase when the plane fly and scan the ground.
  * @version 12/12/15.
  */
 public class ScanTheGround extends AerialState {
@@ -38,16 +38,16 @@ public class ScanTheGround extends AerialState {
         // if is necessary return back to the ground
         if (returnBack(context)) {
             updateContext(context);
-            return AerialStateFactory.buildState(AerialStateType.RETURNBACK);
+            return AerialStateFactory.buildState(AerialStateType.RETURN_BACK);
         }
 
         // if is necessary fly until the ground
         if (needFlyUntil(context, stateMediator)) {
             updateContext(context);
-            return AerialStateFactory.buildState(AerialStateType.FLYUNTIL);
+            return AerialStateFactory.buildState(AerialStateType.FLY_UNTIL);
         }
 
-        return AerialStateFactory.buildState(AerialStateType.SCANTHEGROUND);
+        return AerialStateFactory.buildState(AerialStateType.SCAN_THE_GROUND);
     }
 
     @Override

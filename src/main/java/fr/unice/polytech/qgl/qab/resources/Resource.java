@@ -6,26 +6,34 @@ import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import java.util.Set;
 
 /**
- * @version 16/12/15.
  *
  * Class that represent the resources.
+ * @version 27/03/16.
  */
-public interface Resource {
+public interface Resource <T extends Enum<T> & ResourceType> {
 
     /**
      * Method that return the resource name
      * @return resource name
      */
-    String getName();
+    public String getName();
 
     /**
      * Method the return the set of biomes that can produce this resource
      * @return set of biomes that can produce this resource
      */
-    Set<Biomes> getBiome();
+    public Set<Biomes> getBiome();
 
     /**
-     * Method that define the set of biomes that can produce this resource
+     * Return the resource type.
+     * @return resource type
      */
-    void setBiomes();
+    public T getType();
+
+    @Override
+    public boolean equals(Object o);
+
+    @Override
+    public int hashCode();
+
 }

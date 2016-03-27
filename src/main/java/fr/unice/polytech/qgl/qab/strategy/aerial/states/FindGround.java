@@ -5,7 +5,7 @@ import fr.unice.polytech.qgl.qab.actions.simple.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Heading;
 import fr.unice.polytech.qgl.qab.actions.combo.aerial.ComboFlyEcho;
-import fr.unice.polytech.qgl.qab.exception.IndexOutOfBoundsComboAction;
+import fr.unice.polytech.qgl.qab.exception.action.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.strategy.aerial.states.factory.AerialStateFactory;
 import fr.unice.polytech.qgl.qab.strategy.aerial.states.factory.AerialStateType;
@@ -14,10 +14,10 @@ import fr.unice.polytech.qgl.qab.strategy.context.utils.UpdaterMap;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
 
-import java.io.IOException;
-
 /**
- * @version 11.12.2015.
+ * This AerialState represents the phase when the plane fly
+ * and make echo until it finds a ground.
+ * @version 11/12/2015.
  */
 public class FindGround extends AerialState {
     private UpdaterMap updaterMap;
@@ -33,9 +33,9 @@ public class FindGround extends AerialState {
     public AerialState getState(Context context, Map map, StateMediator stateMediator) {
         if (context.current().getLastAction() instanceof Heading) {
             updateContext(context);
-            return AerialStateFactory.buildState(AerialStateType.FLYUNTIL);
+            return AerialStateFactory.buildState(AerialStateType.FLY_UNTIL);
         }
-        return AerialStateFactory.buildState(AerialStateType.FINDGROUND);
+        return AerialStateFactory.buildState(AerialStateType.FIND_GROUND);
     }
 
     @Override

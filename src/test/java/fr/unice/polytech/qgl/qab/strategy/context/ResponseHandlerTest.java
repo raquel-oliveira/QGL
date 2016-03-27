@@ -5,11 +5,11 @@ import fr.unice.polytech.qgl.qab.actions.simple.aerial.Fly;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Scan;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Exploit;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Scout;
-import fr.unice.polytech.qgl.qab.exception.NegativeBudgetException;
+import fr.unice.polytech.qgl.qab.exception.context.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
-import fr.unice.polytech.qgl.qab.strategy.context.utils.ResponseHandler;
+import fr.unice.polytech.qgl.qab.strategy.context.utils.HandlerResponse;
 import fr.unice.polytech.qgl.qab.util.Discovery;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import fr.unice.polytech.qgl.qab.util.enums.Found;
@@ -24,11 +24,11 @@ import static org.junit.Assert.assertTrue;
  * @version 29/12/15.
  */
 public class ResponseHandlerTest {
-    private ResponseHandler responseHandler;
+    private HandlerResponse responseHandler;
 
     @Before
     public void defineContext() {
-        responseHandler = new ResponseHandler();
+        responseHandler = new HandlerResponse();
     }
 
     @Test
