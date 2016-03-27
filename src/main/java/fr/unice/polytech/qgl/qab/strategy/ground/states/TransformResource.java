@@ -26,6 +26,7 @@ import java.util.List;
  */
 public class TransformResource extends GroundState {
     private static final Logger LOGGER = LogManager.getLogger(TransformResource.class);
+    private static final int BUDGET_TRANSFORM = 800;
 
     @Override
     public GroundState getState(Context context, Map map) throws PositionOutOfMapRange {
@@ -51,7 +52,7 @@ public class TransformResource extends GroundState {
         if(contracts.enoughToTransform()) {
             for(ContractItem items : contractItems){
                 //This element can be transformed:
-                if (items.canTransform(contracts)){
+                if (items.canTransform(contracts) && context.getBudget() >= BUDGET_TRANSFORM ){
                     LOGGER.info("Can transform");
                     //Amounted asked in the contract
                     java.util.Map recipe = ((ManufacturedResource)(items.resource())).getRecipe( (int) (ceil(items.amount() * ContractItem.getMarginError())));
