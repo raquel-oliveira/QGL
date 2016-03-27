@@ -2,12 +2,10 @@ package fr.unice.polytech.qgl.qab.strategy;
 
 import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.simple.common.Land;
-import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
 import fr.unice.polytech.qgl.qab.exception.AccessException;
 import fr.unice.polytech.qgl.qab.exception.context.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.map.MapHandler;
-import fr.unice.polytech.qgl.qab.map.tile.Position;
 import fr.unice.polytech.qgl.qab.strategy.aerial.AerialStrategy;
 import fr.unice.polytech.qgl.qab.strategy.aerial.IAerialStrategy;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.HandlerResponse;
@@ -15,10 +13,6 @@ import fr.unice.polytech.qgl.qab.strategy.ground.GroundStrategy;
 import fr.unice.polytech.qgl.qab.strategy.ground.IGroundStrategy;
 import fr.unice.polytech.qgl.qab.util.enums.Phase;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
-
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 
 /**
  * Class responsible for represent the Strategy to management the making decision.
@@ -67,11 +61,6 @@ public class Strategy implements IStrategy {
                 phase = Phase.GROUND;
                 context.updateToGround();
                 mapHandler.completMap(map);
-                writeLog(map);
-            }
-            if (act instanceof Stop) {
-                mapHandler.completMap(map);
-                writeLog(map);
             }
         } else {
             act = groundStrategy.makeDecision(context, map);
@@ -92,21 +81,5 @@ public class Strategy implements IStrategy {
     @Override
     public void initializeContext(String contextData) throws NegativeBudgetException {
         context.read(contextData);
-    }
-
-    private void writeLog(Map map) {
-        PrintWriter writer = null;
-        try {
-            writer = new PrintWriter("src/main/resource/output/logPosition.log", "UTF-8");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        for (Position p : map.getTiles().keySet()) {
-            writer.println(p.getX() + " " + p.getY());
-        }
-        writer.close();
     }
 }

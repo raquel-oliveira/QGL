@@ -6,6 +6,7 @@ import fr.unice.polytech.qgl.qab.map.tile.Tile;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,10 +15,10 @@ import java.util.List;
  * @version 06/03/16.
  */
 public class MapHandler {
-    private Map map_tmp;
+    private Map mapTmp;
 
     public MapHandler() {
-        map_tmp = new Map();
+        mapTmp = new Map();
     }
 
     /**
@@ -103,22 +104,24 @@ public class MapHandler {
      * @param mapCurrent
      */
     public void completMap(Map mapCurrent) {
-        map_tmp.copy(mapCurrent);
+        mapTmp.copy(mapCurrent);
 
         HashMap<Position, Tile> tmpTiles = new HashMap<>();
-        tmpTiles.putAll(map_tmp.getTiles());
+        tmpTiles.putAll(mapTmp.getTiles());
 
-        for (Position p: tmpTiles.keySet()) {
-            Tile t = tmpTiles.get(p);
+        for (java.util.Map.Entry<Position, Tile> tile : tmpTiles.entrySet()) {
+            Position p = tile.getKey();
+            Tile t = tile.getValue();
+
             List<Biomes> comums = analizeTiles(t, p, mapCurrent);
             if (comums != null) {
                 setBiomaComum(p, mapCurrent, comums);
-                mapCurrent.copy(map_tmp);
+                mapCurrent.copy(mapTmp);
             }
         }
     }
 
-    private List<Biomes> analizeTiles(Tile t, Position p, Map map) {
+    private static List<Biomes> analizeTiles(Tile t, Position p, Map map) {
         Tile t1 = map.getTileOverride(new Position(p.getX() + 2, p.getY()));
         Tile t2 = map.getTileOverride(new Position(p.getX() + 2, p.getY() + 2));
         Tile t3 = map.getTileOverride(new Position(p.getX(), p.getY() + 2));
@@ -134,34 +137,12 @@ public class MapHandler {
                 return comums;
             }
         }
-        return null;
+        return Collections.emptyList();
     }
 
     private void setBiomaComum(Position p, Map map, List<Biomes> comuns) {
-        //Tile t1 = map.getTile(new Position(p.getX() + 1, p.getY()));
-        //Tile t2 = map.getTile(new Position(p.getX() + 2, p.getY() + 1));
-        //Tile t3 = map.getTile(new Position(p.getX() + 1, p.getY() + 2));
-        //Tile t4 = map.getTile(new Position(p.getX(), p.getY() + 1));
-        Tile t5 = map.getTile(new Position(p.getX() + 1, p.getY() + 1));
-
-        /*if (t1 == null) {
-            map_tmp.addBiome(new Position(p.getX() + 1, p.getY()), comuns, new ArrayList<>());
-        }
-
-        if (t2 == null) {
-            map_tmp.addBiome(new Position(p.getX() + 2, p.getY() + 1), comuns, new ArrayList<>());
-        }
-
-        if (t3 == null) {
-            map_tmp.addBiome(new Position(p.getX() + 1, p.getY() + 2), comuns, new ArrayList<>());
-        }
-
-        if (t4 == null) {
-            map_tmp.addBiome(new Position(p.getX(), p.getY() + 1), comuns, new ArrayList<>());
-        }*/
-
-        if (t5 == null) {
-            map_tmp.addBiome(new Position(p.getX() + 1, p.getY() + 1), comuns, new ArrayList<>());
-        }
+        Tile t = map.getTile(new Position(p.getX() + 1, p.getY() + 1));
+        if (t == null)
+            mapTmp.addBiome(new Position(p.getX() + 1, p.getY() + 1), comuns, new ArrayList<>());
     }
 }
