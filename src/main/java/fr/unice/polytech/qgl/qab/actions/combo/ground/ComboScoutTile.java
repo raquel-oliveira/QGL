@@ -43,6 +43,8 @@ public class ComboScoutTile extends Combo {
         actions.add(new MoveTo(Direction.WEST));
 
         actions.add(new MoveTo(Direction.NORTH));
+
+        actions.add(new Scout(Direction.EAST));
         actions.add(new MoveTo(Direction.EAST));
     }
 }

@@ -12,7 +12,6 @@ import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import static java.lang.Math.ceil;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.omg.CORBA.Object;
 

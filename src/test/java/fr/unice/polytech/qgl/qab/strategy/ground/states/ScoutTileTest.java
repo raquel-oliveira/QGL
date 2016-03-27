@@ -60,6 +60,9 @@ public class ScoutTileTest {
         assertEquals(MoveTo.class, action.getClass());
         assertEquals(Direction.NORTH, action.getDirection());
         action = scoutTile.responseState(context, new Map());
+        assertEquals(Scout.class, action.getClass());
+        assertEquals(Direction.EAST, action.getDirection());
+        action = scoutTile.responseState(context, new Map());
         assertEquals(MoveTo.class, action.getClass());
         assertEquals(Direction.EAST, action.getDirection());
 
