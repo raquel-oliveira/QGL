@@ -14,7 +14,7 @@ public class AerialStateFactory {
     /**
      * Method that returns a new instance of each state.
      * @param stateType return a new instance of the stateType
-     * @return new instance
+     * @return new instance of aerial state
      */
     public static AerialState buildState(AerialStateType stateType) {
         AerialState state;
