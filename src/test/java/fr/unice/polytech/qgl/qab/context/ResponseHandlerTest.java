@@ -9,6 +9,7 @@ import fr.unice.polytech.qgl.qab.actions.simple.aerial.Echo;
 import fr.unice.polytech.qgl.qab.actions.simple.aerial.Scan;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Explore;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Glimpse;
+import fr.unice.polytech.qgl.qab.actions.simple.ground.Transform;
 import fr.unice.polytech.qgl.qab.exception.context.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
@@ -16,6 +17,8 @@ import fr.unice.polytech.qgl.qab.strategy.context.utils.HandlerResponse;
 import fr.unice.polytech.qgl.qab.util.enums.Direction;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.HashMap;
 
 public class ResponseHandlerTest {
     HandlerResponse r;
@@ -131,6 +134,26 @@ public class ResponseHandlerTest {
         c1.read(context);
         Context c2 = r.readData(data, new Explore(), c1 );
         assertEquals(995, c2.getBudget());
+    }
+
+    @Test
+    public void TestreadDataFromTransform() throws NegativeBudgetException {
+        String data = "{ \"cost\": 5, \"extras\": { \"production\": 1, \"kind\": \"GLASS\" },\"status\": \"OK\" }";
+        String context = "{ \n" +
+                "  \"men\": 12,\n" +
+                "  \"budget\": 1000,\n" +
+                "  \"contracts\": [\n" +
+                "    { \"amount\": 600, \"resource\": \"WOOD\" },\n" +
+                "    { \"amount\": 200, \"resource\": \"GLASS\" }\n" +
+                "  ],\n" +
+                "  \"heading\": \"W\"\n" +
+                "}\n";
+
+        Context c1 = new Context();
+        c1.read(context);
+        Context c2 = r.readData(data, new Transform(new HashMap<>(), c1), c1);
+        assertEquals(995, c2.getBudget());
+
     }
 
 }
