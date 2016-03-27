@@ -74,6 +74,7 @@ public class TransformResourceTest {
 
     @Test
     public void responseTransforme() throws NegativeBudgetException, IndexOutOfBoundsComboAction {
+        context.setBudget(1000);
         context.getContracts().addContract("GLASS", 5);
         context.getContracts().addCollectedResources(new PrimaryResource(PrimaryType.QUARTZ), new ManufacturedResource(ManufacturedType.GLASS).getRecipe((int)(ceil(5 * ContractItem.getMarginError()))).get(PrimaryType.QUARTZ));
         context.getContracts().addCollectedResources(new PrimaryResource(PrimaryType.WOOD), new ManufacturedResource(ManufacturedType.GLASS).getRecipe((int)(ceil(5 * ContractItem.getMarginError()))).get(PrimaryType.WOOD));
