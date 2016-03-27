@@ -114,7 +114,7 @@ public class MapHandler {
             Tile t = tile.getValue();
 
             List<Biomes> comums = analizeTiles(t, p, mapCurrent);
-            if (comums != null) {
+            if (!comums.isEmpty()) {
                 setBiomaComum(p, mapCurrent, comums);
                 mapCurrent.copy(mapTmp);
             }
@@ -141,7 +141,7 @@ public class MapHandler {
     }
 
     private void setBiomaComum(Position p, Map map, List<Biomes> comuns) {
-        Tile t = map.getTile(new Position(p.getX() + 1, p.getY() + 1));
+        Tile t = map.getTileOverride(new Position(p.getX() + 1, p.getY() + 1));
         if (t == null)
             mapTmp.addBiome(new Position(p.getX() + 1, p.getY() + 1), comuns, new ArrayList<>());
     }
