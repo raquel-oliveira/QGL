@@ -39,9 +39,8 @@ public class FindTile extends GroundState {
         Action act;
 
         // define horizontal move
-        if (context.current().getStatus() == 0) {
-            if (moveHozintal(context, map))
-                return new Stop();
+        if ((context.current().getStatus() == 0) && (moveHozintal(context, map))) {
+            return new Stop();
         }
 
         if (context.current().getStatus() == 1 && !context.current().getComboAction().isEmpty()) {
@@ -71,7 +70,7 @@ public class FindTile extends GroundState {
         }
     }
 
-    private void moveVertical(Context context, Map map) {
+    private static void moveVertical(Context context, Map map) {
         Direction d2;
         d2 = ContextAnalyzer.setDirectionVertical(context, map);
 
@@ -91,7 +90,7 @@ public class FindTile extends GroundState {
      * @param map map of the simulation
      * @return true if the simulation needs stop, or false if the simulation can continues
      */
-    private boolean moveHozintal(Context context, Map map) {
+    private static boolean moveHozintal(Context context, Map map) {
         Direction d1;// take the position with interesting biomes for the contract
         List<Position> goodPositions = map.getGoodPositions(context);
 

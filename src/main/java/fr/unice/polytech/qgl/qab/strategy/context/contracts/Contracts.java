@@ -1,12 +1,12 @@
 package fr.unice.polytech.qgl.qab.strategy.context.contracts;
 
+import fr.unice.polytech.qgl.qab.exception.context.InsufficientException;
 import fr.unice.polytech.qgl.qab.exception.context.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.resources.Resource;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedType;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryResource;
 import fr.unice.polytech.qgl.qab.resources.primary.PrimaryType;
-import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import static java.lang.Math.ceil;
@@ -16,6 +16,7 @@ import java.util.*;
 
 /**
  * Everything related or that affect directly the contracts/contractItem.
+ * Contracts Handle.
  * @version 21/03/16.
  */
 public class Contracts {
@@ -23,7 +24,7 @@ public class Contracts {
 
     private List<ContractItem> items;
     private Boolean completeContracts;
-    private Map<String, Integer> collectedResources;
+    private Map<Resource, Integer> collectedResources;
 
 
     /**
@@ -103,11 +104,11 @@ public class Contracts {
      * Observation: It reserves the quantity of primary to complete the primaries resources
      */
     public boolean enoughToTransformAll(){
-        Set<String> primaryResources = primaryNeeded();
-        for (String resource: primaryResources) {
+        Set<PrimaryResource> primaryResources = primaryNeeded();
+        for (PrimaryResource resource: primaryResources) {
             if (!getCollectedResources().containsKey(resource))
                 return false;
-            if (getCollectedResources().get(resource) <  getAmountPrimaryNeeded(new PrimaryResource(PrimaryType.valueOf(resource)))){
+            if (getCollectedResources().get(resource) <  getAmountPrimaryNeeded(new PrimaryResource(PrimaryType.valueOf(resource.getName())))){
                 return false;
             }
         }
@@ -133,24 +134,27 @@ public class Contracts {
      * Method that returns a list of primary resources needed to complet all the contracts
      * @return list of primary resources needed to complet all the contracts
      */
-    public Set<String> primaryNeeded(){
-        Set<String> primaryResource = new HashSet<String>();
+    public Set<PrimaryResource> primaryNeeded(){
+        Set<PrimaryResource> primaryResource = new HashSet<PrimaryResource>();
 
         for (int i = 0; i < items.size(); i++){
-            if (items.get(i).resource() instanceof PrimaryResource){
-                primaryResource.add(items.get(i).resource().getName());
-            }
-            else{
-                for (PrimaryType itemRecipe: ((ManufacturedResource) items.get(i).resource()).getRecipe(0).keySet()) {
-                    primaryResource.add(new PrimaryResource(itemRecipe).getName());
+            if(!items.get(i).isComplete(getCollectedResources())){
+                if (items.get(i).resource() instanceof PrimaryResource){
+                    primaryResource.add((PrimaryResource) items.get(i).resource());
+                }
+                else{
+                    for (PrimaryType itemRecipe: ((ManufacturedResource) items.get(i).resource()).getRecipe(0).keySet()) {
+                        primaryResource.add(new PrimaryResource(itemRecipe));
+                    }
                 }
             }
         }
         return primaryResource;
     }
 
-    /**
-     * Return the index of the contract item that has the resource
+
+     /*
+     *Return the index of the contract item that has the resource
      * @param resource the analyzed resource
      * @return the index of the contract item that has the resource
      */
@@ -166,48 +170,42 @@ public class Contracts {
     }
 
     /**
-     * Return the collected Resources that were tooked after exploit a tile
+     * Return the collected Resources
      * @return HashMap - resources collected and the respective amounts.
      */
-    public  Map<String, Integer> getCollectedResources(){
+    public  Map<Resource, Integer> getCollectedResources(){
         return collectedResources;
     }
 
     /**
-     * Method to add a collect resource after action exploit.
+     * Method to add a collect resource after action exploit or transform.
      * @param resource
      * @param amount
      */
     public void addCollectedResources(Resource resource, int amount) {
-        if (collectedResources.containsKey(resource.getName())) {
-            collectedResources.put(resource.getName(), collectedResources.get(resource.getName()) + amount);
+        if (collectedResources.containsKey(resource)) {
+            LOGGER.info("Add "  + resource.getName() + "more: " + amount + "new: " + (amount+ collectedResources.get(resource)));
+            collectedResources.put(resource, collectedResources.get(resource) + amount);
         } else {
-            collectedResources.put(resource.getName(), amount);
+            LOGGER.info("Add "  + resource.getName() + " with " + amount);
+            collectedResources.put(resource, amount);
         }
-        LOGGER.info("Collected resources: " + collectedResources);
     }
 
     /**
      * Method to Remove a quantity of a resource. To use to update after transform.
      * @param resource
      * @param amount
+     * @return the amount it decrease. Same of parameter.
+     * @throws InsufficientException
      */
-    public int decreaseAmountOfCollectedResources(Resource resource, int amount) {
-        try{
-            int newAmount = collectedResources.get(resource.getName()) - amount;
-            if( newAmount >= 0){
-                collectedResources.put(resource.getName(), newAmount);
-                return amount;
-            }
-            else {
-                newAmount = 0;
-                int beforeDecrease = collectedResources.get(resource.getName());
-                collectedResources.put(resource.getName(), newAmount);
-                return beforeDecrease;
-            }
-        }catch (Exception e){
-            return -1;
+    public int decreaseAmountOfCollectedResources(Resource resource, int amount) throws InsufficientException {
+        int newAmount = collectedResources.get(resource) - amount;
+        if( newAmount >= 0){
+            collectedResources.put(resource, newAmount);
+            return amount;
+        } else {
+            throw new InsufficientException("Can not decrease " + amount + " of " + resource.getName() + " . There is only " + collectedResources.get(resource));
         }
     }
-
 }

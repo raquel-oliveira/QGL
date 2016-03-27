@@ -22,12 +22,14 @@ import static org.junit.Assert.assertTrue;
  * version 14/03/2016.
  */
 public class TransformTest {
+    Context contex;
     Transform transform;
     Map<PrimaryType, Integer> recipe;
 
     @Before
-    public void defineContext() throws NegativeBudgetException {
-        transform = new Transform(new HashMap<>(), new Context());
+    public void defineContext() throws NegativeBudgetException{
+        contex = new Context();
+        transform = new Transform(new HashMap<>(), contex);
         recipe = new ManufacturedResource(ManufacturedType.GLASS).getRecipe(1);
     }
 

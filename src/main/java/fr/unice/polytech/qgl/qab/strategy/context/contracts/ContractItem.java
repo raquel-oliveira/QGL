@@ -19,8 +19,6 @@ import java.util.Map;
 public class ContractItem {
     private Resource resource;
     private int amount;
-    private boolean completeContract;
-    private boolean canTransform;
     private static final double MARGIN_ERROR = (double)10/9;
     private static final Logger LOGGER = LogManager.getLogger(ContractItem.class);
 
@@ -35,8 +33,6 @@ public class ContractItem {
             throw new NegativeBudgetException("The value to initial amount to the resource can not be negative.");
         this.resource = resource;
         this.amount = amount;
-        completeContract = false;
-        canTransform = false;
     }
 
     /**
@@ -55,11 +51,12 @@ public class ContractItem {
         return this.resource;
     }
 
-    public Boolean isComplete(Map<String, Integer> collectedResources){
-       if(collectedResources.containsKey(resource.getName()) && collectedResources.get(resource.getName()) >= amount){
-            completeContract = true;
-       }
-        return completeContract;
+    /**
+     * @param collectedResources Map with the information of the resources available/took.
+     * @return true if the contract was filled.
+     * */
+    public Boolean isComplete(Map<Resource, Integer> collectedResources){
+       return collectedResources.containsKey(resource) && collectedResources.get(resource) >= amount;
     }
 
     /**
@@ -74,43 +71,35 @@ public class ContractItem {
     public boolean canTransform(Contracts contracts) {
         //Can not transform a primary Resource.
         if(resource() instanceof PrimaryResource){
-            canTransform = false;
-            return canTransform;
+            return false;
         }
-        else if (resource() instanceof ManufacturedResource){
+        //Or is manufactured
+        else {
             if(isComplete(contracts.getCollectedResources())){
                 //This contract it was already fill.
-                LOGGER.info("Already transform:"+ this.resource.getName() + " Asked: " + this.amount() + " have: " + contracts.getCollectedResources().get(resource.getName()));
-                canTransform = false;
-                return canTransform;
+                LOGGER.info("Already transform:"+ this.resource.getName() + " Asked: " + this.amount() + " have: " + contracts.getCollectedResources().get(resource));
+                return false;
             }
             else{
                 Map<PrimaryType, Integer> recipe = ((ManufacturedResource)this.resource).getRecipe((int) (ceil(amount * MARGIN_ERROR)));
                 for(Map.Entry<PrimaryType, Integer> getRecipe : recipe.entrySet()){
                     PrimaryResource res = new PrimaryResource(getRecipe.getKey());
                     //Does not have primary to create the resource.
-                    if (!contracts.getCollectedResources().containsKey(res.getName())) {
-                        canTransform = false;
-                        return canTransform;
+                    if (!contracts.getCollectedResources().containsKey(res)) {
+                        return false;
                     }
-                    if(contracts.getCollectedResources().get(res.getName()) < recipe.get(res.getType())){
-                       // LOGGER.info("Don't have enough (has " + context.getCollectedResources().get(res.getName()) + " and need "+ recipe.get(res.getType())+ ") of "+res.getName()+" to fill the contract "+ this.resource.getName());
-                        canTransform = false;
-                        return canTransform;
+                    if(contracts.getCollectedResources().get(res) < recipe.get(res.getType())){
+                        return false;
                     }
                 }
-                canTransform = true;
-                return canTransform;
+                return true;
             }
         }
-        //As there is only PrimaryResource and ManufacturedResource it will never get in the return, we let the else if instead of else because the user
-        // can "create" a new type of Resource.
-        return false;
     }
 
     /**
-     * Return the constant of error margin
-     * @return error margin
+     *
+     * @return the margin error referent to the production of a Resource.
      */
     public static double getMarginError() {
         return MARGIN_ERROR;

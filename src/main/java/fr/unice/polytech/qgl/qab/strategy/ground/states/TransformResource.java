@@ -32,7 +32,6 @@ public class TransformResource extends GroundState {
         Contracts contracts = context.getContracts();
         if (!contracts.enoughToTransform()) {
             updateContext(context);
-            LOGGER.info("Will scout");
             return GroundStateFactory.buildState(GroundStateType.SCOUT_TILE);
         } else {
             return GroundStateFactory.buildState(GroundStateType.TRANSFORM);
