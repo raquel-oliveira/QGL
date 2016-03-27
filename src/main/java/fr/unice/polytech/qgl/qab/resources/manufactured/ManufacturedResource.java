@@ -8,9 +8,8 @@ import fr.unice.polytech.qgl.qab.resources.Resource;
 import java.util.*;
 
 /**
- * @version 01/02/16.
- *
  * Class that represent the manufactured resources
+ * @version 01/02/16.
  */
 public class ManufacturedResource implements Resource {
     private ManufacturedType resource;

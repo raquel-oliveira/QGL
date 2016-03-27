@@ -7,9 +7,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * Class that represent the primary resources
  * @version 01/02/16.
  *
- * Class that represent the primary resources
  */
 public class PrimaryResource implements Resource {
     private PrimaryType resource;
