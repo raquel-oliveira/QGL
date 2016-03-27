@@ -4,7 +4,6 @@ import fr.unice.polytech.qgl.qab.actions.Action;
 import fr.unice.polytech.qgl.qab.actions.simple.common.Stop;
 import fr.unice.polytech.qgl.qab.actions.simple.ground.Transform;
 import fr.unice.polytech.qgl.qab.exception.action.IndexOutOfBoundsComboAction;
-import fr.unice.polytech.qgl.qab.exception.context.InsufficientException;
 import fr.unice.polytech.qgl.qab.exception.map.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
@@ -33,7 +32,6 @@ public class TransformResource extends GroundState {
         Contracts contracts = context.getContracts();
         if (!contracts.enoughToTransform()) {
             updateContext(context);
-            LOGGER.info("Will scout");
             return GroundStateFactory.buildState(GroundStateType.SCOUT_TILE);
         } else {
             return GroundStateFactory.buildState(GroundStateType.TRANSFORM);

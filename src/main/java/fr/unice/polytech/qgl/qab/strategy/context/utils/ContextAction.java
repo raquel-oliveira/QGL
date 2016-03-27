@@ -159,7 +159,9 @@ public class ContextAction {
      * Method that returns the resources to exploit
      * @return resources to exploit
      */
-    public List<PrimaryType> getResourcesToExploit() { return resourcesToExploit; }
+    public List<PrimaryType> getResourcesToExploit() {
+        return resourcesToExploit;
+    }
 
     /**
      * Method that update parameter resourcesToExploit with the resources importants

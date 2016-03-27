@@ -9,9 +9,6 @@ import fr.unice.polytech.qgl.qab.util.Discovery;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
-
 
 /**
  * @version 16/12/15.

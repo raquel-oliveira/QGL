@@ -19,7 +19,6 @@ import java.util.Map;
 public class ContractItem {
     private Resource resource;
     private int amount;
-    private boolean canTransform;
     private static final double MARGIN_ERROR = (double)10/9;
     private static final Logger LOGGER = LogManager.getLogger(ContractItem.class);
 
@@ -34,7 +33,6 @@ public class ContractItem {
             throw new NegativeBudgetException("The value to initial amount to the resource can not be negative.");
         this.resource = resource;
         this.amount = amount;
-        canTransform = false;
     }
 
     /**
@@ -55,14 +53,10 @@ public class ContractItem {
 
     /**
      * @param collectedResources Map with the information of the resources available/took.
-     * @return if this contract it was completed
-     */
+     * @return true if the contract was filled.
+     * */
     public Boolean isComplete(Map<Resource, Integer> collectedResources){
-       if(collectedResources.containsKey(resource) && collectedResources.get(resource) >= amount){
-            return true;
-       }else{
-            return false;
-        }
+       return collectedResources.containsKey(resource) && collectedResources.get(resource) >= amount;
     }
 
     /**
@@ -77,16 +71,14 @@ public class ContractItem {
     public boolean canTransform(Contracts contracts) {
         //Can not transform a primary Resource.
         if(resource() instanceof PrimaryResource){
-            canTransform = false;
-            return canTransform;
+            return false;
         }
         //Or is manufactured
         else {
             if(isComplete(contracts.getCollectedResources())){
                 //This contract it was already fill.
                 LOGGER.info("Already transform:"+ this.resource.getName() + " Asked: " + this.amount() + " have: " + contracts.getCollectedResources().get(resource));
-                canTransform = false;
-                return canTransform;
+                return false;
             }
             else{
                 Map<PrimaryType, Integer> recipe = ((ManufacturedResource)this.resource).getRecipe((int) (ceil(amount * MARGIN_ERROR)));
@@ -94,16 +86,13 @@ public class ContractItem {
                     PrimaryResource res = new PrimaryResource(getRecipe.getKey());
                     //Does not have primary to create the resource.
                     if (!contracts.getCollectedResources().containsKey(res)) {
-                        canTransform = false;
-                        return canTransform;
+                        return false;
                     }
                     if(contracts.getCollectedResources().get(res) < recipe.get(res.getType())){
-                        canTransform = false;
-                        return canTransform;
+                        return false;
                     }
                 }
-                canTransform = true;
-                return canTransform;
+                return true;
             }
         }
     }
