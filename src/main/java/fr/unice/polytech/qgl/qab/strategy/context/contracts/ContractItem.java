@@ -60,6 +60,18 @@ public class ContractItem {
     }
 
     /**
+     * Amont To Complete this contract
+     * @param collectedResources
+     * @return
+     */
+    public int amountToComplete(Map<Resource, Integer> collectedResources){
+        if(collectedResources.containsKey(resource)){
+            return amount() - collectedResources.get(resource);
+        }
+        return amount();
+    }
+
+    /**
      *
      * @return false if this contract its of typePrimary,
      * or if there is not enough quantity to fill the contract(complete).
@@ -81,7 +93,7 @@ public class ContractItem {
                 return false;
             }
             else{
-                Map<PrimaryType, Integer> recipe = ((ManufacturedResource)this.resource).getRecipe((int) (ceil(amount * MARGIN_ERROR)));
+                Map<PrimaryType, Integer> recipe = ((ManufacturedResource)this.resource).getRecipe((int) (ceil(amountToComplete(contracts.getCollectedResources()) * MARGIN_ERROR)));
                 for(Map.Entry<PrimaryType, Integer> getRecipe : recipe.entrySet()){
                     PrimaryResource res = new PrimaryResource(getRecipe.getKey());
                     //Does not have primary to create the resource.
