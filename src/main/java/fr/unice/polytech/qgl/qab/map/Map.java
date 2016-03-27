@@ -244,6 +244,37 @@ public class Map {
     }
 
     /**
+     * Get a tile by your position
+     * @param p position of the tile
+     * @return the tile found in a position
+     */
+    public Tile getTileOverride(Position p) {
+        for (HashMap.Entry<Position, Tile> tile: tiles.entrySet()) {
+            Position posit = tile.getKey();
+            Tile t = tile.getValue();
+            if (p.getX() == posit.getX() && p.getY() == posit.getY())
+                return t;
+        }
+        return null;
+    }
+
+    /**
+     * Returns all tiles
+     * @return all tiles
+     */
+    public HashMap<Position, Tile> getTiles() {
+        return tiles;
+    }
+
+    /**
+     * Make a copy of a map to the current map
+     * @param map  map to make a copy
+     */
+    public void copy(Map map) {
+        tiles.putAll(map.getTiles());
+    }
+
+    /**
      * Get the Tile for a position
      * @param p position to find the tile
      * @return the tile found
