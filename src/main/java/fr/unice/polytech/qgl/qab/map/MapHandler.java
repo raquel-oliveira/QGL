@@ -102,7 +102,7 @@ public class MapHandler {
     public void completMap (Map mapCurrent) {
         mapTmp.copy(mapCurrent);
         completMap();
-        completMapSeconde();
+        // completMapSeconde();
         mapCurrent.copy(mapTmp);
 
     }
