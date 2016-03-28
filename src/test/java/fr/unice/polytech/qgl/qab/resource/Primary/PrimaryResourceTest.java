@@ -30,7 +30,6 @@ public class PrimaryResourceTest {
     @Test
     public void testBiomesFruits() {
         Set<Biomes> biomes = primaryResource.getBiome();
-        assertTrue(biomes.contains(Biomes.MANGROVE));
         assertTrue(biomes.contains(Biomes.TROPICAL_RAIN_FOREST));
         assertTrue(biomes.contains(Biomes.TROPICAL_SEASONAL_FOREST));
     }
@@ -82,7 +81,6 @@ public class PrimaryResourceTest {
     public void testBiomesSugar() {
         primaryResource = new PrimaryResource(PrimaryType.SUGAR_CANE);
         Set<Biomes> biomes = primaryResource.getBiome();
-        assertTrue(biomes.contains(Biomes.MANGROVE));
         assertTrue(biomes.contains(Biomes.TROPICAL_RAIN_FOREST));
         assertTrue(biomes.contains(Biomes.TROPICAL_SEASONAL_FOREST));
     }

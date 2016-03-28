@@ -99,13 +99,18 @@ public class MapHandler {
         return Math.abs(p.getX() - current.getX());
     }
 
+    public void completMap (Map mapCurrent) {
+        mapTmp.copy(mapCurrent);
+        completMap();
+        completMapSeconde();
+        mapCurrent.copy(mapTmp);
+
+    }
+
     /**
      * Method that will analize the map and complete the tile with the most probable biomes
-     * @param mapCurrent
      */
-    public void completMap(Map mapCurrent) {
-        mapTmp.copy(mapCurrent);
-
+    private void completMap() {
         HashMap<Position, Tile> tmpTiles = new HashMap<>();
         tmpTiles.putAll(mapTmp.getTiles());
 
@@ -113,10 +118,27 @@ public class MapHandler {
             Position p = tile.getKey();
             Tile t = tile.getValue();
 
-            List<Biomes> comums = analizeTiles(t, p, mapCurrent);
+            List<Biomes> comums = analizeTiles(t, p, mapTmp);
             if (!comums.isEmpty()) {
-                setBiomaComum(p, mapCurrent, comums);
-                mapCurrent.copy(mapTmp);
+                setBiomaComum(p, mapTmp, comums);
+            }
+        }
+    }
+
+    /**
+     * Method that will analize the map and complete the tile with the most probable biomes
+     */
+    private void completMapSeconde() {
+        HashMap<Position, Tile> tmpTiles = new HashMap<>();
+        tmpTiles.putAll(mapTmp.getTiles());
+
+        for (java.util.Map.Entry<Position, Tile> tile : tmpTiles.entrySet()) {
+            Position p = tile.getKey();
+            Tile t = tile.getValue();
+
+            List<Biomes> comums = secondAnalizeTiles(t, p, mapTmp);
+            if (!comums.isEmpty()) {
+                setBiomaComumSecond(p, mapTmp, comums);
             }
         }
     }
@@ -128,16 +150,38 @@ public class MapHandler {
         List<Biomes> comums = new ArrayList<>();
         comums.addAll(t.getBiomesPredominant());
 
+        if (analyzeComums(t1, t2, t3, comums)) return comums;
+        return Collections.emptyList();
+    }
+
+    private static boolean analyzeComums(Tile t1, Tile t2, Tile t3, List<Biomes> comums) {
         if (t1 != null && t2 != null && t3 != null) {
             comums.retainAll(t1.getBiomesPredominant());
             comums.retainAll(t2.getBiomesPredominant());
             comums.retainAll(t3.getBiomesPredominant());
 
             if (!comums.isEmpty()) {
-                return comums;
+                return true;
             }
         }
+        return false;
+    }
+
+    private static List<Biomes> secondAnalizeTiles(Tile t, Position p, Map map) {
+        Tile t1 = map.getTileOverride(new Position(p.getX() + 1, p.getY() + 1));
+        Tile t2 = map.getTileOverride(new Position(p.getX(), p.getY() + 2));
+        Tile t3 = map.getTileOverride(new Position(p.getX() - 1, p.getY() + 1));
+        List<Biomes> comums = new ArrayList<>();
+        comums.addAll(t.getBiomesPredominant());
+
+        if (analyzeComums(t1, t2, t3, comums)) return comums;
         return Collections.emptyList();
+    }
+
+    private void setBiomaComumSecond(Position p, Map map, List<Biomes> comuns) {
+        Tile t = map.getTileOverride(new Position(p.getX(), p.getY() + 1));
+        if (t == null)
+            mapTmp.addBiome(new Position(p.getX(), p.getY() + 1), comuns, new ArrayList<>());
     }
 
     private void setBiomaComum(Position p, Map map, List<Biomes> comuns) {

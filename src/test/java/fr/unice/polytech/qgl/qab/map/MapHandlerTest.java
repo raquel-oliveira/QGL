@@ -63,4 +63,20 @@ public class MapHandlerTest {
         assertTrue(map.getTileOverride(new Position(2, 3)) == null);
         assertEquals(5, map.getTiles().size());
     }
+
+    @Test
+    public void testCompletMapSeconde() throws Exception {
+        List<Biomes> biomes = new ArrayList<>();
+        biomes.add(Biomes.BEACH);
+
+        map.addBiome(new Position(2, 2), biomes, new ArrayList<>());
+        map.addBiome(new Position(3, 3), biomes, new ArrayList<>());
+        map.addBiome(new Position(2, 4), biomes, new ArrayList<>());
+        map.addBiome(new Position(1, 3), biomes, new ArrayList<>());
+
+        mapHandler.completMap(map);
+
+        assertTrue(map.getTileOverride(new Position(2, 3)) != null);
+        assertEquals(biomes, map.getTileOverride(new Position(2, 2)).getBiomesPredominant());
+    }
 }

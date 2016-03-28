@@ -26,7 +26,7 @@ import java.util.List;
  */
 public class TransformResource extends GroundState {
     private static final Logger LOGGER = LogManager.getLogger(TransformResource.class);
-    private static final int BUDGET_TRANSFORM = 800;
+    private static final int BUDGET_TRANSFORM = 1;
 
     @Override
     public GroundState getState(Context context, Map map) throws PositionOutOfMapRange {
