@@ -14,10 +14,10 @@ import java.util.List;
  * Class to handle with the map information
  * @version 06/03/16.
  */
-public class MapHandler {
+public class HandlerMap {
     private Map mapTmp;
 
-    public MapHandler() {
+    public HandlerMap() {
         mapTmp = new Map();
     }
 
@@ -54,7 +54,7 @@ public class MapHandler {
      * @return return the distance
      */
     public static int calcDistX(Position p, Position lastPosition) {
-        return Math.abs(p.getX() - lastPosition.getX());
+        return getDistX(lastPosition, p);
     }
 
     /**
@@ -64,7 +64,7 @@ public class MapHandler {
      * @return return the distance
      */
     public static int calcDistY(Position p, Position lastPosition) {
-        return Math.abs(p.getY() - lastPosition.getY());
+        return getDistY(lastPosition, p);
     }
 
     /**
@@ -99,12 +99,11 @@ public class MapHandler {
         return Math.abs(p.getX() - current.getX());
     }
 
-    public void completMap (Map mapCurrent) {
+    public void completMap(Map mapCurrent) {
         mapTmp.copy(mapCurrent);
         completMap();
-        // completMapSeconde();
+        completMapSeconde();
         mapCurrent.copy(mapTmp);
-
     }
 
     /**

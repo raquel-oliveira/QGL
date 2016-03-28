@@ -7,7 +7,7 @@ import fr.unice.polytech.qgl.qab.actions.simple.ground.Scout;
 import fr.unice.polytech.qgl.qab.exception.action.IndexOutOfBoundsComboAction;
 import fr.unice.polytech.qgl.qab.exception.map.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
-import fr.unice.polytech.qgl.qab.map.MapHandler;
+import fr.unice.polytech.qgl.qab.map.HandlerMap;
 import fr.unice.polytech.qgl.qab.map.tile.Position;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.ground.factory.GroundStateFactory;
@@ -77,8 +77,8 @@ public class FindTile extends GroundState {
         // set a new action combo
         context.current().setComboAction(new ComboMoveTo());
         // distance Y between two points
-        int distY = MapHandler.calcDistY(context.current().getNextPosition(), map.getLastPositionGround());
-        MapHandler.updatePositionY(distY, map, d2);
+        int distY = HandlerMap.calcDistY(context.current().getNextPosition(), map.getLastPositionGround());
+        HandlerMap.updatePositionY(distY, map, d2);
 
         context.current().getComboAction().defineActions(d2, distY * 3);
         context.current().setStatus(3);
@@ -113,9 +113,9 @@ public class FindTile extends GroundState {
         // create action combo
         context.current().setComboAction(new ComboMoveTo());
         // distance X between two points
-        int distx = MapHandler.calcDistX(context.current().getNextPosition(), map.getLastPositionGround());
+        int distx = HandlerMap.calcDistX(context.current().getNextPosition(), map.getLastPositionGround());
         // update the coordenate X
-        MapHandler.updatePositionX(distx, map, d1);
+        HandlerMap.updatePositionX(distx, map, d1);
 
         // distance between tow points * 3 (squares in a tile)
         context.current().getComboAction().defineActions(d1, distx * 3);

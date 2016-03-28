@@ -1,7 +1,6 @@
 package fr.unice.polytech.qgl.qab.map;
 
 import fr.unice.polytech.qgl.qab.map.tile.Biomes;
-import fr.unice.polytech.qgl.qab.map.tile.Creek;
 import fr.unice.polytech.qgl.qab.map.tile.Position;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +15,7 @@ import static org.junit.Assert.*;
  */
 public class MapHandlerTest {
     private Map map;
-    private MapHandler mapHandler;
+    private HandlerMap mapHandler;
 
 
     @Before
@@ -25,7 +24,7 @@ public class MapHandlerTest {
         map.initializeWidthMap(10, false);
         map.initializeHeightMap(10, false);
 
-        mapHandler = new MapHandler();
+        mapHandler = new HandlerMap();
     }
 
     @Test

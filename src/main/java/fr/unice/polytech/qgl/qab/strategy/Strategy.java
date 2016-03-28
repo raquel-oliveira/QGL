@@ -5,7 +5,7 @@ import fr.unice.polytech.qgl.qab.actions.simple.common.Land;
 import fr.unice.polytech.qgl.qab.exception.AccessException;
 import fr.unice.polytech.qgl.qab.exception.context.NegativeBudgetException;
 import fr.unice.polytech.qgl.qab.map.Map;
-import fr.unice.polytech.qgl.qab.map.MapHandler;
+import fr.unice.polytech.qgl.qab.map.HandlerMap;
 import fr.unice.polytech.qgl.qab.strategy.aerial.AerialStrategy;
 import fr.unice.polytech.qgl.qab.strategy.aerial.IAerialStrategy;
 import fr.unice.polytech.qgl.qab.strategy.context.utils.HandlerResponse;
@@ -35,7 +35,7 @@ public class Strategy implements IStrategy {
     // map
     private Map map;
     // handle map
-    private MapHandler mapHandler;
+    private HandlerMap mapHandler;
 
     /**
      * Strategy's constructor.
@@ -49,7 +49,7 @@ public class Strategy implements IStrategy {
         currentAction = null;
         responseHandler = new HandlerResponse();
         map = new Map();
-        mapHandler = new MapHandler();
+        mapHandler = new HandlerMap();
     }
 
     @Override

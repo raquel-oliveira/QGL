@@ -2,6 +2,8 @@ package fr.unice.polytech.qgl.qab.map;
 
 import fr.unice.polytech.qgl.qab.exception.map.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.tile.*;
+import fr.unice.polytech.qgl.qab.map.zones.ExtractionArea;
+import fr.unice.polytech.qgl.qab.map.zones.Zone;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.contracts.ContractItem;
 import java.util.*;
@@ -15,6 +17,7 @@ public class Map {
     private HashMap<Position, Tile> tiles;
     private int height;
     private int width;
+    private ExtractionArea extractionArea;
 
     // save the last plane position
     private Position lastPosition;
@@ -34,7 +37,9 @@ public class Map {
         height = -1;
         width = -1;
         creekLand = null;
+        extractionArea = new ExtractionArea();
     }
+
     public Position getCreekLand() {
         return creekLand;
     }
@@ -192,7 +197,7 @@ public class Map {
         Position good = null;
         int distance = -1;
         for (Position p: positionList) {
-            int distFinal = MapHandler.getDistance(current, p);
+            int distFinal = HandlerMap.getDistance(current, p);
             if (distance == -1) {
                 distance = distFinal;
                 good = p;
@@ -229,7 +234,7 @@ public class Map {
             // check if there are creek in this tile
             if (!tile.getCreek().isEmpty()) {
                 // I give the position of this tile and the position more close
-                int distance = MapHandler.getDistance(currentPosition, positionClose(goodPositions, currentPosition));
+                int distance = HandlerMap.getDistance(currentPosition, positionClose(goodPositions, currentPosition));
                 if (dist == 0) {
                     dist = distance;
                     creekLand = currentPosition;
@@ -281,5 +286,10 @@ public class Map {
      */
     public Tile getTile(Position p) {
         return tiles.get(p);
+    }
+
+    public void createZones(Context context) {
+        List<Position> goodPositions = getGoodPositions(context);
+        extractionArea.createAreas(goodPositions);
     }
 }
