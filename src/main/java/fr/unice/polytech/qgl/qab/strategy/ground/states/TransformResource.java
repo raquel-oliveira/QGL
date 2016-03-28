@@ -8,6 +8,7 @@ import fr.unice.polytech.qgl.qab.exception.map.PositionOutOfMapRange;
 import fr.unice.polytech.qgl.qab.map.Map;
 import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedResource;
 
+import fr.unice.polytech.qgl.qab.resources.manufactured.ManufacturedType;
 import fr.unice.polytech.qgl.qab.strategy.context.Context;
 import fr.unice.polytech.qgl.qab.strategy.context.contracts.ContractItem;
 import fr.unice.polytech.qgl.qab.strategy.context.contracts.Contracts;
@@ -52,7 +53,8 @@ public class TransformResource extends GroundState {
         if(contracts.enoughToTransform()) {
             for(ContractItem items : contractItems){
                 //This element can be transformed:
-                if (items.canTransform(contracts) && context.getBudget() >= BUDGET_TRANSFORM ){
+                //TODO: This condition "items.resource().getType() != ManufacturedType.INGOT" should be treated with the issue #QAB-198
+                if (items.canTransform(contracts) && context.getBudget() >= BUDGET_TRANSFORM && items.resource().getType() != ManufacturedType.INGOT){
                     LOGGER.info("Can transform");
                     //Amounted asked in the contract
                     java.util.Map recipe = ((ManufacturedResource)(items.resource())).getRecipe( (int) (ceil(items.amount() * ContractItem.getMarginError())));
