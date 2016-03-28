@@ -41,12 +41,13 @@ public class PrimaryResource implements Resource {
                 biomes.add(Biomes.MANGROVE);
                 break;
             case FRUITS:
-                biomes.add(Biomes.MANGROVE); //tropical biomes != tropical forest?
                 biomes.add(Biomes.TROPICAL_RAIN_FOREST);
                 biomes.add(Biomes.TROPICAL_SEASONAL_FOREST);
                 break;
             case FUR:
                 biomes.add(Biomes.GRASSLAND);
+                biomes.add(Biomes.SHRUBLAND);
+                biomes.add(Biomes.TUNDRA);
                 biomes.add(Biomes.TEMPERATE_RAIN_FOREST);
                 break;
             case ORE:
@@ -60,7 +61,6 @@ public class PrimaryResource implements Resource {
                 biomes.add(Biomes.TEMPERATE_DESERT);
                 break;
             case SUGAR_CANE:
-                biomes.add(Biomes.MANGROVE); //tropical biomes != tropical forest?
                 biomes.add(Biomes.TROPICAL_RAIN_FOREST);
                 biomes.add(Biomes.TROPICAL_SEASONAL_FOREST);
                 break;
@@ -70,6 +70,7 @@ public class PrimaryResource implements Resource {
                 biomes.add(Biomes.TEMPERATE_RAIN_FOREST);
                 biomes.add(Biomes.TROPICAL_RAIN_FOREST);
                 biomes.add(Biomes.TROPICAL_SEASONAL_FOREST);
+                biomes.add(Biomes.TAIGA);
                 break;
             default:
                 break;
