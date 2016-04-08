@@ -4,6 +4,7 @@ import fr.unice.polytech.qgl.qab.map.tile.Biomes;
 import fr.unice.polytech.qgl.qab.map.tile.Creek;
 import fr.unice.polytech.qgl.qab.map.tile.Position;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -64,7 +65,7 @@ public class MapHandlerTest {
         assertEquals(5, map.getTiles().size());
     }
 
-    @Test
+    @Ignore
     public void testCompletMapSeconde() throws Exception {
         List<Biomes> biomes = new ArrayList<>();
         biomes.add(Biomes.BEACH);
